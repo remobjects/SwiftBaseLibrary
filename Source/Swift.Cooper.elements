@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
+    <PropertyGroup>
+        <ProductVersion>3.5</ProductVersion>
+        <ProjectGuid>399BE68A-44C3-4357-8D11-4B64C6EC0674</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+        <AllowLegacyCreate>False</AllowLegacyCreate>
+        <RootNamespace>Swift</RootNamespace>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <AssemblyName>swift</AssemblyName>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputPath>.\bin\Debug</OutputPath>
+        <DefineConstants>DEBUG;TRACE;</DefineConstants>
+        <GenerateDebugInfo>True</GenerateDebugInfo>
+        <EnableAsserts>True</EnableAsserts>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <StartMode>Project</StartMode>
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <CpuType>anycpu</CpuType>
+        <RuntimeVersion>v25</RuntimeVersion>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+        <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <Optimize>true</Optimize>
+        <OutputPath>.\bin\Release</OutputPath>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <StartMode>Project</StartMode>
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <CpuType>anycpu</CpuType>
+        <RuntimeVersion>v25</RuntimeVersion>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+        <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="rt.jar"/>
+        <Reference Include="com.remobjects.elements.rtl.jar"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="Aliases.swift"/>
+        <Compile Include="Swift.swift"/>
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Cooper.targets"/>
+</Project>

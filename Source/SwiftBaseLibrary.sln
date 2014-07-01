@@ -1,0 +1,32 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# RemObjects Fire
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Cooper", "Swift.Cooper.elements", "{399BE68A-44C3-4357-8D11-4B64C6EC0674}"
+EndProject
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Echoes", "Swift.Echoes.elements", "{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}"
+EndProject
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Nougat.OSX", "Swift.Nougat.OSX.elements", "{8F87CCEF-C142-49A8-8828-32211B2CBFBE}"
+EndProject
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Nougat.iOS", "Swift.Nougat.iOS.elements", "{95F9545C-39BE-4A02-8673-8382ECB3F7AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{399BE68A-44C3-4357-8D11-4B64C6EC0674}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{399BE68A-44C3-4357-8D11-4B64C6EC0674}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{8F87CCEF-C142-49A8-8828-32211B2CBFBE}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{8F87CCEF-C142-49A8-8828-32211B2CBFBE}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{95F9545C-39BE-4A02-8673-8382ECB3F7AD}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{95F9545C-39BE-4A02-8673-8382ECB3F7AD}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
