@@ -11,4 +11,4 @@ typealias UnicodeScalar = Char // for now
 
 typealias Float = Single
 
-//typealias Any = Dynamic
+//typealias Any = protocol<>//Dynamic
