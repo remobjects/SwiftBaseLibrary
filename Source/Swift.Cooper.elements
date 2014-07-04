@@ -8,6 +8,7 @@
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <RootNamespace>Swift</RootNamespace>
         <AssemblyName>swift</AssemblyName>
+        <SuppressWarnings>JW0</SuppressWarnings>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <OutputPath>.\bin\Debug</OutputPath>

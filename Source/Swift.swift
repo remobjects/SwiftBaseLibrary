@@ -1001,13 +1001,9 @@ extension T[] : Printable, DebugPrintable {
 	var debugDescription: String { get }
 }
 
-
-
 extension T[] {
 	func withUnsafePointerToElements<R>(body: (UnsafePointer<T>) -> R) -> R
 }
-
-
 
 extension T[] {
 	func replaceRange<C : Collection where T == T>(subRange: Range<Int>, with newValues: C)
@@ -1148,7 +1144,6 @@ protocol ArrayLiteralConvertible {
 	typealias Element
 	//TODO class func convertFromArrayLiteral(elements: Element...) -> Self
 }
-
 
 protocol ArrayType : ExtensibleCollection, MutableSliceable, ArrayLiteralConvertible {
 
@@ -1347,17 +1342,14 @@ extension Bool : Equatable, Hashable {
 /// The C '_Bool' and C++ 'bool' type.
 typealias CBool = Bool
 
-
 /// The C 'char' type.
 ///
 /// This will be the same as either `CSignedChar` (in the common
 /// case) or `CUnsignedChar`, depending on the platform.
 typealias CChar = Int8
 
-
 /// The C++11 'char16_t' type, which has UTF-16 encoding.
 typealias CChar16 = UInt16
-
 
 /// The C++11 'char32_t' type, which has UTF-32 encoding.
 typealias CChar32 = UnicodeScalar
@@ -1408,24 +1400,19 @@ struct CConstVoidPointer : Equatable {
 /// The C 'double' type.
 typealias CDouble = Double
 
-
 /// The C 'float' type.
 typealias CFloat = Float
-
 
 /// The C 'int' type.
 typealias CInt = Int32
 
-
 /// The C 'long' type.
 typealias CLong = Int
-
 
 /// The C 'long long' type.
 typealias CLongLong = Int64
 
 /*
-
 /// A mutable C pointer argument.
 ///
 /// This type has no operations of its own, but has implicit conversions
@@ -1495,7 +1482,6 @@ struct CMutableVoidPointer : Equatable {
 	func withUnsafePointer<T, U>(f: UnsafePointer<T> -> U) -> U
 }
 
-
 /// A wrapper around an opaque C pointer.
 ///
 /// Opaque pointers are used to represent C pointers to types that
@@ -1506,8 +1492,6 @@ struct COpaquePointer : Equatable, Hashable, LogicValue {
 	func getLogicValue() -> Bool
 	var hashValue: Int { get }
 }
-
-
 
 extension COpaquePointer {
 
@@ -1523,7 +1507,6 @@ extension COpaquePointer : CVarArg {
 
 /// The C 'short' type.
 typealias CShort = Int16
-
 
 /// The C 'signed char' type.
 typealias CSignedChar = Int8
@@ -1557,18 +1540,14 @@ extension CString : Streamable {
 /// The C 'unsigned char' type.
 typealias CUnsignedChar = UInt8
 
-
 /// The C 'unsigned int' type.
 typealias CUnsignedInt = UInt32
-
 
 /// The C 'unsigned long' type.
 typealias CUnsignedLong = UInt
 
-
 /// The C 'unsigned long long' type.
 typealias CUnsignedLongLong = UInt64
-
 
 /// The C 'unsigned short' type.
 typealias CUnsignedShort = UInt16
@@ -1578,20 +1557,17 @@ struct CVaListPointer {
 	var value: UnsafePointer<Void>
 	init(fromUnsafePointer from: UnsafePointer<Void>)
 }
-
 */
+
 protocol CVarArg {
 	func encode() -> Word[]
 }
 
-
 /// The C++ 'wchar_t' type.
 typealias CWideChar = UnicodeScalar
 
-
 /// Access to the raw argc value from C.
-var C_ARGC: CInt
-
+//var C_ARGC: CInt
 
 /// Access to the raw argv value from C. Accessing the argument vector
 /// through this pointer is unsafe.
@@ -1624,18 +1600,21 @@ protocol Collection : Sequence {
 	//TODO subscript (i: Self.IndexType) -> Self.GeneratorType.Element { get }
 }
 
-/*
-struct CollectionOfOne<T> : Collection {
+/*struct CollectionOfOne<T> : Collection {
 	typealias IndexType = Bit
-	init(_ element: T)
-	var startIndex: IndexType { get }
-	var endIndex: IndexType { get }
-	func generate() -> GeneratorOfOne<T>
-	subscript (i: IndexType) -> T { get }
+	typealias GeneratorType = GeneratorOfOne<T>
+	init(/*_*/ theElement: T) { //TODO: _ support
+		element = theElement
+	}
+	var startIndex: IndexType { return 0 }
+	var endIndex: IndexType { return 0 }
+	func generate() -> GeneratorOfOne<T> {
+	}
+	subscript (i: IndexType) -> T { 
+		return element //TODO: range checking?
+	}
 	let element: T
-}
-
-*/
+}*/
 
 protocol Comparable : Equatable {
 	//TODO func <=(lhs: Self, rhs: Self) -> Bool
@@ -1739,8 +1718,6 @@ extension ContiguousArray<T> : Printable, DebugPrintable {
 	var description: String { get }
 	var debugDescription: String { get }
 }
-
-
 
 extension ContiguousArray<T> {
 	func withUnsafePointerToElements<R>(body: (UnsafePointer<T>) -> R) -> R
@@ -1856,7 +1833,6 @@ protocol DebugPrintable {
 }
 
 /*
-
 struct Dictionary<KeyType : Hashable, ValueType> : Collection, DictionaryLiteralConvertible {
 	typealias Element = (KeyType, ValueType)
 	typealias Index = DictionaryIndex<KeyType, ValueType>
@@ -1921,7 +1897,6 @@ enum DictionaryIndex<KeyType : Hashable, ValueType> : BidirectionalIndex {
 	func pred() -> DictionaryIndex<KeyType, ValueType>
 	func succ() -> DictionaryIndex<KeyType, ValueType>
 }
-
 */
 
 protocol DictionaryLiteralConvertible {
@@ -2053,7 +2028,6 @@ protocol ExtensibleCollection {
 }
 
 /*
-
 /// The lazy `Collection` returned by `filter(c)` where `c` is a
 /// `Collection`
 struct FilterCollectionView<Base : Collection> : Collection {
@@ -2294,7 +2268,6 @@ protocol FloatingPointNumber {
 protocol ForwardIndex {
 }
 
-
 /// A `Generator` is a `Sequence` that is consumed when iterated.
 ///
 /// While it is safe to copy a `Generator`, only one copy should be advanced
@@ -2311,22 +2284,30 @@ protocol Generator {
 	func next() -> Element?
 }
 
-/*
-
 struct GeneratorOf<T> : Generator, Sequence {
-	init(_ next: () -> T?)
-	init<G : Generator where T == T>(_ self_: G)
-	func next() -> T?
-	func generate() -> GeneratorOf<T>
+	typealias GeneratorType = GeneratorOf<T> //TODO: Swift seems to infer this and not need thr alias?
+	typealias Element = T //TODO: Swift seems to infer this and not need thr alias?
+	//init(/*_*/ next: () -> T?) { //TODO
+	//TODO:init<G : Generator where T == T>(_ self_: G)
+	func next() -> T? {
+	}
+	func generate() -> GeneratorOf<T> {
+	}
+	var TODO: Int
 }
 
-struct GeneratorOfOne<T> : Generator, Sequence {
-	init(_ elements: T?)
-	func generate() -> GeneratorOfOne<T>
-	func next() -> T?
-	var elements: T?
+struct GeneratorOfOne<T> : Generator/*TODO, Sequence*/ {
+	typealias Element = T
+	init(/*_*/ elements: T?) { //TODO
+	}
+	func generate() -> GeneratorOfOne<T> {
+	}
+	func next() -> T? {
+	}
+	var elements: T? 
 }
 
+/*
 struct GeneratorSequence<G : Generator> : Generator, Sequence {
 	init(_ base: G)
 	func next() -> G.Element?
@@ -2344,7 +2325,6 @@ protocol Hashable : Equatable {
 }
 
 /*
-
 struct HeapBuffer<Value, Element> : LogicValue, Equatable {
 	typealias Storage = HeapBufferStorage<Value, Element>
 	let storage: HeapBufferStorage<Value, Element>?
@@ -2426,7 +2406,6 @@ extension T! {
 	static func bridgeFromObjectiveC(x: AnyObject) -> T!?
 	static func isBridgedToObjectiveC() -> Bool
 }
-
 
 /// A stream type that could serve for a Collection given that
 /// it already had an IndexType.
@@ -2814,7 +2793,6 @@ struct Less<T : Comparable> {
 	static func compare(x: T, _ y: T) -> Bool
 }
 
-
 /// An instance of this struct keeps the references registered with it
 /// at +1 reference count until the call to `release()`.
 ///
@@ -2831,7 +2809,6 @@ class LifetimeManager {
 	/// Call this function to end the forced lifetime extension.
 	func release()
 }
-
 */
 
 /// Protocol describing types that can be used as logical values within
@@ -2862,7 +2839,6 @@ struct MapSequenceGenerator<Base : Generator, T> : Generator, Sequence {
 struct MapSequenceView<Base : Sequence, T> : Sequence {
 	func generate() -> MapSequenceGenerator<Base.GeneratorType, T>
 }
-
 */
 
 typealias MaxBuiltinFloatType = Double
@@ -2898,7 +2874,6 @@ protocol Mirror {
 	var disposition: MirrorDisposition { get }
 }*/
 
-/*
 /// How children of this value should be presented in the IDE.
 enum MirrorDisposition {
 	case Struct
@@ -2912,7 +2887,7 @@ enum MirrorDisposition {
 	case Container
 	case Optional
 }
-*/
+
 protocol MutableCollection : Collection {
 	//TODO subscript (i: Self.IndexType) -> Self.GeneratorType.Element { get set }
 }
@@ -2921,10 +2896,9 @@ protocol MutableSliceable : Sliceable, MutableCollection {
 	//TODO subscript (_: Range<Self.IndexType>) -> Self.SliceType { get set }
 }
 
-//TODO typealias NilType
+typealias NilType = Void //TODO checkj if this is good
 
 /*
-
 /// A unique identifier for a class instance. This can be used by reflection
 /// clients to recognize cycles in the object graph.
 ///
@@ -2940,13 +2914,12 @@ struct OnHeap<T> {
 	typealias Buffer = HeapBuffer<T, Void>
 	init(_ value: T)
 }
-
 */
 
 /*enum Optional<T> : LogicValue, Reflectable {
 	case None
 	case Some(T)
-
+/*
 	//init() 
 	//init(_ some: T)
 
@@ -2972,6 +2945,7 @@ struct OnHeap<T> {
 		}
 	}
 	//func getMirror() -> Mirror
+	*/
 }
 
 extension T? : Printable {
@@ -3041,12 +3015,15 @@ protocol RandomAccessIndex : BidirectionalIndex {
 }
 
 struct Range<T : ForwardIndex> : LogicValue, Sliceable {
-	//init(start: T, end: T) // will be autogenerated
+	init(start: T, end: T) {
+		startIndex = start
+		endIndex = end
+	}
 	//TODO var isEmpty: Bool { get }
 	func getLogicValue() -> Bool
 	{
 	}
-	//TODO subscript (i: T) -> T { get }
+	//TODO:subscript (i: T) -> T { return startIndex } //TODO wrong
 	//TODO subscript (x: Range<T>) -> Range<T> { get }
 	//TODO typealias GeneratorType = RangeGenerator<T>
 	//TODO func generate() -> RangeGenerator<T>
@@ -3055,17 +3032,17 @@ struct Range<T : ForwardIndex> : LogicValue, Sliceable {
 	var endIndex: T
 }
 
-/*
 struct RangeGenerator<T : ForwardIndex> : Generator, Sequence {
 	typealias Element = T
-	init(_ bounds: Range<T>)
-	func next() -> T?
+	//TODO init(_ bounds: Range<T>)
+	func next() -> T? {
+	}
 	typealias GeneratorType = RangeGenerator<T>
-	func generate() -> RangeGenerator<T>
+	func generate() -> RangeGenerator<T> {
+	}
 	var startIndex: T
 	var endIndex: T
 }
-*/
 
 /// A byte-sized thing that isn't designed to interoperate with
 /// any other types; it makes a decent parameter to UnsafePointer when
@@ -3105,7 +3082,6 @@ struct Repeat<T> : Collection {
 	let repeatedValue: T
 }
 
-
 /// A wrapper for a BidirectionalIndex that reverses its
 /// direction of traversal
 struct ReverseIndex<I : BidirectionalIndex> : BidirectionalIndex {
@@ -3130,7 +3106,6 @@ struct ReverseRangeGenerator<T : BidirectionalIndex> : Generator, Sequence {
 	func generate() -> ReverseRangeGenerator<T>
 }
 
-
 /// The lazy `Collection` returned by `reverse(c)` where `c` is a
 /// `Collection`
 struct ReverseView<T : Collection where T.IndexType : BidirectionalIndex> : Collection {
@@ -3141,22 +3116,22 @@ struct ReverseView<T : Collection where T.IndexType : BidirectionalIndex> : Coll
 	var endIndex: IndexType { get }
 	subscript (i: IndexType) -> T.GeneratorType.Element { get }
 }
-
 */
-
 
 protocol Sequence {
 	typealias GeneratorType //TODO : Generator
 	func generate() -> GeneratorType
 }
 
-/*
 struct SequenceOf<T> : Sequence {
-	init<G : Generator where T == T>(_ generate: () -> G)
-	init<S : Sequence where T == T>(_ self_: S)
-	func generate() -> GeneratorOf<T>
+	var TODO: Int
+	//TODO added by mh: 
+	typealias GeneratorType = GeneratorOf<T>
+	//TODO init<G : Generator where T == T>(/*_*/ generate: () -> G)
+	//TODO init<S : Sequence where T == T>(/*_*/ self_: S) 
+	func generate() -> GeneratorOf<T> {
+	}
 }
-*/
 
 protocol SignedInteger : Integer {
 }
@@ -3193,8 +3168,6 @@ struct Slice<T> : MutableCollection, Sliceable {
 extension Slice<T> : ArrayLiteralConvertible {
 	static func convertFromArrayLiteral(elements: T...) -> Slice<T>
 }
-
-
 
 extension Slice<T> : ArrayType {
 
@@ -3274,8 +3247,6 @@ extension Slice<T> : Printable, DebugPrintable {
 	var debugDescription: String { get }
 }
 
-
-
 extension Slice<T> {
 	func withUnsafePointerToElements<R>(body: (UnsafePointer<T>) -> R) -> R
 }
@@ -3332,7 +3303,6 @@ protocol Sliceable {
 	//TODO subscript (_: Range<Self.IndexType>) -> SliceType { get }
 }
 
-
 /// An extremely simple string designed to represent something
 /// "statically knowable".
 /*struct StaticString : ExtendedGraphemeClusterLiteralConvertible, StringLiteralConvertible {
@@ -3340,7 +3310,6 @@ protocol Sliceable {
 	static func convertFromExtendedGraphemeClusterLiteral(value: StaticString) -> StaticString
 	static func convertFromStringLiteral(value: StaticString) -> StaticString
 }*/
-
 
 /// Models an object that can be written to an `OutputStream` in a single,
 /// immediately obvious, way.
