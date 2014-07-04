@@ -7,7 +7,6 @@
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <RootNamespace>Swift</RootNamespace>
-        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <AssemblyName>swift</AssemblyName>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">

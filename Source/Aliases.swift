@@ -8,7 +8,6 @@ typealias UInt8 = Byte
 typealias Bool = Boolean
 
 typealias UnicodeScalar = Char // for now
-typealias FloatingPointClassification = Int // hack for now
 
 typealias Float = Single
 

@@ -1021,8 +1021,8 @@ extension T[] {
 /// by providing an operation (`getArrayBoundValue`) that produces an integral
 /// value.
 protocol ArrayBound {
-	//TODO typealias ArrayBoundType
-	//TODO func getArrayBoundValue() -> ArrayBoundType
+	typealias ArrayBoundType
+	func getArrayBoundValue() -> ArrayBoundType
 }
 
 /*
@@ -1092,17 +1092,16 @@ extension ArrayBuffer<T> {
 */
 /// The underlying buffer for an ArrayType conforms to ArrayBufferType
 
-/*
 protocol ArrayBufferType : MutableCollection {
 
 	/// The type of elements stored in the buffer
-	//TODOtypealias Element
+	typealias Element
 
 	/// create an empty buffer
-	init()
+	//TODO init()
 
 	/// Adopt the storage of x
-	init(_ buffer: ContiguousArrayBuffer<Element>)
+	//TODO init(_ buffer: ContiguousArrayBuffer<Element>)
 	subscript (index: Int) -> Element { get set }
 
 	/// If this buffer is backed by a uniquely-referenced mutable
@@ -1114,17 +1113,17 @@ protocol ArrayBufferType : MutableCollection {
 	/// Note: this function must remain mutating; otherwise the buffer
 	/// may acquire spurious extra references, which will cause
 	/// unnecessary reallocation.
-	func requestUniqueMutableBuffer(minimumCapacity: Int) -> ContiguousArrayBuffer<Element>?
+	//TODO func requestUniqueMutableBuffer(minimumCapacity: Int) -> ContiguousArrayBuffer<Element>?
 
 	/// If this buffer is backed by a ContiguousArrayBuffer, return it.
 	/// Otherwise, return nil.  Note: the result's elementStorage may
 	/// not match ours, if we are a SliceBuffer.
-	func requestNativeBuffer() -> ContiguousArrayBuffer<Element>?
-	subscript (subRange: Range<Int>) -> SliceBuffer<Element> { get }
+	//TODO func requestNativeBuffer() -> ContiguousArrayBuffer<Element>?
+	//TODO subscript (subRange: Range<Int>) -> SliceBuffer<Element> { get }
 
 	/// Call body(p), where p is a pointer to the underlying contiguous storage
 	/// Requires: such contiguous storage exists or the buffer is empty
-	func withUnsafePointerToElements<R>(body: (UnsafePointer<Element>) -> R) -> R
+	//TODO func withUnsafePointerToElements<R>(body: (UnsafePointer<Element>) -> R) -> R
 
 	/// How many elements the buffer stores
 	var count: Int { get set }
@@ -1133,7 +1132,7 @@ protocol ArrayBufferType : MutableCollection {
 	var capacity: Int { get }
 
 	/// An object that keeps the elements stored in this buffer alive
-	var owner: AnyObject? { get }
+	//TODO var owner: AnyObject? { get }
 
 	/// If the elements are stored contiguously, a pointer to the first
 	/// element. Otherwise, nil.
@@ -1144,9 +1143,9 @@ protocol ArrayBufferType : MutableCollection {
 	/// have the same identity and count.
 	var identity: Word { get }
 }
-*/
+
 protocol ArrayLiteralConvertible {
-	//TODO typealias Element
+	typealias Element
 	//TODO class func convertFromArrayLiteral(elements: Element...) -> Self
 }
 
@@ -1194,7 +1193,7 @@ protocol ArrayType : ExtensibleCollection, MutableSliceable, ArrayLiteralConvert
 
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
 	/// will not change
-	//TODO func removeAll(#keepCapacity: Bool)
+	func removeAll(#keepCapacity: Bool)
 	//TODO func join<S : Sequence where `Self` == Self>(elements: S) -> Self
 	//TODO func reduce<U>(initial: U, combine: (U, Self.GeneratorType.Element) -> U) -> U
 	//TODO func sort(isOrderedBefore: (Self.GeneratorType.Element, Self.GeneratorType.Element) -> Bool)
@@ -1235,11 +1234,15 @@ struct AutoreleasingUnsafePointer<T> : Equatable, LogicValue {
 protocol BidirectionalIndex : ForwardIndex {
 }
 
-//TODO 
-/*enum Bit : Int, RandomAccessIndex {
+#if COOPER
+enum Bit {
+#else
+enum Bit : Int, RandomAccessIndex {
+#endif
 	case zero
 	case one
-	func succ() -> Bit
+	//TODO 
+	/*func succ() -> Bit
 	{
 		switch
 		{
@@ -1256,8 +1259,8 @@ protocol BidirectionalIndex : ForwardIndex {
 		}
 	}
 	func distanceTo(other: Bit) -> Int
-	func advancedBy(distance: Int) -> Bit
-}*/
+	func advancedBy(distance: Int) -> Bit*/
+}
 
 /*
 extension Bit : IntegerArithmetic {
@@ -1613,7 +1616,7 @@ extension Character : Streamable {
 */
 
 protocol CharacterLiteralConvertible {
-	//TODO typealias CharacterLiteralType
+	typealias CharacterLiteralType
 	//TODO class func convertFromCharacterLiteral(value: CharacterLiteralType) -> Self
 }
 
@@ -1911,8 +1914,8 @@ enum DictionaryIndex<KeyType : Hashable, ValueType> : BidirectionalIndex {
 */
 
 protocol DictionaryLiteralConvertible {
-	//TODO typealias Key
-	//TODO typealias Value
+	typealias Key
+	typealias Value
 	//TODO class func convertFromDictionaryLiteral(elements: (Key, Value)...) -> Self
 }
 
@@ -2029,7 +2032,7 @@ protocol Equatable {
 }
 
 protocol ExtendedGraphemeClusterLiteralConvertible {
-	//TODO typealias ExtendedGraphemeClusterLiteralType
+	typealias ExtendedGraphemeClusterLiteralType
 	//TODO class func convertFromExtendedGraphemeClusterLiteral(value: ExtendedGraphemeClusterLiteralType) -> Self
 }
 
@@ -2215,13 +2218,13 @@ extension Float80 : RandomAccessIndex {
 */
 
 protocol FloatLiteralConvertible {
-	//TODO typealias FloatLiteralType
+	typealias FloatLiteralType
 	//TODO class func convertFromFloatLiteral(value: FloatLiteralType) -> Self
 }
 
 typealias FloatLiteralType = Double
 
-/*enum FloatingPointClassification {
+enum FloatingPointClassification {
 	case SignalingNaN
 	case QuietNaN
 	case NegativeInfinity
@@ -2234,7 +2237,7 @@ typealias FloatLiteralType = Double
 	case PositiveInfinity
 }
 
-extension FloatingPointClassification : Equatable {
+/*extension FloatingPointClassification : Equatable {
 }
 */
 
@@ -2293,7 +2296,7 @@ protocol ForwardIndex {
 /// should probably require `Collection`, since `Collection` implies
 /// multi-pass.
 protocol Generator {
-	//TODO typealias Element
+	typealias Element
 	//TODO func next() -> Element?
 }
 
@@ -2787,11 +2790,11 @@ protocol Integer : RandomAccessIndex {
 	func %(lhs: Self, rhs: Self) -> Self
 	func toIntMax() -> IntMax
 }
-
+*/
 protocol IntegerLiteralConvertible {
 	typealias IntegerLiteralType
-	class func convertFromIntegerLiteral(value: IntegerLiteralType) -> Self
-}*/
+	//TODO class func convertFromIntegerLiteral(value: IntegerLiteralType) -> Self
+}
 
 typealias IntegerLiteralType = Int
 
@@ -2851,9 +2854,9 @@ struct MapSequenceView<Base : Sequence, T> : Sequence {
 
 */
 
-//TODO typealias MaxBuiltinFloatType
+typealias MaxBuiltinFloatType = Double
 
-//TODO typealias MaxBuiltinIntegerType
+typealias MaxBuiltinIntegerType = Int64
 
 
 /// A protocol that provides a reflection interface to an underlying value.
@@ -3058,13 +3061,13 @@ struct RangeGenerator<T : ForwardIndex> : Generator, Sequence {
 }*/
 
 protocol RawOptionSet : LogicValue, Equatable {
-	//TODO class func fromMask(raw: Self.RawType) -> Self
+	//TODOclass func fromMask(raw: Self.RawType) -> Self
 }
 
 protocol RawRepresentable {
-	//TODO typealias RawType
+	typealias RawType
 	//TODO class func fromRaw(raw: RawType) -> Self?
-	//TODO func toRaw() -> RawType
+	func toRaw() -> RawType
 }
 
 
@@ -3146,12 +3149,14 @@ protocol SignedInteger : Integer {
 }
 
 protocol SignedNumber {
+	#if ECHOES 
 	func -(x: Self) -> Self
+	#endif
 }
 
 protocol Sink {
-	//TODO typealias Element
-	//TODO func put(x: Element)
+	typealias Element
+	func put(x: Element)
 }
 
 /*
@@ -3306,7 +3311,7 @@ struct SliceBuffer<T> : ArrayBufferType {
 */
 
 protocol Sliceable {
-	//TODO typealias SliceType
+	typealias SliceType
 	//TODO subscript (_: Range<Self.IndexType>) -> SliceType { get }
 }
 
@@ -3325,7 +3330,7 @@ protocol Sliceable {
 ///
 /// For example: `String`, `Character`, `UnicodeScalar`.
 protocol Streamable {
-	//TODOfunc writeTo<Target : OutputStream>(inout target: Target)
+	func writeTo<Target : OutputStream>(inout target: Target)
 }
 
 /*
@@ -3537,7 +3542,7 @@ protocol StringInterpolationConvertible {
 }
 
 protocol StringLiteralConvertible : ExtendedGraphemeClusterLiteralConvertible {
-	//TODO typealias StringLiteralType
+	typealias StringLiteralType
 	//TODO class func convertFromStringLiteral(value: StringLiteralType) -> Self
 }
 
@@ -4054,7 +4059,7 @@ struct UnsafeArray<T> : Collection, Generator {
 	func generate() -> UnsafeArray<T>
 }
 
-
+*/
 /// A wrapper around a C pointer to type T.
 ///
 /// This wrapper stores a C pointer to an object of type T, and is
@@ -4064,8 +4069,9 @@ struct UnsafeArray<T> : Collection, Generator {
 ///
 /// For C pointers for which the pointed-to type cannot be represented
 /// directly in Swift, the `COpaquePointer` will be used instead.
-struct UnsafePointer<T> : BidirectionalIndex, Comparable, Hashable, LogicValue {
-
+struct UnsafePointer<T> /*: BidirectionalIndex, Comparable, Hashable, LogicValue*/ {
+	var TODO: Int
+	/*
 	/// Construct a null pointer.
 	init()
 
@@ -4179,8 +4185,10 @@ struct UnsafePointer<T> : BidirectionalIndex, Comparable, Hashable, LogicValue {
 	/// a scoped pointer as an UnsafePointer, the withUnsafePointer method
 	/// must be used instead.
 	init(_ cp: CMutableVoidPointer)
+	*/
 }
 
+/*
 extension UnsafePointer<T> : Printable {
 	var description: String { get }
 }
@@ -4188,9 +4196,8 @@ extension UnsafePointer<T> : Printable {
 protocol UnsignedInteger : Integer {
 }
 
-/*
-//TODO: error E0: Internal error: System.InvalidCastException: Cannot cast from source type to destination type.
-@final class VaListBuilder {
+// : error E0: Internal error: System.InvalidCastException: Cannot cast from source type to destination type.
+/*@final class VaListBuilder {
 	struct Header {
 		var gp_offset: UInt32
 		var fp_offset: UInt32
@@ -4204,9 +4211,8 @@ protocol UnsignedInteger : Integer {
 	var sseRegistersUsed: Int
 	@final var header: VaListBuilder.Header
 	var storage: Word[]
-}
+}*/
 
-*/
 //TODO typealias Void = ()
 
 typealias Word = Int
