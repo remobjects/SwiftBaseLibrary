@@ -895,8 +895,7 @@ func >>(lhs: UInt64, rhs: UInt64) -> UInt64
 */
 
 protocol AbsoluteValuable : SignedNumber {
-	//TODO
-	// class func abs(_: Self) -> Self
+	//TODO class func abs(_: Self) -> Self
 }
 
 //TODO
@@ -1115,11 +1114,11 @@ protocol ArrayBufferType : MutableCollection {
 	/// Otherwise, return nil.  Note: the result's elementStorage may
 	/// not match ours, if we are a SliceBuffer.
 	func requestNativeBuffer() -> ContiguousArrayBuffer<Element>?
-	//TODO: subscript (subRange: Range<Int>) -> SliceBuffer<Element> { get }
+	//TODO subscript (subRange: Range<Int>) -> SliceBuffer<Element> { get } // Generic parameter doesn't fulfill constraint "ForwardIndex" for "T"
 
 	/// Call body(p), where p is a pointer to the underlying contiguous storage
 	/// Requires: such contiguous storage exists or the buffer is empty
-	//TODO:func withUnsafePointerToElements<R>(body: (UnsafePointer<Element>) -> R) -> R
+	//TODO func withUnsafePointerToElements<R>(body: (UnsafePointer<Element>) -> R) -> R // Inline delegate type cannot be mapped to framework type; it must conform to System.Action/Func delegates
 
 	/// How many elements the buffer stores
 	var count: Int { get set }
@@ -1221,6 +1220,9 @@ struct AutoreleasingUnsafePointer<T> : Equatable, LogicValue {
 		//TODO
 	}
 
+	func ==(lhs: AutoreleasingUnsafePointer<T>, rhs: AutoreleasingUnsafePointer<T>) -> Bool {
+	}
+
 	/// Access the underlying raw memory, getting and
 	/// setting values.
 	var memory: T
@@ -1268,7 +1270,7 @@ extension Bit : IntegerArithmetic {
 }
 */
 protocol BitwiseOperations {
-	//TODO func &(_: Self, _: Self) -> Self
+	//TODO func &(_: Self, _: Self) -> Self // One of prefix operator, postfix operator, infix operator, identifier expected, got in/out prefix (+4)
 	//TODO func |(_: Self, _: Self) -> Self
 	//TODO func ^(_: Self, _: Self) -> Self
 	//TODO func ~(_: Self) -> Self
@@ -1617,9 +1619,9 @@ protocol Collection : Sequence {
 }*/
 
 protocol Comparable : Equatable {
-	//TODO func <=(lhs: Self, rhs: Self) -> Bool
-	//TODO func >=(lhs: Self, rhs: Self) -> Bool
-	//TODO func >(lhs: Self, rhs: Self) -> Bool
+	func <=(lhs: Self, rhs: Self) -> Bool
+	func >=(lhs: Self, rhs: Self) -> Bool
+	func >(lhs: Self, rhs: Self) -> Bool
 }
 
 /*
@@ -2014,7 +2016,7 @@ struct EnumerateGenerator<Base : Generator> : Generator, Sequence {
 */
 
 protocol Equatable {
-	//TODO func ==(lhs: Self, rhs: Self) -> Bool
+	func ==(lhs: Self, rhs: Self) -> Bool
 }
 
 protocol ExtendedGraphemeClusterLiteralConvertible {
@@ -2313,11 +2315,9 @@ struct GeneratorSequence<G : Generator> : Generator, Sequence {
 	func next() -> G.Element?
 	func generate() -> GeneratorSequence<G>
 }
-
 */
 
 protocol Hashable : Equatable {
-
 	/// Returns the hash value.  The hash value is not guaranteed to be stable
 	/// across different invocations of the same program.  Do not persist the hash
 	/// value across program runs.
@@ -2368,7 +2368,6 @@ class HeapBufferStorage<Value, Element> : HeapBufferStorageBase {
 
 class HeapBufferStorageBase {
 }
-
 
 /// An optional type that allows implicit member access (via compiler
 /// magic).  We call it 'unchecked' because:
@@ -3023,7 +3022,7 @@ struct Range<T : ForwardIndex> : LogicValue, Sliceable {
 	func getLogicValue() -> Bool
 	{
 	}
-	//TODO:subscript (i: T) -> T { return startIndex } //TODO wrong
+	//TODO subscript (i: T) -> T { return startIndex } //TODO wrong
 	//TODO subscript (x: Range<T>) -> Range<T> { get }
 	//TODO typealias GeneratorType = RangeGenerator<T>
 	//TODO func generate() -> RangeGenerator<T>
