@@ -1,17 +1,17 @@
 <?xml version="1.0" standalone="no"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
-        <RootNamespace>Swift.Nougat.OSX</RootNamespace>
+        <RootNamespace>Swift</RootNamespace>
         <ProjectGuid>8F87CCEF-C142-49A8-8828-32211B2CBFBE</ProjectGuid>
         <OutputType>StaticLibrary</OutputType>
-        <AssemblyName>Swift.Nougat.OSX</AssemblyName>
+        <AssemblyName>Swift</AssemblyName>
         <AllowGlobals>False</AllowGlobals>
         <AllowLegacyWith>False</AllowLegacyWith>
         <AllowLegacyOutParams>False</AllowLegacyOutParams>
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <AllowUnsafeCode>False</AllowUnsafeCode>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <SDK>iOS</SDK>
+        <SDK>OS X</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -36,13 +36,13 @@
     <ItemGroup>
         <Reference Include="CoreGraphics.fx"/>
         <Reference Include="Foundation.fx"/>
-        <Reference Include="UIKit.fx"/>
         <Reference Include="rtl.fx"/>
         <Reference Include="libNougat.fx"/>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Aliases.swift"/>
-        <Compile Include="Swift.swift"/>
+        <None Include="Swift.swift"/>
+        <Compile Include="Functions.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Nougat.targets"/>
 </Project>

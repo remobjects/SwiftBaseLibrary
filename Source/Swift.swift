@@ -1215,7 +1215,7 @@ protocol ArrayType : ExtensibleCollection, MutableSliceable, ArrayLiteralConvert
 /// This type does not carry an owner pointer unlike the other C*Pointer types
 /// because it only needs to reference the results of inout conversions, which
 /// already have writeback-scoped lifetime.
-struct AutoreleasingUnsafePointer<T> : Equatable, LogicValue {
+/*struct AutoreleasingUnsafePointer<T> : Equatable, LogicValue {
 	func getLogicValue() -> Bool
 	{
 		//TODO
@@ -1224,7 +1224,7 @@ struct AutoreleasingUnsafePointer<T> : Equatable, LogicValue {
 	/// Access the underlying raw memory, getting and
 	/// setting values.
 	var memory: T
-}
+}*/
 
 protocol BidirectionalIndex : ForwardIndex {
 }
@@ -1232,7 +1232,7 @@ protocol BidirectionalIndex : ForwardIndex {
 #if COOPER
 enum Bit {
 #else
-enum Bit : Int, RandomAccessIndex {
+enum Bit {//: Int, RandomAccessIndex {
 #endif
 	case zero
 	case one
@@ -2014,7 +2014,7 @@ struct EnumerateGenerator<Base : Generator> : Generator, Sequence {
 */
 
 protocol Equatable {
-	//TODO func ==(lhs: Self, rhs: Self) -> Bool
+	func ==(lhs: Self, rhs: Self) -> Bool
 }
 
 protocol ExtendedGraphemeClusterLiteralConvertible {
@@ -4403,10 +4403,8 @@ func equal<S1 : Sequence, S2 : Sequence where S1.GeneratorType.Element == S1.Gen
 /// Return true iff `a1` and `a2` contain the same elements, using
 /// `pred` as equality `==` comparison.
 func equal<S1 : Sequence, S2 : Sequence where S1.GeneratorType.Element == S1.GeneratorType.Element>(a1: S1, a2: S2, pred: (S1.GeneratorType.Element, S1.GeneratorType.Element) -> Bool) -> Bool
-*/
 let false = 0 as Bool
 let true = 1 as Bool
-/*
 
 /// A fatal error occurred and program execution should stop in debug mode.  In
 /// optimized builds this is a noop.

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
-        <RootNamespace>Swift.iOS</RootNamespace>
+        <RootNamespace>Swift</RootNamespace>
         <ProjectGuid>95F9545C-39BE-4A02-8673-8382ECB3F7AD</ProjectGuid>
         <OutputType>StaticLibrary</OutputType>
-        <AssemblyName>Swift.iOS</AssemblyName>
+        <AssemblyName>Swift</AssemblyName>
         <AllowGlobals>False</AllowGlobals>
         <AllowLegacyWith>False</AllowLegacyWith>
         <AllowLegacyOutParams>False</AllowLegacyOutParams>
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <AllowUnsafeCode>False</AllowUnsafeCode>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <SDK>OS X</SDK>
+        <SDK>iOS</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -40,7 +40,8 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Aliases.swift"/>
-        <Compile Include="Swift.swift"/>
+        <None Include="Swift.swift"/>
+        <Compile Include="Functions.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Nougat.targets"/>
 </Project>
