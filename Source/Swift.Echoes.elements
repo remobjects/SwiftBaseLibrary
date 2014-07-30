@@ -66,7 +66,7 @@
         </None>
         <Compile Include="Properties\Settings.Designer.cs"/>
         <Compile Include="Aliases.swift"/>
-        <Compile Include="Swift.swift"/>
+        <None Include="Swift.swift"/>
         <Compile Include="Functions.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Echoes.targets"/>

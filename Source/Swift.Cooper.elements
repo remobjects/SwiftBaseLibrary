@@ -40,7 +40,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Aliases.swift"/>
-        <Compile Include="Swift.swift"/>
+        <None Include="Swift.swift"/>
         <Compile Include="Functions.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Cooper.targets"/>

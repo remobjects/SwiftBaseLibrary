@@ -1,11 +1,14 @@
 ﻿
-#if NOUGAT
 func println(object: Any? = nil) {
-	if let ob = object {
-		writeLn(object)
+	if let unwrappedObject = object {
+		writeLn(unwrappedObject)
 	} else {
 		writeLn()
 	}
 }
 
-#endif
+func print(object: Any? = nil) {
+	if let unwrappedObject = object {
+		write(unwrappedObject)
+	} 
+}

@@ -11,8 +11,6 @@ typealias Int8 = SByte
 typealias UInt8 = Byte
 
 typealias Bool = Boolean
-let false: Bool = 0 as Bool
-let true: Bool = 1 as Bool
 
 typealias UnicodeScalar = Char // for now
 
