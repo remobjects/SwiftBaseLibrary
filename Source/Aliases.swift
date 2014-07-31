@@ -1,7 +1,10 @@
 ﻿
-#if ECHOES || NOUGAT
+#if ECHOES
 typealias Int = IntPtr
 typealias UInt = UIntPtr
+#elseif NOUGAT
+typealias Int = NSInteger
+typealias UInt = NSUInteger
 #elseif COOPER
 typealias Int = Int32
 typealias UInt = UInt32
