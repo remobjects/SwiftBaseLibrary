@@ -13,6 +13,7 @@
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <SDK>OS X</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
+        <DefaultUses>Foundation</DefaultUses>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
