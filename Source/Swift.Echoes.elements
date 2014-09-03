@@ -56,19 +56,12 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
-        <EmbeddedResource Include="Properties\Resources.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-        </EmbeddedResource>
-        <Compile Include="Properties\Resources.Designer.cs"/>
-        <None Include="Properties\Settings.settings">
-            <Generator>SettingsSingleFileGenerator</Generator>
-        </None>
-        <Compile Include="Properties\Settings.Designer.cs"/>
+        <Compile Include="__AssemblyInfo.cs"/>
         <Compile Include="Aliases.swift"/>
         <None Include="Swift.swift"/>
         <Compile Include="Functions.swift"/>
         <Compile Include="Commandline.swift"/>
+        <Compile Include="GlobalFunctions.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Echoes.targets"/>
 </Project>

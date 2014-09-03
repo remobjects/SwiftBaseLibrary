@@ -43,6 +43,7 @@
         <None Include="Swift.swift"/>
         <Compile Include="Functions.swift"/>
         <Compile Include="Commandline.swift"/>
+        <Compile Include="GlobalFunctions.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Cooper.targets"/>
 </Project>
