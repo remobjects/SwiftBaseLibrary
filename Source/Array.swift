@@ -11,11 +11,11 @@ import RemObjects.Elements.Linq
 
 
 #if NOUGAT
-public class Array<T> /*: sequence of T mapped to Foundation.NSMutableArray where T is class*/ {
+/*__mapped*/ public class Array<T/*: class*/> : INSFastEnumaratition<T> /*sequence of T -> Foundation.NSMutableArray where T is class*/ {
 #elseif COOPER
-public class Array<T> /*: mapped to java.util.ArrayList<T>*/ {
+/*__mapped*/ public class Array<T> /* -> java.util.ArrayList<T>*/ {
 #elseif ECHOES
-public class Array<T> /*: mapped to System.Collections.Generic.List<T>*/ {
+/*__mapped*/ public class Array<T> /* -> System.Collections.Generic.List<T>*/ {
 #endif
 	/*private
 	method SetItem(&Index: Integer Value: T)
