@@ -242,8 +242,6 @@ public class Array<T> /*: mapped to System.Collections.Generic.List<T>*/ {
 	/// Construct a Array of `count` elements, each initialized to
 	/// `repeatedValue`.
 	
-	/* Printable, DebugPrintable */
-	
 	/// Call body(p), where p is a pointer to the Array's contiguous storage
 	/*func withUnsafeBufferPointer<R>(body: (UnsafeBufferPointer<T>) -> R) -> R {
 	}

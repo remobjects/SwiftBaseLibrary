@@ -12,6 +12,9 @@ typealias UInt = UInt32
 typealias Int8 = SByte
 typealias UInt8 = Byte
 
+typealias IntMax = Int64
+typealias UIntMax = UInt64
+
 typealias Bool = Boolean
 
 typealias Character = Char // for now
