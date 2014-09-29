@@ -99,30 +99,31 @@ public class Array<T> /*: mapped to System.Collections.Generic.List<T>*/ {
 	public mutating func reserveCapacity(minimumCapacity: Int) {
 	}
 
-	/// Append newElement to the Array in O(1) (amortized)
-	public mutating func append(newElement: T) {
-	}
-
 	/// Append elements from `sequence` to the Array
 	/*public mutating func extend<S : SequenceType where T == T>(sequence: S) {
 	}*/
 
-	/// Remove an element from the end of the Array in O(1).
-	/// Requires: count > 0
-	public mutating func removeLast() -> T {
-		let c = count
-		if c > 0 {
-			removeAtIndex(c-1)
-		}		
+	/// Append newElement to the Array in O(1) (amortized)
+	public mutating func append(newElement: T) {
+		#if COOPER
+		mapped.add(newElement)
+		#elseif ECHOES
+		mapped.Add(newElement)
+		#elseif NOUGAT
+		mapped.addObject(newElement)
+		#endif
 	}
 
-	/// Insert an element at index `i` in O(N).  Requires: `i` <=
-	/// `count`
-	public mutating func insert(newElement: T, atIndex i: Int) {
+	public mutating func insert(newElement: T, atIndex index: Int) {
+		#if COOPER
+		mapped.insert(newElement, index)
+		#elseif ECHOES
+		mapped.Insert(newElement, index)
+		#elseif NOUGAT
+		mapped.insertObject(newElement, atIndex: index)
+		#endif
 	}
 
-	/// Remove the element at the given index.  Worst case complexity:
-	/// O(N).  Requires: `index` < `count`
 	public mutating func removeAtIndex(index: Int) -> T {
 		#if COOPER
 		mapped.remove(index)
@@ -131,6 +132,13 @@ public class Array<T> /*: mapped to System.Collections.Generic.List<T>*/ {
 		#elseif NOUGAT
 		mapped.removeObjectAtIndex(index)
 		#endif
+	}
+
+	public mutating func removeLast() -> T {
+		let c = count
+		if c > 0 {
+			removeAtIndex(c-1)
+		}		
 	}
 
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
