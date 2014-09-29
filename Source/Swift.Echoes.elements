@@ -62,6 +62,11 @@
         <Compile Include="Functions.swift"/>
         <Compile Include="Commandline.swift"/>
         <Compile Include="GlobalFunctions.swift"/>
+        <Compile Include="Array.swift"/>
+        <None Include="Dictionary.swift"/>
+        <Compile Include="Protocols.swift"/>
+        <Compile Include="Extensions.swift"/>
+        <Compile Include="Range.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Echoes.targets"/>
 </Project>
