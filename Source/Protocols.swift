@@ -55,10 +55,10 @@ protocol IntegerArithmeticType : _IntegerArithmeticType, Comparable {
 
 
 protocol BitwiseOperationsType {
-	//func &(_: Self, _: Self) -> Self //69825: Silver: two probe with operators in protocols
+	//func &(_: Self, _: Self) -> Self //69825: Silver: two probs with operators in protocols
 	func |(_: Self, _: Self) -> Self
 	func ^(_: Self, _: Self) -> Self
-	//prefix func ~(_: Self) -> Self //69825: Silver: two probe with operators in protocols
+	//prefix func ~(_: Self) -> Self //69825: Silver: two probs with operators in protocols
 
 	/// The identity value for "|" and "^", and the fixed point for "&".
 	///
@@ -71,6 +71,12 @@ protocol BitwiseOperationsType {
 	///
 	//class var allZeros: Self { get }
 }
+
+#if !ECHOES
+protocol IEquatable<T> {
+	func Equals(rhs: T) -> Bool
+}
+#endif
 
 protocol Equatable {
 	func ==(lhs: Self, rhs: Self) -> Bool

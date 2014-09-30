@@ -11,7 +11,7 @@ import RemObjects.Elements.Linq
 
 
 #if NOUGAT
-/*__mapped*/ public class Array<T/*: class*/> : INSFastEnumaratition<T> /*sequence of T -> Foundation.NSMutableArray where T is class*/ {
+/*__mapped*/ public class Array<T: class> : INSFastEnumaratition<T> /*sequence of T -> Foundation.NSMutableArray*/ {
 #elseif COOPER
 /*__mapped*/ public class Array<T> /* -> java.util.ArrayList<T>*/ {
 #elseif ECHOES
@@ -45,7 +45,7 @@ import RemObjects.Elements.Linq
 	init (sequence: IEnumerable<T>) { // Sequence
 	}
 	#elseif NOUGAT
-	init (sequence: Foundation.INSFastEnumeration<T>) { // Sequence
+	init (sequence: Foundation.INSFastEnumeration<T>) { // Sequence //69844: Silver: "There are no overloads that have 1 generic parameters" using Foundation.INSFastEnumeration<T>.
 	}
 	#endif
 
@@ -93,7 +93,7 @@ import RemObjects.Elements.Linq
 		return nil
 	}
 
-   /// Ensure the array has enough mutable contiguous storage to store
+	/// Ensure the array has enough mutable contiguous storage to store
 	/// minimumCapacity elements in.  Note: does not affect count.
 	/// Complexity: O(N)
 	public mutating func reserveCapacity(minimumCapacity: Int) {

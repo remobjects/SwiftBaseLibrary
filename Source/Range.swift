@@ -16,11 +16,11 @@ struct RangeGenerator<T /*: ForwardIndexType*/> : /*GeneratorType,*/ SequenceTyp
 	}*/
 }
 
-struct Range<T /*: ForwardIndexType*/> {//: Equatable, CollectionType, Printable, DebugPrintable {
-
-	/// Construct a copy of `x`
-	/*init(_ x: Range<T>) {
-	}*/
+struct Range<T : ForwardIndexType, IEquatable<T>>: Equatable, IEquatable<T>, CollectionType, Printable, DebugPrintable {
+	init(_ x: Range<T>) {
+		startIndex = x.startIndex
+		endIndex = x.endIndex
+	}
 	
 	init(start: T, end: T) {
 		startIndex = start
@@ -28,7 +28,7 @@ struct Range<T /*: ForwardIndexType*/> {//: Equatable, CollectionType, Printable
 	}
 	
 	var isEmpty: Bool { 
-		return startIndex == endIndex
+		return startIndex.Equals(endIndex)
 	}
 	
 	typealias Index = T
@@ -45,14 +45,28 @@ struct Range<T /*: ForwardIndexType*/> {//: Equatable, CollectionType, Printable
 	/*func generate() -> RangeGenerator<T> {
 	}*/
 	
-	var startIndex: T! // shoudolnt need !
-	var endIndex: T! // shoudolnt need !
+	var startIndex: T! // shoudolnt need ! since all int()s set it
+	var endIndex: T! // shoudolnt need ! since all int()s set it
 
-	/// The `Range`\ 's printed representation
-	var description: String { 
+
+	/* Equatable */
+
+	func ==(lhs: Self, rhs: Self) -> Bool {
+		return lhs.startIndex == rhs.startIndex && lhs.endIndex== rhs.endIndex
+	}
+	
+	/* IEquatable<T> */
+	func Equals(rhs: T) -> Bool {
+		return startIndex == rhs.startIndex && endIndex== rhs.endIndex
 	}
 
-	/// The `Range`\ 's verbose printed representation
+	/* Printable, DebugPrintable */
+
+	var description: String { 
+		//todo
+	}
+
 	var debugDescription: String { 
+		//todo
 	}
 }
