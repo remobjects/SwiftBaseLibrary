@@ -28,4 +28,11 @@ typealias Any = protocol<> //Dynamic;
 typealias AnyObject = protocol<> //Dynamic;
 
 
+#if COOPER
+//ToDo:
+#elseif ECHOES
+//typealias ISequence<T> = IEnumerable<T> //69845: Silver: (and H2/O2):allow generic type aliases
+#elseif NOUGAT
+//typealias ISequence<T> = Foundation.INSFastEnumeration<T> //69845: Silver: (and H2/O2):allow generic type aliases
+#endif
 

@@ -1,5 +1,5 @@
 ﻿
-struct RangeGenerator<T /*: ForwardIndexType*/> : /*GeneratorType,*/ SequenceType {
+struct RangeGenerator<T: ForwardIndexType> { //: /*GeneratorType,*/ SequenceType {
 	typealias Element = T
 	/*init(_ bounds: Range<T>){
 	}*/
@@ -16,7 +16,7 @@ struct RangeGenerator<T /*: ForwardIndexType*/> : /*GeneratorType,*/ SequenceTyp
 	}*/
 }
 
-struct Range<T : ForwardIndexType, IEquatable<T>>: Equatable, IEquatable<T>, CollectionType, Printable, DebugPrintable {
+public class Range<T : ForwardIndexType/*, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, Printable, DebugPrintable {
 	init(_ x: Range<T>) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
@@ -28,7 +28,7 @@ struct Range<T : ForwardIndexType, IEquatable<T>>: Equatable, IEquatable<T>, Col
 	}
 	
 	var isEmpty: Bool { 
-		return startIndex.Equals(endIndex)
+		//return startIndex.Equals(endIndex)
 	}
 	
 	typealias Index = T
@@ -52,13 +52,18 @@ struct Range<T : ForwardIndexType, IEquatable<T>>: Equatable, IEquatable<T>, Col
 	/* Equatable */
 
 	func ==(lhs: Self, rhs: Self) -> Bool {
-		return lhs.startIndex == rhs.startIndex && lhs.endIndex== rhs.endIndex
+		//return lhs.startIndex.Equals(rhs.startIndex) && lhs.endIndex.Equals(rhs.endIndex)
 	}
 	
 	/* IEquatable<T> */
-	func Equals(rhs: T) -> Bool {
-		return startIndex == rhs.startIndex && endIndex== rhs.endIndex
+	func Equals(rhs: Range<T> /*Self*/) -> Bool {
+		//return startIndex.Equals(rhs.startIndex) && endIndex.Equals(rhs.endIndex)
 	}
+	
+	/* IComparable<T> */
+	//func CompareTo(rhs: T) -> Int {
+	// }
+
 
 	/* Printable, DebugPrintable */
 

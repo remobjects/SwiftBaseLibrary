@@ -1,8 +1,7 @@
 ﻿
+#if !NOUGAT
 extension Object : Printable, DebugPrintable {
 
-	#if NOUGAT
-	#else
 	var description: String {
 		#if COOPER
 		return toString()
@@ -18,6 +17,5 @@ extension Object : Printable, DebugPrintable {
 		return ToString()
 		#endif
 	}
-	#endif
 }
-
+#endif

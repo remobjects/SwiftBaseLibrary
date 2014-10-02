@@ -45,19 +45,19 @@ protocol _IntegerArithmeticType {
 }
 
 protocol IntegerArithmeticType : _IntegerArithmeticType, Comparable {
-	func +(lhs: Self, rhs: Self) -> Self
-	func -(lhs: Self, rhs: Self) -> Self
-	func *(lhs: Self, rhs: Self) -> Self
-	func /(lhs: Self, rhs: Self) -> Self
-	func %(lhs: Self, rhs: Self) -> Self
+	//func +(lhs: Self, rhs: Self) -> Self
+	//func -(lhs: Self, rhs: Self) -> Self
+	//func *(lhs: Self, rhs: Self) -> Self
+	//func /(lhs: Self, rhs: Self) -> Self
+	//func %(lhs: Self, rhs: Self) -> Self
 	func toIntMax() -> IntMax
 }
 
 
 protocol BitwiseOperationsType {
 	//func &(_: Self, _: Self) -> Self //69825: Silver: two probs with operators in protocols
-	func |(_: Self, _: Self) -> Self
-	func ^(_: Self, _: Self) -> Self
+	//func |(_: Self, _: Self) -> Self
+	//func ^(_: Self, _: Self) -> Self
 	//prefix func ~(_: Self) -> Self //69825: Silver: two probs with operators in protocols
 
 	/// The identity value for "|" and "^", and the fixed point for "&".
@@ -76,31 +76,35 @@ protocol BitwiseOperationsType {
 protocol IEquatable<T> {
 	func Equals(rhs: T) -> Bool
 }
+
+protocol IComparable< /*in*/ T> {
+	func CompareTo(rhs: T) -> Int
+}
 #endif
 
 protocol Equatable {
-	func ==(lhs: Self, rhs: Self) -> Bool
+	//func ==(lhs: Self, rhs: Self) -> Bool
 }
 
 protocol _Comparable {
-	func <(lhs: Self, rhs: Self) -> Bool
+	//func <(lhs: Self, rhs: Self) -> Bool
 }
 
 protocol Comparable : _Comparable, Equatable {
-	func <=(lhs: Self, rhs: Self) -> Bool
-	func >=(lhs: Self, rhs: Self) -> Bool
-	func >(lhs: Self, rhs: Self) -> Bool
+	//func <=(lhs: Self, rhs: Self) -> Bool
+	//func >=(lhs: Self, rhs: Self) -> Bool
+	//func >(lhs: Self, rhs: Self) -> Bool
 }
 
 protocol _Incrementable : Equatable {
-	func successor() -> Self
+	//func successor() -> Self
 }
 
 protocol _IntegerType : IntegerLiteralConvertible, Printable, ArrayBoundType, Hashable, IntegerArithmeticType, BitwiseOperationsType, _Incrementable {
 }
 
 protocol _SignedNumberType : Comparable, IntegerLiteralConvertible {
-	func -(lhs: Self, rhs: Self) -> Self
+	//func -(lhs: Self, rhs: Self) -> Self
 }
 
 protocol SignedNumberType : _SignedNumberType {

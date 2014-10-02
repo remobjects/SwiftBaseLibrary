@@ -1,6 +1,7 @@
 ﻿
 #if COOPER
 import java.util
+import com.remobjects.elements.linq
 #elseif ECHOES
 import System.Collections.Generic
 import System.Linq
@@ -11,7 +12,7 @@ import RemObjects.Elements.Linq
 
 
 #if NOUGAT
-/*__mapped*/ public class Array<T: class> : INSFastEnumaratition<T> /*sequence of T -> Foundation.NSMutableArray*/ {
+/*__mapped*/ public class Array<T: class> : INSFastEnumeration<T> /*-> Foundation.NSMutableArray*/ {
 #elseif COOPER
 /*__mapped*/ public class Array<T> /* -> java.util.ArrayList<T>*/ {
 #elseif ECHOES
@@ -21,6 +22,7 @@ import RemObjects.Elements.Linq
 	method SetItem(&Index: Integer Value: T)
 	method GetItem(&Index: Integer): T*/
 
+	//hack for now so we have a "mapped" field
 	#if COOPER
 	let mapped: java.util.ArrayList<T>!
 	#elseif ECHOES
@@ -39,15 +41,12 @@ import RemObjects.Elements.Linq
 	init (array: T[]) { // Low-level arrays
 	}
 	
-	#if COOPER
-	//ToDo:
-	#elseif ECHOES
-	init (sequence: IEnumerable<T>) { // Sequence
-	}
-	#elseif NOUGAT
-	init (sequence: Foundation.INSFastEnumeration<T>) { // Sequence //69844: Silver: "There are no overloads that have 1 generic parameters" using Foundation.INSFastEnumeration<T>.
-	}
-	#endif
+	/*init (sequence: ISequence<T>) { // Sequence 69845: Silver: (and H2/O2):allow generic type aliases
+		#if COOPER
+		#elseif ECHOES
+		#elseif NOUGAT
+		#endif
+	}*/
 
 	/*init<S : SequenceType where T == T>(_ s: S) {
 	}*/
@@ -57,7 +56,7 @@ import RemObjects.Elements.Linq
 	
 	public var count: Int {
 		#if COOPER
-		return mapped.Size
+		return mapped.size()
 		#elseif ECHOES
 		return mapped.Count
 		#elseif NOUGAT
@@ -116,7 +115,7 @@ import RemObjects.Elements.Linq
 
 	public mutating func insert(newElement: T, atIndex index: Int) {
 		#if COOPER
-		mapped.insert(newElement, index)
+		mapped.add(index, newElement)
 		#elseif ECHOES
 		mapped.Insert(newElement, index)
 		#elseif NOUGAT
@@ -145,11 +144,11 @@ import RemObjects.Elements.Linq
 	/// will not change
 	public /*mutating*/ func removeAll(keepCapacity: Bool = false /*default*/) {
 		#if COOPER
-		mapped.Clear()
+		mapped.clear()
 		#elseif ECHOES
 		mapped.Clear()
 		#elseif NOUGAT
-		mapped.RemoveAllObjects()
+		mapped.removeAllObjects()
 		#endif
 	}
 
@@ -176,16 +175,16 @@ import RemObjects.Elements.Linq
 		mapped.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
-			} else 
+			} else {
 				return -1
 			}
 		})
 		#elseif NOUGAT
-		mapped.sortWithOptions(0, usingComparator: { a, b in // TODo: check if this is the right order
+		mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // TODo: check if this is the right order
 			if isOrderedBefore(a,b) {
-				return NSOrderedAscending
-			} else 
-				return NSOrderedDescending
+				return .NSOrderedAscending
+			} else {
+				return .NSOrderedDescending
 			}
 		})
 		#endif
@@ -200,17 +199,17 @@ import RemObjects.Elements.Linq
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
-			} else 
+			} else {
 				return -1
 			}
 		})
 		return result
 		#elseif NOUGAT
-		mapped.sortedArrayWithOptions(0, usingComparator: { a, b in // TODo: check if this is the right order
+		mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // TODo: check if this is the right order
 			if isOrderedBefore(a,b) {
-				return NSOrderedAscending
-			} else 
-				return NSOrderedDescending
+				return .NSOrderedAscending
+			} else {
+				return .NSOrderedDescending
 			}
 		})
 		#endif
@@ -224,8 +223,8 @@ import RemObjects.Elements.Linq
 	// consider nt implementing this,coz we have LINQ Reverse already
 	public func reverse() -> Array<T> { // [T] {
 		#if COOPER
-		var result = Array(items: self)  
-		Collections.reverse(result);
+		//var result = Array(items: self)  
+		//TODO Collections.reverse(result);
 		#elseif ECHOES
 		return mapped.Reverse.ToList()
 		#elseif NOUGAT
