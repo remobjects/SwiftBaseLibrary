@@ -29,10 +29,10 @@ typealias AnyObject = protocol<> //Dynamic;
 
 
 #if COOPER
-//ToDo:
+typealias ISequence<T> = Iterable<T>;
 #elseif ECHOES
-//typealias ISequence<T> = IEnumerable<T> //69845: Silver: (and H2/O2):allow generic type aliases
+typealias ISequence<T> = System.Collections.Generic.IEnumerable<T> 
 #elseif NOUGAT
-//typealias ISequence<T> = Foundation.INSFastEnumeration<T> //69845: Silver: (and H2/O2):allow generic type aliases
+typealias ISequence<T> = RemObject.Elements.System.INSFastEnumeration<T> //69845: Silver: (and H2/O2):allow generic type aliases
 #endif
 

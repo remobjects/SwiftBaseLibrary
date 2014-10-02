@@ -51,9 +51,9 @@ public class Range<T : ForwardIndexType/*, IEquatable<T>*/> : IEquatable<Range<T
 
 	/* Equatable */
 
-	func ==(lhs: Self, rhs: Self) -> Bool {
+	//func ==(lhs: Self, rhs: Self) -> Bool {
 		//return lhs.startIndex.Equals(rhs.startIndex) && lhs.endIndex.Equals(rhs.endIndex)
-	}
+	//}
 	
 	/* IEquatable<T> */
 	func Equals(rhs: Range<T> /*Self*/) -> Bool {
