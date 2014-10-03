@@ -1,11 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-    <HasSharedItems>true</HasSharedItems>
-    <SharedGUID>7952073B-795C-4074-954D-212FE780D7D3</SharedGUID>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>Swift.Shared</Import_RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+        <HasSharedItems>true</HasSharedItems>
+        <SharedGUID>7952073B-795C-4074-954D-212FE780D7D3</SharedGUID>
+    </PropertyGroup>
+    <PropertyGroup Label="Configuration">
+        <Import_RootNamespace>Swift.Shared</Import_RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Swift.swift"/>
+        <Compile Include="Protocols.swift"/>
+        <Compile Include="GlobalFunctions.swift"/>
+        <Compile Include="Functions.swift"/>
+        <Compile Include="Extensions.swift"/>
+        <Compile Include="Dictionary.swift"/>
+        <Compile Include="Commandline.swift"/>
+        <Compile Include="Array.swift"/>
+        <Compile Include="Aliases.swift"/>
+        <Compile Include="Range.swift"/>
+    </ItemGroup>
 </Project>

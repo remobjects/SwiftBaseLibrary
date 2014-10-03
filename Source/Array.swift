@@ -12,11 +12,11 @@ import RemObjects.Elements.Linq
 
 
 #if NOUGAT
-__mapped public class Array<T: class> /*: INSFastEnumeration<T>*/ -> Foundation.NSMutableArray {
+__mapped public class Array<T: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableArray {
 #elseif COOPER
-__mapped public class Array<T> -> java.util.ArrayList<T> {
+__mapped public class Array<T> => java.util.ArrayList<T> {
 #elseif ECHOES
-__mapped public class Array<T> -> System.Collections.Generic.List<T> {
+__mapped public class Array<T> => System.Collections.Generic.List<T> {
 #endif
 	/*private
 	method SetItem(&Index: Integer Value: T)
@@ -32,10 +32,23 @@ __mapped public class Array<T> -> System.Collections.Generic.List<T> {
 	#endif*/
 
 	init() {
-		//mapped to constructor()
+		#if COOPER
+		return ArrayList<T>()
+		#elseif ECHOES
+		return List<T>()
+		#elseif NOUGAT
+		return NSMutableArray.array()
+		#endif
 	}
 	
 	init (items: Array<T>) { // [T]
+		#if COOPER
+		return items.clone() as Array<T>
+		#elseif ECHOES
+		return List<T>(items)
+		#elseif NOUGAT
+		return items.mutableCopy
+		#endif
 	}
 	
 	#if NOUGAT
@@ -47,7 +60,7 @@ __mapped public class Array<T> -> System.Collections.Generic.List<T> {
 	init (array: T[]) { // Low-level arrays
 	}
 	
-	init (sequence: ISequence<T>) { // Sequence 69845: Silver: (and H2/O2):allow generic type aliases
+	init (sequence: ISequence<T>) { // Sequence
 		#if COOPER
 		#elseif ECHOES
 		#elseif NOUGAT

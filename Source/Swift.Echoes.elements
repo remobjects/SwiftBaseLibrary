@@ -12,7 +12,7 @@
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <AllowUnsafeCode>False</AllowUnsafeCode>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>

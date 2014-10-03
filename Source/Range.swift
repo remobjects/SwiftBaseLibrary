@@ -64,14 +64,4 @@ public class Range<T : ForwardIndexType/*, IEquatable<T>*/> : IEquatable<Range<T
 	//func CompareTo(rhs: T) -> Int {
 	// }
 
-
-	/* Printable, DebugPrintable */
-
-	var description: String { 
-		//todo
-	}
-
-	var debugDescription: String { 
-		//todo
-	}
 }

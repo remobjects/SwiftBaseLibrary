@@ -11,16 +11,4 @@
     <PropertyGroup>
         <PreBuildEvent/>
     </PropertyGroup>
-    <ItemGroup>
-        <Compile Include="Swift.swift"/>
-        <Compile Include="Range.swift"/>
-        <Compile Include="Protocols.swift"/>
-        <Compile Include="GlobalFunctions.swift"/>
-        <Compile Include="Functions.swift"/>
-        <Compile Include="Extensions.swift"/>
-        <Compile Include="Dictionary.swift"/>
-        <Compile Include="Commandline.swift"/>
-        <Compile Include="Array.swift"/>
-        <Compile Include="Aliases.swift"/>
-    </ItemGroup>
 </Project>
