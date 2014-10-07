@@ -253,16 +253,16 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		//var result = Array(items: self)  
 		//TODO Collections.reverse(result);
 		#elseif ECHOES
-		return __mapped.Reverse().ToList()
+		//return __mapped.Reverse().ToList()
 		#elseif NOUGAT
-		return Array(sequence: __mapped.Reverse())
+		//return Array(sequence: __mapped.Reverse())
 		#endif
 	}
 
 	/// Return an Array containing the elements `x` of `self` for which
 	/// `includeElement(x)` is `true`
 	public func filter(includeElement: (T) -> Bool) -> Array<T> { // [T] {
-		return Array(sequence: self.Where(includeElement))
+		//return Array(sequence: self.Where(includeElement))
 	}
 
 	/// Construct a Array of `count` elements, each initialized to
@@ -283,8 +283,8 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	}
 	mutating func splice<S : CollectionType where T == T>(s: S, atIndex i: Int) {
 	}*/
-	mutating func removeRange(subRange: Range<Int>) {
-	}
+	/*mutating func removeRange(subRange: Range<Int>) {
+	}*/
 
 	#if NOUGAT
 	init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false/*default*/) {
