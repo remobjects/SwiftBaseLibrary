@@ -1,63 +1,73 @@
 ﻿
-struct RangeGenerator<T: ForwardIndexType> { //: /*GeneratorType,*/ SequenceType {
-	typealias Element = T
-	/*init(_ bounds: Range<T>){
-	}*/
-	mutating func next() -> T?{
-	}
-	typealias Generator = RangeGenerator<T>
-	/*func generate() -> RangeGenerator<T> {
-	}*/
-	var startIndex: T! // shoudolnt need ! once set from init
-	var endIndex: T! // shoudolnt need ! once set from init
+struct RangeGenerator_Int { 
 	
-	/* GeneratorType */
-	/*mutating func next() -> Element? {
+	init(_ bounds: Range){
+		_bounds = bounds
+		_index = bounds.startIndex
+	}
+	private var _bounds: Range!// todo:should not need !
+	private var _index: Int
+
+	/*mutating func next() -> Int { //use to test 69957: Silver: lets me overload a fun just by nullability of result value.
+		return 1
 	}*/
+	/* GeneratorType */
+	mutating func next() -> Int? {
+		if _index < _bounds.endIndex {
+			let result = _index;
+			_index = _index+1
+			return result;
+			//return _index++ //69956: Silver: can't return and ++ in one statement
+		}
+		return nil
+	}
+	
+	let x : System.Comparison<T>
 }
 
-public class Range<T : ForwardIndexType/*, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, Printable, DebugPrintable {
-	init(_ x: Range<T>) {
+public class Range {//<T : Int/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, Printable, DebugPrintable {
+	init(_ x: Self) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
 	}
 	
-	init(start: T, end: T) {
+	init(start: Int/*T*/, end: Int/*T*/) {
 		startIndex = start
 		endIndex = end
 	}
 	
 	var isEmpty: Bool { 
-		//return startIndex.Equals(endIndex)
+		return startIndex == endIndex
 	}
 	
-	typealias Index = T
-	typealias Slice = Range<T>
+	typealias T = Int
+	typealias Index = Int/*T*/
+	//typealias Slice = Range<Index>
 	
-	subscript (i: T) -> T { 
+	subscript (i: Int/*T*/) -> Int/*T*/ { 
+		return startIndex + i;
 	}
 	
 	/*subscript (_: T._DisabledRangeIndex) -> T { 
 	}*/
 	
-	typealias Generator = RangeGenerator<T>
+	//typealias Generator = RangeGenerator_Int
+	func generate() -> RangeGenerator_Int {
+		return RangeGenerator_Int(self)
+	}
 	
-	/*func generate() -> RangeGenerator<T> {
-	}*/
-	
-	var startIndex: T! // shoudolnt need ! since all int()s set it
-	var endIndex: T! // shoudolnt need ! since all int()s set it
-
+	var startIndex: Int/*T*/ 
+	var endIndex: Int/*T*/
 
 	/* Equatable */
 
-	//func ==(lhs: Self, rhs: Self) -> Bool {
-		//return lhs.startIndex.Equals(rhs.startIndex) && lhs.endIndex.Equals(rhs.endIndex)
-	//}
+	func ==(lhs: Self, rhs: Self) -> Bool {
+		return lhs.startIndex == rhs.startIndex && lhs.endIndex == rhs.endIndex
+	}
 	
 	/* IEquatable<T> */
-	func Equals(rhs: Range<T> /*Self*/) -> Bool {
-		//return startIndex.Equals(rhs.startIndex) && endIndex.Equals(rhs.endIndex)
+	func Equals(rhs: /*Self*/Range) -> Bool { // 69955: Silver: two issues wit "Self" vs concrete generic type
+		return startIndex == rhs.startIndex && endIndex == rhs.endIndex 
 	}
 	
 	/* IComparable<T> */
