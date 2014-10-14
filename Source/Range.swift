@@ -1,35 +1,29 @@
 ﻿
-struct RangeGenerator_Int { 
+struct RangeGenerator_IntMax { 
 	
 	init(_ bounds: Range){
 		_bounds = bounds
 		_index = bounds.startIndex
 	}
 	private var _bounds: Range!// todo:should not need !
-	private var _index: Int
+	private var _index: IntMax
 
-	/*mutating func next() -> Int { //use to test 69957: Silver: lets me overload a fun just by nullability of result value.
-		return 1
-	}*/
 	/* GeneratorType */
-	mutating func next() -> Int? {
+	mutating func next() -> IntMax? {
 		if _index < _bounds.endIndex {
-			let result = _index;
-			_index = _index+1
-			return result;
-			//return _index++ //69956: Silver: can't return and ++ in one statement
+			return _index++
 		}
 		return nil
 	}
 }
 
-public class Range {//<T : Int/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, Printable, DebugPrintable {
+public class Range {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
 	init(_ x: Self) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
 	}
 	
-	init(start: Int/*T*/, end: Int/*T*/) {
+	init(start: IntMax, end: IntMax) {
 		startIndex = start
 		endIndex = end
 	}
@@ -38,24 +32,21 @@ public class Range {//<T : Int/*ForwardIndexType, IEquatable<T>*/> : IEquatable<
 		return startIndex == endIndex
 	}
 	
-	typealias T = Int
-	typealias Index = Int/*T*/
+	typealias T = IntMax
+	typealias Index = IntMax
 	//typealias Slice = Range<Index>
 	
-	subscript (i: Int/*T*/) -> Int/*T*/ { 
+	subscript (i: IntMax) -> IntMax { 
 		return startIndex + i;
 	}
 	
-	/*subscript (_: T._DisabledRangeIndex) -> T { 
-	}*/
-	
-	//typealias Generator = RangeGenerator_Int
-	func generate() -> RangeGenerator_Int {
-		return RangeGenerator_Int(self)
+	//typealias Generator = RangeGenerator_IntMax
+	func generate() -> RangeGenerator_IntMax {
+		return RangeGenerator_IntMax(self)
 	}
 	
-	var startIndex: Int/*T*/ 
-	var endIndex: Int/*T*/
+	var startIndex: IntMax 
+	var endIndex: IntMax
 
 	/* Equatable */
 
@@ -69,7 +60,7 @@ public class Range {//<T : Int/*ForwardIndexType, IEquatable<T>*/> : IEquatable<
 	}
 	
 	/* IComparable<T> */
-	//func CompareTo(rhs: T) -> Int {
+	//func CompareTo(rhs: T) -> IntMax {
 	// }
 
 }

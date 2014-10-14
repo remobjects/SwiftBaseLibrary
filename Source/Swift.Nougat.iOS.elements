@@ -39,9 +39,7 @@
         <Reference Include="rtl.fx"/>
         <Reference Include="libNougat.fx"/>
     </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Dummy.swift"/>
-    </ItemGroup>
+    <ItemGroup/>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Nougat.targets"/>
     <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>

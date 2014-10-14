@@ -21,7 +21,7 @@ extension Object : Printable, DebugPrintable {
 #endif
 
 #if NOUGAT // for now
-extension UInt8 {
+/*extension UInt8 {
 	static let max: UInt8 = 0xff
 	static let min: UInt8 = 0
 	static let allZeros: UInt8 = 0
@@ -76,7 +76,7 @@ extension UnicodeScalar {
 	func isASCII() -> Bool {
 		return self <= 127
 	}
-}
+}*/
 
 extension String {
 	

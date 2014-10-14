@@ -41,9 +41,9 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 	
-	init (items: Array<T>) { // [T]
+	init (items: [T]) {
 		#if COOPER
-		return items.clone() as Array<T>
+		return items.clone() as [T]
 		#elseif ECHOES
 		return List<T>(items)
 		#elseif NOUGAT
@@ -52,28 +52,34 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	}
 	
 	#if NOUGAT
-	init (NSArray: NSArray<T>) { // [T]
-		
+	init (NSArray array: NSArray<T>) {
+		return array.mutableCopy()
 	}
+
+	/*init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = default) {
+	}*/
 	#endif
 	
+	
 	init (array: T[]) { // Low-level arrays
+		//todo
 	}
 	
-	init (sequence: ISequence<T>) { // Sequence
+	init (sequence: ISequence<T>) {
 		#if COOPER
 		#elseif ECHOES
+		return sequence.ToList()
 		#elseif NOUGAT
 		#endif
 	}
 
 	init(count: Int, repeatedValue: T) {
 		#if COOPER
-		let newSelf: Array<T> = ArrayList<T>(count)
+		let newSelf: [T] = ArrayList<T>(count)
 		#elseif ECHOES
-		let newSelf: Array<T> = List<T>(count)
+		let newSelf: [T] = List<T>(count)
 		#elseif NOUGAT
-		let newSelf: Array<T> = NSMutableArray.arrayWithCapacity(count)
+		let newSelf: [T] = NSMutableArray.arrayWithCapacity(count)
 		#endif
 		for var i: Int = 0; i < count; i++ {
 			newSelf.append(repeatedValue)
@@ -167,9 +173,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		}		
 	}
 
-	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
-	/// will not change
-	public /*mutating*/ func removeAll(keepCapacity: Bool = false /*default*/) {
+	public /*mutating*/ func removeAll(keepCapacity: Bool = default) {
 		#if COOPER
 		__mapped.clear()
 		#elseif ECHOES
@@ -191,8 +195,8 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	/// `self`, in turn, i.e. return
 	/// `combine(combine(...combine(combine(initial, self[0]),
 	/// self[1]),...self[count-2]), self[count-1])`.
-	public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
-	}
+	/*public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
+	}*/
 
 	public mutating func sort(isOrderedBefore: (T, T) -> Bool) {
 		#if COOPER
@@ -217,12 +221,12 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 
-	public func sorted(isOrderedBefore: (T, T) -> Bool) -> Array<T> { // [T] {
+	public func sorted(isOrderedBefore: (T, T) -> Bool) -> [T] { 
 		#if COOPER
 		//todo
 		#elseif ECHOES
 		//69820: Silver: can't call Sort() with block, on Echoes
-		let result: List<T> = Array<T>(items: self)
+		let result: List<T> = Array<T>[T](items: self) //70035: Silver: "[T]" array syntax doesn't work yet to new up an array.
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
@@ -244,11 +248,11 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	/// Return an Array containing the results of calling
 	/// `transform(x)` on each element `x` of `self`
-	public func map<U>(transform: (T) -> U) -> Array<U> { // [U] {
+	public func map<U>(transform: (T) -> U) -> ISequence<U> { // we deliberatey change this to return a sequence, not an array, for efficiency.
 	}
 
 	// consider nt implementing this,coz we have LINQ Reverse already
-	public func reverse() -> Array<T> { // [T] {
+	public func reverse() -> [T] {
 		#if COOPER
 		//var result = Array(items: self)  
 		//TODO Collections.reverse(result);
@@ -259,10 +263,15 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 
-	/// Return an Array containing the elements `x` of `self` for which
-	/// `includeElement(x)` is `true`
-	public func filter(includeElement: (T) -> Bool) -> Array<T> { // [T] {
-		//return Array(sequence: self.Where(includeElement))
+	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey change this to return a sequence, not an array, for efficiency.
+		#if COOPER
+		//var result = Array(items: self)  
+		//return (self as ArrayList<T>!).Where(includeElement) // Parameter 2 is "com.remobjects.elements.system.Func2<T,Boolean!!>!", should be "Predicate<T>!", in call to static __Extensions!.Where<T>(arg1: Iterable<T>!, arg2: Predicate<T>!) -> Iterable<T>!
+		#elseif ECHOES
+		return __mapped.Where(includeElement)
+		#elseif NOUGAT
+		//return (self as NSArray<T>!).Where(includeElement) // The type "T" cannot be used for nullable types on this platform
+		#endif
 	}
 
 	/// Construct a Array of `count` elements, each initialized to
@@ -276,7 +285,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	}
 
 	/// This function "seeds" the ArrayLiteralConvertible protocol
-	static func convertFromHeapArray(base: Builtin.RawPointer, owner: Builtin.NativeObject, count: Builtin.Word) -> Array<T> { // [T] {
+	static func convertFromHeapArray(base: Builtin.RawPointer, owner: Builtin.NativeObject, count: Builtin.Word) -> [T] {
 	}*/
 
 	/*mutating func replaceRange<C : CollectionType where T == T>(subRange: Range<Int>, with newValues: C) {
@@ -286,9 +295,4 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	/*mutating func removeRange(subRange: Range<Int>) {
 	}*/
 
-	#if NOUGAT
-	init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false/*default*/) {
-	}
-	#endif
-	
 }
