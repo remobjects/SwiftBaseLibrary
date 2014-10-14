@@ -14,7 +14,7 @@
         <Compile Include="GlobalFunctions.swift"/>
         <Compile Include="Functions.swift"/>
         <Compile Include="Extensions.swift"/>
-        <None Include="Dictionary.swift"/>
+        <Compile Include="Dictionary.swift"/>
         <Compile Include="Commandline.swift"/>
         <Compile Include="Array.swift"/>
         <Compile Include="Aliases.swift"/>

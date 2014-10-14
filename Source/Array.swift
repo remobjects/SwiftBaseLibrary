@@ -226,7 +226,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		//todo
 		#elseif ECHOES
 		//69820: Silver: can't call Sort() with block, on Echoes
-		let result: List<T> = Array<T>[T](items: self) //70035: Silver: "[T]" array syntax doesn't work yet to new up an array.
+		let result: List<T> = Array<T>(items: self) //70035: Silver: "[T]" array syntax doesn't work yet to new up an array.
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
