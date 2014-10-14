@@ -21,8 +21,6 @@ struct RangeGenerator_Int {
 		}
 		return nil
 	}
-	
-	let x : System.Comparison<T>
 }
 
 public class Range {//<T : Int/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, Printable, DebugPrintable {
