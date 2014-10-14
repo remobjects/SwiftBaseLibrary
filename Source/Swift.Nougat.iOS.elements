@@ -40,17 +40,8 @@
         <Reference Include="libNougat.fx"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Aliases.swift"/>
-        <None Include="Swift.swift"/>
-        <Compile Include="Functions.swift"/>
-        <Compile Include="Commandline.swift"/>
-        <Compile Include="GlobalFunctions.swift"/>
-        <Compile Include="Nougat.swift"/>
-        <Compile Include="Array.swift"/>
-        <None Include="Dictionary.swift"/>
-        <Compile Include="Protocols.swift"/>
-        <Compile Include="Extensions.swift"/>
-        <Compile Include="Range.swift"/>
+        <Compile Include="Dummy.swift"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Nougat.targets"/>
+    <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>
