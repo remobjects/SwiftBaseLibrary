@@ -200,9 +200,15 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public mutating func sort(isOrderedBefore: (T, T) -> Bool) {
 		#if COOPER
-		//todo
+		//70057: Silver: support for anonymous classes & nested classes
+		/*java.util.Collections.sort(mapped, new class java.util.Comparator<T>(compare: { (a: id!, b: id!) -> NSComparisonResult in // TODo: check if this is the right order
+			if isOrderedBefore(a,b) {
+				return .NSOrderedAscending
+			} else {
+				return .NSOrderedDescending
+			}
+		})*/
 		#elseif ECHOES
-		//69820: Silver: can't call Sort() with block, on Echoes
 		__mapped.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
@@ -223,9 +229,8 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public func sorted(isOrderedBefore: (T, T) -> Bool) -> [T] { 
 		#if COOPER
-		//todo
+		//todo, clone fromabove once it works
 		#elseif ECHOES
-		//69820: Silver: can't call Sort() with block, on Echoes
 		let result: List<T> = Array<T>(items: self) //70035: Silver: "[T]" array syntax doesn't work yet to new up an array.
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -246,31 +251,36 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 
-	/// Return an Array containing the results of calling
-	/// `transform(x)` on each element `x` of `self`
 	public func map<U>(transform: (T) -> U) -> ISequence<U> { // we deliberatey change this to return a sequence, not an array, for efficiency.
+		#if COOPER
+		//return __mapped.Select(transform) // 70053: Silver: can't call LINQ Selecr or Where on mapped Cooper array
+		#elseif ECHOES
+		return __mapped.Select(transform)
+		#elseif NOUGAT
+		//return __mapped.Select(transform) // 70052: Silver: Can't call LINQ Select on mapped NSArray
+		#endif
 	}
 
-	// consider nt implementing this,coz we have LINQ Reverse already
-	public func reverse() -> [T] {
+	public func reverse() -> ISequence<T> { // we deliberatey change this to return a sequence, not an array, for efficiency.
 		#if COOPER
-		//var result = Array(items: self)  
-		//TODO Collections.reverse(result);
+		//return (__mapped as Iterable<T>).Reverse()
+		//return (__mapped as ISequence<T>).Reverse() // 70055: Silver: all platforms,cannot cast to ISequence (but can to IEnumerable on Echoes)
 		#elseif ECHOES
-		//return __mapped.Reverse().ToList()
+		return (__mapped as System.Collections.Generic.IEnumerable<T>).Reverse()
+		//return (__mapped as ISequence<T>).Reverse() //7 0055: Silver: all platforms,cannot cast to ISequence (but can to IEnumerable on Echoes)
 		#elseif NOUGAT
-		//return Array(sequence: __mapped.Reverse())
+		return (__mapped as INSFastEnumeration<T>).Reverse()
+		//return (__mapped as ISequence<T>).Reverse() // 70055: Silver: all platforms,cannot cast to ISequence (but can to IEnumerable on Echoes)
 		#endif
 	}
 
 	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey change this to return a sequence, not an array, for efficiency.
 		#if COOPER
-		//var result = Array(items: self)  
-		//return (self as ArrayList<T>!).Where(includeElement) // Parameter 2 is "com.remobjects.elements.system.Func2<T,Boolean!!>!", should be "Predicate<T>!", in call to static __Extensions!.Where<T>(arg1: Iterable<T>!, arg2: Predicate<T>!) -> Iterable<T>!
+		//return __mapped.Where(includeElement) // 70053: Silver: can't call LINQ Selecr or Where on mapped Cooper array
 		#elseif ECHOES
 		return __mapped.Where(includeElement)
 		#elseif NOUGAT
-		//return (self as NSArray<T>!).Where(includeElement) // The type "T" cannot be used for nullable types on this platform
+		//return (self as NSArray<T>!).Where(includeElement) // 70052: Silver: Can't call LINQ Select on mapped NSArray
 		#endif
 	}
 

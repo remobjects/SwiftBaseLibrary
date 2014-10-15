@@ -17,7 +17,7 @@ struct RangeGenerator_IntMax {
 	}
 }
 
-public class Range {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
+public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
 	init(_ x: Self) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
