@@ -1,6 +1,6 @@
 ﻿
 #if NOUGAT
-@unsafe_no_objc_tagged_pointer protocol _CocoaArrayType {
+/*@unsafe_no_objc_tagged_pointer*/ protocol _CocoaArrayType {
 	func objectAtIndex(index: Int) -> AnyObject
 	//func getObjects(_: UnsafeMutablePointer<AnyObject>, range: _SwiftNSRange)
 	//func countByEnumeratingWithState(state: UnsafeMutablePointer<_SwiftNSFastEnumerationState>, objects buffer: UnsafeMutablePointer<AnyObject>, count len: Int) -> Int
@@ -27,7 +27,6 @@ protocol ArrayBoundType {
 	typealias ArrayBound
 	var arrayBoundValue: ArrayBound { get }
 }
-
 
 /* Numbers */
 

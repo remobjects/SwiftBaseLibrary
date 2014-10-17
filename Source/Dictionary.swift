@@ -20,9 +20,9 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 
 	init() {
 		#if COOPER
-		//return java.util.HashMap<Key,Value>() // 70050: Silver: cannot new up a generic type
+		return java.util.HashMap<Key,Value>()
 		#elseif ECHOES
-		//return System.Collections.Generic.Dictionary<Key,Value>() // 70050: Silver: cannot new up a generic type
+		return System.Collections.Generic.Dictionary<Key,Value>()
 		#elseif NOUGAT
 		return Foundation.NSMutableDictionary()
 		#endif
@@ -30,9 +30,9 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 
 	init(minimumCapacity: Int) {
 		#if COOPER
-		//return java.util.HashMap<Key,Value>(minimumCapacity) // 70050: Silver: cannot new up a generic type
+		return java.util.HashMap<Key,Value>(minimumCapacity)
 		#elseif ECHOES
-		//return System.Collections.Generic.Dictionary<Key,Value>(minimumCapacity) // 70050: Silver: cannot new up a generic type
+		return System.Collections.Generic.Dictionary<Key,Value>(minimumCapacity)
 		#elseif NOUGAT
 		return Foundation.NSMutableDictionary(capacity: minimumCapacity)
 		#endif
@@ -157,7 +157,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#elseif ECHOES
 		return __mapped.Keys
 		#elseif NOUGAT
-		//return __mapped.allKeys as ISequence<Key> // 70051: Silver: can't cast NSArray to ISequence
+		return __mapped.allKeys as ISequence<Key> 
 		#endif
 	}
 
@@ -167,7 +167,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#elseif ECHOES
 		return __mapped.Values
 		#elseif NOUGAT
-		//return __mapped.allValues as ISequence<Value> // 70051: Silver: can't cast NSArray to ISequence
+		return __mapped.allValues as ISequence<Value>
 		#endif
 	}
 	

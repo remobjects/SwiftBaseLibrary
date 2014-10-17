@@ -79,7 +79,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#elseif ECHOES
 		let newSelf: [T] = List<T>(count)
 		#elseif NOUGAT
-		let newSelf: [T] = NSMutableArray.arrayWithCapacity(count)
+		let newSelf: [T] = NSMutableArray(capacity: count)
 		#endif
 		for var i: Int = 0; i < count; i++ {
 			newSelf.append(repeatedValue)
@@ -125,17 +125,34 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		return nil
 	}
 
-	/// Ensure the array has enough mutable contiguous storage to store
-	/// minimumCapacity elements in.  Note: does not affect count.
-	/// Complexity: O(N)
 	public mutating func reserveCapacity(minimumCapacity: Int) {
+		#if COOPER
+		__mapped.ensureCapacity(minimumCapacity)
+		#elseif ECHOES
+		#elseif NOUGAT
+		#endif
 	}
 
-	/// Append elements from `sequence` to the Array
-	/*public mutating func extend<S : SequenceType where T == T>(sequence: S) {
-	}*/
+	public mutating func extend(sequence: ISequence<T>) {
+		#if COOPER
+		//__mapped.addAll(sequence.ToList()) // 70077: Silver: Cant pass "ArrayList<T>!" as "Collection<T>!" because Co-variance
+		#elseif ECHOES
+		__mapped.AddRange(sequence.ToList())
+		#elseif NOUGAT
+		__mapped.addObjectsFromArray(sequence.array())
+		#endif
+	}
+	
+	public mutating func extend(array: [T]) {
+		#if COOPER
+		__mapped.addAll(array)
+		#elseif ECHOES
+		__mapped.AddRange(array)
+		#elseif NOUGAT
+		__mapped.addObjectsFromArray(array)
+		#endif
+	}
 
-	/// Append newElement to the Array in O(1) (amortized)
 	public mutating func append(newElement: T) {
 		#if COOPER
 		__mapped.add(newElement)
@@ -173,7 +190,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		}		
 	}
 
-	public /*mutating*/ func removeAll(keepCapacity: Bool = default) {
+	public mutating func removeAll(keepCapacity: Bool = default) {
 		#if COOPER
 		__mapped.clear()
 		#elseif ECHOES
@@ -187,8 +204,17 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	/// and concatenate the elements of the resulting sequence.  For
 	/// example, `[-1, -2].join([[1, 2, 3], [4, 5, 6], [7, 8, 9]])`
 	/// yields `[1, 2, 3, -1, -2, 4, 5, 6, -1, -2, 7, 8, 9]`
-	/*public func join<S : SequenceType where [T] == [T]>(elements: S) -> [T] {
+	//public func join<S : ISequence<T>>(elements: S) -> ISequence<T> { //70074: Silver: Can't use generic type in a generic constraint
+	/*public func join(elements: ISequence<T>) -> ISequence<T> { 
+		/*for e in elements { //70076: Support for "foreach" in mapped classes
+		}*/
 	}*/
+	public func join(elements: [T]) -> ISequence<T> { 
+		//return __mapped.join(elements) // implementaton needed below
+	}
+	public func join(elements: [[T]]) -> ISequence<T> { 
+		//return __mapped.join(elements) // implementaton needed below
+	}
 
 	/// Return the result of repeatedly calling `combine` with an
 	/// accumulated value initialized to `initial` and each element of
@@ -231,7 +257,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#if COOPER
 		//todo, clone fromabove once it works
 		#elseif ECHOES
-		let result: List<T> = Array<T>(items: self) //70035: Silver: "[T]" array syntax doesn't work yet to new up an array.
+		let result: List<T> = [T](items: self) 
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
@@ -284,9 +310,6 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 
-	/// Construct a Array of `count` elements, each initialized to
-	/// `repeatedValue`.
-	
 	/// Call body(p), where p is a pointer to the Array's contiguous storage
 	/*func withUnsafeBufferPointer<R>(body: (UnsafeBufferPointer<T>) -> R) -> R {
 	}
@@ -306,3 +329,40 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	}*/
 
 }
+
+/*#if NOUGAT
+extension Foundation.NSMutableArray {
+#elseif COOPER
+extension java.util.ArrayList<T> {
+#elseif ECHOES
+extension System.Collections.Generic.List<T> {
+#endif
+	public func join(elements: [T]) -> ISequence<T> { 
+		/*let elementsCount = elements.count;
+		let selfCount = self.count;
+		for var i: Int = 0; i < elementsCount; i++ { 
+			if i > 0{
+				for var j: Int = 0; j < selfCount; j++ {
+					__yield self[j]; //7 0075: Silver: support for iterators
+				}
+			}
+			__yield elements[i]; // 70075: Silver: support for iterators
+		}*/
+	}
+	public func join(elements: [[T]]) -> ISequence<T> { 
+		/*let elementsCount = elements.count;
+		let selfCount = self.count;
+		for var i: Int = 0; i < elementsCount; i++ { 
+			if i > 0{
+				for var j: Int = 0; j < selfCount; j++ {
+					__yield self[j]; //7 0075: Silver: support for iterators
+				}
+			}
+			let currentElement = elements[i]
+			let currentElementCount = currentElement.count
+			for var j: Int = 0; j < currentElementCount; j++ {
+				__yield currentElement[j]; //7 0075: Silver: support for iterators
+			}
+		}*/
+	}
+}*/
