@@ -289,14 +289,11 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public func reverse() -> ISequence<T> { // we deliberatey change this to return a sequence, not an array, for efficiency.
 		#if COOPER
-		//return (__mapped as Iterable<T>).Reverse()
-		//return (__mapped as ISequence<T>).Reverse() // 70055: Silver: all platforms,cannot cast to ISequence (but can to IEnumerable on Echoes)
+		return (__mapped as ISequence<T>).Reverse() as ISequence<T> // 70100: Silver: Cooper: Type mismatch, cannot assign "Iterable<T>" to "ISequence<T>"
 		#elseif ECHOES
-		return (__mapped as System.Collections.Generic.IEnumerable<T>).Reverse()
-		//return (__mapped as ISequence<T>).Reverse() //7 0055: Silver: all platforms,cannot cast to ISequence (but can to IEnumerable on Echoes)
+		return (__mapped as ISequence<T>).Reverse() 
 		#elseif NOUGAT
-		return (__mapped as INSFastEnumeration<T>).Reverse()
-		//return (__mapped as ISequence<T>).Reverse() // 70055: Silver: all platforms,cannot cast to ISequence (but can to IEnumerable on Echoes)
+		return (__mapped as ISequence<T>).Reverse() 
 		#endif
 	}
 

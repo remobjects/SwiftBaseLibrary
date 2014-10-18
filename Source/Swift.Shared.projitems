@@ -11,7 +11,7 @@
     <ItemGroup>
         <None Include="Swift.swift"/>
         <Compile Include="Protocols.swift"/>
-        <Compile Include="GlobalFunctions.swift"/>
+        <Compile Include="SequenceFunctions.swift"/>
         <Compile Include="Functions.swift"/>
         <Compile Include="Extensions.swift"/>
         <Compile Include="Dictionary.swift"/>
