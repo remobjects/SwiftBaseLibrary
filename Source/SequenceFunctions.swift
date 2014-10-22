@@ -34,34 +34,37 @@ func countElements<T>(source: ISequence<T>?) -> Int {
 }
 
 func count<T>(source: ISequence<T>) -> Int { // inline?
-	return countElements(source) // 70105: Silver: Type mismatch, cannot assign "ISequence<T>" to "ISequence<T>"
+	return countElements(source)
 }
 
 func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) -> Bool {
 	if let s = source {
-		#if COOPER | ECHOES
-		//return s.Any(predicate) // 70167: Silver: No member "Any" on type "ISequence<T>!" in Cooper
+		#if COOPER
+		return s.Any({ return predicate($0) })
+		#elseif ECHOES //| NOUGAT
+		return s.Any(predicate) // 70167: Silver: No member "Any" on type "ISequence<T>!" in Cooper
 		#elseif NOUGAT
-		//return s.Any({ return predicate($0) }) // 70152: Silver: need option to cast T[] to to ^T70153: Silver: need a way to call a secondary init() from a mapped class initializer70160: Silver: two odd issues with T[] vs Object[[]70163: Silver: Parameter 1 is "T", should be "T", in call to block 
+		return s.Any({ return predicate($0) })
+		//return s.Any(predicate) // 70163: Silver: Two issues calling block
 		#endif
 	}
 	return false
 }
 
-public func filter<T, U>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISequence<T> {
+public func filter<T>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISequence<T> {
 	#if COOPER
-	//return source.Where({ return includeElement($0) }) // 70166: Silver: Type mismatch, cannot assign "Boolean" to "Boolean"
+	return source.Where({ return includeElement($0) })
 	#elseif ECHOES
 	return source.Where(includeElement)
 	#elseif NOUGAT
-	//return source.Where({ return includeElement($0) }) // 70163: Silver: Two issues calling block
+	return source.Where({ return includeElement($0) })
 	//return source.Where(includeElement) // 70163: Silver: Two issues calling block
 	#endif
 }
 
 func isEmpty<T>(source: ISequence<T>?) -> Bool {
 	if let s = source {
-		//return !s.Any() // 70167: Silver: No member "Any" on type "ISequence<T>!" in Cooper
+		return !s.Any()
 	}
 	return true
 }

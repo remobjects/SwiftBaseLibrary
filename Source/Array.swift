@@ -108,8 +108,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	
 	public func nativeArray() -> T[] {
 		#if COOPER
-		//return __mapped.toArray() // 70160: Silver: two odd issues with T[] vs Object[[]
-		//return __mapped.toArray() as T[] // 70160: Silver: two odd issues with T[] vs Object[[]
+		return __mapped.toArray(T[](__mapped.Count))
 		#elseif ECHOES
 		return __mapped.ToArray()
 		#elseif NOUGAT
@@ -162,8 +161,8 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	public mutating func reserveCapacity(minimumCapacity: Int) {
 		#if COOPER
 		__mapped.ensureCapacity(minimumCapacity)
-		#elseif ECHOES
-		#elseif NOUGAT
+		#elseif ECHOES | NOUGAT
+		// N/A
 		#endif
 	}
 
@@ -325,7 +324,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
-		// return __mapped.Where({ return includeElement($0) }) // 70166: Silver: Type mismatch, cannot assign "Boolean" to "Boolean"
+		return __mapped.Where({ return includeElement($0) })
 		#elseif ECHOES | NOUGAT
 		return __mapped.Where(includeElement)
 		#endif

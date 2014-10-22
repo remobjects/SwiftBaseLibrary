@@ -19,5 +19,6 @@
         <Compile Include="Array.swift"/>
         <Compile Include="Aliases.swift"/>
         <Compile Include="Range.swift"/>
+        <Compile Include="LiteralConvertibles.swift"/>
     </ItemGroup>
 </Project>

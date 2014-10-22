@@ -30,11 +30,6 @@ protocol ArrayBoundType {
 
 /* Numbers */
 
-protocol IntegerLiteralConvertible {
-	typealias IntegerLiteralType
-	//class func convertFromIntegerLiteral(value: IntegerLiteralType) -> Self
-}
-
 protocol _IntegerArithmeticType {
 	//class func addWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
 	//class func subtractWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
