@@ -75,6 +75,9 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		return array.mutableCopy()
 	}
 
+	/*init(arrayLiteral elements: T...) {
+	}*/
+
 	/*init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = default) {
 	}*/
 	#endif
@@ -101,6 +104,20 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 			newSelf.append(repeatedValue)
 		}
 		return newSelf
+	}
+	
+	public func nativeArray() -> T[] {
+		#if COOPER
+		//return __mapped.toArray() // 70160: Silver: two odd issues with T[] vs Object[[]
+		//return __mapped.toArray() as T[] // 70160: Silver: two odd issues with T[] vs Object[[]
+		#elseif ECHOES
+		return __mapped.ToArray()
+		#elseif NOUGAT
+		let c = count
+		var result = T[](c)
+		//__mapped.getObjects(&result, range: NSMakeRange(0, c)) // //70152: Silver: need option to cast T[] to to ^T
+		return result
+		#endif
 	}
 	
 	public var count: Int {
@@ -296,11 +313,9 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public func map<U>(transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
-		//return __mapped.Select(transform) // 70053: Silver: can't call LINQ Selecr or Where on mapped Cooper array
-		#elseif ECHOES
+		return __mapped.Select({ return transform($0) })
+		#elseif ECHOES | NOUGAT
 		return __mapped.Select(transform)
-		#elseif NOUGAT
-		//return __mapped.Select(transform) // 70052: Silver: Can't call LINQ Select on mapped NSArray
 		#endif
 	}
 
@@ -310,11 +325,9 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
-		//return __mapped.Where(includeElement) // 70053: Silver: can't call LINQ Selecr or Where on mapped Cooper array
-		#elseif ECHOES
+		// return __mapped.Where({ return includeElement($0) }) // 70166: Silver: Type mismatch, cannot assign "Boolean" to "Boolean"
+		#elseif ECHOES | NOUGAT
 		return __mapped.Where(includeElement)
-		#elseif NOUGAT
-		//return (self as NSArray<T>!).Where(includeElement) // 70052: Silver: Can't call LINQ Select on mapped NSArray
 		#endif
 	}
 

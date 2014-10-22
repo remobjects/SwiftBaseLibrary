@@ -39,24 +39,39 @@ func count<T>(source: ISequence<T>) -> Int { // inline?
 
 func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) -> Bool {
 	if let s = source {
-		return s.Any(predicate)
+		#if COOPER | ECHOES
+		//return s.Any(predicate) // 70167: Silver: No member "Any" on type "ISequence<T>!" in Cooper
+		#elseif NOUGAT
+		//return s.Any({ return predicate($0) }) // 70152: Silver: need option to cast T[] to to ^T70153: Silver: need a way to call a secondary init() from a mapped class initializer70160: Silver: two odd issues with T[] vs Object[[]70163: Silver: Parameter 1 is "T", should be "T", in call to block 
+		#endif
 	}
 	return false
 }
 
 public func filter<T, U>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISequence<T> {
+	#if COOPER
+	//return source.Where({ return includeElement($0) }) // 70166: Silver: Type mismatch, cannot assign "Boolean" to "Boolean"
+	#elseif ECHOES
 	return source.Where(includeElement)
+	#elseif NOUGAT
+	//return source.Where({ return includeElement($0) }) // 70163: Silver: Two issues calling block
+	//return source.Where(includeElement) // 70163: Silver: Two issues calling block
+	#endif
 }
 
 func isEmpty<T>(source: ISequence<T>?) -> Bool {
 	if let s = source {
-		return !s.Any()
+		//return !s.Any() // 70167: Silver: No member "Any" on type "ISequence<T>!" in Cooper
 	}
 	return true
 }
 
 public func map<T, U>(source: ISequence<T>, transform: (T) -> U) -> ISequence<U> {
+	#if COOPER
+	return source.Select({ return transform($0) })
+	#elseif ECHOES | NOUGAT
 	return source.Select(transform)
+	#endif
 }
 
 public func reverse<T>(source: ISequence<T>) -> ISequence<T>
