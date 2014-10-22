@@ -38,6 +38,15 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
+	#if NOUGAT
+	init (NSDictionary dictionary: NSDictionary) {
+		if dictionary == nil {
+			return Dictionary<Key,Value>()
+		}
+		return dictionary.mutableCopy()
+	}
+	#endif
+
 	/*init(dictionaryLiteral elements: (Key, Value)...) { // 70146: Silver: support "params" syntax with "..."
 	}*/
 

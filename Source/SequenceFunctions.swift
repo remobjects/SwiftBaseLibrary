@@ -41,11 +41,10 @@ func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) -> Bool {
 	if let s = source {
 		#if COOPER
 		return s.Any({ return predicate($0) })
-		#elseif ECHOES //| NOUGAT
-		return s.Any(predicate) // 70167: Silver: No member "Any" on type "ISequence<T>!" in Cooper
+		#elseif ECHOES
+		return s.Any(predicate)
 		#elseif NOUGAT
 		return s.Any({ return predicate($0) })
-		//return s.Any(predicate) // 70163: Silver: Two issues calling block
 		#endif
 	}
 	return false
@@ -58,7 +57,6 @@ public func filter<T>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISeq
 	return source.Where(includeElement)
 	#elseif NOUGAT
 	return source.Where({ return includeElement($0) })
-	//return source.Where(includeElement) // 70163: Silver: Two issues calling block
 	#endif
 }
 

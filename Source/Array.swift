@@ -40,43 +40,26 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	}
 	
 	init (array: T[]) {		
-		/*if array == nil {
-			return init() //70153: Silver: need a way to call a secondary init() from a mapped class initializer
-		}*/
+		if array == nil || length(array) == 0 {
+			return [T]()
+		}
 		
 		#if COOPER
-		if array != nil {
-			return ArrayList<T>(java.util.Arrays.asList(array))
-		} else {
-			return ArrayList<T>()
-		}
+		return ArrayList<T>(java.util.Arrays.asList(array))
 		#elseif ECHOES
-		if array != nil {
-			return List<T>(array)
-		} else {
-			return List<T>()
-		}
+		return List<T>(array)
 		#elseif NOUGAT
-		if array != nil {
-			//70152: Silver: need option to cast T[] to to ^T
-			//let result = NSMutableArray.arrayWithObjects(array, count: length(array))
-			let result = NSMutableArray(capacity: length(array))
-			for var i: Int =0; i <  length(array); i++ {
-				result.addObject(array[i])
-			}
-		} else {
-			return NSMutableArray.array()
-		}
+		let result = NSMutableArray.arrayWithObjects(&array[0] as UnsafePointer<id>, count: length(array))
 		#endif		
 	}
 	
 	#if NOUGAT
 	init (NSArray array: NSArray<T>) {
+		if array == nil {
+			return [T]()
+		}
 		return array.mutableCopy()
 	}
-
-	/*init(arrayLiteral elements: T...) {
-	}*/
 
 	/*init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = default) {
 	}*/
@@ -106,6 +89,9 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		return newSelf
 	}
 	
+	/*init(arrayLiteral elements: T...) { // 70146: Silver: support "params" syntax with "..."
+	}*/
+
 	public func nativeArray() -> T[] {
 		#if COOPER
 		return __mapped.toArray(T[](__mapped.Count))
@@ -114,9 +100,34 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#elseif NOUGAT
 		let c = count
 		var result = T[](c)
-		//__mapped.getObjects(&result, range: NSMakeRange(0, c)) // //70152: Silver: need option to cast T[] to to ^T
+		__mapped.getObjects(&result[0] as UnsafePointer<id>, range: NSMakeRange(0, c))
 		return result
 		#endif
+	}
+	
+	subscript (index: Int) -> T? {
+		get {
+			var value = __mapped[index]
+			#if NOUGAT
+			if value == NSNull.null {
+				value = nil
+			}
+			#endif
+			return value
+		}
+		set {
+			#if COOPER
+			__mapped[index] = newValue
+			#elseif ECHOES
+			__mapped[index] = newValue
+			#elseif NOUGAT
+			if let val = newValue {
+				__mapped[index] = val
+			} else {
+				__mapped[index] = NSNull.null
+			}
+			#endif
+		}
 	}
 	
 	public var count: Int {
@@ -192,7 +203,11 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#elseif ECHOES
 		__mapped.Add(newElement)
 		#elseif NOUGAT
-		__mapped.addObject(newElement)
+		if let val = newElement {
+			__mapped.addObject(newElement)
+		} else {
+			__mapped.addObject(NSNull.null)
+		}
 		#endif
 	}
 
@@ -202,7 +217,11 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#elseif ECHOES
 		__mapped.Insert(index, newElement)
 		#elseif NOUGAT
-		__mapped.insertObject(newElement, atIndex: index)
+		if let val = newElement {
+			__mapped.insertObject(newElement, atIndex: index)
+		} else {
+			__mapped.insertObject(NSNull.null, atIndex: index)
+		}
 		#endif
 	}
 
@@ -267,6 +286,13 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 				return .NSOrderedDescending
 			}
 		})*/
+		/*java.util.Collections.sort(__mapped, { (a: T, b: T) -> Int in // TODo: check if this is the right order
+			if isOrderedBefore(a,b) {
+				return 1
+			} else {
+				return -1
+			}
+		})*/	
 		#elseif ECHOES
 		__mapped.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -277,7 +303,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		})
 		#elseif NOUGAT
 		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // TODo: check if this is the right order
-			if isOrderedBefore(a,b) {
+			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedAscending
 			} else {
 				return .NSOrderedDescending
@@ -300,8 +326,8 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		})
 		return result
 		#elseif NOUGAT
-		__mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // TODo: check if this is the right order
-			if isOrderedBefore(a,b) {
+		__mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedAscending
 			} else {
 				return .NSOrderedDescending
