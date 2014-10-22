@@ -3,7 +3,7 @@ var __C_ARGV = String[](0);
 public var C_ARGC: Int { get { return __C_ARGC; } }
 public var C_ARGV: String[] { get { return __C_ARGV; } }
 
-public func `@@setArgV`(args: String[]) {
+public func `$$setArgV`(args: String[]) {
 	__C_ARGC = length(args);
 	__C_ARGV = args;
 }
