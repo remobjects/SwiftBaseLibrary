@@ -18,7 +18,6 @@ public func __stringArrayToCStringArray(arcv: String[]) -> (UnsafePointer<AnsiCh
 		} else {
 			result[i] = nil
 		}
-		//result[i] = arcv[i] != nil ? arcv[i].UTF8String : ""
 	}
 	return result
 }

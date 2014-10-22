@@ -18,18 +18,6 @@ __mapped public class Array<T> => java.util.ArrayList<T> {
 #elseif ECHOES
 __mapped public class Array<T> => System.Collections.Generic.List<T> {
 #endif
-	/*private
-	method SetItem(&Index: Integer Value: T)
-	method GetItem(&Index: Integer): T*/
-
-	//hack for now so we have a "mapped" field
-	/*#if COOPER
-	let mapped: java.util.ArrayList<T>!
-	#elseif ECHOES
-	let mapped: System.Collections.Generic.List<T>!
-	#elseif NOUGAT
-	let mapped: Foundation.NSMutableArray!
-	#endif*/
 
 	init() {
 		#if COOPER
@@ -51,6 +39,37 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 	
+	init (array: T[]) {		
+		/*if array == nil {
+			return init() //70153: Silver: need a way to call a secondary init() from a mapped class initializer
+		}*/
+		
+		#if COOPER
+		if array != nil {
+			return ArrayList<T>(java.util.Arrays.asList(array))
+		} else {
+			return ArrayList<T>()
+		}
+		#elseif ECHOES
+		if array != nil {
+			return List<T>(array)
+		} else {
+			return List<T>()
+		}
+		#elseif NOUGAT
+		if array != nil {
+			//70152: Silver: need option to cast T[] to to ^T
+			//let result = NSMutableArray.arrayWithObjects(array, count: length(array))
+			let result = NSMutableArray(capacity: length(array))
+			for var i: Int =0; i <  length(array); i++ {
+				result.addObject(array[i])
+			}
+		} else {
+			return NSMutableArray.array()
+		}
+		#endif		
+	}
+	
 	#if NOUGAT
 	init (NSArray array: NSArray<T>) {
 		return array.mutableCopy()
@@ -60,16 +79,13 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	}*/
 	#endif
 	
-	
-	init (array: T[]) { // Low-level arrays
-		//todo
-	}
-	
 	init (sequence: ISequence<T>) {
 		#if COOPER
+		return sequence.ToList()
 		#elseif ECHOES
 		return sequence.ToList()
 		#elseif NOUGAT
+		return sequence.array().mutableCopy()
 		#endif
 	}
 
@@ -99,11 +115,12 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 	
 	public var capacity: Int { 
 		#if COOPER
+		return -1
 		#elseif ECHOES
 		return __mapped.Capacity
 		#elseif NOUGAT
+		return -1
 		#endif
-		return -1 // todo
 	}
 
 	public var isEmpty: Bool { 
@@ -135,7 +152,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public mutating func extend(sequence: ISequence<T>) {
 		#if COOPER
-		//__mapped.addAll(sequence.ToList()) // 70077: Silver: Cant pass "ArrayList<T>!" as "Collection<T>!" because Co-variance
+		__mapped.addAll(sequence.ToList())
 		#elseif ECHOES
 		__mapped.AddRange(sequence.ToList())
 		#elseif NOUGAT
@@ -255,7 +272,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public func sorted(isOrderedBefore: (T, T) -> Bool) -> [T] { 
 		#if COOPER
-		//todo, clone fromabove once it works
+		//todo, clone from above once it works
 		#elseif ECHOES
 		let result: List<T> = [T](items: self) 
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
@@ -277,7 +294,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 
-	public func map<U>(transform: (T) -> U) -> ISequence<U> { // we deliberatey change this to return a sequence, not an array, for efficiency.
+	public func map<U>(transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		//return __mapped.Select(transform) // 70053: Silver: can't call LINQ Selecr or Where on mapped Cooper array
 		#elseif ECHOES
@@ -287,17 +304,11 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 
-	public func reverse() -> ISequence<T> { // we deliberatey change this to return a sequence, not an array, for efficiency.
-		#if COOPER
-		return (__mapped as ISequence<T>).Reverse() as ISequence<T> // 70100: Silver: Cooper: Type mismatch, cannot assign "Iterable<T>" to "ISequence<T>"
-		#elseif ECHOES
-		return (__mapped as ISequence<T>).Reverse() 
-		#elseif NOUGAT
-		return (__mapped as ISequence<T>).Reverse() 
-		#endif
+	public func reverse() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+		return (__mapped as ISequence<T>).Reverse()
 	}
 
-	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey change this to return a sequence, not an array, for efficiency.
+	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		//return __mapped.Where(includeElement) // 70053: Silver: can't call LINQ Selecr or Where on mapped Cooper array
 		#elseif ECHOES

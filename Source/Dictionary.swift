@@ -38,8 +38,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	/// Create an instance initialized with `elements`.
-	/*init(dictionaryLiteral elements: (Key, Value)...) { // Language element not supported on this target platform
+	/*init(dictionaryLiteral elements: (Key, Value)...) { // 70146: Silver: support "params" syntax with "..."
 	}*/
 
 	subscript (key: Key) -> Value? {
@@ -62,9 +61,9 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 			#if COOPER
 			__mapped[key] = newValue
 			#elseif ECHOES
-			//__mapped[key] = newValue // 70037: Silver: can't assign nullable to .NET dictionary in mapped type
+			__mapped[key] = newValue
 			#elseif NOUGAT
-			if let val = newValue { // 70036: Silver: "if let" expression warns to "always evaluate to true"
+			if let val = newValue {
 				__mapped[key] = val
 			} else {
 				__mapped.removeObjectForKey(key)
@@ -74,51 +73,51 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	}
 
 	mutating func updateValue(value: Value, forKey key: Key) -> Value? {
-			#if COOPER
-			if __mapped.containsKey(key) {
-				let old = __mapped[key]
-				__mapped[key] = value
-				return old
-			}
-			return nil
-			#elseif ECHOES
-			if __mapped.ContainsKey(key) {
-				let old = __mapped[key]
-				__mapped[key] = value
-				return old
-			}
-			return nil
-			#elseif NOUGAT
+		#if COOPER
+		if __mapped.containsKey(key) {
 			let old = __mapped[key]
-			if let val = value { // 70036: Silver: "if let" expression warns to "always evaluate to true"
-				__mapped[key] = val
-			} else {
-				__mapped.removeObjectForKey(key)
-			}
+			__mapped[key] = value
 			return old
-			#endif
+		}
+		return nil
+		#elseif ECHOES
+		if __mapped.ContainsKey(key) {
+			let old = __mapped[key]
+			__mapped[key] = value
+			return old
+		}
+		return nil
+		#elseif NOUGAT
+		let old = __mapped[key]
+		if let val = value {
+			__mapped[key] = val
+		} else {
+			__mapped.removeObjectForKey(key)
+		}
+		return old
+		#endif
 	}
 
 	mutating func removeValueForKey(key: Key) -> Value? {
-			#if COOPER
-			if __mapped.containsKey(key) {
-				let old = __mapped[key]
-				//__mapped[key] = nil // 70049: Silver: can't store nil mapped generic dictionary, Cooper only
-				return old
-			}
-			return nil
-			#elseif ECHOES
-			if __mapped.ContainsKey(key) {
-				let old = __mapped[key]
-				__mapped[key] = nil
-				return old
-			}
-			return nil
-			#elseif NOUGAT
+		#if COOPER
+		if __mapped.containsKey(key) {
 			let old = __mapped[key]
-			__mapped.removeObjectForKey(key)
+			__mapped.remove(key)
 			return old
-			#endif
+		}
+		return nil
+		#elseif ECHOES
+		if __mapped.ContainsKey(key) {
+			let old = __mapped[key]
+			__mapped.Remove(key)
+			return old
+		}
+		return nil
+		#elseif NOUGAT
+		let old = __mapped[key]
+		__mapped.removeObjectForKey(key)
+		return old
+		#endif
 	}
 
 	mutating func removeAll(keepCapacity: Bool = default) {
@@ -151,7 +150,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	var keys: ISequence<Key> { // we deliberatey change this to return a sequence, not an array, for efficiency.
+	var keys: ISequence<Key> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		return __mapped.keySet()
 		#elseif ECHOES
@@ -161,7 +160,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	var values: ISequence<Value> { // we deliberatey change this to return a sequence, not an array, for efficiency.
+	var values: ISequence<Value> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		return __mapped.values()
 		#elseif ECHOES
@@ -170,27 +169,4 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		return __mapped.allValues as ISequence<Value>
 		#endif
 	}
-	
-	// wont support:
-	/*
-	var startIndex: DictionaryIndex<Key, Value> { get }
-	var endIndex: DictionaryIndex<Key, Value> { get }
-
-	func indexForKey(key: Key) -> DictionaryIndex<Key, Value>? {
-	}
-	
-	subscript (position: DictionaryIndex<Key, Value>) -> (Key, Value) { 
-		get {
-		}
-	}
-	mutating func removeAtIndex(index: DictionaryIndex<Key, Value>) {
-	}
-
-	/// Return a *generator* over the (key, value) pairs.
-	///
-	/// Complexity: O(1)
-	func generate() -> DictionaryGenerator<Key, Value> {
-	}
-	*/
-
 }
