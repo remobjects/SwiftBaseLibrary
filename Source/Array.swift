@@ -278,21 +278,13 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public mutating func sort(isOrderedBefore: (T, T) -> Bool) {
 		#if COOPER
-		//70057: Silver: support for anonymous classes & nested classes
-		/*java.util.Collections.sort(mapped, new class java.util.Comparator<T>(compare: { (a: id!, b: id!) -> NSComparisonResult in // TODo: check if this is the right order
-			if isOrderedBefore(a,b) {
-				return .NSOrderedAscending
-			} else {
-				return .NSOrderedDescending
-			}
-		})*/
-		/*java.util.Collections.sort(__mapped, { (a: T, b: T) -> Int in // TODo: check if this is the right order
+		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {
 				return -1
 			}
-		})*/	
+		}})	
 		#elseif ECHOES
 		__mapped.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -302,7 +294,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 			}
 		})
 		#elseif NOUGAT
-		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // TODo: check if this is the right order
+		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedAscending
 			} else {
@@ -314,7 +306,15 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 
 	public func sorted(isOrderedBefore: (T, T) -> Bool) -> [T] { 
 		#if COOPER
-		//todo, clone from above once it works
+		let result: ArrayList<T> = [T](items: self) 
+		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
+			if isOrderedBefore(a,b) {
+				return 1
+			} else {
+				return -1
+			}
+		}})	
+		return result
 		#elseif ECHOES
 		let result: List<T> = [T](items: self) 
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
