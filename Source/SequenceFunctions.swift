@@ -9,18 +9,18 @@ import Foundation
 import RemObjects.Elements.Linq
 #endif
 
-//70103: Silver: should be able to overload global functions by name type.
-/*func countElements(source: String?) -> Int {
+func countElements(source: String?) -> Int {
 	return length(source)
 }
 
 func countElements<T>(source: [T]?) -> Int {
-	return length(source)
+	return source?.count
+	//return length(source) // 70204: length() CMF should work with NS(Mutable)Array, and with Silver [T] arrays
 }
 
 func countElements<T>(source: T[]?) -> Int {
 	return length(source)
-}*/
+}
 
 func countElements<T>(source: ISequence<T>?) -> Int {
 	if let s = source {
@@ -33,9 +33,13 @@ func countElements<T>(source: ISequence<T>?) -> Int {
 	return 0
 }
 
-func count<T>(source: ISequence<T>) -> Int { // inline?
-	return countElements(source)
-}
+/* count() just duplicates countElements. We know, Ugh. */
+
+// 70205: Silver: __inline support
+func count(source: String?) -> Int { return countElements(source) }
+func count<T>(source: [T]?) -> Int { return countElements(source) }
+func count<T>(source: T[]?) -> Int { return countElements(source) }
+func count<T>(source: ISequence<T>) -> Int { return countElements(source) }
 
 func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) -> Bool {
 	if let s = source {
