@@ -9,20 +9,20 @@ import Foundation
 import RemObjects.Elements.Linq
 #endif
 
-func countElements(source: String?) -> Int {
+__inline func countElements(source: String?) -> Int {
 	return length(source)
 }
 
-func countElements<T>(source: [T]?) -> Int {
+__inline func countElements<T>(source: [T]?) -> Int {
 	return source?.count
 	//return length(source) // 70204: length() CMF should work with NS(Mutable)Array, and with Silver [T] arrays
 }
 
-func countElements<T>(source: T[]?) -> Int {
+__inline func countElements<T>(source: T[]?) -> Int {
 	return length(source)
 }
 
-func countElements<T>(source: ISequence<T>?) -> Int {
+__inline func countElements<T>(source: ISequence<T>?) -> Int {
 	if let s = source {
 		#if COOPER | ECHOES
 		return s.Count()
@@ -35,13 +35,12 @@ func countElements<T>(source: ISequence<T>?) -> Int {
 
 /* count() just duplicates countElements. We know, Ugh. */
 
-// 70205: Silver: __inline support
-func count(source: String?) -> Int { return countElements(source) }
-func count<T>(source: [T]?) -> Int { return countElements(source) }
-func count<T>(source: T[]?) -> Int { return countElements(source) }
-func count<T>(source: ISequence<T>) -> Int { return countElements(source) }
+__inline func count(source: String?) -> Int { return countElements(source) }
+__inline func count<T>(source: [T]?) -> Int { return countElements(source) }
+__inline func count<T>(source: T[]?) -> Int { return countElements(source) }
+__inline func count<T>(source: ISequence<T>) -> Int { return countElements(source) }
 
-func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) -> Bool {
+__inline func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) -> Bool {
 	if let s = source {
 		#if COOPER
 		return s.Any({ return predicate($0) })
@@ -54,7 +53,7 @@ func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) -> Bool {
 	return false
 }
 
-public func filter<T>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISequence<T> {
+__inline public func filter<T>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISequence<T> {
 	#if COOPER
 	return source.Where({ return includeElement($0) })
 	#elseif ECHOES
@@ -64,14 +63,14 @@ public func filter<T>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISeq
 	#endif
 }
 
-func isEmpty<T>(source: ISequence<T>?) -> Bool {
+__inline func isEmpty<T>(source: ISequence<T>?) -> Bool {
 	if let s = source {
 		return !s.Any()
 	}
 	return true
 }
 
-public func map<T, U>(source: ISequence<T>, transform: (T) -> U) -> ISequence<U> {
+__inline public func map<T, U>(source: ISequence<T>, transform: (T) -> U) -> ISequence<U> {
 	#if COOPER
 	return source.Select({ return transform($0) })
 	#elseif ECHOES | NOUGAT
@@ -79,12 +78,12 @@ public func map<T, U>(source: ISequence<T>, transform: (T) -> U) -> ISequence<U>
 	#endif
 }
 
-public func reverse<T>(source: ISequence<T>) -> ISequence<T>
+__inline public func reverse<T>(source: ISequence<T>) -> ISequence<T>
 {
 	return source.Reverse()
 }
 
-public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,T) -> Bool) -> [T]
+__inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,T) -> Bool) -> [T]
 {
 	//70099: Silver: several weird errors implementing global sorted() method
 	/*let result = [T](sequence: source) 

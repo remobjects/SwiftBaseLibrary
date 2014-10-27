@@ -9,7 +9,6 @@
         <Import_RootNamespace>Swift.Shared</Import_RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <None Include="Swift.swift"/>
         <Compile Include="Protocols.swift"/>
         <Compile Include="SequenceFunctions.swift"/>
         <Compile Include="Functions.swift"/>
