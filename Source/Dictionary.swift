@@ -47,8 +47,9 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	}
 	#endif
 
-	/*init(dictionaryLiteral elements: (Key, Value)...) { // 70146: Silver: support "params" syntax with "..."
-	}*/
+	init(dictionaryLiteral elements: (Key, Value)...) {
+		//todo
+	}
 
 	subscript (key: Key) -> Value? {
 		get {
