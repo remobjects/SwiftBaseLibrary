@@ -123,9 +123,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	mutating func removeValueForKey(key: Key) -> Value? {
 		#if COOPER
 		if __mapped.containsKey(key) {
-			let old = __mapped[key]
-			__mapped.remove(key)
-			return old
+			return __mapped.remove(key)
 		}
 		return nil
 		#elseif ECHOES

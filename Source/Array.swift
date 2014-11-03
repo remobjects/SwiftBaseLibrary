@@ -103,7 +103,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 	
-	subscript (index: Int) -> T? {
+	subscript (index: Int) -> T {
 		get {
 			var value = __mapped[index]
 			#if NOUGAT
@@ -119,11 +119,7 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 			#elseif ECHOES
 			__mapped[index] = newValue
 			#elseif NOUGAT
-			if let val = newValue {
-				__mapped[index] = val
-			} else {
-				__mapped[index] = NSNull.null
-			}
+			__mapped[index] = newValue
 			#endif
 		}
 	}
