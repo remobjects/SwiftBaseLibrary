@@ -14,8 +14,7 @@ __inline func countElements(source: String?) -> Int {
 }
 
 __inline func countElements<T>(source: [T]?) -> Int {
-	return source?.count
-	//return length(source) // 70204: length() CMF should work with NS(Mutable)Array, and with Silver [T] arrays
+	return length(source)
 }
 
 __inline func countElements<T>(source: T[]?) -> Int {

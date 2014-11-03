@@ -69,9 +69,21 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		}
 		set {
 			#if COOPER
-			__mapped[key] = newValue
+			if let v = newValue {
+				__mapped[key] = v
+			} else { 
+					if __mapped.containsKey(key) {
+					__mapped.remove(key)
+				} 
+			}
 			#elseif ECHOES
-			__mapped[key] = newValue
+			if let v = newValue {
+				__mapped[key] = v
+			} else { 
+					if __mapped.ContainsKey(key) {
+					__mapped.Remove(key)
+				} 
+			}
 			#elseif NOUGAT
 			if let val = newValue {
 				__mapped[key] = val

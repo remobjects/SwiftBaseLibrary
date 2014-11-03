@@ -39,7 +39,8 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		#endif
 	}
 	
-	init (array: T[]) {		
+	//init (array: T[]) { } // same as below.
+	init(arrayLiteral array: T...) {
 		if array == nil || length(array) == 0 {
 			return [T]()
 		}
@@ -89,9 +90,6 @@ __mapped public class Array<T> => System.Collections.Generic.List<T> {
 		return newSelf
 	}
 	
-	/*init(arrayLiteral elements: T...) { // 70146: Silver: support "params" syntax with "..."
-	}*/
-
 	public func nativeArray() -> T[] {
 		#if COOPER
 		return __mapped.toArray(T[](__mapped.Count))
