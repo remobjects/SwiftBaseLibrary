@@ -12,11 +12,11 @@ import RemObjects.Elements.Linq
 
 
 #if NOUGAT
-__mapped public class Array<T: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableArray {
+__mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
 #elseif COOPER
-__mapped public class Array<T> => java.util.ArrayList<T> {
+__mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
 #elseif ECHOES
-__mapped public class Array<T> => System.Collections.Generic.List<T> {
+__mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
 #endif
 
 	init() {

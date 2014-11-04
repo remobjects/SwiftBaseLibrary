@@ -48,7 +48,11 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	#endif
 
 	init(dictionaryLiteral elements: (Key, Value)...) {
-		//todo
+		var result = init(minimumCapacity: length(elements))
+		for e in elements {
+			//result[e[0]] = e[1] ////70318: Silver: cast assign from tuple to generic dictionary
+		}
+		return result
 	}
 
 	subscript (key: Key) -> Value? {
