@@ -22,11 +22,11 @@ protocol Hashable : Equatable {
 	var hashValue: Int { get }
 }
 
-
+/*
 protocol ArrayBoundType {
 	typealias ArrayBound
 	var arrayBoundValue: ArrayBound { get }
-}
+}*/
 
 /* Numbers */
 
@@ -94,10 +94,10 @@ protocol _Incrementable : Equatable {
 	//func successor() -> Self
 }
 
-protocol _IntegerType : IntegerLiteralConvertible, Printable, ArrayBoundType, Hashable, IntegerArithmeticType, BitwiseOperationsType, _Incrementable {
+protocol _IntegerType : /*IntegerLiteralConvertible, */Printable, /*ArrayBoundType, */Hashable, IntegerArithmeticType, BitwiseOperationsType, _Incrementable {
 }
 
-protocol _SignedNumberType : Comparable, IntegerLiteralConvertible {
+protocol _SignedNumberType : Comparable/*, IntegerLiteralConvertible */{
 	//func -(lhs: Self, rhs: Self) -> Self
 }
 
@@ -138,6 +138,7 @@ protocol SequenceType : _Sequence_Type {
 	//func generate() -> Generator
 }
 
+/*
 protocol _CollectionType : _SequenceType {
 	//typealias Index : ForwardIndexType
 	//var startIndex: Index { get }
@@ -150,6 +151,8 @@ protocol CollectionType : _CollectionType, SequenceType {
 	//subscript (i: Self.Index) -> Self.Generator.Element { get }
 }
 
+
+
 protocol _Sliceable : CollectionType {
 }
 
@@ -157,4 +160,5 @@ protocol Sliceable : _Sliceable {
 	//typealias SubSlice : _Sliceable
 	//subscript (bounds: Range<Self.Index>) -> SubSlice { get }
 }
+*/
 

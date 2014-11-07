@@ -21,13 +21,15 @@ protocol DictionaryLiteralConvertible {
 	}*/
 }
 
+/*
 protocol ExtendedGraphemeClusterLiteralConvertible : UnicodeScalarLiteralConvertible {
 	typealias ExtendedGraphemeClusterLiteralType
 
 	/// Create an instance initialized to `value`.
-	/*init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-	}*/		
+	init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
+	}
 }
+*/
 
 protocol FloatLiteralConvertible {
 	typealias FloatLiteralType
@@ -35,36 +37,37 @@ protocol FloatLiteralConvertible {
 	/*init(floatLiteral value: FloatLiteralType) {
 	}*/
 }
+/*
 protocol IntegerLiteralConvertible {
 	typealias IntegerLiteralType
 
-	/*init(integerLiteral value: IntegerLiteralType) {
-	}*/
-}
+	init(integerLiteral value: IntegerLiteralType) {
+	}
+}*/
 
 protocol NilLiteralConvertible {
 
 	/*init(nilLiteral: ()) {
 	}*/
 }
-
+/*
 protocol StringLiteralConvertible : ExtendedGraphemeClusterLiteralConvertible {
 	typealias StringLiteralType
 
-	/*init(stringLiteral value: StringLiteralType) {
-	}*/
+	init(stringLiteral value: StringLiteralType) {
+	}
 }
 
 protocol UnicodeScalarLiteralConvertible {
 	typealias UnicodeScalarLiteralType
 
-	/*init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-	}*/
-}
+	init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
+	}
+}*/
 
 
 #if NOUGAT
-extension NSURL: StringLiteralConvertible {
+extension NSURL/*: StringLiteralConvertible*/ {
 	
 	//typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
 	
