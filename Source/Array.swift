@@ -50,7 +50,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#elseif ECHOES
 		return List<T>(array)
 		#elseif NOUGAT
-		let result = NSMutableArray.arrayWithObjects(&array[0] as UnsafePointer<id>, count: length(array))
+		return NSMutableArray.arrayWithObjects((&array[0] as UnsafePointer<id>), count: length(array))
 		#endif		
 	}
 	
@@ -98,7 +98,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#elseif NOUGAT
 		let c = count
 		var result = T[](c)
-		__mapped.getObjects(&result[0] as UnsafePointer<id>, range: NSMakeRange(0, c))
+		__mapped.getObjects((&result[0] as UnsafePointer<id>), range: NSMakeRange(0, c))
 		return result
 		#endif
 	}
