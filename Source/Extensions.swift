@@ -1,20 +1,20 @@
 ﻿
 #if !NOUGAT
-extension Object : Printable, DebugPrintable {
+extension Object  {
 
 	var description: String {
 		#if COOPER
-		return toString()
+		return self.toString()
 		#elseif ECHOES
-		return ToString()
+		return self.ToString()
 		#endif
 	}
 
 	var debugDescription: String { 
 		#if COOPER
-		return toString()
+		return self.toString()
 		#elseif ECHOES
-		return ToString()
+		return self.ToString()
 		#endif
 	}
 }
