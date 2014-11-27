@@ -9,7 +9,7 @@ struct RangeGenerator_IntMax {
 	private var _index: IntMax
 
 	/* GeneratorType */
-	mutating func next() -> IntMax? {
+	public mutating func next() -> IntMax? {
 		if _index < _bounds.endIndex {
 			return _index++
 		}
@@ -28,7 +28,7 @@ public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEqua
 		endIndex = end
 	}
 	
-	var isEmpty: Bool { 
+	public var isEmpty: Bool { 
 		return startIndex == endIndex
 	}
 	
@@ -36,7 +36,7 @@ public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEqua
 	typealias Index = IntMax
 	//typealias Slice = Range<Index>
 	
-	subscript (i: IntMax) -> IntMax { 
+	public subscript (i: IntMax) -> IntMax { 
 		return startIndex + i;
 	}
 	
@@ -45,17 +45,17 @@ public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEqua
 		return RangeGenerator_IntMax(self)
 	}
 	
-	var startIndex: IntMax 
-	var endIndex: IntMax
+	public var startIndex: IntMax 
+	public var endIndex: IntMax
 
 	/* Equatable */
 
-	func ==(lhs: Self, rhs: Self) -> Bool {
+	public func ==(lhs: Self, rhs: Self) -> Bool {
 		return lhs.startIndex == rhs.startIndex && lhs.endIndex == rhs.endIndex
 	}
 	
 	/* IEquatable<T> */
-	func Equals(rhs: /*Self*/Range) -> Bool { // 69955: Silver: two issues wit "Self" vs concrete generic type
+	public func Equals(rhs: /*Self*/Range) -> Bool { // 69955: Silver: two issues wit "Self" vs concrete generic type
 		return startIndex == rhs.startIndex && endIndex == rhs.endIndex 
 	}
 	

@@ -367,6 +367,20 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}*/
 	/*mutating func removeRange(subRange: Range<Int>) {
 	}*/
+	
+	//
+	// Silver-specific extensions not efined in standard Swift.Array:
+	//
+
+	public func contains(item: T) -> Bool {
+		#if COOPER
+		return __mapped.contains(item)
+		#elseif ECHOES
+		return __mapped.Contains(item)
+		#elseif NOUGAT
+		return __mapped.containsObject(item)
+		#endif
+	}
 
 }
 
