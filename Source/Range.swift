@@ -2,45 +2,45 @@
 infix operator ..< { precedence 135 associativity none }
 
 extension Int32 {
-  func ... (a: Int32, b: Int32) -> ISequence<Int32> {
-    for var i = a; i <= b; i++ {
-      __yield i;
-    }
-  }
-  func ... (a: Int64, b: Int32) -> ISequence<Int64> {
-    for var i: Int64 = a; i <= b; i++ {
-      __yield i;
-    }
-  }
-  func ... (a: Int32, b: Int64) -> ISequence<Int64> {
-    for var i: Int64 = a; i <= b; i++ {
-      __yield i;
-    }
-  }
-  func ..< (a: Int32, b: Int32) -> ISequence<Int32> {
-    for var i = a; i < b; i++ {
-      __yield i;
-    }
-  }
-  func ..< (a: Int64, b: Int32) -> ISequence<Int64> {
-    for var i: Int64 = a; i < b; i++ {
-      __yield i;
-    }
-  }
-  func ..< (a: Int32, b: Int64) -> ISequence<Int64> {
-    for var i: Int64 = a; i < b; i++ {
-      __yield i;
-    }
-  }
-}
-extension Int64 {
-  func ..< (a: Int64, b: Int64) -> ISequence<Int64> {
-    for var i = a; i < b; i++ {
-      __yield i;
-    }
-  }
+	func ... (a: Int32, b: Int32) -> ISequence<Int32> {
+		for var i = a; i <= b; i++ {
+			__yield i;
+		}
+	}
+	func ... (a: Int64, b: Int32) -> ISequence<Int64> {
+		for var i: Int64 = a; i <= b; i++ {
+			__yield i;
+		}
+	}
+	func ... (a: Int32, b: Int64) -> ISequence<Int64> {
+		for var i: Int64 = a; i <= b; i++ {
+			__yield i;
+		}
+	}
+	func ..< (a: Int32, b: Int32) -> ISequence<Int32> {
+		for var i = a; i < b; i++ {
+			__yield i;
+		}
+	}
+	func ..< (a: Int64, b: Int32) -> ISequence<Int64> {
+		for var i: Int64 = a; i < b; i++ {
+			__yield i;
+		}
+	}
+	func ..< (a: Int32, b: Int64) -> ISequence<Int64> {
+		for var i: Int64 = a; i < b; i++ {
+			__yield i;
+		}
+	}
 }
 
+extension Int64 {
+	func ..< (a: Int64, b: Int64) -> ISequence<Int64> {
+		for var i = a; i < b; i++ {
+			__yield i;
+		}
+	}
+}
 
 struct RangeGenerator_IntMax { 
 	
