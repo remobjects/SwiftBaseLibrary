@@ -71,6 +71,13 @@ public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEqua
 		endIndex = end
 	}
 	
+	#if NOUGAT
+	init(range: NSRange) {
+		startIndex = range.location
+		endIndex = startIndex+range.length
+	}
+	#endif
+	
 	public var isEmpty: Bool { 
 		return startIndex == endIndex
 	}

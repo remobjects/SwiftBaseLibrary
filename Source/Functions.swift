@@ -1,5 +1,5 @@
 ﻿
-func println(object: Any? = nil) {
+public func println(object: Any? = nil) {
 	if let unwrappedObject = object {
 		writeLn(unwrappedObject)
 	} else {
@@ -7,7 +7,7 @@ func println(object: Any? = nil) {
 	}
 }
 
-func print(object: Any? = nil) {
+public func print(object: Any? = nil) {
 	if let unwrappedObject = object {
 		write(unwrappedObject)
 	} 

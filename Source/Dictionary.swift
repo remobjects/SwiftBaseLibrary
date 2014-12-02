@@ -55,7 +55,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		return result
 	}
 
-	subscript (key: Key) -> Value? {
+	public subscript (key: Key) -> Value? {
 		get {
 			#if COOPER
 			if __mapped.containsKey(key) {
@@ -98,7 +98,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		}
 	}
 
-	mutating func updateValue(value: Value, forKey key: Key) -> Value? {
+	public mutating func updateValue(value: Value, forKey key: Key) -> Value? {
 		#if COOPER
 		if __mapped.containsKey(key) {
 			let old = __mapped[key]
@@ -124,7 +124,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	mutating func removeValueForKey(key: Key) -> Value? {
+	public mutating func removeValueForKey(key: Key) -> Value? {
 		#if COOPER
 		if __mapped.containsKey(key) {
 			return __mapped.remove(key)
@@ -144,7 +144,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	mutating func removeAll(keepCapacity: Bool = default) {
+	public mutating func removeAll(keepCapacity: Bool = default) {
 		#if COOPER
 		__mapped.clear()
 		#elseif ECHOES
@@ -154,7 +154,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	var count: Int {
+	public var count: Int {
 		#if COOPER
 		return __mapped.keySet().Count()
 		#elseif ECHOES
@@ -164,7 +164,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	var isEmpty: Bool { 
+	public var isEmpty: Bool { 
 		#if COOPER
 		return __mapped.isEmpty()
 		#elseif ECHOES
@@ -174,7 +174,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	var keys: ISequence<Key> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+	public var keys: ISequence<Key> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		return __mapped.keySet()
 		#elseif ECHOES
@@ -184,7 +184,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	var values: ISequence<Value> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+	public var values: ISequence<Value> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		return __mapped.values()
 		#elseif ECHOES

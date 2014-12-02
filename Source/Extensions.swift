@@ -2,7 +2,7 @@
 #if !NOUGAT
 extension Object  {
 
-	var description: String {
+	public var description: String {
 		#if COOPER
 		return self.toString()
 		#elseif ECHOES
@@ -10,7 +10,7 @@ extension Object  {
 		#endif
 	}
 
-	var debugDescription: String { 
+	public var debugDescription: String { 
 		#if COOPER
 		return self.toString()
 		#elseif ECHOES
@@ -70,9 +70,9 @@ extension Int64 {
 }
 
 extension UnicodeScalar {
-	func escape(#asASCII: Bool) -> String { // Method "static UnicodeScalar.escape(asASCII: Bool) -> String" hides a method in parent class with the same name and signature
+	public func escape(#asASCII: Bool) -> String { // Method "static UnicodeScalar.escape(asASCII: Bool) -> String" hides a method in parent class with the same name and signature
 	}
-	func isASCII() -> Bool { // Method "static UnicodeScalar.isASCII() -> Bool" hides a method in parent class with the same name and signature
+	public func isASCII() -> Bool { // Method "static UnicodeScalar.isASCII() -> Bool" hides a method in parent class with the same name and signature
 		return self <= 127
 	}
 }
@@ -81,9 +81,15 @@ extension String {
 	
 	typealias Index = Int //69954: Silver: can't define type alias inside extension class
 	
-	var startIndex: /*String.Index*/Int { return 0 }
+	public var startIndex: /*String.Index*/Int { return 0 }
 	
-//	var endIndex: /*String.Index*/Int { return self.length() } //69953: Silver: can't call self members w/o "self." prefix in extension class
+	public var endIndex: /*String.Index*/Int { 
+		#if ECHOES
+		return self.Length
+		#else
+		return self.length() 
+		#endif
+	}
 	
 	/*func generate() -> IndexingGenerator<String> {
 	}*/
@@ -91,8 +97,18 @@ extension String {
 	/*var utf8: UTF8View {
 	}
 	
-	var nulTerminatedUTF8: ContiguousArray<CodeUnit> { get }*/
+	var nulTerminatedUTF8: ContiguousArray<CodeUnit> { 
+		#if ECHOES
+		#elseif NOUGAT
+		return self.UTF8String()
+		#endif
+	}*/
 	
+	/*func rangeOfString(string: String) {
+		#if NOUGAT
+		return rangeOfString()
+		#endif
+	}*/
 	
 }
 #endif
