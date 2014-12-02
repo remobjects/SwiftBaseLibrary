@@ -55,7 +55,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		return result
 	}
 
-	subscript (key: Key) -> Value? {
+	public subscript (key: Key) -> Value? {
 		get {
 			#if COOPER
 			if __mapped.containsKey(key) {

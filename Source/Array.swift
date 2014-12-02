@@ -103,7 +103,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 	
-	subscript (index: Int) -> T {
+	public subscript (index: Int) -> T {
 		get {
 			var value = __mapped[index]
 			#if NOUGAT
