@@ -119,7 +119,11 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 			#elseif ECHOES
 			__mapped[index] = newValue
 			#elseif NOUGAT
-			__mapped[index] = newValue
+			if newValue == nil { // 70869: Silver: wrong "Expression will always evaluate to False"
+				__mapped[index] = NSNull.null
+			} else {
+				__mapped[index] = newValue
+			}
 			#endif
 		}
 	}

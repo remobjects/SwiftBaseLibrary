@@ -20,7 +20,6 @@ extension Object  {
 }
 #endif
 
-#if !NOUGAT // for now
 extension UInt8 {
 	public static let max: UInt8 = 0xff
 	public static let min: UInt8 = 0
@@ -111,5 +110,4 @@ extension String {
 	}*/
 	
 }
-#endif
 
