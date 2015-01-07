@@ -69,11 +69,38 @@ extension Int64 {
 }
 
 extension UnicodeScalar {
-	public func escape(#asASCII: Bool) -> String { // Method "static UnicodeScalar.escape(asASCII: Bool) -> String" hides a method in parent class with the same name and signature
+	
+	var value: UInt32 { 
+		return self as UInt32 
 	}
+	
+	public func escape(# asASCII: Bool) -> String {
+		if asASCII && !isASCII() {
+			#if COOPER
+			return self.toString()
+			#elseif ECHOES
+			return self.ToString()
+			#elseif NOUGAT
+			return self.description
+			#endif
+		}
+		else {
+			#if COOPER
+			return String.format("\\u{%8x}", self as Int32)
+			#elseif ECHOES
+			return String.Format("\\u{{{0:X8}}}", self as Int32)
+			#elseif NOUGAT
+			return String.stringWithFormat("\\u{%8x}", self as Int32)
+			#endif
+		}
+	}
+	
 	public func isASCII() -> Bool { // Method "static UnicodeScalar.isASCII() -> Bool" hides a method in parent class with the same name and signature
 		return self <= 127
 	}
+	
+	/*func writeTo<Target : OutputStreamType>(inout target: Target) {
+	}*/
 }
 
 extension String {
