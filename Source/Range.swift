@@ -35,6 +35,11 @@ extension Int32 {
 }
 
 extension Int64 {
+	func ... (a: Int64, b: Int64) -> ISequence<Int64> {
+		for var i = a; i <= b; i++ {
+			__yield i;
+		}
+	}
 	func ..< (a: Int64, b: Int64) -> ISequence<Int64> {
 		for var i = a; i < b; i++ {
 			__yield i;
