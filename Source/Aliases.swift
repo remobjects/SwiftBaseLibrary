@@ -29,7 +29,7 @@ typealias AnyObject = protocol<> //Dynamic;
 //typealias AnyClass = AnyObject.Type
 
 
-/* more absucre integer aliases */
+/* more obsucre integer aliases */
 
 typealias BooleanLiteralType = Bool
 typealias CBool = Bool
