@@ -2,32 +2,38 @@
 infix operator ..< { precedence 135 associativity none }
 
 extension Int32 {
-	func ... (a: Int32, b: Int32) -> ISequence<Int32> {
+	
+	public func ... (a: Int32, b: Int32) -> ISequence<Int32> {
 		for var i = a; i <= b; i++ {
 			__yield i;
 		}
 	}
-	func ... (a: Int64, b: Int32) -> ISequence<Int64> {
+	
+	public func ... (a: Int64, b: Int32) -> ISequence<Int64> {
 		for var i: Int64 = a; i <= b; i++ {
 			__yield i;
 		}
 	}
-	func ... (a: Int32, b: Int64) -> ISequence<Int64> {
+	
+	public func ... (a: Int32, b: Int64) -> ISequence<Int64> {
 		for var i: Int64 = a; i <= b; i++ {
 			__yield i;
 		}
 	}
-	func ..< (a: Int32, b: Int32) -> ISequence<Int32> {
+	
+	public func ..< (a: Int32, b: Int32) -> ISequence<Int32> {
 		for var i = a; i < b; i++ {
 			__yield i;
 		}
 	}
-	func ..< (a: Int64, b: Int32) -> ISequence<Int64> {
+	
+	public func ..< (a: Int64, b: Int32) -> ISequence<Int64> {
 		for var i: Int64 = a; i < b; i++ {
 			__yield i;
 		}
 	}
-	func ..< (a: Int32, b: Int64) -> ISequence<Int64> {
+	
+	public func ..< (a: Int32, b: Int64) -> ISequence<Int64> {
 		for var i: Int64 = a; i < b; i++ {
 			__yield i;
 		}
@@ -35,12 +41,14 @@ extension Int32 {
 }
 
 extension Int64 {
-	func ... (a: Int64, b: Int64) -> ISequence<Int64> {
+	
+	public func ... (a: Int64, b: Int64) -> ISequence<Int64> {
 		for var i = a; i <= b; i++ {
 			__yield i;
 		}
 	}
-	func ..< (a: Int64, b: Int64) -> ISequence<Int64> {
+	
+	public func ..< (a: Int64, b: Int64) -> ISequence<Int64> {
 		for var i = a; i < b; i++ {
 			__yield i;
 		}
@@ -66,18 +74,18 @@ struct RangeGenerator_IntMax {
 }
 
 public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
-	init(_ x: Self) {
+	public init(_ x: Self) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
 	}
 	
-	init(start: IntMax, end: IntMax) {
+	public init(start: IntMax, end: IntMax) {
 		startIndex = start
 		endIndex = end
 	}
 	
 	#if NOUGAT
-	init(range: NSRange) {
+	public init(range: NSRange) {
 		startIndex = range.location
 		endIndex = startIndex+range.length
 	}

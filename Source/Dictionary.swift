@@ -18,7 +18,7 @@ __mapped public class Dictionary<Key,Value> => java.util.HashMap<Key,Value> {
 __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictionary<Key,Value> {
 #endif
 
-	init() {
+	public init() {
 		#if COOPER
 		return java.util.HashMap<Key,Value>()
 		#elseif ECHOES
@@ -28,7 +28,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	init(minimumCapacity: Int) {
+	public init(minimumCapacity: Int) {
 		#if COOPER
 		return java.util.HashMap<Key,Value>(minimumCapacity)
 		#elseif ECHOES
@@ -39,7 +39,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	}
 
 	#if NOUGAT
-	init (NSDictionary dictionary: NSDictionary) {
+	public init (NSDictionary dictionary: NSDictionary) {
 		if dictionary == nil {
 			return Dictionary<Key,Value>()
 		}
@@ -47,7 +47,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	}
 	#endif
 
-	init(dictionaryLiteral elements: (Key, Value)...) {
+	public init(dictionaryLiteral elements: (Key, Value)...) {
 		var result = init(minimumCapacity: length(elements))
 		for e in elements {
 			//result[e[0]] = e[1] ////70318: Silver: cast assign from tuple to generic dictionary

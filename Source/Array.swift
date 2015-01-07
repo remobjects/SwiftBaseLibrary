@@ -19,7 +19,7 @@ __mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
 __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
 #endif
 
-	init() {
+	public init() {
 		#if COOPER
 		return ArrayList<T>()
 		#elseif ECHOES
@@ -29,7 +29,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 	
-	init (items: [T]) {
+	public init (items: [T]) {
 		#if COOPER
 		return items.clone() as [T]
 		#elseif ECHOES
@@ -40,7 +40,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}
 	
 	//init (array: T[]) { } // same as below.
-	init(arrayLiteral array: T...) {
+	public init(arrayLiteral array: T...) {
 		if array == nil || length(array) == 0 {
 			return [T]()
 		}
@@ -55,18 +55,18 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}
 	
 	#if NOUGAT
-	init (NSArray array: NSArray<T>) {
+	public init (NSArray array: NSArray<T>) {
 		if array == nil {
 			return [T]()
 		}
 		return array.mutableCopy()
 	}
 
-	/*init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = default) {
+	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = default) {
 	}*/
 	#endif
 	
-	init (sequence: ISequence<T>) {
+	public init (sequence: ISequence<T>) {
 		#if COOPER
 		return sequence.ToList()
 		#elseif ECHOES
@@ -76,7 +76,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 
-	init(count: Int, repeatedValue: T) {
+	public init(count: Int, repeatedValue: T) {
 		#if COOPER
 		let newSelf: [T] = ArrayList<T>(count)
 		#elseif ECHOES

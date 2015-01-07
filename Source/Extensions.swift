@@ -70,7 +70,7 @@ extension Int64 {
 
 extension UnicodeScalar {
 	
-	var value: UInt32 { 
+	public var value: UInt32 { 
 		return self as UInt32 
 	}
 	
@@ -99,7 +99,7 @@ extension UnicodeScalar {
 		return self <= 127
 	}
 	
-	/*func writeTo<Target : OutputStreamType>(inout target: Target) {
+	/*public func writeTo<Target : OutputStreamType>(inout target: Target) {
 	}*/
 }
 
@@ -120,17 +120,17 @@ extension String {
 	/*func generate() -> IndexingGenerator<String> {
 	}*/
 	
-	/*var utf8: UTF8View {
+	/*public var utf8: UTF8View {
 	}
 	
-	var nulTerminatedUTF8: ContiguousArray<CodeUnit> { 
+	public var nulTerminatedUTF8: ContiguousArray<CodeUnit> { 
 		#if ECHOES
 		#elseif NOUGAT
 		return self.UTF8String()
 		#endif
 	}*/
 	
-	/*func rangeOfString(string: String) {
+	/*public func rangeOfString(string: String) {
 		#if NOUGAT
 		return rangeOfString()
 		#endif
