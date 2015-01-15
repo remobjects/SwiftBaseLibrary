@@ -12,3 +12,7 @@ public func print(object: Any? = nil) {
 		write(unwrappedObject)
 	} 
 }
+
+func fatalError(_ message: @autoclosure () -> String = default, file: String = default, line: UWord = default) {
+	__throw Exception(message())
+}
