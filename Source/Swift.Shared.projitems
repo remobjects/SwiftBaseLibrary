@@ -9,15 +9,15 @@
         <Import_RootNamespace>Swift.Shared</Import_RootNamespace>
     </PropertyGroup>
     <ItemGroup>
-        <Compile Include="Protocols.swift"/>
-        <Compile Include="SequenceFunctions.swift"/>
-        <Compile Include="Functions.swift"/>
-        <Compile Include="Extensions.swift"/>
-        <Compile Include="Dictionary.swift"/>
-        <Compile Include="Commandline.swift"/>
-        <Compile Include="Array.swift"/>
-        <Compile Include="Aliases.swift"/>
-        <Compile Include="Range.swift"/>
-        <Compile Include="LiteralConvertibles.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Protocols.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)SequenceFunctions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Functions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Extensions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Dictionary.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Commandline.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Array.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Aliases.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Range.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift"/>
     </ItemGroup>
 </Project>
