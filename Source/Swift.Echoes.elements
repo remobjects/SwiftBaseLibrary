@@ -48,6 +48,7 @@
         <XmlDocWarningLevel>WarningOnPublicMembers</XmlDocWarningLevel>
         <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
         <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+        <DefineConstants>SIGN</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="mscorlib"/>
@@ -60,8 +61,8 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="__AssemblyInfo.cs"/>
+        <Compile Include="__AssemblyInfo.swift"/>
     </ItemGroup>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Echoes.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Oxygene/RemObjects.Oxygene.Echoes.targets"/>
     <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>
