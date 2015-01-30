@@ -105,7 +105,7 @@ extension UnicodeScalar {
 
 extension String {
 	
-	typealias Index = Int //69954: Silver: can't define type alias inside extension class
+	//typealias Index = Int //69954: Silver: can't define type alias inside extension class
 	
 	public var startIndex: /*String.Index*/Int { return 0 }
 	

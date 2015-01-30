@@ -95,8 +95,8 @@ public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEqua
 		return startIndex == endIndex
 	}
 	
-	typealias T = IntMax
-	typealias Index = IntMax
+	//typealias T = IntMax
+	//typealias Index = IntMax
 	//typealias Slice = Range<Index>
 	
 	public subscript (i: IntMax) -> IntMax { 
