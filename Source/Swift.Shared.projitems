@@ -19,5 +19,6 @@
         <Compile Include="$(MSBuildThisFileDirectory)Aliases.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Range.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
     </ItemGroup>
 </Project>
