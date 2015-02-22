@@ -54,7 +54,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#elseif ECHOES
 		return List<T>(elements)
 		#elseif NOUGAT
-		return NSMutableArray.arrayWithObjects((&elements[0] as UnsafePointer<id>), count: length(elements))
+		return NSMutableArray.arrayWithObjects((&elements[0] as! UnsafePointer<id>), count: length(elements))
 		#endif		
 	}
 

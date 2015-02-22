@@ -71,7 +71,7 @@ extension Int64 {
 extension UnicodeScalar {
 	
 	public var value: UInt32 { 
-		return self as UInt32 
+		return self as! UInt32 
 	}
 	
 	public func escape(# asASCII: Bool) -> String {
@@ -86,11 +86,11 @@ extension UnicodeScalar {
 		}
 		else {
 			#if COOPER
-			return String.format("\\u{%8x}", self as Int32)
+			return String.format("\\u{%8x}", self as! Int32)
 			#elseif ECHOES
-			return String.Format("\\u{{{0:X8}}}", self as Int32)
+			return String.Format("\\u{{{0:X8}}}", self as! Int32)
 			#elseif NOUGAT
-			return String.stringWithFormat("\\u{%8x}", self as Int32)
+			return String.stringWithFormat("\\u{%8x}", self as! Int32)
 			#endif
 		}
 	}

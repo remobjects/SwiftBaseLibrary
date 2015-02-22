@@ -31,7 +31,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public init (items: [T]) {
 		#if COOPER
-		return items.clone() as [T]
+		return items.clone() as! [T]
 		#elseif ECHOES
 		return List<T>(items)
 		#elseif NOUGAT
@@ -50,7 +50,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#elseif ECHOES
 		return List<T>(array)
 		#elseif NOUGAT
-		return NSMutableArray.arrayWithObjects((&array[0] as UnsafePointer<id>), count: length(array))
+		return NSMutableArray.arrayWithObjects((&array[0] as! UnsafePointer<id>), count: length(array))
 		#endif		
 	}
 	
@@ -92,13 +92,13 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public var nativeArray: T[] {
 		#if COOPER
-		return __mapped.toArray(T[](__mapped.Count))
+		return __mapped.toArray(T[](__mapped.Count()))
 		#elseif ECHOES
 		return __mapped.ToArray()
 		#elseif NOUGAT
 		let c = count
 		var result = T[](c)
-		__mapped.getObjects((&result[0] as UnsafePointer<id>), range: NSMakeRange(0, c))
+		__mapped.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
 		return result
 		#endif
 	}
@@ -343,7 +343,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}
 
 	public func reverse() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		return (__mapped as ISequence<T>).Reverse()
+		return (__mapped as! ISequence<T>).Reverse()
 	}
 
 	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
