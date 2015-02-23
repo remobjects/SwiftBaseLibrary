@@ -111,11 +111,21 @@ extension String {
 	
 	public var endIndex: /*String.Index*/Int { 
 		#if ECHOES
+		return self.Length-1
+		#else
+		return self.length()-1 
+		#endif
+	}
+	
+	#if !NOUGAT
+	public func length() -> Int {
+		#if ECHOES
 		return self.Length
 		#else
 		return self.length() 
 		#endif
 	}
+	#endif
 	
 	/*func generate() -> IndexingGenerator<String> {
 	}*/

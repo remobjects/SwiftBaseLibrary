@@ -62,6 +62,13 @@ public __inline public func filter<T>(source: ISequence<T>, includeElement: (T) 
 	#endif
 }
 
+/*public __inline func first<T>(source: ISequence<T>?) -> T? { // Type "T" cannot be used as nullable
+	if let s = source {
+		return !s.FirstOrDefault()
+	}
+	return nil
+}*/
+
 public __inline func isEmpty<T>(source: ISequence<T>?) -> Bool {
 	if let s = source {
 		return !s.Any()
@@ -116,4 +123,42 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	#endif
 	return result*/
 }
+
+//public func split<S : Sliceable, R : BooleanType>(elements: S, isSeparator: (S.Generator.Element) -> R, maxSplit: Int = default, allowEmptySlices: Bool = default) -> [S.SubSlice]
+
+public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = default, allowEmptySlices: Bool = default) -> [String] {
+	
+	let result = [String]()
+	var currentString = ""
+	
+	func appendCurrent() -> Bool {
+		if maxSplit > 0 && result.count >= maxSplit {
+			return false
+		}
+		if allowEmptySlices || currentString.length() > 0 {
+			result.append(currentString)
+		}
+		return true
+	}
+	
+	for var i = 0; i < elements.length(); i++ {
+		let ch = elements[i]
+		if isSeparator(ch) {
+			if !appendCurrent() {
+				break
+			}
+			currentString = ""
+		} else {
+			currentString += ch
+		}
+	}
+	
+	if currentString.length() > 0 {
+		appendCurrent()
+	}
+	
+	return result
+}
+
+
 
