@@ -180,7 +180,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#elseif ECHOES
 		return __mapped.Keys
 		#elseif NOUGAT
-		return __mapped.allKeys as ISequence<Key> 
+		return __mapped.allKeys as! ISequence<Key> 
 		#endif
 	}
 
@@ -190,7 +190,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#elseif ECHOES
 		return __mapped.Values
 		#elseif NOUGAT
-		return __mapped.allValues as ISequence<Value>
+		return __mapped.allValues as! ISequence<Value>
 		#endif
 	}
 }

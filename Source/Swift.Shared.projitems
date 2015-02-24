@@ -21,5 +21,6 @@
         <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)String.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
     </ItemGroup>
 </Project>

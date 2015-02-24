@@ -62,6 +62,13 @@ public __inline public func filter<T>(source: ISequence<T>, includeElement: (T) 
 	#endif
 }
 
+/*public __inline func first<T>(source: ISequence<T>?) -> T? { // Type "T" cannot be used as nullable
+	if let s = source {
+		return !s.FirstOrDefault()
+	}
+	return nil
+}*/
+
 public __inline func isEmpty<T>(source: ISequence<T>?) -> Bool {
 	if let s = source {
 		return !s.Any()
@@ -117,3 +124,119 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	return result*/
 }
 
+//public func split<S : Sliceable, R : BooleanType>(elements: S, isSeparator: (S.Generator.Element) -> R, maxSplit: Int = default, allowEmptySlices: Bool = default) -> [S.SubSlice]
+
+public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = default, allowEmptySlices: Bool = default) -> [String] {
+	
+	let result = [String]()
+	var currentString = ""
+	
+	func appendCurrent() -> Bool {
+		if maxSplit > 0 && result.count >= maxSplit {
+			return false
+		}
+		if allowEmptySlices || currentString.length() > 0 {
+			result.append(currentString)
+		}
+		return true
+	}
+	
+	for var i = 0; i < elements.length(); i++ {
+		let ch = elements[i]
+		if isSeparator(ch) {
+			if !appendCurrent() {
+				break
+			}
+			currentString = ""
+		} else {
+			currentString += ch
+		}
+	}
+	
+	if currentString.length() > 0 {
+		appendCurrent()
+	}
+	
+	return result
+}
+
+public func split(elements: String, separatorString separator: String) -> [String] {
+	#if COOPER
+	return [String](arrayLiteral: elements.split(java.util.regex.Pattern.quote(separator)))
+	#elseif ECHOES
+	return [String](arrayLiteral: elements.Split([separator], .None))
+	#elseif NOUGAT
+	return elements.componentsSeparatedByString(separator) as! [String]
+	#endif
+}
+
+public func split(elements: String, separatorChar separator: Char) -> [String] {
+	#if COOPER
+	return [String](arrayLiteral: elements.split(java.util.regex.Pattern.quote(String.valueOf(separator))))
+	#elseif ECHOES
+	return [String](arrayLiteral: elements.Split([separator], .None))
+	#elseif NOUGAT
+	return elements.componentsSeparatedByString(NSString.stringWithFormat("%c", separator)) as! [String]
+	#endif
+}
+
+public func startsWith<T>(s: ISequence<T>, `prefix` p: ISequence<T>) -> Bool {
+	#if COOPER
+	return false
+	#warning TODO: not implemented for Cooper yet
+	#elseif ECHOES
+	let sEnum = s.GetEnumerator()
+	let pEnum = s.GetEnumerator()
+	while true {
+		if pEnum.MoveNext() {
+			if sEnum.MoveNext() {
+				if !EqualityComparer<T>.Default.Equals(sEnum.Current, pEnum.Current) {
+					return false // cound mismatch
+				}
+			} else {
+				return false // reached end of s
+			}
+			
+		} else {
+			return true // reached end of prefix
+		}
+	}
+	return false
+	#elseif NOUGAT
+	let LOOP_SIZE = 16
+	let sState: NSFastEnumerationState = `default`(NSFastEnumerationState)
+	let pState: NSFastEnumerationState = `default`(NSFastEnumerationState)
+	var sObjects = T[](count: LOOP_SIZE)
+	var pObjects = T[](count: LOOP_SIZE)
+	
+	while true {
+		let sCount = s.countByEnumeratingWithState(&sState, objects: sObjects, count: LOOP_SIZE)
+		let pCount = p.countByEnumeratingWithState(&pState, objects: pObjects, count: LOOP_SIZE)
+		if pCount > sCount {
+			return false // s is shorter than prefix
+		}
+		if pCount == 0 {
+			return true // reached end of prefix
+		}
+		for var i = 0; i < sCount; i++ {
+			if i > pCount {
+				return true // reached end of prefix
+			}
+			if !(sState.itemsPtr[i] as! Any).isEqual(pState.itemsPtr[i]) {
+				return false // found mismatch
+			}
+		}
+	}
+	return false // keep wanting at bay
+	#endif
+}
+
+public __inline func startsWith(s: String, `prefix`: String) -> Bool {
+	#if COOPER
+	return s.startsWith(`prefix`)
+	#elseif ECHOES
+	return s.StartsWith(`prefix`)
+	#elseif NOUGAT
+	return s.hasPrefix(`prefix`)
+	#endif
+}
