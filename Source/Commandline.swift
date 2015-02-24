@@ -14,7 +14,7 @@ public func __stringArrayToCStringArray(arcv: [String]) -> (UnsafePointer<AnsiCh
 	var result = UnsafePointer<AnsiChar>[](length(arcv))
 	for var i = 0; i < arcv.count; i++ {
 		if arcv[i] != nil {
-			result[i] = arcv[i].UTF8String
+			result[i] = (arcv[i] as NSString).UTF8String
 		} else {
 			result[i] = nil
 		}

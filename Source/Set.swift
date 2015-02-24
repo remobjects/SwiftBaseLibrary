@@ -10,7 +10,7 @@ import RemObjects.Elements.Linq
 #endif
 
 #if NOUGAT
-__mapped public class Set<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
+__mapped public class Set<T: class> : INSFastEnumeration<T> => Foundation.NSMutableSet {
 #elseif COOPER
 __mapped public class Set<T> : Iterable<T> => java.util.ArrayList<T> {
 #elseif ECHOES
@@ -27,7 +27,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#elseif ECHOES
 		return List<T>()
 		#elseif NOUGAT
-		return NSMutableArray.array()
+		return NSMutableSet.set()
 		#endif
 	}
 
@@ -40,7 +40,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#elseif ECHOES
 		return List<T>()
 		#elseif NOUGAT
-		return NSMutableArray.arrayWithCapacity(minimumCapacity)
+		return NSMutableSet.setWithCapacity(minimumCapacity)
 		#endif
 	}
 
@@ -54,7 +54,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#elseif ECHOES
 		return List<T>(elements)
 		#elseif NOUGAT
-		return NSMutableArray.arrayWithObjects((&elements[0] as UnsafePointer<id>), count: length(elements))
+		return NSMutableSet.setWithObjects((&elements[0] as UnsafePointer<id>), count: length(elements))
 		#endif		
 	}
 
@@ -158,7 +158,11 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	/// A member of the set, or `nil` if the set is empty.
 	var first: T? { 
 		if count > 0 {
+			#if COOPER || ECHOES
 			return __mapped[0]
+			#elseif NOUGAT
+			return __mapped.allObjects[0]
+			#endif
 		}
 		return nil
 	}
