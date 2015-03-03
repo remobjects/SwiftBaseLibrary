@@ -84,10 +84,15 @@ public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEqua
 		endIndex = end
 	}
 	
+	public init(start: IntMax, length: IntMax) {
+		startIndex = start
+		endIndex = start+length-1
+	}
+
 	#if NOUGAT
 	public init(range: NSRange) {
 		startIndex = range.location
-		endIndex = startIndex+range.length
+		endIndex = startIndex+range.length-1
 	}
 	#endif
 	

@@ -23,11 +23,7 @@ public __inline func countElements<T>(source: T[]?) -> Int {
 
 public __inline func countElements<T>(source: ISequence<T>?) -> Int {
 	if let s = source {
-		#if COOPER | ECHOES
 		return s.Count()
-		#elseif NOUGAT
-		return s.count()
-		#endif
 	}
 	return 0
 }
@@ -162,21 +158,21 @@ public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int =
 
 public func split(elements: String, separatorString separator: String) -> [String] {
 	#if COOPER
-	return [String](arrayLiteral: elements.split(java.util.regex.Pattern.quote(separator)))
+	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(separator)))
 	#elseif ECHOES
-	return [String](arrayLiteral: elements.Split([separator], .None))
+	return [String](arrayLiteral: (elements as! System.String).Split([separator], .None))
 	#elseif NOUGAT
-	return elements.componentsSeparatedByString(separator) as! [String]
+	return (elements as! Foundation.NSString).componentsSeparatedByString(separator) as! [String]
 	#endif
 }
 
 public func split(elements: String, separatorChar separator: Char) -> [String] {
 	#if COOPER
-	return [String](arrayLiteral: elements.split(java.util.regex.Pattern.quote(String.valueOf(separator))))
+	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(java.lang.String.valueOf(separator))))
 	#elseif ECHOES
-	return [String](arrayLiteral: elements.Split([separator], .None))
+	return [String](arrayLiteral: (elements as! System.String).Split([separator], .None))
 	#elseif NOUGAT
-	return elements.componentsSeparatedByString(NSString.stringWithFormat("%c", separator)) as! [String]
+	return (elements as! Foundation.NSString).componentsSeparatedByString(NSString.stringWithFormat("%c", separator)) as! [String]
 	#endif
 }
 
@@ -233,10 +229,10 @@ public func startsWith<T>(s: ISequence<T>, `prefix` p: ISequence<T>) -> Bool {
 
 public __inline func startsWith(s: String, `prefix`: String) -> Bool {
 	#if COOPER
-	return s.startsWith(`prefix`)
+	return (s as! java.lang.String).startsWith(`prefix`)
 	#elseif ECHOES
-	return s.StartsWith(`prefix`)
+	return (s as! System.String).StartsWith(`prefix`)
 	#elseif NOUGAT
-	return s.hasPrefix(`prefix`)
+	return (s as! Foundation.NSString).hasPrefix(`prefix`)
 	#endif
 }

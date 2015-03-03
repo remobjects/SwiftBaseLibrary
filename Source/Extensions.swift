@@ -86,11 +86,11 @@ extension UnicodeScalar {
 		}
 		else {
 			#if COOPER
-			return String.format("\\u{%8x}", self as! Int32)
+			return java.lang.String.format("\\u{%8x}", self as! Int32)
 			#elseif ECHOES
-			return String.Format("\\u{{{0:X8}}}", self as! Int32)
+			return System.String.Format("\\u{{{0:X8}}}", self as! Int32)
 			#elseif NOUGAT
-			return String.stringWithFormat("\\u{%8x}", self as! Int32)
+			return Foundation.NSString.stringWithFormat("\\u{%8x}", self as! Int32)
 			#endif
 		}
 	}
@@ -105,11 +105,11 @@ extension UnicodeScalar {
 
 extension String {
 	
-	//typealias Index = Int //69954: Silver: can't define type alias inside extension class
+	typealias Index = Int
 	
-	public var startIndex: /*String.Index*/Int { return 0 }
+	public var startIndex: String.Index { return 0 }
 	
-	public var endIndex: /*String.Index*/Int { 
+	public var endIndex: String.Index { 
 		#if ECHOES
 		return self.Length-1
 		#else
@@ -140,10 +140,20 @@ extension String {
 		#endif
 	}*/
 	
-	/*public func rangeOfString(string: String) {
-		#if NOUGAT
-		return rangeOfString()
+	/*public func rangeOfString(string: String) -> Range? {
+		#if COOPER
+		#elseif ECHOES
+		let start = IndexOf(string);
+		if start >= 0 {
+			return Range(start: start, length: string.length())
+		}
+		#elseif NOUGAT
+		var range = (self as! NSString).rangeOfString(string);
+		if range.location != NSNotFound {
+			return Range(Range: range)
+		}
 		#endif
+		return nil
 	}*/
 	
 }
