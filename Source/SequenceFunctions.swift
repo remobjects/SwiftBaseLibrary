@@ -228,11 +228,5 @@ public func startsWith<T>(s: ISequence<T>, `prefix` p: ISequence<T>) -> Bool {
 }
 
 public __inline func startsWith(s: String, `prefix`: String) -> Bool {
-	#if COOPER
-	return (s as! java.lang.String).startsWith(`prefix`)
-	#elseif ECHOES
-	return (s as! System.String).StartsWith(`prefix`)
-	#elseif NOUGAT
-	return (s as! Foundation.NSString).hasPrefix(`prefix`)
-	#endif
+	return s.hasPrefix(`prefix`)
 }

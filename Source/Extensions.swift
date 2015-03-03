@@ -107,6 +107,9 @@ extension String {
 	
 	typealias Index = Int
 	
+	/*init(count: Int, repeatedValue c: Character) {
+	}*/
+	
 	public var startIndex: String.Index { return 0 }
 	
 	public var endIndex: String.Index { 
@@ -126,6 +129,61 @@ extension String {
 		#endif
 	}
 	#endif
+	
+	var isEmpty: Bool { return length() == 0 }
+	
+	#if !NOUGAT
+	public func lowercaseString() -> String {
+		#if COOPER
+		return self.toLowerCase()
+		#elseif ECHOES
+		return self.ToLower()
+		#endif
+	}
+	public func uppercaseString() -> String {
+		#if COOPER
+		return self.toUpperCase()
+		#elseif ECHOES
+		return self.ToUpper()
+		#endif
+	}
+	
+	public func hasPrefix(`prefix`: String) -> Bool {
+		#if COOPER
+		return startsWith(`prefix`)
+		#elseif ECHOES
+		return StartsWith(`prefix`)
+		#endif
+	}
+
+	public func hasSuffix(suffix: String) -> Bool {
+		#if COOPER
+		return endsWith(suffix)
+		#elseif ECHOES
+		return EndsWith(suffix)
+		#endif
+	}
+	#endif
+	
+	func toInt() -> Int? {
+		#if COOPER
+		__try {
+			return Integer.parseInt(self)
+		} __catch E: NumberFormatException {
+			return nil
+		}
+		//return self.toLowercase()
+		#elseif ECHOES
+		var i = 0
+		if Int32.TryParse(self, &i) {
+			return i
+		}
+		return nil
+		#elseif NOUGAT
+		return self.integerValue 
+		#hint ToDo: doesnt handle invalid strings to return nil, yet
+		#endif
+	}
 	
 	/*func generate() -> IndexingGenerator<String> {
 	}*/
