@@ -87,10 +87,10 @@ public __inline public func reverse<T>(source: ISequence<T>) -> ISequence<T>
 
 public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,T) -> Bool) -> [T]
 {
-	//70099: Silver: several weird errors implementing global sorted() method
-	/*let result = [T](sequence: source) 
+	let result = [T](sequence: source) 
 	#if COOPER
-	java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
+	java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { 
+		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
 			return 1
 		} else {
@@ -100,7 +100,8 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	return result
 	//todo, clone fromabove once it works
 	#elseif ECHOES
-	(result as List<T>).Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
+	(result as! List<T>).Sort({ (a: T, b: T) -> Boolean in
+		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
 			return 1
 		} else {
@@ -109,7 +110,8 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	})
 	return result
 	#elseif NOUGAT
-	(result as NSArray).sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+	(result as! NSArray).sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
+		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
 			return .NSOrderedAscending
 		} else {
@@ -117,7 +119,7 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 		}
 	})
 	#endif
-	return result*/
+	return result
 }
 
 //public func split<S : Sliceable, R : BooleanType>(elements: S, isSeparator: (S.Generator.Element) -> R, maxSplit: Int = default, allowEmptySlices: Bool = default) -> [S.SubSlice]

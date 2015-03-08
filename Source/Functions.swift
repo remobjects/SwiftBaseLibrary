@@ -1,14 +1,11 @@
 ﻿
-
-func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = default, line: UWord = default) {
-	#hint TODO: should be conditional if sserts are enabled only
+@Conditional("DEBUG") func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file, line)
 	}
 }
 
-/*@noreturn*/ func assertionFailure(_ message: @autoclosure () -> String = default, file: String = default, line: UWord = default) {
-	#hint TODO: should be conditional if sserts are enabled only
+@Conditional("DEBUG") @noreturn func assertionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	fatalError(message, file, line)
 }
 
@@ -20,8 +17,7 @@ __inline func debugPrintln<T>(x: T) {
 	println(toDebugString(x))
 }
 
-//func fatalError(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UInt32 = __LINE__) { 70964: Silver: support __LINE__ and __FILE__ as default parameter value
-/*@noreturn*/ func fatalError(_ message: @autoclosure () -> String = default, file: String = default, line: UInt32 = default) {
+@noreturn func fatalError(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UInt32 = __LINE__) {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
 	} else {
@@ -29,15 +25,13 @@ __inline func debugPrintln<T>(x: T) {
 	}
 }
 
-func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = default, line: UWord = default) {
-	#hint TODO: should be conditional if sserts are enabled only
+@Conditional("DEBUG") func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file, line)
 	}
 }
 
-/*@noreturn*/ func preconditionFailure(_ message: @autoclosure () -> String = default, file: String = default, line: UWord = default) {
-	#hint TODO: should be conditional if sserts are enabled only
+@Conditional("DEBUG") @noreturn  func preconditionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	fatalError(message, file, line)
 }
 
