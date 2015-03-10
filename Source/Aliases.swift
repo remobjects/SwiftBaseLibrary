@@ -1,4 +1,5 @@
-﻿
+﻿typealias NSObject = Object
+
 #if ECHOES
 typealias Int = IntPtr
 typealias UInt = UIntPtr
