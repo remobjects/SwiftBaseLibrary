@@ -2,7 +2,7 @@
 	
 	typealias Index = Int
 	
-	init(count: Int, repeatedValue c: Character) {
+	public init(count: Int, repeatedValue c: Character) {
 
 		#if COOPER
 		var chars = Char[](count)
@@ -37,7 +37,7 @@
 	}
 	#endif
 	
-	var isEmpty: Bool { return length() == 0 }
+	public var isEmpty: Bool { return length() == 0 }
 	
 	#if !NOUGAT
 	public func lowercaseString() -> String {
@@ -72,7 +72,7 @@
 	}
 	#endif
 	
-	func toInt() -> Int? {
+	public func toInt() -> Int? {
 		#if COOPER
 		__try {
 			return Integer.parseInt(self)
@@ -92,7 +92,7 @@
 		#endif
 	}
 	
-	/*func generate() -> IndexingGenerator<String> {
+	/*public func generate() -> IndexingGenerator<String> {
 	}*/
 	
 	/*public var utf8: UTF8View {
@@ -123,7 +123,7 @@
 	
 	/*
 	#if NOUGAT
-	static func fromCString(cs: UnsafePointer<CChar>) -> String? {
+	public static func fromCString(cs: UnsafePointer<CChar>) -> String? {
 	}
 
 	/// Creates a new `String` by copying the nul-terminated UTF-8 data
@@ -132,7 +132,7 @@
 	/// Returns `nil` if the `CString` is `NULL`.  If `CString` contains
 	/// ill-formed UTF-8 code unit sequences, replaces them with replacement
 	/// characters (U+FFFD).
-	static func fromCStringRepairingIllFormedUTF8(cs: UnsafePointer<CChar>) -> (String?, hadError: Bool) {
+	public static func fromCStringRepairingIllFormedUTF8(cs: UnsafePointer<CChar>) -> (String?, hadError: Bool) {
 	}
 	#endif
 	/* Views */
