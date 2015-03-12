@@ -1,17 +1,4 @@
-﻿
-#if COOPER
-import java.util
-import com.remobjects.elements.linq
-#elseif ECHOES
-import System.Collections.Generic
-import System.Linq
-#elseif NOUGAT
-import Foundation
-import RemObjects.Elements.Linq
-#endif
-
-
-#if NOUGAT
+﻿#if NOUGAT
 __mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
 #elseif COOPER
 __mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
@@ -225,19 +212,25 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 
 	public mutating func removeAtIndex(index: Int) -> T {
 		#if COOPER
-		__mapped.remove(index)
+		return __mapped.remove(index)
 		#elseif ECHOES
+		let result = self[index]
 		__mapped.RemoveAt(index)
+		return result
 		#elseif NOUGAT
+		let result = self[index]
 		__mapped.removeObjectAtIndex(index)
+		return result
 		#endif
 	}
 
 	public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
-			removeAtIndex(c-1)
-		}		
+			return removeAtIndex(c-1)
+		}  else {
+			__throw Exception("Cannot remove last item of an empty array.")
+		}
 	}
 
 	public mutating func removeAll(keepCapacity: Bool = default) {
