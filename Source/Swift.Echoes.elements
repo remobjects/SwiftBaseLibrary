@@ -13,6 +13,7 @@
         <AllowUnsafeCode>False</AllowUnsafeCode>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+        <DefaultUses>System.Collections.Generic;System.Linq</DefaultUses>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>

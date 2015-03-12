@@ -13,7 +13,7 @@
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
         <SDK>OS X</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
-        <DefaultUses>Foundation</DefaultUses>
+        <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
@@ -40,6 +40,6 @@
         <Reference Include="rtl.fx"/>
         <Reference Include="libNougat.fx"/>
     </ItemGroup>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Oxygene.Nougat.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Oxygene/RemObjects.Oxygene.Nougat.targets"/>
     <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>

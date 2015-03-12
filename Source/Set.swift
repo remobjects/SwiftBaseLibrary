@@ -1,15 +1,4 @@
-﻿#if COOPER
-import java.util
-import com.remobjects.elements.linq
-#elseif ECHOES
-import System.Collections.Generic
-import System.Linq
-#elseif NOUGAT
-import Foundation
-import RemObjects.Elements.Linq
-#endif
-
-#if NOUGAT
+﻿#if NOUGAT
 __mapped public class Set<T: class> : INSFastEnumeration<T> => Foundation.NSMutableSet {
 #elseif COOPER
 __mapped public class Set<T> : Iterable<T> => java.util.ArrayList<T> {
