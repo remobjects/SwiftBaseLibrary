@@ -29,7 +29,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 	
-	public init (items: [T]) {
+	public init(items: [T]) {
 		#if COOPER
 		return items.clone() as! [T]
 		#elseif ECHOES
@@ -39,7 +39,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 	
-	//init (array: T[]) { } // same as below.
+	//init(array: T[]) { } // same as below.
 	public init(arrayLiteral array: T...) {
 		if array == nil || length(array) == 0 {
 			return [T]()
@@ -55,7 +55,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}
 	
 	#if NOUGAT
-	public init (NSArray array: NSArray<T>) {
+	public init(NSArray array: NSArray<T>) {
 		if array == nil {
 			return [T]()
 		}
@@ -66,7 +66,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}*/
 	#endif
 	
-	public init (sequence: ISequence<T>) {
+	public init(sequence: ISequence<T>) {
 		#if COOPER
 		return sequence.ToList()
 		#elseif ECHOES

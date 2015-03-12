@@ -39,7 +39,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	}
 
 	#if NOUGAT
-	public init (NSDictionary dictionary: NSDictionary) {
+	public init(NSDictionary dictionary: NSDictionary) {
 		if dictionary == nil {
 			return Dictionary<Key,Value>()
 		}
