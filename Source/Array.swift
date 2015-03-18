@@ -252,12 +252,12 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		/*for e in elements { //70076: Support for "foreach" in mapped classes
 		}*/
 	}*/
-	public func join(elements: [T]) -> ISequence<T> { 
-		//return __mapped.join(elements) // implementaton needed below
+	/*public func join(elements: [T]) -> ISequence<T> { 
+		return __mapped.join(elements) // implementaton needed below
 	}
 	public func join(elements: [[T]]) -> ISequence<T> { 
 		//return __mapped.join(elements) // implementaton needed below
-	}
+	}*/
 
 	/// Return the result of repeatedly calling `combine` with an
 	/// accumulated value initialized to `initial` and each element of

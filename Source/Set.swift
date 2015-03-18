@@ -117,8 +117,8 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	}
 
 	/// Remove a member from the set and return it. Requires: `count > 0`.
-	mutating func removeFirst() -> T {
-	}
+	/*mutating func removeFirst() -> T {
+	}*/
 
 	/// The number of members in the set.
 	///
