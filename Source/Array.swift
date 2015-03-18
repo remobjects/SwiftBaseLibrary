@@ -317,13 +317,13 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		})
 		return result
 		#elseif NOUGAT
-		__mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+		return __mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedAscending
 			} else {
 				return .NSOrderedDescending
 			}
-		})
+		})! as! [T]
 		#endif
 	}
 
