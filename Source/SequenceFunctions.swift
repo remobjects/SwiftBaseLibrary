@@ -181,7 +181,7 @@ public func split(elements: String, separatorChar separator: Char) -> [String] {
 public func startsWith<T>(s: ISequence<T>, `prefix` p: ISequence<T>) -> Bool {
 	#if COOPER
 	return false
-	#warning TODO: not implemented for Cooper yet
+	#warning startsWith<T> is not implemented for Cooper yet
 	#elseif ECHOES
 	let sEnum = s.GetEnumerator()
 	let pEnum = s.GetEnumerator()
