@@ -1,70 +1,68 @@
-﻿protocol ArrayLiteralConvertible {
+﻿typealias ArrayLiteralConvertible<T> = IArrayLiteralConvertible<T>
+typealias BooleanLiteralConvertible<T> = IBooleanLiteralConvertible<T>
+typealias DictionaryLiteralConvertible<K,V> = IDictionaryLiteralConvertible<K,V>
+//typealias ExtendedGraphemeClusterLiteralConvertible<T> = IExtendedGraphemeClusterLiteralConvertible<T>
+typealias FloatLiteralConvertible<T> = IFloatLiteralConvertible<T>
+typealias IntegerLiteralConvertible<T> = IIntegerLiteralConvertible<T>
+typealias NilLiteralConvertible<T> = INilLiteralConvertible
+typealias StringLiteralConvertible<T> = IStringLiteralConvertible<T>
+typealias UnicodeScalarLiteralConvertible<T> = IUnicodeScalarLiteralConvertible<T>
+
+protocol IArrayLiteralConvertible {
 	typealias Element
 	
-	/*init(arrayLiteral elements: Element...) { // 70146: Silver: support "params" syntax with "..."
-	}*/
+	init(arrayLiteral elements: Element...)
 }
 
-protocol BooleanLiteralConvertible {
+protocol IBooleanLiteralConvertible {
 	typealias BooleanLiteralType
 
-	/*init(booleanLiteral value: BooleanLiteralType) {
-	}*/
+	init(booleanLiteral value: BooleanLiteralType)
 }
 
-protocol DictionaryLiteralConvertible {
+protocol IDictionaryLiteralConvertible {
 	typealias Key
 	typealias Value
 
-	/// Create an instance initialized with `elements`.
-	/*init(dictionaryLiteral elements: (Key, Value)...) {
-	}*/
+	init(dictionaryLiteral elements: (Key, Value)...)
 }
 
-/*
-protocol ExtendedGraphemeClusterLiteralConvertible : UnicodeScalarLiteralConvertible {
+/*protocol ExtendedGraphemeClusterLiteralConvertible : UnicodeScalarLiteralConvertible {
 	typealias ExtendedGraphemeClusterLiteralType
 
 	/// Create an instance initialized to `value`.
 	init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
 	}
-}
-*/
+}*/
 
-protocol FloatLiteralConvertible {
+protocol IFloatLiteralConvertible {
 	typealias FloatLiteralType
 
-	/*init(floatLiteral value: FloatLiteralType) {
-	}*/
+	init(floatLiteral value: FloatLiteralType)
 }
-/*
-protocol IntegerLiteralConvertible {
+
+protocol IIntegerLiteralConvertible {
 	typealias IntegerLiteralType
 
-	init(integerLiteral value: IntegerLiteralType) {
-	}
-}*/
-
-protocol NilLiteralConvertible {
-
-	/*init(nilLiteral: ()) {
-	}*/
+	init(integerLiteral value: IntegerLiteralType)
 }
-/*
-protocol StringLiteralConvertible : ExtendedGraphemeClusterLiteralConvertible {
+
+protocol INilLiteralConvertible {
+
+	//init(nilLiteral: ())
+}
+
+protocol IStringLiteralConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
 	typealias StringLiteralType
 
-	init(stringLiteral value: StringLiteralType) {
-	}
+	init(stringLiteral value: StringLiteralType)
 }
 
-protocol UnicodeScalarLiteralConvertible {
+protocol IUnicodeScalarLiteralConvertible {
 	typealias UnicodeScalarLiteralType
 
-	init(unicodeScalarLiteral value: UnicodeScalarLiteralType) {
-	}
-}*/
-
+	init(unicodeScalarLiteral value: UnicodeScalarLiteralType)
+}
 
 #if NOUGAT
 extension NSURL/*: StringLiteralConvertible*/ {
@@ -75,8 +73,8 @@ extension NSURL/*: StringLiteralConvertible*/ {
 		return self(string: value)
 	}
 
-	/*init(stringLiteral value: String) -> Self {
-		return self(string: value)
-	}*/
+	init(stringLiteral value: String) {
+		return NSURL(string: value)
+	}
 }
 #endif

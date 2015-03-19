@@ -1,16 +1,4 @@
-﻿#if COOPER
-import java.util
-import com.remobjects.elements.linq
-#elseif ECHOES
-import System.Collections.Generic
-import System.Linq
-#elseif NOUGAT
-import Foundation
-import RemObjects.Elements.Linq
-#endif
-
-
-#if NOUGAT
+﻿#if NOUGAT
 __mapped public class Dictionary<Key: class, INSCopying, Value: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableDictionary {
 #elseif COOPER
 __mapped public class Dictionary<Key,Value> => java.util.HashMap<Key,Value> {
@@ -39,7 +27,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 	}
 
 	#if NOUGAT
-	public init (NSDictionary dictionary: NSDictionary) {
+	public init(NSDictionary dictionary: NSDictionary) {
 		if dictionary == nil {
 			return Dictionary<Key,Value>()
 		}

@@ -20,7 +20,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Range.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
-        <None Include="$(MSBuildThisFileDirectory)String.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)String.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
     </ItemGroup>
 </Project>

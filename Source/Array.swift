@@ -1,17 +1,4 @@
-﻿
-#if COOPER
-import java.util
-import com.remobjects.elements.linq
-#elseif ECHOES
-import System.Collections.Generic
-import System.Linq
-#elseif NOUGAT
-import Foundation
-import RemObjects.Elements.Linq
-#endif
-
-
-#if NOUGAT
+﻿#if NOUGAT
 __mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
 #elseif COOPER
 __mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
@@ -29,7 +16,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 	
-	public init (items: [T]) {
+	public init(items: [T]) {
 		#if COOPER
 		return items.clone() as! [T]
 		#elseif ECHOES
@@ -39,7 +26,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 	
-	//init (array: T[]) { } // same as below.
+	//init(array: T[]) { } // same as below.
 	public init(arrayLiteral array: T...) {
 		if array == nil || length(array) == 0 {
 			return [T]()
@@ -55,7 +42,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}
 	
 	#if NOUGAT
-	public init (NSArray array: NSArray<T>) {
+	public init(NSArray array: NSArray<T>) {
 		if array == nil {
 			return [T]()
 		}
@@ -66,7 +53,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}*/
 	#endif
 	
-	public init (sequence: ISequence<T>) {
+	public init(sequence: ISequence<T>) {
 		#if COOPER
 		return sequence.ToList()
 		#elseif ECHOES
@@ -225,19 +212,25 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 
 	public mutating func removeAtIndex(index: Int) -> T {
 		#if COOPER
-		__mapped.remove(index)
+		return __mapped.remove(index)
 		#elseif ECHOES
+		let result = self[index]
 		__mapped.RemoveAt(index)
+		return result
 		#elseif NOUGAT
+		let result = self[index]
 		__mapped.removeObjectAtIndex(index)
+		return result
 		#endif
 	}
 
 	public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
-			removeAtIndex(c-1)
-		}		
+			return removeAtIndex(c-1)
+		}  else {
+			__throw Exception("Cannot remove last item of an empty array.")
+		}
 	}
 
 	public mutating func removeAll(keepCapacity: Bool = default) {
@@ -259,12 +252,12 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		/*for e in elements { //70076: Support for "foreach" in mapped classes
 		}*/
 	}*/
-	public func join(elements: [T]) -> ISequence<T> { 
-		//return __mapped.join(elements) // implementaton needed below
+	/*public func join(elements: [T]) -> ISequence<T> { 
+		return __mapped.join(elements) // implementaton needed below
 	}
 	public func join(elements: [[T]]) -> ISequence<T> { 
 		//return __mapped.join(elements) // implementaton needed below
-	}
+	}*/
 
 	/// Return the result of repeatedly calling `combine` with an
 	/// accumulated value initialized to `initial` and each element of
@@ -324,13 +317,13 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		})
 		return result
 		#elseif NOUGAT
-		__mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+		return __mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedAscending
 			} else {
 				return .NSOrderedDescending
 			}
-		})
+		})! as! [T]
 		#endif
 	}
 

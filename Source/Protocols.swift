@@ -17,42 +17,38 @@ protocol DebugPrintable {
 	var debugDescription: String { get }
 }
 
-
 protocol Hashable : Equatable {
 	var hashValue: Int { get }
 }
 
-/*
 protocol ArrayBoundType {
 	typealias ArrayBound
 	var arrayBoundValue: ArrayBound { get }
-}*/
+}
 
 /* Numbers */
 
-protocol _IntegerArithmeticType {
-	//class func addWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
+protocol IntegerArithmeticType : Comparable {
+	//class func addWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool) //71481: Silver: can't use Self in tuple on static funcs i(in protocols?)
 	//class func subtractWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
 	//class func multiplyWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
 	//class func divideWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
 	//class func remainderWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
-}
 
-protocol IntegerArithmeticType : _IntegerArithmeticType, Comparable {
-	//func +(lhs: Self, rhs: Self) -> Self
-	//func -(lhs: Self, rhs: Self) -> Self
-	//func *(lhs: Self, rhs: Self) -> Self
-	//func /(lhs: Self, rhs: Self) -> Self
-	//func %(lhs: Self, rhs: Self) -> Self
+	func +(lhs: Self, rhs: Self) -> Self
+	func -(lhs: Self, rhs: Self) -> Self
+	func *(lhs: Self, rhs: Self) -> Self
+	func /(lhs: Self, rhs: Self) -> Self
+	func %(lhs: Self, rhs: Self) -> Self
 	func toIntMax() -> IntMax
 }
 
 
 protocol BitwiseOperationsType {
 	//func &(_: Self, _: Self) -> Self //69825: Silver: two probs with operators in protocols
-	//func |(_: Self, _: Self) -> Self
-	//func ^(_: Self, _: Self) -> Self
-	//prefix func ~(_: Self) -> Self //69825: Silver: two probs with operators in protocols
+	func |(_: Self, _: Self) -> Self
+	func ^(_: Self, _: Self) -> Self
+	prefix func ~(_: Self) -> Self
 
 	/// The identity value for "|" and "^", and the fixed point for "&".
 	///
@@ -63,7 +59,7 @@ protocol BitwiseOperationsType {
 	///   x & allZeros == allZeros
 	///   x & ~allZeros == x
 	///
-	//class var allZeros: Self { get }
+	//static/*class*/ var allZeros: Self { get }
 }
 
 #if !ECHOES
@@ -77,47 +73,38 @@ protocol IComparable< /*in*/ T> {
 #endif
 
 protocol Equatable {
-	//func ==(lhs: Self, rhs: Self) -> Bool
+	func ==(lhs: Self, rhs: Self) -> Bool
 }
 
-protocol _Comparable {
-	//func <(lhs: Self, rhs: Self) -> Bool
+protocol Comparable : Equatable {
+	func <(lhs: Self, rhs: Self) -> Bool
+	func <=(lhs: Self, rhs: Self) -> Bool
+	func >=(lhs: Self, rhs: Self) -> Bool
+	func >(lhs: Self, rhs: Self) -> Bool
 }
 
-protocol Comparable : _Comparable, Equatable {
-	//func <=(lhs: Self, rhs: Self) -> Bool
-	//func >=(lhs: Self, rhs: Self) -> Bool
-	//func >(lhs: Self, rhs: Self) -> Bool
+protocol Incrementable : Equatable {
+	func successor() -> Self
 }
 
-protocol _Incrementable : Equatable {
-	//func successor() -> Self
+protocol IntegerType : IntegerLiteralConvertible, Printable, ArrayBoundType, Hashable, IntegerArithmeticType, BitwiseOperationsType, Incrementable {
 }
 
-protocol _IntegerType : /*IntegerLiteralConvertible, */Printable, /*ArrayBoundType, */Hashable, IntegerArithmeticType, BitwiseOperationsType, _Incrementable {
+protocol SignedNumberType : Comparable, IntegerLiteralConvertible {
+	func -(lhs: Self, rhs: Self) -> Self
+	prefix func -(x: Self) -> Self
 }
 
-protocol _SignedNumberType : Comparable/*, IntegerLiteralConvertible */{
-	//func -(lhs: Self, rhs: Self) -> Self
-}
-
-protocol SignedNumberType : _SignedNumberType {
-	//refix func -(x: Self) -> Self
-}
-
-protocol _SignedIntegerType : _IntegerType, SignedNumberType {
+protocol SignedIntegerType : IntegerType, SignedNumberType {
 	func toIntMax() -> IntMax
-	//class func from(_: IntMax) -> Self
+	static/*class*/ func from(_: IntMax) -> Self
 }
 
-/* Ranges, Sequences andf the like */
+/* Ranges, Sequences and the like */
 
-protocol _ForwardIndexType : _Incrementable {
+protocol ForwardIndexType {
 	//typealias Distance : _SignedIntegerType = Int
 	//typealias _DisabledRangeIndex = _DisabledRangeIndex_
-}
-
-protocol ForwardIndexType : _ForwardIndexType {
 }
 
 protocol GeneratorType {
@@ -125,40 +112,24 @@ protocol GeneratorType {
 	mutating func next() -> Element?
 }
 
-protocol _SequenceType {
+protocol SequenceType {
+	typealias Generator /*: GeneratorType*/ // 71477: Silver: can't use constraint on type alias in protocol
+	func generate() -> Generator
 }
 
-protocol _Sequence_Type : _SequenceType {
-	//typealias Generator : GeneratorType
-	//func generate() -> Generator
-}
-
-protocol SequenceType : _Sequence_Type {
-	//typealias Generator : GeneratorType
-	//func generate() -> Generator
-}
-
-/*
-protocol _CollectionType : _SequenceType {
-	//typealias Index : ForwardIndexType
-	//var startIndex: Index { get }
-	//var endIndex: Index { get }
+protocol CollectionType : SequenceType {
+	typealias Index /*: ForwardIndexType*/ // 71477: Silver: can't use constraint on type alias in protocol
+	var startIndex: Index { get }
+	var endIndex: Index { get }
 	typealias _Element
-	//subscript (i: Index) -> _Element { get }
+	subscript (i: Index) -> _Element { get }
+
+	//71476: Silver: can't use "Self." prefix on type aliases in generic protocol
+	//subscript (i: /*Self.*/Index) -> /*Self.*/Generator.Element { get } // 71478: Silver: can't use indirect generic type in protocol
 }
 
-protocol CollectionType : _CollectionType, SequenceType {
-	//subscript (i: Self.Index) -> Self.Generator.Element { get }
+protocol Sliceable : CollectionType {
+	typealias SubSlice /*: _Sliceable*/ // 71477: Silver: can't use constraint on type alias in protocol
+	//subscript (bounds: Range</*Self.*/Index>) -> SubSlice { get } // //71476: Silver: can't use "Self." prefix on type aliases in generic protocol
 }
-
-
-
-protocol _Sliceable : CollectionType {
-}
-
-protocol Sliceable : _Sliceable {
-	//typealias SubSlice : _Sliceable
-	//subscript (bounds: Range<Self.Index>) -> SubSlice { get }
-}
-*/
 

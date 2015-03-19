@@ -1,15 +1,4 @@
-﻿#if COOPER
-import java.util
-import com.remobjects.elements.linq
-#elseif ECHOES
-import System.Collections.Generic
-import System.Linq
-#elseif NOUGAT
-import Foundation
-import RemObjects.Elements.Linq
-#endif
-
-public __inline func countElements(source: String?) -> Int {
+﻿public __inline func countElements(source: String?) -> Int {
 	return length(source)
 }
 

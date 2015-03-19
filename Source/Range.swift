@@ -73,7 +73,7 @@ struct RangeGenerator_IntMax {
 	}
 }
 
-public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
+public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
 	public init(_ x: Self) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
@@ -95,6 +95,20 @@ public class Range /*ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEqua
 		endIndex = startIndex+range.length-1
 	}
 	#endif
+	
+	
+	/*#if COOPER
+	func iterator() -> java.util.Iterator<Long!> {
+	}
+	#elseif ECHOES
+	func GetEnumerator() -> System.Collections.Generic.IEnumerator<IntMax>! {
+	}
+	func GetEnumerator() -> System.Collections.IEnumerator! {
+	}
+	#elseif NOUGAT
+	func countByEnumeratingWithState(aState: UnsafePointer<NSFastEnumerationState>, objects stackbuf: UnsafePointer<IntMax!>, count len: NSUInteger) -> NSUInteger {
+	}
+	#endif */
 	
 	public var isEmpty: Bool { 
 		return startIndex == endIndex
