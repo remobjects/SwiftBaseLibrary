@@ -18,8 +18,8 @@ typealias UIntMax = UInt64
 
 typealias Bool = Boolean
 
-typealias Character = Char // for now
-typealias UnicodeScalar = Char // for now
+typealias Character = UInt32 // for now
+typealias UnicodeScalar = Character // for now
 
 typealias Float = Single
 typealias Float32 = Single

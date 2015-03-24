@@ -62,16 +62,6 @@ protocol BitwiseOperationsType {
 	//static/*class*/ var allZeros: Self { get }
 }
 
-#if !ECHOES
-protocol IEquatable<T> {
-	func Equals(rhs: T) -> Bool
-}
-
-protocol IComparable< /*in*/ T> {
-	func CompareTo(rhs: T) -> Int
-}
-#endif
-
 protocol Equatable {
 	func ==(lhs: Self, rhs: Self) -> Bool
 }

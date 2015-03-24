@@ -2,7 +2,7 @@
 	
 	typealias Index = Int
 	
-	public init(count: Int, repeatedValue c: Character) {
+	public init(count: Int, repeatedValue c: Char) {
 
 		#if COOPER
 		var chars = Char[](count)
