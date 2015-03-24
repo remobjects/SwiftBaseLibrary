@@ -1,4 +1,4 @@
-﻿
+
 #if NOUGAT
 /*@unsafe_no_objc_tagged_pointer*/ protocol _CocoaArrayType {
 	func objectAtIndex(index: Int) -> AnyObject
@@ -122,4 +122,3 @@ protocol Sliceable : CollectionType {
 	typealias SubSlice /*: _Sliceable*/ // 71477: Silver: can't use constraint on type alias in protocol
 	//subscript (bounds: Range</*Self.*/Index>) -> SubSlice { get } // //71476: Silver: can't use "Self." prefix on type aliases in generic protocol
 }
-
