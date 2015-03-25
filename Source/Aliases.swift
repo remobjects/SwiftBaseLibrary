@@ -1,63 +1,63 @@
-﻿typealias NSObject = Object
+﻿public typealias NSObject = Object
 
 #if ECHOES
-typealias Int = IntPtr
-typealias UInt = UIntPtr
+public typealias Int = IntPtr
+public typealias UInt = UIntPtr
 #elseif NOUGAT
-typealias Int = NSInteger
-typealias UInt = NSUInteger
+public typealias Int = NSInteger
+public typealias UInt = NSUInteger
 #elseif COOPER
-typealias Int = Int32
-typealias UInt = UInt32
+public typealias Int = Int32
+public typealias UInt = UInt32
 #endif
-typealias Int8 = SByte
-typealias UInt8 = Byte
+public typealias Int8 = SByte
+public typealias UInt8 = Byte
 
-typealias IntMax = Int64
-typealias UIntMax = UInt64
+public typealias IntMax = Int64
+public typealias UIntMax = UInt64
 
-typealias Bool = Boolean
+public typealias Bool = Boolean
 
-typealias Character = UInt32 // for now
-typealias UnicodeScalar = Character // for now
+public typealias Character = UInt32 // for now
+public typealias UnicodeScalar = Character // for now
 
-typealias Float = Single
-typealias Float32 = Single
-typealias Float64 = Double
+public typealias Float = Single
+public typealias Float32 = Single
+public typealias Float64 = Double
 
-typealias Any = protocol<> //Dynamic;
-typealias AnyObject = protocol<> //Dynamic;
-//typealias AnyClass = AnyObject.Type
+public typealias Any = protocol<> //Dynamic;
+public typealias AnyObject = protocol<> //Dynamic;
+//public typealias AnyClass = AnyObject.Type
 
 
 /* more obsucre integer aliases */
 
-typealias BooleanLiteralType = Bool
-typealias CBool = Bool
-typealias CChar = Int8
-typealias CChar16 = UInt16
-typealias CChar32 = UnicodeScalar
-typealias CDouble = Double
-typealias CFloat = Float
-typealias CInt = Int32
-typealias CLong = Int
-typealias CLongLong = Int64
-typealias CShort = Int16
-typealias CSignedChar = Int8
-typealias CUnsignedChar = UInt8
-typealias CUnsignedInt = UInt32
-typealias CUnsignedLong = UInt
-typealias CUnsignedLongLong = UInt64
-typealias CUnsignedShort = UInt16
-typealias CWideChar = UnicodeScalar
-typealias ExtendedGraphemeClusterType = String
-typealias FloatLiteralType = Double
-typealias IntegerLiteralType = Int
-typealias StringLiteralType = String
-typealias UWord = UInt
-typealias UnicodeScalarType = String
-//typealias Void = () // define dby Compiler
-typealias Word = Int
+public typealias BooleanLiteralType = Bool
+public typealias CBool = Bool
+public typealias CChar = Int8
+public typealias CChar16 = UInt16
+public typealias CChar32 = UnicodeScalar
+public typealias CDouble = Double
+public typealias CFloat = Float
+public typealias CInt = Int32
+public typealias CLong = Int
+public typealias CLongLong = Int64
+public typealias CShort = Int16
+public typealias CSignedChar = Int8
+public typealias CUnsignedChar = UInt8
+public typealias CUnsignedInt = UInt32
+public typealias CUnsignedLong = UInt
+public typealias CUnsignedLongLong = UInt64
+public typealias CUnsignedShort = UInt16
+public typealias CWideChar = UnicodeScalar
+public typealias ExtendedGraphemeClusterType = String
+public typealias FloatLiteralType = Double
+public typealias IntegerLiteralType = Int
+public typealias StringLiteralType = String
+public typealias UWord = UInt
+public typealias UnicodeScalarType = String
+//public typealias Void = () // define dby Compiler
+public typealias Word = Int
 
 //struct Float80 { // A record needs to have at least 1 field or a "StructLayoutAttribute" with "Size > 0"
 //}
