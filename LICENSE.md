@@ -1,5 +1,5 @@
-Copyright (c) 2014, RemObjects Software
-All rights reserved.
+Copyright (c) 2014-2015, RemObjects Software. All rights reserved.
+Written by marc hoffman (mh@remobjects.com)
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
