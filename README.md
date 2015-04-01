@@ -12,5 +12,6 @@ The code for the Swift Base Library is open source and abvailable under a libera
 
 ## See Also
 
-* [RemObjects Silver](http://docs.elementscompiler.com/Silver/)
+* [RemObjects Silver Homepage](http://www.elementscompiler.com/silver/)
+* [RemObjects Silver Docs](http://docs.elementscompiler.com/Silver/)
 * [Swift Base Library API Reference](http://docs.elementscompiler.com/API/SwiftBaseLibrary) on docs.elementscompiler.com
