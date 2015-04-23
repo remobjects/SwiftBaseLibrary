@@ -169,8 +169,30 @@ public func split(elements: String, separatorChar separator: Char) -> [String] {
 
 public func startsWith<T>(s: ISequence<T>, `prefix` p: ISequence<T>) -> Bool {
 	#if COOPER
-	return false
-	#warning startsWith<T> is not implemented for Cooper yet
+	let sEnum = s.iterator()
+	let pEnum = p.iterator()
+	while true {
+		if pEnum.hasNext() {
+			let pVal = pEnum.next()
+			if sEnum.hasNext() {
+				let sVal = sEnum.next()
+				if (pVal == nil && sVal == nil) {
+					// both nil is oke
+				} else if pVal != nil && sVal != nil && pVal.equals(sVal) {
+					// Neither nil and equals true is oke
+				} else {
+					return false // Different values
+				}
+			} else {
+				return false // reached end of s
+			}
+			
+		} else {
+			return true // reached end of prefix
+		}
+	}
+
+	return false;
 	#elseif ECHOES
 	let sEnum = s.GetEnumerator()
 	let pEnum = s.GetEnumerator()
