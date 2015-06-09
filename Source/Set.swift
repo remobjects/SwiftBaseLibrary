@@ -10,7 +10,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	//typealias GeneratorType = SetGenerator<T>
 
 	/// Create an empty `Set`.
-	init() {
+	public init() {
 		#if COOPER
 		return ArrayList<T>()
 		#elseif ECHOES
@@ -23,7 +23,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	/// Create an empty set with at least the given number of
 	/// elements worth of storage.  The actual capacity will be the
 	/// smallest power of 2 that's >= `minimumCapacity`.
-	init(minimumCapacity: Int) {
+	public init(minimumCapacity: Int) {
 		#if COOPER
 		return ArrayList<T>()
 		#elseif ECHOES
@@ -33,7 +33,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#endif
 	}
 
-	init(arrayLiteral elements: T...) {
+	public init(arrayLiteral elements: T...) {
 		if elements == nil || length(elements) == 0 {
 			return Set<T>()
 		}
@@ -71,7 +71,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	//var endIndex: SetIndex<T> { get }
 
 	/// Returns `true` if the set contains a member.
-	func contains(member: T) -> Bool {
+	public func contains(member: T) -> Bool {
 		#if COOPER
 		return __mapped.contains(member)
 		#elseif ECHOES
@@ -87,7 +87,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	// }
 
 	/// Insert a member into the set.
-	mutating func insert(member: T) {
+	public mutating func insert(member: T) {
 		#if COOPER
 		if !__mapped.contains(member) {
 			__mapped.add(member)
@@ -104,7 +104,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	}
 
 	/// Remove the member from the set and return it if it was present.
-	mutating func remove(member: T) -> T? {
+	public mutating func remove(member: T) -> T? {
 	}
 
 	/// Remove the member referenced by the given index.
@@ -113,7 +113,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
 	/// will not decrease.
-	mutating func removeAll(keepCapacity: Bool = default) {
+	public mutating func removeAll(keepCapacity: Bool = default) {
 	}
 
 	/// Remove a member from the set and return it. Requires: `count > 0`.
@@ -133,7 +133,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#endif
 	}
 
-	var isEmpty: Bool { 
+	public var isEmpty: Bool { 
 		return count == 0 
 	}
 	
@@ -145,7 +145,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	//func generate() -> SetGenerator<T>
 
 	/// A member of the set, or `nil` if the set is empty.
-	var first: T? { 
+	public var first: T? { 
 		if count > 0 {
 			#if COOPER || ECHOES
 			return __mapped[0]
@@ -204,7 +204,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	//var hashValue: Int { get }
 
 	/// A textual representation of `self`.
-	var description: String { 
+	public var description: String { 
 		#if COOPER
 		return __mapped.toString()
 		#elseif ECHOES
@@ -215,7 +215,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	}
 
 	/// A textual representation of `self`, suitable for debugging.
-	var debugDescription: String { 
+	public var debugDescription: String { 
 		return description
 	}
 }
