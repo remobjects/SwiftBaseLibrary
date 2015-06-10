@@ -105,6 +105,23 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 
 	/// Remove the member from the set and return it if it was present.
 	public mutating func remove(member: T) -> T? {
+		#if COOPER
+		if __mapped.contains(member) {
+			__mapped.remove(member)
+			return member
+		}
+		#elseif ECHOES
+		if __mapped.Contains(member) {
+			__mapped.Remove(member)
+			return member
+		}
+		#elseif NOUGAT
+		if __mapped.containsObject(member) {
+			__mapped.removeObject(member)
+			return member
+		}
+		#endif
+		return nil
 	}
 
 	/// Remove the member referenced by the given index.
@@ -114,6 +131,24 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
 	/// will not decrease.
 	public mutating func removeAll(keepCapacity: Bool = default) {
+		#if COOPER
+		var size: Int = __mapped.size()
+		__mapped.clear()
+		if keepCapacity == true {
+			__mapped.ensureCapacity(size)
+		}
+		#elseif ECHOES
+		__mapped.Clear()
+		if keepCapacity == false {
+			__mapped.TrimExcess()
+		}
+		#elseif NOUGAT
+		var size: Int = __mapped.Count()
+		__mapped.removeAllObjects()
+		if keepCapacity == true {
+			__mapped = __mapped.initWithCapacity(size)
+		}
+		#endif
 	}
 
 	/// Remove a member from the set and return it. Requires: `count > 0`.
