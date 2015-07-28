@@ -1,4 +1,11 @@
-﻿#if NOUGAT
+﻿//
+//
+// CAUTION: Magic type name. 
+// The compiler will map the [:] dictionary syntax to Swift.Dictionaty<T,U> 
+//
+//
+
+#if NOUGAT
 __mapped public class Dictionary<Key: class, INSCopying, Value: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableDictionary {
 #elseif COOPER
 __mapped public class Dictionary<Key,Value> => java.util.HashMap<Key,Value> {

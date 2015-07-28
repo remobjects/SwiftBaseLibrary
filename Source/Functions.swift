@@ -1,23 +1,23 @@
 ﻿
-@Conditional("DEBUG") func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file, line)
 	}
 }
 
-@Conditional("DEBUG") @noreturn func assertionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") @noreturn public func assertionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	fatalError(message, file, line)
 }
 
-__inline func debugPrint<T>(x: T) {
+public __inline func debugPrint<T>(x: T) {
 	print(toDebugString(x))
 }
 
-__inline func debugPrintln<T>(x: T) {
+public __inline func debugPrintln<T>(x: T) {
 	println(toDebugString(x))
 }
 
-@noreturn func fatalError(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UInt32 = __LINE__) {
+@noreturn public func fatalError(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UInt32 = __LINE__) {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
 	} else {
@@ -25,13 +25,13 @@ __inline func debugPrintln<T>(x: T) {
 	}
 }
 
-@Conditional("DEBUG") func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file, line)
 	}
 }
 
-@Conditional("DEBUG") @noreturn  func preconditionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	fatalError(message, file, line)
 }
 
@@ -49,13 +49,13 @@ public func print(object: Any? = nil) {
 	} 
 }
 
-func swap<T>(inout a: T, inout b: T) {
+public func swap<T>(inout a: T, inout b: T) {
 	let temp = a
 	a = b
 	b = temp
 }
 
-__inline func toDebugString<T>(x: T) -> String {
+public __inline func toDebugString<T>(x: T) -> String {
 	#if COOPER
 	return x.toString()
 	#elseif ECHOES
@@ -69,7 +69,7 @@ __inline func toDebugString<T>(x: T) -> String {
 }
 
 //@inline(never) func toString<T>(x: T) -> String
-__inline func toString<T>(x: T) -> String {
+public __inline func toString<T>(x: T) -> String {
 	#if COOPER
 	return x.toString()
 	#elseif ECHOES

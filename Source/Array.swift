@@ -1,4 +1,11 @@
-﻿#if NOUGAT
+﻿//
+//
+// CAUTION: Magic type name. 
+// The compiler will map the [] array syntax to Swift.Array<T>
+//
+//
+
+#if NOUGAT
 __mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
 #elseif COOPER
 __mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
