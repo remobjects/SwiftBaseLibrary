@@ -27,7 +27,13 @@ public typealias Float64 = Double
 
 public typealias Any = protocol<> //Dynamic;
 public typealias AnyObject = protocol<> //Dynamic;
-//public typealias AnyClass = AnyObject.Type
+#if ECHOES
+public typealias AnyClass = System.`Type`
+#elseif NOUGAT
+public typealias AnyClass = rtl.Class
+#elseif COOPER
+public typealias AnyClass = java.lang.Class
+#endif
 
 
 /* more obsucre integer aliases */
