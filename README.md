@@ -8,7 +8,7 @@ The Swift Base Library ships precompiled with the [Elements](http://elementscomp
 
 The library will be called `Swift.dll` on .NET, `libSwift.fx` on Cocoa and `swift.jar` on Java and Android.
 
-The code for the Swift Base Library is open source and abvailable under a liberal license. We appreciate contributions.
+The code for the Swift Base Library is open source and available under a liberal license. We appreciate contributions.
 
 ## See Also
 
