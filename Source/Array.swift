@@ -317,9 +317,9 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		let result: List<T> = [T](items: self) 
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
-				return 1
-			} else {
 				return -1
+			} else {
+				return 1
 			}
 		})
 		return result
