@@ -92,9 +92,9 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	(result as! List<T>).Sort({ (a: T, b: T) -> Boolean in
 		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
-			return 1
-		} else {
 			return -1
+		} else {
+			return 1
 		}
 	})
 	return result

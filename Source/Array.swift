@@ -286,9 +286,9 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#elseif ECHOES
 		__mapped.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
-				return 1
-			} else {
 				return -1
+			} else {
+				return 1
 			}
 		})
 		#elseif NOUGAT
