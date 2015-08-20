@@ -99,7 +99,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public subscript (index: Int) -> T {
 		get {
-			var value = __mapped[index]
+			var value: AnyObject! = __mapped[index]
 			#if NOUGAT
 			if value == NSNull.null {
 				value = nil
@@ -108,9 +108,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 			return value
 		}
 		set {
-			#if COOPER
-			__mapped[index] = newValue
-			#elseif ECHOES
+			#if COOPER || ECHOES
 			__mapped[index] = newValue
 			#elseif NOUGAT
 			if newValue == nil { // 70869: Silver: wrong "Expression will always evaluate to False"

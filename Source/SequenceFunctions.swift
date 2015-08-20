@@ -98,7 +98,6 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	return result
 	#elseif NOUGAT
 	(result as! NSArray).sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
-		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
 			return .NSOrderedDescending
 		} else {
