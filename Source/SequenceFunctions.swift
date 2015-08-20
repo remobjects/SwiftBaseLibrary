@@ -79,7 +79,6 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	let result = [T](sequence: source) 
 	#if COOPER
 	java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { 
-		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
 			return 1
 		} else {
@@ -90,7 +89,6 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	//todo, clone fromabove once it works
 	#elseif ECHOES
 	(result as! List<T>).Sort({ (a: T, b: T) -> Boolean in
-		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
 			return -1
 		} else {
@@ -102,9 +100,9 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	(result as! NSArray).sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
 		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
-			return .NSOrderedAscending
-		} else {
 			return .NSOrderedDescending
+		} else {
+			return .NSOrderedAscending
 		}
 	})
 	#endif
