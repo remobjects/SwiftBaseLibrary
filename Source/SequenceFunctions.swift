@@ -85,7 +85,6 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 			return -1
 		}
 	}})	
-	return result
 	//todo, clone fromabove once it works
 	#elseif ECHOES
 	(result as! List<T>).Sort({ (a: T, b: T) -> Boolean in
@@ -95,7 +94,6 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 			return 1
 		}
 	})
-	return result
 	#elseif NOUGAT
 	(result as! NSArray).sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
 		if isOrderedBefore(a,b) {
