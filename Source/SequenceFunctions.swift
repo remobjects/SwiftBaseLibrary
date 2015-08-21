@@ -28,10 +28,8 @@ public __inline func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) 
 	if let s = source {
 		#if COOPER
 		return s.Any({ return predicate($0) })
-		#elseif ECHOES
+		#else
 		return s.Any(predicate)
-		#elseif NOUGAT
-		return s.Any({ return predicate($0) })
 		#endif
 	}
 	return false
@@ -40,10 +38,8 @@ public __inline func contains<T>(source: ISequence<T>?, predicate: (T) -> Bool) 
 public __inline public func filter<T>(source: ISequence<T>, includeElement: (T) -> Bool) -> ISequence<T> {
 	#if COOPER
 	return source.Where({ return includeElement($0) })
-	#elseif ECHOES
+	#else
 	return source.Where(includeElement)
-	#elseif NOUGAT
-	return source.Where({ return includeElement($0) })
 	#endif
 }
 
