@@ -57,14 +57,14 @@ extension Int16 {
 }
 
 extension Int32 {
-	public static let max: Int32 = 0x7fff_ffff
-	public static let min: Int32 = -0x8000_0000
+	public static let max: Int32 =  2147483647 //  0x7fff ffff
+	public static let min: Int32 = -2147483648 // -0x8000_0000
 	public static let allZeros: UInt8 = 0
 }
 
 extension Int64 {
-	public static let max: Int64 = 0x7fff_ffff_ffff_ffff 
-	public static let min: Int64 = -0x8000_0000_0000_0000
+	public static let max: Int64 =  9223372036854775807 //  0x7fff_ffff_ffff_ffff 
+	public static let min: Int64 = -9223372036854775808 // -0x8000_0000_0000_0000
 	public static let allZeros: UInt8 = 0
 }
 

@@ -75,32 +75,27 @@ public __inline public func sorted<T>(source: ISequence<T>, isOrderedBefore: (T,
 	let result = [T](sequence: source) 
 	#if COOPER
 	java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { 
-		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
 			return 1
 		} else {
 			return -1
 		}
 	}})	
-	return result
 	//todo, clone fromabove once it works
 	#elseif ECHOES
 	(result as! List<T>).Sort({ (a: T, b: T) -> Boolean in
-		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
-			return 1
-		} else {
 			return -1
+		} else {
+			return 1
 		}
 	})
-	return result
 	#elseif NOUGAT
 	(result as! NSArray).sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
-		#hint ToDo: check if this is the right order
 		if isOrderedBefore(a,b) {
-			return .NSOrderedAscending
-		} else {
 			return .NSOrderedDescending
+		} else {
+			return .NSOrderedAscending
 		}
 	})
 	#endif
@@ -165,8 +160,30 @@ public func split(elements: String, separatorChar separator: Char) -> [String] {
 
 public func startsWith<T>(s: ISequence<T>, `prefix` p: ISequence<T>) -> Bool {
 	#if COOPER
-	return false
-	#warning startsWith<T> is not implemented for Cooper yet
+	let sEnum = s.iterator()
+	let pEnum = p.iterator()
+	while true {
+		if pEnum.hasNext() {
+			let pVal = pEnum.next()
+			if sEnum.hasNext() {
+				let sVal = sEnum.next()
+				if (pVal == nil && sVal == nil) {
+					// both nil is oke
+				} else if pVal != nil && sVal != nil && pVal.equals(sVal) {
+					// Neither nil and equals true is oke
+				} else {
+					return false // Different values
+				}
+			} else {
+				return false // reached end of s
+			}
+			
+		} else {
+			return true // reached end of prefix
+		}
+	}
+
+	return false;
 	#elseif ECHOES
 	let sEnum = s.GetEnumerator()
 	let pEnum = s.GetEnumerator()

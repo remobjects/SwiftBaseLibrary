@@ -1,4 +1,11 @@
-﻿#if NOUGAT
+﻿//
+//
+// CAUTION: Magic type name. 
+// The compiler will map the [] array syntax to Swift.Array<T>
+//
+//
+
+#if NOUGAT
 __mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
 #elseif COOPER
 __mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
@@ -92,7 +99,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public subscript (index: Int) -> T {
 		get {
-			var value = __mapped[index]
+			var value: AnyObject! = __mapped[index]
 			#if NOUGAT
 			if value == NSNull.null {
 				value = nil
@@ -101,9 +108,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 			return value
 		}
 		set {
-			#if COOPER
-			__mapped[index] = newValue
-			#elseif ECHOES
+			#if COOPER || ECHOES
 			__mapped[index] = newValue
 			#elseif NOUGAT
 			if newValue == nil { // 70869: Silver: wrong "Expression will always evaluate to False"
@@ -269,7 +274,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 
 	public mutating func sort(isOrderedBefore: (T, T) -> Bool) {
 		#if COOPER
-		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
+		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int {
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {
@@ -277,19 +282,19 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 			}
 		}})	
 		#elseif ECHOES
-		__mapped.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
+		__mapped.Sort({ (a: T, b: T) -> Boolean in
 			if isOrderedBefore(a,b) {
-				return 1
-			} else {
 				return -1
+			} else {
+				return 1
 			}
 		})
 		#elseif NOUGAT
-		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
-				return .NSOrderedAscending
-			} else {
 				return .NSOrderedDescending
+			} else {
+				return .NSOrderedAscending
 			}
 		})
 		#endif
@@ -310,18 +315,18 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		let result: List<T> = [T](items: self) 
 		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
-				return 1
-			} else {
 				return -1
+			} else {
+				return 1
 			}
 		})
 		return result
 		#elseif NOUGAT
 		return __mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
-				return .NSOrderedAscending
-			} else {
 				return .NSOrderedDescending
+			} else {
+				return .NSOrderedAscending
 			}
 		})! as! [T]
 		#endif
