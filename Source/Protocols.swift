@@ -1,4 +1,4 @@
-
+﻿
 #if NOUGAT
 /*@unsafe_no_objc_tagged_pointer*/ protocol _CocoaArrayType {
 	func objectAtIndex(index: Int) -> AnyObject
@@ -77,7 +77,8 @@ protocol Incrementable : Equatable {
 	func successor() -> Self
 }
 
-protocol IntegerType : IntegerLiteralConvertible, Printable, ArrayBoundType, Hashable, IntegerArithmeticType, BitwiseOperationsType, Incrementable {
+// workaround for error E36: Interface type expected, found "IntegerLiteralConvertible<T>!"
+/*protocol IntegerType : IntegerLiteralConvertible, Printable, ArrayBoundType, Hashable, IntegerArithmeticType, BitwiseOperationsType, Incrementable {
 }
 
 protocol SignedNumberType : Comparable, IntegerLiteralConvertible {
@@ -88,7 +89,7 @@ protocol SignedNumberType : Comparable, IntegerLiteralConvertible {
 protocol SignedIntegerType : IntegerType, SignedNumberType {
 	func toIntMax() -> IntMax
 	static/*class*/ func from(_: IntMax) -> Self
-}
+}*/
 
 /* Ranges, Sequences and the like */
 
