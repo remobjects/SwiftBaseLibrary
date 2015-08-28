@@ -103,7 +103,7 @@ protocol GeneratorType {
 	mutating func next() -> Element?
 }
 
-protocol SequenceType {
+/*protocol SequenceType {
 	typealias Generator /*: GeneratorType*/ // 71477: Silver: can't use constraint on type alias in protocol
 	func generate() -> Generator
 }
@@ -117,7 +117,7 @@ protocol CollectionType : SequenceType {
 
 	//71476: Silver: can't use "Self." prefix on type aliases in generic protocol
 	//subscript (i: /*Self.*/Index) -> /*Self.*/Generator.Element { get } // 71478: Silver: can't use indirect generic type in protocol
-}
+}*/
 
 protocol Sliceable : CollectionType {
 	typealias SubSlice /*: _Sliceable*/ // 71477: Silver: can't use constraint on type alias in protocol
