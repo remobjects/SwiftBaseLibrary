@@ -79,10 +79,13 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 		endIndex = x.endIndex
 	}
 	
+	// we canot support .ctors overloaded only by external names, on .NET and Java
+	#if NOUGAT
 	public init(start: IntMax, end: IntMax) {
 		startIndex = start
 		endIndex = end
 	}
+	#endif
 	
 	public init(start: IntMax, length: IntMax) {
 		startIndex = start
