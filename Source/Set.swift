@@ -201,6 +201,58 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	/// sequence will be ignored.
 	mutating func exclusiveOrInPlace<S : SequenceType where T == T>(sequence: S)*/
 
+	public func subtract(anotherSet: Set<T>) -> Set<T> {
+		var result = Set<T>()
+		if (!anotherSet.isEmpty && !self.isEmpty) {
+			for elem in self {
+				if (!anotherSet.contains(elem)) {
+					result.insert(elem)
+				}
+			}
+		}
+		return result
+	}
+	
+	public func intersect(anotherSet: Set<T>) -> Set<T> {
+		var result = Set<T>()
+		if (!anotherSet.isEmpty && self.isEmpty) {
+			for elem in self {
+				if (anotherSet.contains(elem)) {
+					result.insert(elem)
+				}
+			}
+		}
+		return result
+	}
+	
+	public func union(anotherSet: Set<T>) -> Set<T> {
+		var result = Set<T>()
+		for elem in self {
+			result.insert(elem)
+		}
+		for elem in anotherSet {
+			if (!result.contains(elem)) {
+				result.insert(elem)
+			}
+		}
+		return result
+	}
+	
+	public func exclusiveOr(anotherSet: Set<T>) -> Set<T> {
+		var result = Set<T>()
+		for elem in self {
+			if (!anotherSet.contains(elem)) {
+				result.insert(elem)
+			}
+		}
+		for elem in anotherSet {
+			if (!self.contains(elem)) {
+				result.insert(elem)
+			}
+		}
+		return result
+	}
+	
 	//var hashValue: Int { get }
 
 	/// A textual representation of `self`.
