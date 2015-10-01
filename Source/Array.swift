@@ -25,7 +25,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public init(items: [T]) {
 		#if COOPER
-		return items.clone() as! [T]
+		return ArrayList<T>(items)
 		#elseif ECHOES
 		return List<T>(items)
 		#elseif NOUGAT
