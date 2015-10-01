@@ -23,6 +23,10 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
+	public func GetEnumerator() -> ISequence<(Key, Value)> {
+		return DictionaryHelper.Enumerate<Key, Value>(self)
+	}
+
 	public init(minimumCapacity: Int) {
 		#if COOPER
 		return java.util.HashMap<Key,Value>(minimumCapacity)
@@ -188,4 +192,32 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		return __mapped.allValues as! ISequence<Value>
 		#endif
 	}
+}
+
+public static class DictionaryHelper {
+	#if COOPER
+	public static func Enumerate<Key, Value>(_ val: java.util.HashMap<Key,Value>) -> ISequence<(Key, Value)>
+	{
+		for entry in val.entrySet() { 
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+		  __yield item
+		}
+	}
+	#elseif ECHOES
+	public static func Enumerate<Key, Value>(_ val: System.Collections.Generic.Dictionary<Key,Value>) -> ISequence<(Key, Value)>
+	{
+		for entry in val { 
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+		  __yield item
+		}
+	}
+	#elseif NOUGAT
+	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary) -> ISequence<(Key, Value)>
+	{
+		for entry in val { 
+			var item: (Key, Value) =  (entry, val[entry]?)
+		  __yield item
+		}
+	}
+	#endif
 }
