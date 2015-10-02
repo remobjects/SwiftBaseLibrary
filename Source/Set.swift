@@ -215,7 +215,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	
 	public func intersect(anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
-		if (!anotherSet.isEmpty && self.isEmpty) {
+		if (!anotherSet.isEmpty && !self.isEmpty) {
 			for elem in self {
 				if (anotherSet.contains(elem)) {
 					result.insert(elem)
