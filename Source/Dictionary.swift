@@ -23,7 +23,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	public func GetEnumerator() -> ISequence<(Key, Value)> {
+	public func GetSequence() -> ISequence<(Key, Value)> {
 		return DictionaryHelper.Enumerate<Key, Value>(self)
 	}
 
