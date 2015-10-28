@@ -84,6 +84,16 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		return newSelf
 	}
 	
+	public init(capacity: Int) { // not in Apple Swift 
+		#if COOPER
+		return ArrayList<T>(count)
+		#elseif ECHOES
+		return List<T>(count)
+		#elseif NOUGAT
+		return NSMutableArray(capacity: count)
+		#endif
+	}
+	
 	public var nativeArray: T[] {
 		#if COOPER
 		return __mapped.toArray(T[](__mapped.Count()))
