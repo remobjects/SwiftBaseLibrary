@@ -6,7 +6,7 @@
 //
 
 #if NOUGAT
-__mapped public class Dictionary<Key: class, INSCopying, Value: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableDictionary {
+__mapped public class Dictionary<Key: class, Value: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableDictionary {
 #elseif COOPER
 __mapped public class Dictionary<Key,Value> => java.util.HashMap<Key,Value> {
 #elseif ECHOES

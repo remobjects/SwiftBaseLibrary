@@ -86,11 +86,11 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public init(capacity: Int) { // not in Apple Swift 
 		#if COOPER
-		return ArrayList<T>(count)
+		return ArrayList<T>(capacity)
 		#elseif ECHOES
-		return List<T>(count)
+		return List<T>(capacity)
 		#elseif NOUGAT
-		return NSMutableArray(capacity: count)
+		return NSMutableArray(capacity: capacity)
 		#endif
 	}
 	
