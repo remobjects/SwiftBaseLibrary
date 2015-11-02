@@ -105,20 +105,66 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 
 	/// Remove the member from the set and return it if it was present.
 	public mutating func remove(member: T) -> T? {
+		#if COOPER
+		if __mapped.contains(member) {
+			__mapped.remove(member)
+			return member
+		}
+		#elseif ECHOES
+		if __mapped.Contains(member) {
+			__mapped.Remove(member)
+			return member
+		}
+		#elseif NOUGAT
+		if __mapped.containsObject(member) {
+			__mapped.removeObject(member)
+			return member
+		}
+		#endif
+		return nil
 	}
 
 	/// Remove the member referenced by the given index.
-	//mutating func removeAtIndex(index: SetIndex<T>) {
-	//}
+	mutating func removeAtIndex(index: /*SetIndex<T>*/Int) -> T {
+		#if COOPER
+		let result = __mapped.get(index)
+		__mapped.remove(index)
+		#elseif ECHOES
+		let result = __mapped[index]
+		__mapped.RemoveAt(index)
+		#elseif NOUGAT
+		let result = __mapped.allObjects[index]
+		__mapped.removeObject(result)
+		#endif
+		return result
+	}
 
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
 	/// will not decrease.
 	public mutating func removeAll(keepCapacity: Bool = default) {
+		#if COOPER
+		__mapped.clear()
+		#elseif ECHOES
+		__mapped.Clear()
+		#elseif NOUGAT
+		__mapped.removeAllObjects()
+		#endif
 	}
 
 	/// Remove a member from the set and return it. Requires: `count > 0`.
-	/*mutating func removeFirst() -> T {
-	}*/
+	mutating func removeFirst() -> T {
+		#if COOPER
+		let result = __mapped.get(0)
+		__mapped.remove(0)
+		#elseif ECHOES
+		let result = __mapped[0]
+		__mapped.RemoveAt(0)
+		#elseif NOUGAT
+		let result = __mapped.allObjects[0]
+		__mapped.removeObject(result)
+		#endif
+		return result
+	}
 
 	/// The number of members in the set.
 	///
@@ -137,7 +183,15 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		return count == 0 
 	}
 	
-	//subscript (position: SetIndex<T>) -> T { get }
+	subscript (position: Int/*SetIndex<T>*/) -> T {
+		#if COOPER
+		return __mapped.get(position)
+		#elseif ECHOES
+		return __mapped[position]
+		#elseif NOUGAT
+		return __mapped.allObjects[position]
+		#endif
+	}
 
 	/// Return a *generator* over the members.
 	///
