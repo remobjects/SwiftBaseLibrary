@@ -1,7 +1,7 @@
 ﻿infix operator ... { precedence 135 associativity none } 
 infix operator ..< { precedence 135 associativity none }
 
-extension Int32 {
+public extension Int32 {
 	
 	public func ... (a: Int32, b: Int32) -> ISequence<Int32> {
 		for var i = a; i <= b; i++ {
@@ -40,7 +40,7 @@ extension Int32 {
 	}
 }
 
-extension Int64 {
+public extension Int64 {
 	
 	public func ... (a: Int64, b: Int64) -> ISequence<Int64> {
 		for var i = a; i <= b; i++ {

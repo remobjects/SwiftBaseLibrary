@@ -1,6 +1,6 @@
 ﻿
 #if !NOUGAT
-extension Object  {
+public extension Object  {
 
 	public var description: String {
 		#if COOPER
@@ -20,55 +20,55 @@ extension Object  {
 }
 #endif
 
-extension UInt8 {
+public extension UInt8 {
 	public static let max: UInt8 = 0xff
 	public static let min: UInt8 = 0
 	public static let allZeros: UInt8 = 0
 }
 
-extension UInt16 {
+public extension UInt16 {
 	public static let max: UInt16 = 0xffff
 	public static let min: UInt16 = 0
 	public static let allZeros: UInt8 = 0
 }
 
-extension UInt32 {
+public extension UInt32 {
 	public static let max: UInt32 = 0xffff_ffff
 	public static let min: UInt32 = 0
 	public static let allZeros: UInt8 = 0
 }
 
-extension UInt64 {
+public extension UInt64 {
 	public static let max: UInt64 = 0xffff_ffff_ffff_ffff
 	public static let min: UInt64 = 0
 	public static let allZeros: UInt8 = 0
 }
 
-extension Int8 {
+public extension Int8 {
 	public static let max: Int8 = 0x7f
 	public static let min: Int8 = -0x80
 	public static let allZeros: UInt8 = 0
 }
 
-extension Int16 {
+public extension Int16 {
 	public static let max: Int16 = 0x7fff
 	public static let min: Int16 = -0x8000
 	public static let allZeros: UInt8 = 0
 }
 
-extension Int32 {
+public extension Int32 {
 	public static let max: Int32 =  2147483647 //  0x7fff ffff
 	public static let min: Int32 = -2147483648 // -0x8000_0000
 	public static let allZeros: UInt8 = 0
 }
 
-extension Int64 {
+public extension Int64 {
 	public static let max: Int64 =  9223372036854775807 //  0x7fff_ffff_ffff_ffff 
 	public static let min: Int64 = -9223372036854775808 // -0x8000_0000_0000_0000
 	public static let allZeros: UInt8 = 0
 }
 
-extension UnicodeScalar {
+public extension UnicodeScalar {
 	
 	public var value: UInt32 { 
 		return self as! UInt32 

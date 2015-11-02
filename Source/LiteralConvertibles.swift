@@ -1,33 +1,33 @@
-﻿typealias ArrayLiteralConvertible<T> = IArrayLiteralConvertible<T>
-typealias BooleanLiteralConvertible<T> = IBooleanLiteralConvertible<T>
-typealias DictionaryLiteralConvertible<K,V> = IDictionaryLiteralConvertible<K,V>
-//typealias ExtendedGraphemeClusterLiteralConvertible<T> = IExtendedGraphemeClusterLiteralConvertible<T>
-typealias FloatLiteralConvertible<T> = IFloatLiteralConvertible<T>
-typealias IntegerLiteralConvertible<T> = IIntegerLiteralConvertible<T>
-typealias NilLiteralConvertible<T> = INilLiteralConvertible
-typealias StringLiteralConvertible<T> = IStringLiteralConvertible<T>
-typealias UnicodeScalarLiteralConvertible<T> = IUnicodeScalarLiteralConvertible<T>
+﻿public typealias ArrayLiteralConvertible<T> = IArrayLiteralConvertible<T>
+public typealias BooleanLiteralConvertible<T> = IBooleanLiteralConvertible<T>
+public typealias DictionaryLiteralConvertible<K,V> = IDictionaryLiteralConvertible<K,V>
+//public typealias ExtendedGraphemeClusterLiteralConvertible<T> = IExtendedGraphemeClusterLiteralConvertible<T>
+public typealias FloatLiteralConvertible<T> = IFloatLiteralConvertible<T>
+public typealias IntegerLiteralConvertible<T> = IIntegerLiteralConvertible<T>
+public typealias NilLiteralConvertible<T> = INilLiteralConvertible
+public typealias StringLiteralConvertible<T> = IStringLiteralConvertible<T>
+public typealias UnicodeScalarLiteralConvertible<T> = IUnicodeScalarLiteralConvertible<T>
 
-protocol IArrayLiteralConvertible {
+public protocol IArrayLiteralConvertible {
 	typealias Element
 	
 	init(arrayLiteral elements: Element...)
 }
 
-protocol IBooleanLiteralConvertible {
+public protocol IBooleanLiteralConvertible {
 	typealias BooleanLiteralType
 
 	init(booleanLiteral value: BooleanLiteralType)
 }
 
-protocol IDictionaryLiteralConvertible {
+public protocol IDictionaryLiteralConvertible {
 	typealias Key
 	typealias Value
 
 	init(dictionaryLiteral elements: (Key, Value)...)
 }
 
-/*protocol ExtendedGraphemeClusterLiteralConvertible : UnicodeScalarLiteralConvertible {
+/*public protocol ExtendedGraphemeClusterLiteralConvertible : UnicodeScalarLiteralConvertible {
 	typealias ExtendedGraphemeClusterLiteralType
 
 	/// Create an instance initialized to `value`.
@@ -35,37 +35,37 @@ protocol IDictionaryLiteralConvertible {
 	}
 }*/
 
-protocol IFloatLiteralConvertible {
+public protocol IFloatLiteralConvertible {
 	typealias FloatLiteralType
 
 	init(floatLiteral value: FloatLiteralType)
 }
 
-protocol IIntegerLiteralConvertible {
+public protocol IIntegerLiteralConvertible {
 	typealias IntegerLiteralType
 
 	init(integerLiteral value: IntegerLiteralType)
 }
 
-protocol INilLiteralConvertible {
+public protocol INilLiteralConvertible {
 
 	//init(nilLiteral: ())
 }
 
-protocol IStringLiteralConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
+public protocol IStringLiteralConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
 	typealias StringLiteralType
 
 	init(stringLiteral value: StringLiteralType)
 }
 
-protocol IUnicodeScalarLiteralConvertible {
+public protocol IUnicodeScalarLiteralConvertible {
 	typealias UnicodeScalarLiteralType
 
 	init(unicodeScalarLiteral value: UnicodeScalarLiteralType)
 }
 
 #if NOUGAT
-extension NSURL/*: StringLiteralConvertible*/ {
+public extension NSURL/*: StringLiteralConvertible*/ {
 	
 	//typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
 	
