@@ -18,7 +18,7 @@ public typealias UIntMax = UInt64
 
 public typealias Bool = Boolean
 
-public typealias Character = UInt32 // for now
+public typealias Character = Char // for now
 public typealias UnicodeScalar = Character // for now
 
 public typealias Float = Single
