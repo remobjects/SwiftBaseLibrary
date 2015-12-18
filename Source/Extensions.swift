@@ -81,7 +81,7 @@ public extension UnicodeScalar {
 			#elseif ECHOES
 			return self.ToString()
 			#elseif NOUGAT
-			return self.description
+			return self.description()
 			#endif
 		}
 		else {
