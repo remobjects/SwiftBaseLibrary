@@ -263,24 +263,43 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	/// example, `[-1, -2].join([[1, 2, 3], [4, 5, 6], [7, 8, 9]])`
 	/// yields `[1, 2, 3, -1, -2, 4, 5, 6, -1, -2, 7, 8, 9]`
 	//public func join<S : ISequence<T>>(elements: S) -> ISequence<T> { //70074: Silver: Can't use generic type in a generic constraint
-	/*public func join(elements: ISequence<T>) -> ISequence<T> { 
-		/*for e in elements { //70076: Support for "foreach" in mapped classes
-		}*/
-	}*/
-	/*public func join(elements: [T]) -> ISequence<T> { 
-		return __mapped.join(elements) // implementaton needed below
+	public func join(elements: ISequence<T>) -> ISequence<T> {
+		var first = true
+		for e in elements {
+			if !first {
+				first = false
+				for i in self {
+					__yield i
+				}
+			}
+			__yield e
+		}
 	}
-	public func join(elements: [[T]]) -> ISequence<T> { 
-		//return __mapped.join(elements) // implementaton needed below
-	}*/
+	public func join(elements: T[]) -> ISequence<T> { 
+		var first = true
+		for e in elements {
+			if !first {
+				first = false
+				for i in self {
+					__yield i
+				}
+			}
+			__yield e
+		}
+	}
 
 	/// Return the result of repeatedly calling `combine` with an
 	/// accumulated value initialized to `initial` and each element of
 	/// `self`, in turn, i.e. return
 	/// `combine(combine(...combine(combine(initial, self[0]),
 	/// self[1]),...self[count-2]), self[count-1])`.
-	/*public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
-	}*/
+	public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
+		var value = initial
+		for i in self {
+			value = combine(value, i)
+		}
+		return value
+	}
 
 	public mutating func sort(isOrderedBefore: (T, T) -> Bool) {
 		#if COOPER
