@@ -1,4 +1,6 @@
 ﻿
+// public __inline func abs(x) // provied by compiler
+	
 @Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file, line)
@@ -9,12 +11,18 @@
 	fatalError(message, file, line)
 }
 
-public __inline func debugPrint<T>(x: T) {
-	print(toDebugString(x))
-}
-
-public __inline func debugPrintln<T>(x: T) {
-	println(toDebugString(x))
+public __inline func debugPrint(objects: Any...) {//, separator separator: String = " ", terminator terminator: String = "\n") { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+	let separator: String = " "
+	let terminator: String = "\n"
+	
+	var first = true
+	for o in objects {
+		if !first {
+			write(separator)
+		}
+		write(toDebugString(o))
+	}
+	write(terminator)
 }
 
 @noreturn public func fatalError(_ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UInt32 = __LINE__) {
@@ -35,18 +43,36 @@ public __inline func debugPrintln<T>(x: T) {
 	fatalError(message, file, line)
 }
 
-public func println(object: Any? = nil) {
-	if let unwrappedObject = object {
-		writeLn(unwrappedObject)
-	} else {
-		writeLn()
-	}
+public __inline func println(objects: Any...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
+	print(objects)
 }
 
-public func print(object: Any? = nil) {
-	if let unwrappedObject = object {
-		write(unwrappedObject)
-	} 
+public func print(objects: Any...) {//, separator separator: String = " ", terminator terminator: String = "\n") { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+	let separator: String = " "
+	let terminator: String = "\n"
+	
+	var first = true
+	for o in objects {
+		if !first {
+			write(separator)
+		}
+		write(o)
+	}
+	write(terminator)
+}
+
+#if NOUGAT
+//@available(*, unavailable, message="Not implemented yet")
+#endif
+/*@warn_unused_result*/ func readLine(stripNewline stripNewline: Bool = default) -> String? {
+	#if COOPER
+	//return System.`in`.readLine() + (!stripNewline ? System.lineSeparator() : "")
+	fatalError("readLine is currently not implemented for Java.")
+	#elseif ECHOES
+	return Console.ReadLine() + (!stripNewline ? Environment.NewLine : "")
+	#elseif NOUGAT
+	fatalError("readLine is currently not implemented for Cocoa.")
+	#endif
 }
 
 public func swap<T>(inout a: T, inout b: T) {
@@ -55,7 +81,7 @@ public func swap<T>(inout a: T, inout b: T) {
 	b = temp
 }
 
-public __inline func toDebugString<T>(x: T) -> String {
+private __inline func toDebugString<T>(x: T) -> String {
 	#if COOPER
 	return x.toString()
 	#elseif ECHOES
@@ -68,8 +94,7 @@ public __inline func toDebugString<T>(x: T) -> String {
 	#endif
 }
 
-//@inline(never) func toString<T>(x: T) -> String
-public __inline func toString<T>(x: T) -> String {
+private __inline func toString<T>(x: T) -> String {
 	#if COOPER
 	return x.toString()
 	#elseif ECHOES
