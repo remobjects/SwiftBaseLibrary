@@ -6,6 +6,7 @@ public typealias FloatLiteralConvertible<T> = IFloatLiteralConvertible<T>
 public typealias IntegerLiteralConvertible<T> = IIntegerLiteralConvertible<T>
 public typealias NilLiteralConvertible<T> = INilLiteralConvertible
 public typealias StringLiteralConvertible<T> = IStringLiteralConvertible<T>
+public typealias StringInterpolationConvertible<T> = IStringInterpolationConvertible<T>
 public typealias UnicodeScalarLiteralConvertible<T> = IUnicodeScalarLiteralConvertible<T>
 
 public protocol IArrayLiteralConvertible {
@@ -27,13 +28,13 @@ public protocol IDictionaryLiteralConvertible {
 	init(dictionaryLiteral elements: (Key, Value)...)
 }
 
-/*public protocol ExtendedGraphemeClusterLiteralConvertible : UnicodeScalarLiteralConvertible {
+//73998: Silver: compiler crash in base library
+public protocol IExtendedGraphemeClusterLiteralConvertible /*: UnicodeScalarLiteralConvertible*/ {
 	typealias ExtendedGraphemeClusterLiteralType
 
 	/// Create an instance initialized to `value`.
-	init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType) {
-	}
-}*/
+	init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType)
+}
 
 public protocol IFloatLiteralConvertible {
 	typealias FloatLiteralType
@@ -56,6 +57,12 @@ public protocol IStringLiteralConvertible /*: ExtendedGraphemeClusterLiteralConv
 	typealias StringLiteralType
 
 	init(stringLiteral value: StringLiteralType)
+}
+
+public protocol IStringInterpolationConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
+	typealias StringInterpolationType
+
+	init(stringInterpolation value: StringInterpolationType)
 }
 
 public protocol IUnicodeScalarLiteralConvertible {
