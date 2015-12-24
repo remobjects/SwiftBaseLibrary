@@ -95,7 +95,7 @@ public extension UnicodeScalar {
 		}
 	}
 	
-	public func isASCII() -> Bool { // Method "static UnicodeScalar.isASCII() -> Bool" hides a method in parent class with the same name and signature
+	public func isASCII() -> Bool {
 		return self <= 127
 	}
 	

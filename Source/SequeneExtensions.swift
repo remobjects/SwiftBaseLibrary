@@ -1,7 +1,7 @@
 ﻿
 public extension ISequence {
 	
-	/*public func count() -> Int {
+	/*public func count() -> Int { // 74024: Silver: internal error in base library
 		return self.Count()
 	}*/
 
@@ -33,6 +33,7 @@ public extension ISequence {
 			__yield e
 		}
 	}
+	
 	public func join(elements: T[]) -> ISequence<T> { 
 		var first = true
 		for e in elements {
@@ -58,7 +59,7 @@ public extension ISequence {
 		return value
 	}
 
-	/*public func reverse() -> ISequence<T> {
+	/*public func reverse() -> ISequence<T> { // 74025: Silver: odd errors in base lib when i define Sequence.Reverse()
 		return self.Reverse()
 	}*/
 
@@ -75,13 +76,13 @@ public extension ISequence {
 		return result
 		#elseif ECHOES
 		let result: List<T> = [T](items: self) 
-		result.Sort({ (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
+		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
 			} else {
 				return 1
 			}
-		})
+		}
 		return result
 		#elseif NOUGAT
 		return self.array().sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
