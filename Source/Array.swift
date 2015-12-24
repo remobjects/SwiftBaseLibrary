@@ -258,6 +258,10 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 
+	public func enumerate() -> ISequence<T> {
+		return self
+	}
+	
 	/// Interpose `self` between each consecutive pair of `elements`,
 	/// and concatenate the elements of the resulting sequence.  For
 	/// example, `[-1, -2].join([[1, 2, 3], [4, 5, 6], [7, 8, 9]])`
@@ -400,7 +404,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}*/
 	
 	//
-	// Silver-specific extensions not efined in standard Swift.Array:
+	// Silver-specific extensions not defined in standard Swift.Array:
 	//
 
 	public func contains(item: T) -> Bool {
@@ -414,40 +418,3 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	}
 
 }
-
-/*#if NOUGAT
-extension Foundation.NSMutableArray {
-#elseif COOPER
-extension java.util.ArrayList<T> {
-#elseif ECHOES
-extension System.Collections.Generic.List<T> {
-#endif
-	public func join(elements: [T]) -> ISequence<T> { 
-		/*let elementsCount = elements.count;
-		let selfCount = self.count;
-		for var i: Int = 0; i < elementsCount; i++ { 
-			if i > 0{
-				for var j: Int = 0; j < selfCount; j++ {
-					__yield self[j]; //7 0075: Silver: support for iterators
-				}
-			}
-			__yield elements[i]; // 70075: Silver: support for iterators
-		}*/
-	}
-	public func join(elements: [[T]]) -> ISequence<T> { 
-		/*let elementsCount = elements.count;
-		let selfCount = self.count;
-		for var i: Int = 0; i < elementsCount; i++ { 
-			if i > 0{
-				for var j: Int = 0; j < selfCount; j++ {
-					__yield self[j]; //7 0075: Silver: support for iterators
-				}
-			}
-			let currentElement = elements[i]
-			let currentElementCount = currentElement.count
-			for var j: Int = 0; j < currentElementCount; j++ {
-				__yield currentElement[j]; //7 0075: Silver: support for iterators
-			}
-		}*/
-	}
-}*/
