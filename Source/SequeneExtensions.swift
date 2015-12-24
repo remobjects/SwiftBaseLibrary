@@ -17,6 +17,12 @@ public extension ISequence {
 		return self.FirstOrDefault()
 	}
 	
+	public func forEach(@noescape body: (T) throws -> ()) /*rethrows*/ { // 74028: Silver: compiler cant handle "rethrows"
+		for e in self {
+			try! body(e)
+		}
+	}
+	
 	public func isEmpty<T>() -> Bool {
 		return !self.Any()
 	}
@@ -49,6 +55,30 @@ public extension ISequence {
 
 	public func map<U>(transform: (T) -> U) -> ISequence<U> {
 		return self.Select() { return transform($0) }
+	}
+
+	public func maxElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? { // 74027: Silver: compiler gets confused with "try!"
+		var m: T? = nil
+		for e in self {
+			if m == nil || /*try!*/ !isOrderedBefore(m!, e) { // ToDo: check if this is the right order
+				m = e
+			}
+		}
+		return m
+	}
+
+	public func minElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
+		var m: T? = nil
+		for e in self {
+			if m == nil || /*try!*/ isOrderedBefore(m!, e) { // ToDo: check if this is the right order
+				m = e
+			}
+		}
+		return m
+	}
+	
+	public func `prefix`(maxLength: Int) -> ISequence<T> {
+		return self.Take(maxLength)
 	}
 
 	public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
