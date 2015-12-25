@@ -22,7 +22,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)String.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)SequeneExtensions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)SequenceExtensions.swift"/>
         <None Include="$(MSBuildThisFileDirectory)Compose.swift"/>
     </ItemGroup>
 </Project>

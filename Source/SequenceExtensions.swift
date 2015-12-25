@@ -1,20 +1,58 @@
 ﻿
 public extension ISequence {
 	
+	/*init(nativeArray: T[]) {
+		return NativeArraySequenceWrapper(nativeArray)
+	}*/
+
 	/*public func count() -> Int { // 74024: Silver: internal error in base library
 		return self.Count()
 	}*/
-
+	
 	public func countElements() -> Int {
 		return self.Count()
 	}
 
-	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { 
-		return self.Where() { return includeElement($0) }
+	@warn_unused_result public func dropFirst() -> ISequence<T> {
+		return self.Skip(1)
 	}
 
-	public func first() -> T? {
+	@warn_unused_result public func dropFirst(n: Int) -> ISequence<T> {
+		return self.Skip(n)
+	}
+
+	@warn_unused_result public func dropLast() -> ISequence<T> {
+		fatalError("dropLast() is not implemented yet.")
+	}
+
+	@warn_unused_result public func dropLast(n: Int) -> ISequence<T> {
+		fatalError("dropLast() is not implemented yet.")
+	}
+
+	@warn_unused_result public func enumerate() -> ISequence<T> { // no-op in Silver
+		return self
+	}
+	
+	//74037: Silver: cant use "throws/try!" on Nougat and Cooper; no error when omitting "try!" on Echoes
+	@warn_unused_result public func filter(includeElement: (T) /*throws*/ -> Bool) /*rethrows*/ -> ISequence<T> { 
+		return self.Where() { return try! includeElement($0) }
+	}
+
+	@warn_unused_result public func first() -> T? {
 		return self.FirstOrDefault()
+	}
+	
+	//74037: Silver: cant use "throws/try!" on Nougat and Cooper; no error when omitting "try!" on Echoes
+	@warn_unused_result func flatMap(@noescape transform: (T) /*throws*/ -> T?) /*rethrows*/ -> ISequence<T> {
+		for e in self {
+			if let e = /*try!*/ transform(e) {
+				__yield e
+			}
+		}
+	}
+	
+	@warn_unused_result public func flatten() -> ISequence<T> { // no-op in Silver? i dont get what this does.
+		return self
 	}
 	
 	public func forEach(@noescape body: (T) throws -> ()) /*rethrows*/ { // 74028: Silver: compiler cant handle "rethrows"
@@ -23,41 +61,96 @@ public extension ISequence {
 		}
 	}
 	
-	public func isEmpty<T>() -> Bool {
+	//74036: Can't use Obsolete(, true) on Java :(
+	/*@Obsolete("generate() is not supported in Silver.", true)*/ public func generate() -> ISequence<T> { // no-op in Silver? i dont get what this does.
+		fatalError("generate() is not supported in Silver.")
+	}
+	
+	@warn_unused_result public func isEmpty<T>() -> Bool {
 		return !self.Any()
 	}
 
-	public func join(elements: ISequence<T>) -> ISequence<T> {
+	//74036: Can't use Obsolete(, true) on Java :(
+	/*@Obsolete("Use joinWithSeparator() instead")*/ @warn_unused_result public func join(elements: ISequence<T>) -> ISequence<T> {
 		var first = true
 		for e in elements {
 			if !first {
-				first = false
 				for i in self {
 					__yield i
 				}
+			} else {
+				first = false
 			}
 			__yield e
 		}
 	}
 	
-	public func join(elements: T[]) -> ISequence<T> { 
+	//74036: Can't use Obsolete(, true) on Java :(
+	/*@Obsolete("Use joinWithSeparator() instead")*/ @warn_unused_result public func join(elements: T[]) -> ISequence<T> { 
 		var first = true
 		for e in elements {
 			if !first {
-				first = false
 				for i in self {
 					__yield i
 				}
+			} else {
+				first = false
 			}
 			__yield e
 		}
 	}
 
-	public func map<U>(transform: (T) -> U) -> ISequence<U> {
+	@warn_unused_result public func joinWithSeparator(separator: String) -> String {
+		var first = true
+		var result = ""
+		for e in self {
+			if !first {
+				result += separator
+			} else {
+				first = false
+			}
+			result += __toString(e)
+		}
+		return result
+	}
+	
+	@warn_unused_result public func joinWithSeparator(separator: ISequence<T>) -> ISequence<T> {
+		var first = true
+		for e in self {
+			if !first {
+				for i in separator {
+					__yield i
+				}
+			} else {
+				first = false
+			}
+			__yield e
+		}
+	}
+	
+	@warn_unused_result public func joinWithSeparator(separator: T[]) -> ISequence<T> { 
+		var first = true
+		for e in self {
+			if !first {
+				for i in separator {
+					__yield i
+				}
+			} else {
+				first = false
+			}
+			__yield e
+		}
+	}
+
+	@warn_unused_result public func `lazy`() -> ISequence<T> { // sequences are always lazy in Silver
+		return self
+	}
+	
+	@warn_unused_result public func map<U>(transform: (T) -> U) -> ISequence<U> {
 		return self.Select() { return transform($0) }
 	}
 
-	public func maxElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? { // 74027: Silver: compiler gets confused with "try!"
+	@warn_unused_result public func maxElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? { // 74027: Silver: compiler gets confused with "try!"
 		var m: T? = nil
 		for e in self {
 			if m == nil || /*try!*/ !isOrderedBefore(m!, e) { // ToDo: check if this is the right order
@@ -67,7 +160,7 @@ public extension ISequence {
 		return m
 	}
 
-	public func minElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
+	@warn_unused_result public func minElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
 		var m: T? = nil
 		for e in self {
 			if m == nil || /*try!*/ isOrderedBefore(m!, e) { // ToDo: check if this is the right order
@@ -77,11 +170,11 @@ public extension ISequence {
 		return m
 	}
 	
-	public func `prefix`(maxLength: Int) -> ISequence<T> {
+	@warn_unused_result public func `prefix`(maxLength: Int) -> ISequence<T> {
 		return self.Take(maxLength)
 	}
 
-	public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
+	@warn_unused_result public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
 		var value = initial
 		for i in self {
 			value = combine(value, i)
@@ -93,7 +186,7 @@ public extension ISequence {
 		return self.Reverse()
 	}*/
 
-	public func sorted(isOrderedBefore: (T, T) -> Bool) -> [T] { 
+	@warn_unused_result public func sort(isOrderedBefore: (T, T) -> Bool) -> [T] { 
 		#if COOPER
 		let result: ArrayList<T> = [T](items: self) 
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
@@ -125,7 +218,7 @@ public extension ISequence {
 		#endif
 	}
 
-	/*public func split(isSeparator: (T) -> Bool, maxSplit: Int = default, allowEmptySlices: Bool = default) -> ISequence<ISequence<T>> {
+	/*@warn_unused_result public func split(isSeparator: (T) -> Bool, maxSplit: Int = default, allowEmptySlices: Bool = default) -> ISequence<ISequence<T>> {
 	
 		let result = [String]()
 		var currentString = ""
@@ -159,7 +252,7 @@ public extension ISequence {
 		return result
 	}*/
 	
-	public func startsWith(`prefix` p: ISequence<T>) -> Bool {
+	@warn_unused_result public func startsWith(`prefix` p: ISequence<T>) -> Bool {
 		#if COOPER
 		let sEnum = self.iterator()
 		let pEnum = p.iterator()
@@ -232,11 +325,39 @@ public extension ISequence {
 		#endif
 	}
 
+	@warn_unused_result public func suffix(maxLength: Int) -> ISequence<T> {
+		fatalError("suffix() is not implemented yet.")
+	}
+
+	public func underestimateCount() -> Int { // we just return the accurate count here
+		return self.Count()
+	}
+	
 	//
 	// Silver-specific extensions not defined in standard Swift.Array:
 	//
+	
+	/*@warn_unused_result public func nativeArray() -> T[] {
+		#if COOPER
+		//return self.toArray()//T[]())
+		#elseif ECHOES
+		return self.ToArray()
+		#elseif NOUGAT
+		//return self.array()
+		#endif
+	}
 
-	public func contains(item: T) -> Bool {
+	@warn_unused_result public func array() -> [T] {
+		#if COOPER
+		//return self.toList()
+		#elseif ECHOES
+		return self.ToList()
+		#elseif NOUGAT
+		return self.array()
+		#endif
+	}*/
+
+	@warn_unused_result public func contains(item: T) -> Bool {
 		#if COOPER
 		return self.contains(item)
 		#elseif ECHOES
