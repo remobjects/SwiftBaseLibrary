@@ -142,7 +142,7 @@ public extension ISequence {
 		}
 	}
 
-	@warn_unused_result public func `lazy`() -> ISequence<T> { // sequences are always lazy in Silver
+	public var lazy: ISequence<T> { // sequences are always lazy in Silver
 		return self
 	}
 	

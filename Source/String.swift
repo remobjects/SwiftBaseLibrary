@@ -17,7 +17,15 @@
 		#endif
 	}
 	
-	public var startIndex: String.Index { return 0 }
+	public var characters: String.CharacterView {
+		return String.CharacterView(string: self)
+	}
+	
+	#if !NOUGAT
+	public var debugDescription: String {
+		return self
+	}
+	#endif
 	
 	public var endIndex: String.Index { 
 		#if ECHOES
@@ -26,6 +34,18 @@
 		return self.length()-1 
 		#endif
 	}
+	
+	public var hashValue: Int {
+		#if COOPER
+		return self.hashCode()
+		#elseif ECHOES
+		return self.GetHashCode()
+		#elseif NOUGAT
+		return self.hashValue()
+		#endif
+	}
+	
+	// GOOD TIL HERE
 	
 	#if !NOUGAT
 	public func length() -> Int {
@@ -91,6 +111,11 @@
 		#hint ToDo: doesnt handle invalid strings to return nil, yet
 		#endif
 	}
+	
+	public var startIndex: String.Index {
+		return 0
+	}
+	
 	
 	/*public func generate() -> IndexingGenerator<String> {
 	}*/
@@ -235,5 +260,17 @@
 	}
 
 */
+	public class CharacterView {
+		private let string: String
+		
+		private init(string: String) {
+			self.string = string
+		}
+		
+		public subscript(index: Int) -> Character {
+			return string[index]
+		}
+	}
 
 }
+
