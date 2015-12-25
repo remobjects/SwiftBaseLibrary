@@ -1,52 +1,49 @@
-﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
-  <PropertyGroup>
-    <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>399BE68A-44C3-4357-8D11-4B64C6EC0674</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-    <AllowLegacyCreate>False</AllowLegacyCreate>
-    <RootNamespace>Swift</RootNamespace>
-    <AssemblyName>swift</AssemblyName>
-    <SuppressWarnings>JW0</SuppressWarnings>
-    <DefaultUses>java.util,com.remobjects.elements.linq</DefaultUses>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <OutputPath>.\bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
-    <GenerateDebugInfo>True</GenerateDebugInfo>
-    <EnableAsserts>True</EnableAsserts>
-    <CaptureConsoleOutput>False</CaptureConsoleOutput>
-    <StartMode>Project</StartMode>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <CpuType>anycpu</CpuType>
-    <RuntimeVersion>v25</RuntimeVersion>
-    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
-    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <OutputPath>bin\Release\</OutputPath>
-    <CaptureConsoleOutput>False</CaptureConsoleOutput>
-    <StartMode>Project</StartMode>
-    <RegisterForComInterop>False</RegisterForComInterop>
-    <CpuType>anycpu</CpuType>
-    <RuntimeVersion>v25</RuntimeVersion>
-    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
-    <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
-    <DefineConstants />
-    <SuppressWarnings>JW0</SuppressWarnings>
-    <XmlDocWarningLevel>WarningOnPublicMembers</XmlDocWarningLevel>
-    <GenerateDebugInfo>False</GenerateDebugInfo>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="rt.jar" />
-    <Reference Include="com.remobjects.elements.rtl.jar">
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Oxygene/RemObjects.Oxygene.Cooper.targets" />
-  <Import Project="Swift.Shared.projitems" Label="Swift.Shared" />
+    <PropertyGroup>
+        <ProductVersion>3.5</ProductVersion>
+        <ProjectGuid>399BE68A-44C3-4357-8D11-4B64C6EC0674</ProjectGuid>
+        <OutputType>Library</OutputType>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+        <AllowLegacyCreate>False</AllowLegacyCreate>
+        <RootNamespace>Swift</RootNamespace>
+        <AssemblyName>swift</AssemblyName>
+        <SuppressWarnings>JW0</SuppressWarnings>
+        <DefaultUses>java.util,com.remobjects.elements.linq</DefaultUses>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <OutputPath>.\bin\Debug</OutputPath>
+        <DefineConstants>DEBUG;TRACE;</DefineConstants>
+        <GenerateDebugInfo>True</GenerateDebugInfo>
+        <EnableAsserts>True</EnableAsserts>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <StartMode>Project</StartMode>
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <CpuType>anycpu</CpuType>
+        <RuntimeVersion>v25</RuntimeVersion>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+        <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <OutputPath>bin\Release\</OutputPath>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <StartMode>Project</StartMode>
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <CpuType>anycpu</CpuType>
+        <RuntimeVersion>v25</RuntimeVersion>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+        <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+        <SuppressWarnings>JW0</SuppressWarnings>
+        <XmlDocWarningLevel>WarningOnPublicMembers</XmlDocWarningLevel>
+        <GenerateDebugInfo>False</GenerateDebugInfo>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="rt.jar"/>
+        <Reference Include="com.remobjects.elements.rtl.jar">
+            <Private>True</Private>
+        </Reference>
+    </ItemGroup>
+    <ItemGroup/>
+    <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Oxygene/RemObjects.Oxygene.Cooper.targets"/>
+    <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>

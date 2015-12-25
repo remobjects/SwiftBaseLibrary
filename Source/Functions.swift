@@ -19,6 +19,8 @@ public __inline func debugPrint(objects: Any...) {//, separator separator: Strin
 	for o in objects {
 		if !first {
 			write(separator)
+		} else {
+			first = false
 		}
 		write(toDebugString(o))
 	}
@@ -55,6 +57,8 @@ public func print(objects: Any...) {//, separator separator: String = " ", termi
 	for o in objects {
 		if !first {
 			write(separator)
+		} else {
+			first = false
 		}
 		write(o)
 	}
