@@ -20,6 +20,16 @@ public typealias Bool = Boolean
 
 public typealias Character = Char // for now
 public typealias UnicodeScalar = Character // for now
+public typealias UTF16Char = Char // UInt16
+public typealias UTF32Char = UInt32
+#if !NOUGAT
+public typealias AnsiChar = Byte
+public typealias UTF8Char = Byte
+#else
+// Nougat has AnsiChar already
+public typealias UTF8Char = AnsiChar
+#endif
+
 
 public typealias Float = Single
 public typealias Float32 = Single

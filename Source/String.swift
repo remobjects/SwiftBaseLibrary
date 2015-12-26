@@ -17,8 +17,12 @@
 		#endif
 	}
 	
-	public var characters: String.CharacterView {
-		return String.CharacterView(string: self)
+	//
+	// Properties
+	//
+	
+	public var characters: String.UTF16CharacterView {
+		return String.UTF16CharacterView(string: self)
 	}
 	
 	#if !NOUGAT
@@ -29,9 +33,9 @@
 	
 	public var endIndex: String.Index { 
 		#if ECHOES
-		return self.Length-1
+		return self.Length
 		#else
-		return self.length()-1 
+		return self.length()
 		#endif
 	}
 	
@@ -45,36 +49,57 @@
 		#endif
 	}
 	
-	// GOOD TIL HERE
-	
-	#if !NOUGAT
-	public func length() -> Int {
-		#if ECHOES
-		return self.Length
-		#else
-		return self.length() 
-		#endif
+	public var isEmpty : Bool {
+		return length() == 0
 	}
-	#endif
-	
-	public var isEmpty: Bool { return length() == 0 }
 	
 	#if !NOUGAT
-	public func lowercaseString() -> String {
+	public var lowercaseString: String {
 		#if COOPER
 		return self.toLowerCase()
 		#elseif ECHOES
 		return self.ToLower()
 		#endif
 	}
-	public func uppercaseString() -> String {
+	#endif
+	
+	#if NOUGAT
+	/*public var nulTerminatedUTF8: Character[] {
+		return cStringUsingEncoding(.UTF8StringEncoding) // E62 Type mismatch, cannot assign "UnsafePointer<AnsiChar>" to "Character[]"
+	}*/
+	#endif
+	
+	public var startIndex: String.Index {
+		return 0
+	}
+	
+	#if !NOUGAT
+	public var uppercaseString: String {
 		#if COOPER
 		return self.toUpperCase()
 		#elseif ECHOES
 		return self.ToUpper()
 		#endif
 	}
+	#endif
+
+	public var utf8: String.UTF8CharacterView {
+		return String.UTF8CharacterView(string: self)
+	}
 	
+	public var utf16: String.UTF16CharacterView {
+		return String.UTF16CharacterView(string: self)
+	}
+	
+	public var unicodeScalars: String.UTF32CharacterView {
+		return String.UTF32CharacterView(string: self)
+	}
+	
+	//
+	// Methods
+	//
+
+	#if !NOUGAT
 	public func hasPrefix(`prefix`: String) -> Bool {
 		#if COOPER
 		return startsWith(`prefix`)
@@ -88,6 +113,54 @@
 		return endsWith(suffix)
 		#elseif ECHOES
 		return EndsWith(suffix)
+		#endif
+	}
+	#endif
+	
+	#if NOUGAT
+	public static func fromCString(cs: UnsafePointer<AnsiChar>) -> String? {
+		if cs == nil {
+			return nil
+		}
+		return NSString.stringWithUTF8String(cs)
+	}
+	
+	public static func fromCStringRepairingIllFormedUTF8(cs: UnsafePointer<AnsiChar>) -> (String?, /*hadError:*/ Bool) {
+		if cs == nil {
+			return (nil, false)
+		}
+		//todo:  If CString contains ill-formed UTF-8 code unit sequences, replaces them with replacement characters (U+FFFD).
+		return (NSString.stringWithUTF8String(cs), false)
+	}
+	#endif
+	
+	//
+	// Subscripts
+	//
+	
+	//public subscript(range: String.Index) -> Character // implicitly provided by the compiler, already
+	
+	public subscript(range: Range) -> String {
+		#if COOPER
+		return substring(range.startIndex, range.length)
+		#elseif ECHOES
+		return Substring(range.startIndex, range.length)
+		#elseif NOUGAT
+		return substringWithRange(range.nativeRange) // todo: make a cast operator
+		#endif
+	}
+	
+
+	//
+	// Silver-specific extensions not defined in standard Swift.String:
+	//
+
+	#if !NOUGAT
+	public func length() -> Int {
+		#if ECHOES
+		return self.Length
+		#else
+		return self.length() 
 		#endif
 	}
 	#endif
@@ -112,165 +185,80 @@
 		#endif
 	}
 	
-	public var startIndex: String.Index {
-		return 0
-	}
-	
-	
-	/*public func generate() -> IndexingGenerator<String> {
-	}*/
-	
-	/*public var utf8: UTF8View {
-	}
-	
-	public var nulTerminatedUTF8: ContiguousArray<CodeUnit> { 
-		#if ECHOES
-		#elseif NOUGAT
-		return self.UTF8String()
-		#endif
-	}*/
-	
-	/*public func rangeOfString(string: String) -> Range? {
-		#if COOPER
-		#elseif ECHOES
-		let start = IndexOf(string);
-		if start >= 0 {
-			return Range(start: start, length: string.length())
+	public __abstract class CharacterView {
+		private init(string: String) {
 		}
-		#elseif NOUGAT
-		var range = (self as! NSString).rangeOfString(string);
-		if range.location != NSNotFound {
-			return Range(Range: range)
-		}
-		#endif
-		return nil
-	}*/
-	
-	/*
-	#if NOUGAT
-	public static func fromCString(cs: UnsafePointer<CChar>) -> String? {
-	}
-
-	/// Creates a new `String` by copying the nul-terminated UTF-8 data
-	/// referenced by a `CString`.
-	///
-	/// Returns `nil` if the `CString` is `NULL`.  If `CString` contains
-	/// ill-formed UTF-8 code unit sequences, replaces them with replacement
-	/// characters (U+FFFD).
-	public static func fromCStringRepairingIllFormedUTF8(cs: UnsafePointer<CChar>) -> (String?, hadError: Bool) {
-	}
-	#endif
-	/* Views */
-
-	public var unicodeScalars: String.UnicodeScalarView { 
-		//return String.UnicodeScalarView(/*string:*/ self)
-	}
-	public var utf8: String.UTF8View {
-		//return String.UTF8View(string: self)
-	}
-	public var utf16: String.UTF16View { 
-		//return String.UTF16View(string: self)
-	}
-
-	public class BaseView /*: ISequence<UnicodeScalar>*/ {
-		internal let _string: String
-		internal public init(string: String) {
-			_string = string;
-		}
-	}
-	
-	public class UnicodeScalarView : BaseView /*: ISequence<UnicodeScalar>*/ {
-
-		internal public init(string: String) {
-			super.init(string: string)
-			#if COOPER
-			#elseif ECHOES
-			_data = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
-			#elseif NOUGAT
-			_utf32 = (string as! NSString).dataUsingEncoding(NSStringEncoding.NSUTF16LittleEndianStringEncoding) // todo check order  
-			_data = _utf32.bytes as! UnsafePointer<Byte>
-			#endif
-		}
-
-		#if COOPER
-		private let _data: Byte[] //todo
-		private var _length: Int { return _data.length/4 }
-		#elseif ECHOES
-		private let _data: Byte[]
-		private var _length: Int { return _data.Length/4 }
-		#elseif NOUGAT
-		private let _utf32: NSData
-		private let _data: UnsafePointer<Byte>
-		private var _length: Int { return _utf32.length/4 }
-		#endif
 
 		public var startIndex: String.Index { return 0 }
-		public var endIndex: String.Index { return _length-1 }
-
-		public subscript (i: String.Index) -> UInt32 {
-			return _data[i] | _data[i+1] << 8 | _data[i+2] << 16 | _data[i+3] << 24 // todo: probably wrong order, check
-		}
+		public __abstract var endIndex: String.Index { get }
 	}
 	
-	public class UTF8View : BaseView /*: ISequence<UnicodeScalar>*/ {
-		
-		internal public init(string: String) {
-			super.init(string: string)
-			#if COOPER
-			#elseif ECHOES
-			_data = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string)
-			#elseif NOUGAT
-			_data = (string as! NSString).UTF8String
-			_length = strlen(_data)
-			#endif
-		}
-		
-		#if COOPER
-		private let _data: Byte[] //todo
-		private var _length: Int { return _data.length }
-		#elseif ECHOES
-		private let _data: Byte[]
-		private var _length: Int { return _data.Length }
-		#elseif NOUGAT
-		private let _data: UnsafePointer<AnsiChar>
-		private let _length: Int
-		#endif
-
-		public var startIndex: String.Index { return 0 }
-		public var endIndex: String.Index { return _length-1 }
-
-		public subscript (i: String.Index) -> AnsiChar {
-			return _data[i]
-		}
-	}
-	public class UTF16View : BaseView /*: ISequence<UnicodeScalar>*/ {
-
-		public var startIndex: String.Index { return _string.startIndex }
-		public var endIndex: String.Index { return _string.endIndex }
-
-		public subscript (i: String.Index) -> Character {
-			#if COOPER
-			return (_string as! java.lang.String)[i]
-			#elseif ECHOES
-			return (_string as! System.String)[i]
-			#elseif NOUGAT
-			return (_string as! Foundation.NSString)[i]
-			#endif
-		}
-	}
-
-*/
-	public class CharacterView {
+	public class UTF16CharacterView: CharacterView {
 		private let string: String
 		
 		private init(string: String) {
 			self.string = string
 		}
 		
-		public subscript(index: Int) -> Character {
+		public override var endIndex: String.Index { return length(string) }
+
+		public subscript(index: Int) -> UTF16Char {
 			return string[index]
 		}
 	}
+	
+	public class UTF32CharacterView: CharacterView {
+		private let stringData: Byte[]
 
+		private init(string: String) {
+			#if COOPER
+			stringData = []
+			fatalError("UTF32CharacterView is not implemenyted for Java yet.")
+			#elseif ECHOES
+			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
+			#elseif NOUGAT
+			if let utf32 = (string as! NSString).dataUsingEncoding(.NSUTF16LittleEndianStringEncoding) { // todo check order  
+				stringData = Byte[](capacity: utf32.length);
+				utf32.getBytes(stringData, length: utf32.length);
+			} else {
+				stringData = []
+				fatalError("Encoding of string to UTF32 failed.")
+			}
+			#endif
+		}
+		
+		public override var endIndex: String.Index { return RemObjects.Elements.System.length(stringData)/4 }
+
+		public subscript(index: Int) -> UTF32Char {
+			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
+		}
+	}
+	
+	public class UTF8CharacterView: CharacterView {
+		private let stringData: UTF8Char[]
+		
+		private init(string: String) {
+			#if COOPER
+			stringData = []
+			fatalError("UTF8CharacterView is not implemenyted for Java yet.")
+			#elseif ECHOES
+			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order  
+			#elseif NOUGAT
+			if let utf8 = (string as! NSString).dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
+				stringData = UTF8Char[](capacity: utf8.length);
+				utf8.getBytes(stringData, length: utf8.length);
+			} else {
+				stringData = []
+				fatalError("Encoding of string to UTF8 failed.")
+			}
+			#endif
+		}
+		
+		public override var endIndex: String.Index { return RemObjects.Elements.System.length(stringData) }
+
+		public subscript(index: Int) -> UTF8Char {
+			return stringData[index]
+		}
+	}
 }
 

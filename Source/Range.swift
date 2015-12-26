@@ -132,7 +132,7 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 	
 	public var startIndex: IntMax 
 	public var endIndex: IntMax
-
+	
 	/* Equatable */
 
 	public func ==(lhs: Self, rhs: Self) -> Bool {
@@ -147,5 +147,20 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 	/* IComparable<T> */
 	//func CompareTo(rhs: T) -> IntMax {
 	// }
+
+	//
+	// Silver-specific extensions not defined in standard Swift.Range:
+	//
+
+	public var length: IntMax {
+		return endIndex-startIndex
+	}
+	
+	#if NOUGAT
+	// todo: make a cast operator
+	public var nativeRange: NSRange {
+		return NSMakeRange(startIndex, endIndex-startIndex)
+	}
+	#endif
 
 }
