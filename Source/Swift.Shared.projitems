@@ -20,7 +20,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Range.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)String.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)SequenceExtensions.swift"/>
         <None Include="$(MSBuildThisFileDirectory)Compose.swift"/>
