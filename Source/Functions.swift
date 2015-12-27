@@ -22,7 +22,7 @@ public __inline func debugPrint(objects: Any...) {//, separator separator: Strin
 		} else {
 			first = false
 		}
-		write(__toDebugString(o))
+		write(String(reflecting:o))
 	}
 	write(terminator)
 }
@@ -83,27 +83,4 @@ public func swap<T>(inout a: T, inout b: T) {
 	let temp = a
 	a = b
 	b = temp
-}
-
-internal __inline func __toDebugString<T>(x: T) -> String {
-	#if COOPER
-	return x.toString()
-	#elseif ECHOES
-	return x.ToString()
-	#elseif NOUGAT
-	if (debugDescription.respondsToSelector("debugDescription")) {
-		return x.debugDescription
-	}
-	return x.description
-	#endif
-}
-
-internal __inline func __toString<T>(x: T) -> String {
-	#if COOPER
-	return x.toString()
-	#elseif ECHOES
-	return x.ToString()
-	#elseif NOUGAT
-	return x.description
-	#endif
 }

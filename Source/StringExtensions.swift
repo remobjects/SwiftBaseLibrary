@@ -16,6 +16,52 @@
 		return "".stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
 		#endif
 	}
+
+	/*
+	public init(_ object: AnyObject) {
+		return object.description // 74048: Silver: cannot assign "" to "string"
+		#if COOPER
+		return object.toString()
+		#elseif ECHOES
+		return object.ToString()
+		#elseif NOUGAT
+		return object.description
+		#endif
+	}
+	*/
+	
+	public init(reflecting object: AnyObject) {
+		/*
+		//74045: Silver: errors leak out of method call & followup internal error
+		//return ugString(object)
+		//74047: Silver: wrong type mismatch error in extension init(), Cooper only
+		//return object.description()
+		#if COOPER
+		return object.toString() as! String // 74047: Silver: wrong type mismatch error in extension init(), Cooper only
+		#elseif ECHOES
+		return object.ToString()
+		#elseif NOUGAT
+		return object.description()
+		#endif
+		*/
+		if let o = object as? CustomDebugStringConvertible {
+			return o.debugDescription
+		//} else { /*if let o = object as? CustomStringConvertible {*/
+		//	return object.description // 74048: Silver: cannot assign "" to "string"
+		} else {
+			#if COOPER
+			return object.toString() as! String // 74047: Silver: wrong type mismatch error in extension init(), Cooper only
+			#elseif ECHOES
+			return object.ToString()
+			#elseif NOUGAT
+			if (object.respondsToSelector("debugDescription")) {
+				return object.debugDescription
+			}
+			return object.description
+			#endif
+		}
+
+	}
 	
 	//
 	// Properties

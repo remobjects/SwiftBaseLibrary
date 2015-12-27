@@ -9,15 +9,15 @@
 }
 #endif
 
-public protocol Printable {
+@SoftInterface public protocol CustomStringConvertible {
 	var description: String { get }
 }
 
-public protocol DebugPrintable {
+@SoftInterface public protocol CustomDebugStringConvertible {
 	var debugDescription: String { get }
 }
 
-public protocol Hashable : Equatable {
+@SoftInterface public protocol Hashable : Equatable {
 	var hashValue: Int { get }
 }
 

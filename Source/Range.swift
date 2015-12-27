@@ -74,64 +74,48 @@ struct RangeGenerator_IntMax {
 }
 
 public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
-	public init(_ x: Self) {
+
+	//
+	// Initializers
+	//
+
+	public init(_ x: Range) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
 	}
 	
-	// we canot support .ctors overloaded only by external names, on .NET and Java
-	#if NOUGAT
 	public init(start: IntMax, end: IntMax) {
 		startIndex = start
 		endIndex = end
 	}
-	#endif
 	
-	public init(start: IntMax, length: IntMax) {
-		startIndex = start
-		endIndex = start+length-1
-	}
-
-	#if NOUGAT
-	public init(range: NSRange) {
-		startIndex = range.location
-		endIndex = startIndex+range.length-1
-	}
-	#endif
-	
-	
-	/*#if COOPER
-	func iterator() -> java.util.Iterator<Long!> {
-	}
-	#elseif ECHOES
-	func GetEnumerator() -> System.Collections.Generic.IEnumerator<IntMax>! {
-	}
-	func GetEnumerator() -> System.Collections.IEnumerator! {
-	}
-	#elseif NOUGAT
-	func countByEnumeratingWithState(aState: UnsafePointer<NSFastEnumerationState>, objects stackbuf: UnsafePointer<IntMax!>, count len: NSUInteger) -> NSUInteger {
-	}
-	#endif */
-	
-	public var isEmpty: Bool { 
-		return startIndex == endIndex
-	}
-	
-	//typealias T = IntMax
-	//typealias Index = IntMax
-	//typealias Slice = Range<Index>
-	
-	public subscript (i: IntMax) -> IntMax { 
-		return startIndex + i;
-	}
-	
-	//typealias Generator = RangeGenerator_IntMax
-	func generate() -> RangeGenerator_IntMax {
-		return RangeGenerator_IntMax(self)
-	}
+	//
+	// Properties
+	//
 	
 	public var startIndex: IntMax 
 	public var endIndex: IntMax
+	
+	//
+	// Methods
+	//
+	
+	#if NOUGAT
+	override var description: String! {
+	#else
+	public var description: String {
+	#endif
+		return "\(startIndex)..<\(endIndex)"
+	}
+
+	#if NOUGAT
+	override var debugDescription: String! {
+	#else
+	public var debugDescription: String {
+		#endif
+		//return "Range(\(String(reflecting: startIndex))..<\(String(reflecting: endIndex)))"
+		return "Range(\(startIndex)..<\(endIndex))"
+	}
 	
 	/* Equatable */
 
@@ -148,6 +132,23 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 	//func CompareTo(rhs: T) -> IntMax {
 	// }
 
+	//
+	// Subscripts & Iterators
+	//
+	
+	public subscript (i: IntMax) -> IntMax { 
+		//return startIndex + i
+		return i
+	}
+	
+	public func GetSequence() -> ISequence<IntMax> {
+		var i = startIndex
+		while i < endIndex {
+			__yield i
+			i += 1
+		}
+	}
+	
 	//
 	// Silver-specific extensions not defined in standard Swift.Range:
 	//

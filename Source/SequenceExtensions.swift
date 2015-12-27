@@ -1,15 +1,39 @@
 ﻿
+public typealias ILazySequence<T> = ISequence<T>
+public typealias LazySequenceType<T> = ISequence<T>
+public typealias SequenceType<T> = ISequence<T> // for now, later should become INonLazySequence<T>
+
 public extension ISequence {
 	
 	/*init(nativeArray: T[]) {
-		return NativeArraySequenceWrapper(nativeArray)
-	}*/
+		// 74043: Silver: wrong/confusing error when implementing iterator in nested function
+		/*func nativeArrayToSequence() -> ISequence<T> {
+			for e in nativeArray {
+				__yield e
+			}
+		}
+		return nativeArrayToSequence()*/
 
-	/*public func count() -> Int { // 74024: Silver: internal error in base library
+		//74042: Silver: wrong "no such overload" error when implementing iterator in extension
+		/*return nativeArrayToSequence(nativeArray)*/
+	}*/
+	
+	//74042: Silver: wrong "no such overload" error when implementing iterator in extension
+	private func nativeArrayToSequence(nativeArray: T[]) -> ISequence<T> {
+		for e in nativeArray {
+			__yield e
+		}
+	}
+	
+	init(array: [T]) {
+		return array as! ISequence<T> // 74041: Silver: warning for "as" cast that should be known safe
+	}
+
+	/*@warn_unused_result public func count() -> Int { // 74024: Silver: internal error in base library
 		return self.Count()
 	}*/
 	
-	public func countElements() -> Int {
+	@warn_unused_result public func countElements() -> Int {
 		return self.Count()
 	}
 
@@ -109,7 +133,7 @@ public extension ISequence {
 			} else {
 				first = false
 			}
-			result += __toString(e)
+			result += e.description
 		}
 		return result
 	}
@@ -186,7 +210,8 @@ public extension ISequence {
 		return self.Reverse()
 	}*/
 
-	@warn_unused_result public func sort(isOrderedBefore: (T, T) -> Bool) -> [T] { 
+	@warn_unused_result public func sort(isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
+		//todo: make more lazy?
 		#if COOPER
 		let result: ArrayList<T> = [T](items: self) 
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
@@ -367,3 +392,4 @@ public extension ISequence {
 		#endif
 	}
 }
+

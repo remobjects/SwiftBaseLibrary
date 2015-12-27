@@ -22,7 +22,18 @@
         <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)SequenceExtensions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)SequenceExtensions.swift">
+            <VirtualFolder>Sequences</VirtualFolder>
+        </Compile>
         <None Include="$(MSBuildThisFileDirectory)Compose.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)INonLazySequence_Extensions.swift">
+            <VirtualFolder>Sequences</VirtualFolder>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Object_Extensions.swift"/>
+    </ItemGroup>
+    <ItemGroup>
+        <Folder Include="Sequences">
+            <Virtual>True</Virtual>
+        </Folder>
     </ItemGroup>
 </Project>
