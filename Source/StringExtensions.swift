@@ -34,7 +34,7 @@ public protocol IStreamable {
 	}
 	*/
 	
-	public init(reflecting object: AnyObject) {
+	public init(reflecting subject: AnyObject) {
 		/*
 		//74045: Silver: errors leak out of method call & followup internal error
 		//return ugString(object)
@@ -48,20 +48,20 @@ public protocol IStreamable {
 		return object.description()
 		#endif
 		*/
-		if let o = object as? CustomDebugStringConvertible {
+		if let o = subject as? CustomDebugStringConvertible {
 			return o.debugDescription
 		//} else { /*if let o = object as? CustomStringConvertible {*/
 		//	return object.description // 74048: Silver: cannot assign "" to "string"
 		} else {
 			#if COOPER
-			return object.toString() as! String // 74047: Silver: wrong type mismatch error in extension init(), Cooper only
+			return subject.toString() as! String // 74047: Silver: wrong type mismatch error in extension init(), Cooper only
 			#elseif ECHOES
-			return object.ToString()
+			return subject.ToString()
 			#elseif NOUGAT
-			if (object.respondsToSelector("debugDescription")) {
-				return object.debugDescription
+			if (subject.respondsToSelector("debugDescription")) {
+				return subject.debugDescription
 			}
-			return object.description
+			return subject.description
 			#endif
 		}
 

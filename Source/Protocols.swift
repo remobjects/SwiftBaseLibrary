@@ -9,24 +9,30 @@
 }
 #endif
 
-@SoftInterface public protocol CustomStringConvertible {
-	var description: String { get }
+public typealias CustomStringConvertible = ICustomStringConvertible
+@SoftInterface public protocol ICustomStringConvertible { // soft, so every object will comply
+	var description: String! { get } // unwrapped nullable for better Nougat compatibility
 }
 
-@SoftInterface public protocol CustomDebugStringConvertible {
+public typealias CustomDebugStringConvertible = ICustomDebugStringConvertible
+@SoftInterface public protocol ICustomDebugStringConvertible { // soft, so every object will comply
 	var debugDescription: String { get }
 }
 
-@SoftInterface public protocol Hashable : Equatable {
+public typealias Hashable = IHashable
+@SoftInterface public protocol IHashable /*: Equatable*/ { // soft, so every object will comply
 	var hashValue: Int { get }
 }
 
-public protocol ArrayBoundType {
-	typealias ArrayBound
-	var arrayBoundValue: ArrayBound { get }
-}
-
 /* Numbers */
+
+// CAUTION: Magic type name. 
+// The compiler will allow any value implementing Swift.IBooleanType type to be used as boolean
+// ToDo: compiler issue 74064 to enable this behaviour
+public typealias BooleanType = IBooleanType
+public protocol IBooleanType {
+	var boolValue: Bool { get }
+}
 
 public protocol IntegerArithmeticType : Comparable {
 	//class func addWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool) //71481: Silver: can't use Self in tuple on static funcs i(in public protocols?)
@@ -42,7 +48,6 @@ public protocol IntegerArithmeticType : Comparable {
 	func %(lhs: Self, rhs: Self) -> Self
 	func toIntMax() -> IntMax
 }
-
 
 public protocol BitwiseOperationsType {
 	//func &(_: Self, _: Self) -> Self //69825: Silver: two probs with operators in public protocols
@@ -62,7 +67,8 @@ public protocol BitwiseOperationsType {
 	//static/*class*/ var allZeros: Self { get }
 }
 
-public protocol Equatable {
+//public typealias Equatable = IEquatable
+public protocol Equatable { // NE19 The public type "IEquatable" has a duplicate with the same short name in reference "Nougat", which is not allowed on Cocoa
 	func ==(lhs: Self, rhs: Self) -> Bool
 }
 
