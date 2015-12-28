@@ -103,23 +103,26 @@ public protocol GeneratorType {
 	mutating func next() -> Element?
 }
 
-/*public protocol SequenceType {
-	typealias Generator /*: GeneratorType*/ // 71477: Silver: can't use constraint on type alias in public protocol
-	func generate() -> Generator
+/*public protocol SequenceType */
+
+public typealias OutputStreamType = IOutputStreamType
+public protocol IOutputStreamType {
+	mutating func write(_ string: String)
 }
 
-public protocol CollectionType : SequenceType {
-	typealias Index /*: ForwardIndexType*/ // 71477: Silver: can't use constraint on type alias in public protocol
-	var startIndex: Index { get }
-	var endIndex: Index { get }
-	typealias _Element
-	subscript (i: Index) -> _Element { get }
-
-	//71476: Silver: can't use "Self." prefix on type aliases in generic public protocol
-	//subscript (i: /*Self.*/Index) -> /*Self.*/Generator.Element { get } // 71478: Silver: can't use indirect generic type in public protocol
+public typealias Streamable = IStreamable
+public protocol IStreamable {
+	func writeTo<Target: OutputStreamType>(inout _ target: Target)
 }
 
-public protocol Sliceable : CollectionType {
+public typealias CollectionType<T> = ICollectionType<T>
+public protocol ICollectionType<T> : ISequence<T> {
+	var startIndex: Int { get }
+	var endIndex: Int { get }
+	subscript (i: Int) -> T { get }
+}
+
+/*public protocol Sliceable : CollectionType {
 	typealias SubSlice /*: _Sliceable*/ // 71477: Silver: can't use constraint on type alias in public protocol
 	//subscript (bounds: Range</*Self.*/Index>) -> SubSlice { get } // //71476: Silver: can't use "Self." prefix on type aliases in generic public protocol
 }*/

@@ -1,4 +1,8 @@
-﻿public extension String {
+﻿public extension String /*: Streamable*/ { // public typealias Streamable = IStreamable
+public protocol IStreamable {
+	func writeTo<Target: OutputStreamType>(inout _ target: Target)
+}
+
 	
 	typealias Index = Int
 	
@@ -196,6 +200,10 @@
 		#endif
 	}
 	
+	// Streamable
+	func writeTo<Target: OutputStreamType>(inout _ target: Target) {
+		//target.write(self) // 74052: Silver: generic contraints don't seem to work
+	}
 
 	//
 	// Silver-specific extensions not defined in standard Swift.String:
