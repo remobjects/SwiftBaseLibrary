@@ -29,9 +29,9 @@ public extension ISequence {
 		return array as! ISequence<T> // 74041: Silver: warning for "as" cast that should be known safe
 	}
 
-	/*@warn_unused_result public func count() -> Int { // 74024: Silver: internal error in base library
+	@warn_unused_result public func count() -> Int {
 		return self.Count()
-	}*/
+	}
 	
 	@warn_unused_result public func countElements() -> Int {
 		return self.Count()

@@ -89,6 +89,13 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 		endIndex = end
 	}
 	
+	#if NOUGAT 
+	public init(_ nativeRange: NSRange) {
+		startIndex = nativeRange.location
+		endIndex = nativeRange.location+nativeRange.length
+	}
+	#endif
+	
 	//
 	// Properties
 	//
@@ -157,7 +164,7 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 		return endIndex-startIndex
 	}
 	
-	#if NOUGAT
+	#if NOUGAT 
 	// todo: make a cast operator
 	public var nativeRange: NSRange {
 		return NSMakeRange(startIndex, endIndex-startIndex)
