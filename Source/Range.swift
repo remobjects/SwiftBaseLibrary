@@ -120,8 +120,7 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 	#else
 	public var debugDescription: String {
 		#endif
-		//return "Range(\(String(reflecting: startIndex))..<\(String(reflecting: endIndex)))"
-		return "Range(\(startIndex)..<\(endIndex))"
+		return "Range(\(String(reflecting: startIndex))..<\(String(reflecting: endIndex)))"
 	}
 	
 	/* Equatable */
