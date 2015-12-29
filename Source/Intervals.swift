@@ -77,6 +77,17 @@ public class ClosedInterval/*<Bound:Comparable>*/ : IIntervalType<IntMax> {
 		return x >= start && x <= end
 	}
 	
+	//
+	// Subscripts & Iterators
+	//
+	
+	public func GetSequence() -> ISequence<Bound> {
+		var i = start
+		while i <= end {
+			__yield i
+			i += 1
+		}
+	}
 }
 
 public class HalfOpenInterval : IIntervalType<IntMax> {
@@ -142,5 +153,16 @@ public class HalfOpenInterval : IIntervalType<IntMax> {
 	
 	@warn_unused_result func contains(_ x: Bound) -> Bool {
 		return x >= start && x < end
+	}
+	//
+	// Subscripts & Iterators
+	//
+	
+	public func GetSequence() -> ISequence<Bound> {
+		var i = start
+		while i < end {
+			__yield i
+			i += 1
+		}
 	}
 }
