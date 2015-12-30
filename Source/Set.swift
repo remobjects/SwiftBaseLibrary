@@ -267,6 +267,21 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		return result
 	}
 	
+	/*public func subtract(anotherSequence: ISequence<T>) -> Set<T> {
+		var result = Set<T>()
+		//74103: Silver: can't find (one specific) extension method on ISequence
+		var array = anotherSequence.toSwiftArray()
+		if (!array.isEmpty && !self.isEmpty) {
+			for elem in self {
+				if (!array.contains(elem)) {
+					result.insert(elem)
+				}
+			}
+		}
+		return result
+	}*/
+	// todo: port others to Sequence as well.
+
 	public func intersect(anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {

@@ -11,12 +11,12 @@
 	fatalError(message, file, line)
 }
 
-public /*__inline*/ func debugPrint(object: Any) {
+public __inline func debugPrint(object: Any) {
 	writeLn(String(reflecting:object))
 }
 
 // different than Apple Swift, we use nil terminator as default to mean cross-planform new-line
-public /*__inline*/ func debugPrint(objects: Any...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+public func debugPrint(objects: Any...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
 	let terminator: String? = nil
 	

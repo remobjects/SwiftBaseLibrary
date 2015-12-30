@@ -26,8 +26,8 @@ public class Mirror : ICustomStringConvertible, ICustomReflectable, IStreamable 
 	//
 
 	//74065: Silver: "cannot assign nil to [nullable enum type]"
-	//init(_ subject: Any, children: ISequence<Child>, displayStyle: Mirror.DisplayStyle? = /*nil*/Mirror.DisplayStyle.Class, ancestorRepresentation: Mirror.AncestorRepresentation = Mirror.AncestorRepresentation.Generated) {
-	//}
+	/*init(_ subject: Any, children: ISequence<Child>, displayStyle: Mirror.DisplayStyle? = nil, ancestorRepresentation: Mirror.AncestorRepresentation = Mirror.AncestorRepresentation.Generated) {
+	}*/
 
 	//74065: Silver: "cannot assign nil to [nullable enum type]"
 	/*init(_ subject: Any, children: Children, displayStyle: Mirror.DisplayStyle? = /*nil*/Mirror.DisplayStyle.Class, ancestorRepresentation: Mirror.AncestorRepresentation = Mirror.AncestorRepresentation.Generated) {

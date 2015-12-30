@@ -127,7 +127,8 @@ public typealias SequenceType<T> = ISequence<T>
 public typealias LazySequenceType<T> = ILazySequence<T>
 public typealias ILazySequence<T> = ISequence<T> // for now; maybe eventually we'=ll make non-lazy sequences too
 
-public protocol ForwardIndexType {
+//74100: Silver: Internal error, Cooper only, with latest SBL
+/*public protocol ForwardIndexType {
 	typealias Distance /*: _SignedIntegerType*/ //= Int // default type needs to be supported
 }
 
@@ -149,7 +150,7 @@ public protocol ICollectionType : IIndexable<Index,Distance,Element> {
 	var startIndex: ForwardIndexType<Distance> { get } // <> shoudlnt be needed
 	var endIndex: ForwardIndexType<Distance> { get } // <> shoudlnt be needed
 	subscript (i: Int) -> Element { get }
-}
+}*/
 
 /*public protocol Sliceable : CollectionType {
 	typealias SubSlice /*: _Sliceable*/ // 71477: Silver: can't use constraint on type alias in public protocol

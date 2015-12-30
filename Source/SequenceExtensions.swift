@@ -170,7 +170,8 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Select() { return transform($0) }
 	}
 
-	@warn_unused_result public func maxElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? { // 74027: Silver: compiler gets confused with "try!"
+	//74101: Silver: still two issues with try!
+	@warn_unused_result public func maxElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
 		var m: T? = nil
 		for e in self {
 			if m == nil || /*try!*/ !isOrderedBefore(m!, e) { // ToDo: check if this is the right order
@@ -366,17 +367,21 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#elseif NOUGAT
 		//return self.array()
 		#endif
-	}
+	}*/
 
-	@warn_unused_result public func array() -> [T] {
+	@warn_unused_result public func toSwiftArray() -> [T] {
 		#if COOPER
-		//return self.toList()
+		let result = ArrayList<T>()
+		for e in self {
+			result.add(e);
+		}
+		return result
 		#elseif ECHOES
 		return self.ToList()
 		#elseif NOUGAT
-		return self.array()
+		return self.array().mutableCopy
 		#endif
-	}*/
+	}
 
 	@warn_unused_result public func contains(item: T) -> Bool {
 		#if COOPER
