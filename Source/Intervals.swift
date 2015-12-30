@@ -4,17 +4,18 @@ public protocol IIntervalType {
 
   typealias Bound//:  Comparable
 
-  @warn_unused_result func contains(value: IntMax/*Bound*/) -> Bool
+  @warn_unused_result func contains(value: Int/*Bound*/) -> Bool
   @warn_unused_result func clamp(intervalToClamp: IIntervalType<Bound>/*Self*/) -> IIntervalType<Bound>/*Self*/
 
   var isEmpty: Bool { get }
-  var start: IntMax/*Bound*/ { get }
-  var end: IntMax/*Bound*/ { get }
+  var start: Int/*Bound*/ { get }
+  var end: Int/*Bound*/ { get }
 }
 
-public class ClosedInterval/*<Bound:Comparable>*/ : IIntervalType<IntMax> {
+//74077: Allow GetSequence() to actually be used to implement ISequence
+public class ClosedInterval/*<Bound:Comparable>*/ : IIntervalType<Int>/*, ISequence<Int>*/ {
 	
-	typealias Bound = IntMax // for now
+	typealias Bound = Int // for now
 	
 	//
 	// Initializers
@@ -90,9 +91,10 @@ public class ClosedInterval/*<Bound:Comparable>*/ : IIntervalType<IntMax> {
 	}
 }
 
-public class HalfOpenInterval : IIntervalType<IntMax> {
+//74077: Allow GetSequence() to actually be used to implement ISequence
+public class HalfOpenInterval : IIntervalType<Int>/*, ISequence<Int>*/ {
 
-	typealias Bound = IntMax // for now
+	typealias Bound = Int // for now
 
 	//
 	// Initializers

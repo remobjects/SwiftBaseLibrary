@@ -11,9 +11,14 @@
 	fatalError(message, file, line)
 }
 
-public __inline func debugPrint(objects: Any...) {//, separator separator: String = " ", terminator terminator: String = "\n") { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+public /*__inline*/ func debugPrint(object: Any) {
+	writeLn(String(reflecting:object))
+}
+
+// different than Apple Swift, we use nil terminator as default to mean cross-planform new-line
+public /*__inline*/ func debugPrint(objects: Any...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
-	let terminator: String = "\n"
+	let terminator: String? = nil
 	
 	var first = true
 	for o in objects {
@@ -24,7 +29,11 @@ public __inline func debugPrint(objects: Any...) {//, separator separator: Strin
 		}
 		write(String(reflecting:o))
 	}
-	write(terminator)
+	if let terminator = terminator {
+		write(terminator)
+	} else {
+		writeLn()
+	}
 }
 
 @noreturn public func fatalError(_ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UInt32 = __LINE__) {
@@ -45,13 +54,15 @@ public __inline func debugPrint(objects: Any...) {//, separator separator: Strin
 	fatalError(message, file, line)
 }
 
-public __inline func println(objects: Any...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
+//74036: Can't use Obsolete(, true) on Java :(
+/*@Obsolete("Use print() instead")*/ public __inline func println(objects: Any...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
 	print(objects)
 }
 
-public func print(objects: Any...) {//, separator separator: String = " ", terminator terminator: String = "\n") { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+// different than Apple Swift, we use nil terminator as default to mean cross-planform new-line
+public func print(objects: Any...) {//, separator separator: String = " ", terminator terminator: String = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
-	let terminator: String = "\n"
+	let terminator: String? = nil
 	
 	var first = true
 	for o in objects {
@@ -62,7 +73,11 @@ public func print(objects: Any...) {//, separator separator: String = " ", termi
 		}
 		write(o)
 	}
-	write(terminator)
+	if let terminator = terminator {
+		write(terminator)
+	} else {
+		writeLn()
+	}
 }
 
 #if NOUGAT

@@ -10,17 +10,21 @@
 #endif
 
 public typealias CustomStringConvertible = ICustomStringConvertible
-@SoftInterface public protocol ICustomStringConvertible { // soft, so every object will comply
+public protocol ICustomStringConvertible {
 	var description: String! { get } // unwrapped nullable for better Nougat compatibility
 }
 
 public typealias CustomDebugStringConvertible = ICustomDebugStringConvertible
-@SoftInterface public protocol ICustomDebugStringConvertible { // soft, so every object will comply
+public protocol ICustomDebugStringConvertible {
+	#if NOUGAT
+	var debugDescription: String! { get }
+	#else
 	var debugDescription: String { get }
+	#endif
 }
 
 public typealias Hashable = IHashable
-@SoftInterface public protocol IHashable /*: Equatable*/ { // soft, so every object will comply
+public protocol IHashable /*: Equatable*/ {
 	var hashValue: Int { get }
 }
 

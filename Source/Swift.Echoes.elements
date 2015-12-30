@@ -36,8 +36,8 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
         <Optimize>true</Optimize>
         <OutputPath>.\bin\Release</OutputPath>
-        <GeneratePDB>False</GeneratePDB>
-        <GenerateMDB>False</GenerateMDB>
+        <GeneratePDB>True</GeneratePDB>
+        <GenerateMDB>True</GenerateMDB>
         <EnableAsserts>False</EnableAsserts>
         <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
         <CaptureConsoleOutput>False</CaptureConsoleOutput>

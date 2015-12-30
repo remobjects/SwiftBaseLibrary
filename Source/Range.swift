@@ -1,22 +1,5 @@
 ﻿
-struct RangeGenerator_IntMax { 
-	
-	init(_ bounds: Range){
-		_bounds = bounds
-		_index = bounds.startIndex
-	}
-	private var _bounds: Range!// todo:should not need !
-	private var _index: IntMax
-
-	/* GeneratorType */
-	public mutating func next() -> IntMax? {
-		if _index < _bounds.endIndex {
-			return _index++
-		}
-		return nil
-	}
-}
-
+//74077: Allow GetSequence() to actually be used to implement ISequence
 public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
 
 	//

@@ -1,8 +1,4 @@
-﻿public extension String /*: Streamable*/ { // public typealias Streamable = IStreamable
-public protocol IStreamable {
-	func writeTo<Target: OutputStreamType>(inout _ target: Target)
-}
-
+﻿public extension String /*: Streamable*/ {
 	
 	typealias Index = Int
 	
@@ -23,48 +19,50 @@ public protocol IStreamable {
 
 	/*
 	public init(_ object: AnyObject) {
-		return object.description // 74048: Silver: cannot assign "" to "string"
-		#if COOPER
-		return object.toString()
-		#elseif ECHOES
-		return object.ToString()
-		#elseif NOUGAT
-		return object.description
-		#endif
+		if let o = subject as? ICustomStringConvertible {
+			return o.description
+		} else {
+			#if COOPER
+			return subject.toString()
+			#elseif ECHOES
+			return subject.ToString()
+			#elseif NOUGAT
+			return subject.description
+			#endif
+		}
 	}
 	*/
 	
-	public init(reflecting subject: AnyObject) {
-		/*
-		//74045: Silver: errors leak out of method call & followup internal error
-		//return ugString(object)
-		//74047: Silver: wrong type mismatch error in extension init(), Cooper only
-		//return object.description()
-		#if COOPER
-		return object.toString() as! String // 74047: Silver: wrong type mismatch error in extension init(), Cooper only
-		#elseif ECHOES
-		return object.ToString()
-		#elseif NOUGAT
-		return object.description()
-		#endif
-		*/
-		if let o = subject as? CustomDebugStringConvertible {
+	public init(reflecting subject: Object) {
+		if let o = subject as? ICustomDebugStringConvertible {
 			return o.debugDescription
-		//} else { /*if let o = object as? CustomStringConvertible {*/
-		//	return object.description // 74048: Silver: cannot assign "" to "string"
 		} else {
 			#if COOPER
-			return subject.toString() as! String // 74047: Silver: wrong type mismatch error in extension init(), Cooper only
+			// ToDo: fall back to reflection to call debugDescription?
+			// ToDo: fall back to checking for extension methods
 			#elseif ECHOES
-			return subject.ToString()
+			// ToDo: fall back to reflection to call debugDescription?
+			// ToDo: fall back to checking for extension methods
 			#elseif NOUGAT
 			if (subject.respondsToSelector("debugDescription")) {
 				return subject.debugDescription
 			}
+			// ToDo: fall back to checking for extension methods
+			#endif
+		}
+		
+		//return init(subject)
+		if let o = subject as? ICustomStringConvertible {
+			return o.description
+		} else {
+			#if COOPER
+			return subject.toString()
+			#elseif ECHOES
+			return subject.ToString()
+			#elseif NOUGAT
 			return subject.description
 			#endif
 		}
-
 	}
 	
 	//
@@ -245,9 +243,10 @@ public protocol IStreamable {
 
 		public var startIndex: String.Index { return 0 }
 		public __abstract var endIndex: String.Index { get }
+		
 	}
 	
-	public class UTF16CharacterView: CharacterView {
+	public class UTF16CharacterView: CharacterView, ICustomDebugStringConvertible {
 		private let string: String
 		
 		private init(string: String) {
@@ -259,9 +258,25 @@ public protocol IStreamable {
 		public subscript(index: Int) -> UTF16Char {
 			return string[index]
 		}
+
+		#if NOUGAT
+		override var debugDescription: String! {
+		#else
+		public var debugDescription: String {
+		#endif
+			var result = "UTF16CharacterView("
+			for i in startIndex..<endIndex {
+				if i > startIndex {
+					result += " "
+				}
+				result += UInt64(self[i]).toHexString(4)
+			}
+			result += ")"
+			return result
+		}
 	}
 	
-	public class UTF32CharacterView: CharacterView {
+	public class UTF32CharacterView: CharacterView, ICustomDebugStringConvertible {
 		private let stringData: Byte[]
 
 		private init(string: String) {
@@ -286,9 +301,25 @@ public protocol IStreamable {
 		public subscript(index: Int) -> UTF32Char {
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
 		}
+
+		#if NOUGAT
+		override var debugDescription: String! {
+		#else
+		public var debugDescription: String {
+		#endif
+			var result = "UTF32CharacterView("
+			for i in startIndex..<endIndex {
+				if i > startIndex {
+					result += " "
+				}
+				result += UInt64(self[i]).toHexString(8)
+			}
+			result += ")"
+			return result
+		}
 	}
 	
-	public class UTF8CharacterView: CharacterView {
+	public class UTF8CharacterView: CharacterView, ICustomDebugStringConvertible {
 		private let stringData: UTF8Char[]
 		
 		private init(string: String) {
@@ -312,6 +343,22 @@ public protocol IStreamable {
 
 		public subscript(index: Int) -> UTF8Char {
 			return stringData[index]
+		}
+
+		#if NOUGAT
+		override var debugDescription: String! {
+		#else
+		public var debugDescription: String {
+		#endif
+			var result = "UTF8CharacterView("
+			for i in startIndex..<endIndex {
+				if i > startIndex {
+					result += " "
+				}
+				result += UInt64(self[i]).toHexString(2)
+			}
+			result += ")"
+			return result
 		}
 	}
 }

@@ -39,3 +39,16 @@ public extension Int64 {
 		return HalfOpenInterval(a, b)
 	}
 }
+
+public extension UInt64 {
+
+	internal func toHexString(# length: Int = 8) -> String {
+		#if COOPER
+		return String.format("%0\(length)x", self)
+		#elseif ECHOES
+		return String.Format("{0:x\(length)}", self)
+		#elseif NOUGAT
+		return String(format: "%0\(length)lld}", self)
+		#endif
+	}
+}

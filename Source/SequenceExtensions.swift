@@ -3,9 +3,9 @@ public typealias ILazySequence<T> = ISequence<T>
 public typealias LazySequenceType<T> = ISequence<T>
 public typealias SequenceType<T> = ISequence<T> // for now, later should become INonLazySequence<T>
 
-public extension ISequence {
+public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silver: interface on class extension fails on not finding the matching method
 	
-	/*init(nativeArray: T[]) {
+	init(nativeArray: T[]) {
 		// 74043: Silver: wrong/confusing error when implementing iterator in nested function
 		/*func nativeArrayToSequence() -> ISequence<T> {
 			for e in nativeArray {
@@ -15,11 +15,11 @@ public extension ISequence {
 		return nativeArrayToSequence()*/
 
 		//74042: Silver: wrong "no such overload" error when implementing iterator in extension
-		/*return nativeArrayToSequence(nativeArray)*/
-	}*/
+		return nativeArrayToSequence(nativeArray)
+	}
 	
 	//74042: Silver: wrong "no such overload" error when implementing iterator in extension
-	private func nativeArrayToSequence(nativeArray: T[]) -> ISequence<T> {
+	internal static /*private*/ func nativeArrayToSequence(nativeArray: T[]) -> ISequence<T> { // make private once ctor workd
 		for e in nativeArray {
 			__yield e
 		}
@@ -390,6 +390,25 @@ public extension ISequence {
 		#elseif NOUGAT
 		return self.contains(item)
 		#endif
+	}
+
+	#if NOUGAT
+	override var debugDescription: String! {
+	#else
+	public var debugDescription: String {
+	#endif
+		var result = "Sequence("
+		var first = true
+		for e in self {
+			if !first {
+				result += ", "
+			} else {
+				first = false
+			}
+			result += String(reflecting: e)
+		}
+		result += ")"
+		return result
 	}
 }
 
