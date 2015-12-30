@@ -1,8 +1,4 @@
 ﻿
-public typealias ILazySequence<T> = ISequence<T>
-public typealias LazySequenceType<T> = ISequence<T>
-public typealias SequenceType<T> = ISequence<T> // for now, later should become INonLazySequence<T>
-
 public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silver: interface on class extension fails on not finding the matching method
 	
 	init(nativeArray: T[]) {

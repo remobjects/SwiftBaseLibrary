@@ -101,19 +101,6 @@ public protocol SignedIntegerType : IntegerType, SignedNumberType {
 	static/*class*/ func from(_: IntMax) -> Self
 }*/
 
-/* Ranges, Sequences and the like */
-
-public protocol ForwardIndexType {
-	//typealias Distance : _SignedIntegerType = Int
-	//typealias _DisabledRangeIndex = _DisabledRangeIndex_
-}
-
-public protocol GeneratorType {
-	typealias Element
-	mutating func next() -> Element?
-}
-
-/*public protocol SequenceType */
 
 public typealias OutputStreamType = IOutputStreamType
 public protocol IOutputStreamType {
@@ -125,11 +112,43 @@ public protocol IStreamable {
 	func writeTo<Target: OutputStreamType>(inout _ target: Target)
 }
 
-public typealias CollectionType<T> = ICollectionType<T>
-public protocol ICollectionType<T> : ISequence<T> {
-	var startIndex: Int { get }
-	var endIndex: Int { get }
-	subscript (i: Int) -> T { get }
+//
+// Collections, Sequences and the like
+//
+
+/*public protocol GeneratorType {
+	typealias Element
+	mutating func next() -> Element?
+}*/
+
+public typealias SequenceType<T> = ISequence<T>
+//public protocol ISequence<T> // is priovided by the compiler
+
+public typealias LazySequenceType<T> = ILazySequence<T>
+public typealias ILazySequence<T> = ISequence<T> // for now; maybe eventually we'=ll make non-lazy sequences too
+
+public protocol ForwardIndexType {
+	typealias Distance /*: _SignedIntegerType*/ //= Int // default type needs to be supported
+}
+
+public typealias Indexable<Index,Distance,Element> = IIndexable<Index,Distance,Element> // <> should't be needed in ancestor
+public protocol IIndexable {
+	typealias Index : ForwardIndexType<Distance> // <> shoudlnt be needed
+	typealias Distance // should not be needed, should inherit
+	typealias Element
+	var startIndex: Index { get }
+	var endIndex: Index { get }
+	subscript(position: Index) -> Element { get }
+}
+
+//public typealias CollectionType<Index:ForwardIndexType,Distance,Element> = ICollectionType<Index,Distance,Element>
+public protocol ICollectionType : IIndexable<Index,Distance,Element> {
+	typealias Index : ForwardIndexType<Distance> // should not be needed, should inherit
+	typealias Distance // should not be needed, should inherit
+	typealias Element // should not be needed, should inherit
+	var startIndex: ForwardIndexType<Distance> { get } // <> shoudlnt be needed
+	var endIndex: ForwardIndexType<Distance> { get } // <> shoudlnt be needed
+	subscript (i: Int) -> Element { get }
 }
 
 /*public protocol Sliceable : CollectionType {

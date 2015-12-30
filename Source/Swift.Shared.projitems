@@ -33,6 +33,8 @@
         <Compile Include="$(MSBuildThisFileDirectory)Mirror.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Intervals.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift"/>
+        <None Include="$(MSBuildThisFileDirectory)Collections.swift"/>
+        <None Include="$(MSBuildThisFileDirectory)Bit.swift"/>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Sequences">
