@@ -53,8 +53,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self
 	}
 	
-	//74037: Silver: cant use "throws/try!" on Nougat and Cooper; no error when omitting "try!" on Echoes
-	@warn_unused_result public func filter(includeElement: (T) /*throws*/ -> Bool) /*rethrows*/ -> ISequence<T> { 
+	@warn_unused_result public func filter(includeElement: (T) throws -> Bool) rethrows -> ISequence<T> { 
 		return self.Where() { return try! includeElement($0) }
 	}
 
@@ -62,10 +61,9 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.FirstOrDefault()
 	}
 	
-	//74037: Silver: cant use "throws/try!" on Nougat and Cooper; no error when omitting "try!" on Echoes
-	@warn_unused_result func flatMap(@noescape transform: (T) /*throws*/ -> T?) /*rethrows*/ -> ISequence<T> {
+	@warn_unused_result func flatMap(@noescape transform: (T) throws -> T?) rethrows -> ISequence<T> {
 		for e in self {
-			if let e = /*try!*/ transform(e) {
+			if let e = try! transform(e) {
 				__yield e
 			}
 		}
@@ -75,7 +73,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self
 	}
 	
-	public func forEach(@noescape body: (T) throws -> ()) /*rethrows*/ { // 74028: Silver: compiler cant handle "rethrows"
+	public func forEach(@noescape body: (T) throws -> ()) rethrows {
 		for e in self {
 			try! body(e)
 		}

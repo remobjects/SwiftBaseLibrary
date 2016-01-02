@@ -130,8 +130,8 @@ public class HalfOpenInterval : IIntervalType<Int>/*, ISequence<Int>*/ {
 		return "HalfOpenInterval(\(String(reflecting: start))..<\(String(reflecting: end)))"
 	}
 	
-	public /*let*/var end: Bound // 74076: Silver: cannot init "let" field from init()
-	public /*let*/var start: Bound // 74076: Silver: cannot init "let" field from init()
+	public let end: Bound
+	public let start: Bound
 
 	public var isEmpty: Bool {
 		return end <= start
