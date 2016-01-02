@@ -80,17 +80,22 @@ public func print(objects: Any...) {//, separator separator: String = " ", termi
 	}
 }
 
-#if NOUGAT
-//@available(*, unavailable, message="Not implemented yet")
-#endif
-/*@warn_unused_result*/ func readLine(stripNewline stripNewline: Bool = default) -> String? {
+//todo: delegate to readLn() function once we have that in core compiler
+@warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
 	#if COOPER
-	//return System.`in`.readLine() + (!stripNewline ? System.lineSeparator() : "")
-	fatalError("readLine is currently not implemented for Java.")
+	return System.console().readLine() + (!stripNewline ? System.lineSeparator() : "")
 	#elseif ECHOES
 	return Console.ReadLine() + (!stripNewline ? Environment.NewLine : "")
 	#elseif NOUGAT
-	fatalError("readLine is currently not implemented for Cocoa.")
+	var result = ""
+	repeat {
+		let c = getchar()
+		if c == 10 || c == 13 {
+			return result + (!stripNewline ? "\n" : "")
+		}
+		result += Char(c)
+	} while true
+	return (!stripNewline ? "\n" : "") // only to keep warning away // 74112: Silver: erroneous "method does not return value" 
 	#endif
 }
 
