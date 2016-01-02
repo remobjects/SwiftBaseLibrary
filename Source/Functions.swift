@@ -1,21 +1,21 @@
 ﻿
 // public __inline func abs(x) // provied by compiler
 	
-@Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UWord = __LINE__) {
+@Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
-		fatalError(message, file, line)
+		fatalError(message, file: file, line: line)
 	}
 }
 
-@Conditional("DEBUG") @noreturn public func assertionFailure(_ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UWord = __LINE__) {
-	fatalError(message, file, line)
+@Conditional("DEBUG") @noreturn public func assertionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+	fatalError(message, file: file, line: line)
 }
 
 public __inline func debugPrint(object: Any) {
 	writeLn(String(reflecting:object))
 }
 
-// different than Apple Swift, we use nil terminator as default to mean cross-planform new-line
+// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-planform new-line
 public func debugPrint(objects: Any...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
 	let terminator: String? = nil
@@ -36,7 +36,7 @@ public func debugPrint(objects: Any...) {//, separator separator: String = " ", 
 	}
 }
 
-@noreturn public func fatalError(_ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UInt32 = __LINE__) {
+@noreturn public func fatalError(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UInt32 = __LINE__) {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
 	} else {
@@ -44,14 +44,14 @@ public func debugPrint(objects: Any...) {//, separator separator: String = " ", 
 	}
 }
 
-@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UWord = __LINE__) {
+@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
-		fatalError(message, file, line)
+		fatalError(message, file: file, line: line)
 	}
 }
 
-@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String = default, _ file: String = __FILE__, _ line: UWord = __LINE__) {
-	fatalError(message, file, line)
+@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+	fatalError(message, file: file, line: line)
 }
 
 //74036: Can't use Obsolete(, true) on Java :(
@@ -59,7 +59,7 @@ public func debugPrint(objects: Any...) {//, separator separator: String = " ", 
 	print(objects)
 }
 
-// different than Apple Swift, we use nil terminator as default to mean cross-planform new-line
+// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-planform new-line
 public func print(objects: Any...) {//, separator separator: String = " ", terminator terminator: String = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
 	let terminator: String? = nil
@@ -95,7 +95,7 @@ public func print(objects: Any...) {//, separator separator: String = " ", termi
 		}
 		result += Char(c)
 	} while true
-	return (!stripNewline ? "\n" : "") // only to keep warning away // 74112: Silver: erroneous "method does not return value" 
+	return (!stripNewline ? "\n" : "") // only to keep warning away, never reached // 74112: Silver: erroneous "method does not return value" 
 	#endif
 }
 

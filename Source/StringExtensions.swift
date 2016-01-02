@@ -182,6 +182,10 @@
 	}
 	#endif
 	
+	public func withUTF8Buffer<R>(@noescape body: (/*UnsafeBufferPointer<UInt8>*/UTF8Char[]) -> R) -> R {
+		return body(utf8.stringData)
+	}
+	
 	//
 	// Subscripts
 	//

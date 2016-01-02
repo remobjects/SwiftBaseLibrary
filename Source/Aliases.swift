@@ -31,6 +31,8 @@ public typealias UTF8Char = AnsiChar
 #endif
 
 
+public typealias StaticString = String
+
 public typealias Float = Single
 public typealias Float32 = Single
 public typealias Float64 = Double
