@@ -128,13 +128,13 @@ public typealias LazySequenceType<T> = ILazySequence<T>
 public typealias ILazySequence<T> = ISequence<T> // for now; maybe eventually we'=ll make non-lazy sequences too
 
 //74100: Silver: Internal error, Cooper only, with latest SBL
-/*public protocol ForwardIndexType {
+public protocol ForwardIndexType {
 	typealias Distance /*: _SignedIntegerType*/ //= Int // default type needs to be supported
 }
 
-public typealias Indexable<Index,Distance,Element> = IIndexable<Index,Distance,Element> // <> should't be needed in ancestor
+public typealias Indexable = IIndexable // <> should't be needed in ancestor
 public protocol IIndexable {
-	typealias Index : ForwardIndexType<Distance> // <> shoudlnt be needed
+	typealias Index : ForwardIndexType // <> shoudlnt be needed
 	typealias Distance // should not be needed, should inherit
 	typealias Element
 	var startIndex: Index { get }
@@ -143,14 +143,14 @@ public protocol IIndexable {
 }
 
 //public typealias CollectionType<Index:ForwardIndexType,Distance,Element> = ICollectionType<Index,Distance,Element>
-public protocol ICollectionType : IIndexable<Index,Distance,Element> {
-	typealias Index : ForwardIndexType<Distance> // should not be needed, should inherit
+public protocol ICollectionType : IIndexable {
+	typealias Index : ForwardIndexType // should not be needed, should inherit
 	typealias Distance // should not be needed, should inherit
 	typealias Element // should not be needed, should inherit
-	var startIndex: ForwardIndexType<Distance> { get } // <> shoudlnt be needed
-	var endIndex: ForwardIndexType<Distance> { get } // <> shoudlnt be needed
+	var startIndex: ForwardIndexType { get } // <> shoudlnt be needed
+	var endIndex: ForwardIndexType { get } // <> shoudlnt be needed
 	subscript (i: Int) -> Element { get }
-}*/
+}
 
 /*public protocol Sliceable : CollectionType {
 	typealias SubSlice /*: _Sliceable*/ // 71477: Silver: can't use constraint on type alias in public protocol

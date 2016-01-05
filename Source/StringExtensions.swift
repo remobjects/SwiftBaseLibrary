@@ -237,7 +237,7 @@
 		return nil
 		#elseif NOUGAT
 		return self.integerValue 
-		#hint ToDo: doesnt handle invalid strings to return nil, yet
+		#hint ToDo: doesn't handle invalid strings to return nil, yet
 		#endif
 	}
 	

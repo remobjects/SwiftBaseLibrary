@@ -1,5 +1,5 @@
 ﻿
-public typealias IntervalType<Bound> = IIntervalType<Bound>
+public typealias IntervalType = IIntervalType
 public protocol IIntervalType {
 
   typealias Bound//:  Comparable
@@ -13,15 +13,13 @@ public protocol IIntervalType {
 }
 
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class ClosedInterval/*<Bound:Comparable>*/ : IIntervalType<Int>/*, ISequence<Int>*/ {
-	
-	typealias Bound = Int // for now
+public class ClosedInterval<Bound: Comparable> : IIntervalType, ISequence<Bound> {
 	
 	//
 	// Initializers
 	//
 	
-	init(_ x: ClosedInterval/*<Bound>*/) {
+	init(_ x: ClosedInterval<Bound>) {
 		start = x.start
 		end = x.end
 	}
@@ -64,7 +62,7 @@ public class ClosedInterval/*<Bound:Comparable>*/ : IIntervalType<Int>/*, ISeque
 	
 	//@warn_unused_result func clamp(_ intervalToClamp: ClosedInterval<Bound>) -> ClosedInterval<Bound> {
 	@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
-		return ClosedInterval/*<Bound>*/(
+		return ClosedInterval<Bound>(
 		  self.start > intervalToClamp.start ? self.start
 			: self.end < intervalToClamp.start ? self.end
 			: intervalToClamp.start,
@@ -92,7 +90,7 @@ public class ClosedInterval/*<Bound:Comparable>*/ : IIntervalType<Int>/*, ISeque
 }
 
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class HalfOpenInterval : IIntervalType<Int>/*, ISequence<Int>*/ {
+public class HalfOpenInterval<Bound: Comparable> : IIntervalType, ISequence<Bound> {
 
 	typealias Bound = Int // for now
 
@@ -143,7 +141,7 @@ public class HalfOpenInterval : IIntervalType<Int>/*, ISequence<Int>*/ {
 	
 	//@warn_unused_result func clamp(_ intervalToClamp: HalfOpenInterval<Bound>) -> HalfOpenInterval<Bound> {
 	@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
-		return HalfOpenInterval/*<Bound>*/(
+		return HalfOpenInterval<Bound>(
 		  self.start > intervalToClamp.start ? self.start
 			: self.end < intervalToClamp.start ? self.end
 			: intervalToClamp.start,

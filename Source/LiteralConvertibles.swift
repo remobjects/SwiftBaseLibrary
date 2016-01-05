@@ -1,13 +1,13 @@
-﻿public typealias ArrayLiteralConvertible<T> = IArrayLiteralConvertible<T>
-public typealias BooleanLiteralConvertible<T> = IBooleanLiteralConvertible<T>
-public typealias DictionaryLiteralConvertible<K,V> = IDictionaryLiteralConvertible<K,V>
-//public typealias ExtendedGraphemeClusterLiteralConvertible<T> = IExtendedGraphemeClusterLiteralConvertible<T>
-public typealias FloatLiteralConvertible<T> = IFloatLiteralConvertible<T>
-public typealias IntegerLiteralConvertible<T> = IIntegerLiteralConvertible<T>
-public typealias NilLiteralConvertible<T> = INilLiteralConvertible
-public typealias StringLiteralConvertible<T> = IStringLiteralConvertible<T>
-public typealias StringInterpolationConvertible<T> = IStringInterpolationConvertible<T>
-public typealias UnicodeScalarLiteralConvertible<T> = IUnicodeScalarLiteralConvertible<T>
+﻿public typealias ArrayLiteralConvertible = IArrayLiteralConvertible
+public typealias BooleanLiteralConvertible = IBooleanLiteralConvertible
+public typealias DictionaryLiteralConvertible = IDictionaryLiteralConvertible
+//public typealias ExtendedGraphemeClusterLiteralConvertible = IExtendedGraphemeClusterLiteralConvertible
+public typealias FloatLiteralConvertible = IFloatLiteralConvertible
+public typealias IntegerLiteralConvertible = IIntegerLiteralConvertible
+public typealias NilLiteralConvertible = INilLiteralConvertible
+public typealias StringLiteralConvertible = IStringLiteralConvertible
+public typealias StringInterpolationConvertible = IStringInterpolationConvertible
+public typealias UnicodeScalarLiteralConvertible = IUnicodeScalarLiteralConvertible
 
 public protocol IArrayLiteralConvertible {
 	typealias Element
