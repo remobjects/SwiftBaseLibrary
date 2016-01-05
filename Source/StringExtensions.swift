@@ -192,7 +192,7 @@
 	
 	//public subscript(range: String.Index) -> Character // implicitly provided by the compiler, already
 	
-	public subscript(range: Range) -> String {
+	public subscript(range: Range/*<Int>*/) -> String {
 		#if COOPER
 		return substring(range.startIndex, range.length)
 		#elseif ECHOES

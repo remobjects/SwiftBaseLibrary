@@ -1,34 +1,30 @@
 ﻿
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEquatable<T>*/> : IEquatable<Range<T>> {//, CollectionType, PrIntMaxable, DebugPrIntMaxable {
+public class Range/*<Element: ForwardIndexType, Comparable>*/: /*Equatable, CollectionType,*/ CustomStringConvertible, CustomDebugStringConvertible/* ISequence<IntMax>*/ {
 
+	//typealias Index = Int64//Element
+	typealias Element = Int64
+	
 	//
 	// Initializers
 	//
 
-	public init(_ x: Range) {
+	public init(_ x: Range/*<Element>*/) {
 		startIndex = x.startIndex
 		endIndex = x.endIndex
 	}
 	
-	public init(start: IntMax, end: IntMax) {
+	public init(start: Element, end: Element) {
 		startIndex = start
 		endIndex = end
 	}
-	
-	#if NOUGAT 
-	public init(_ nativeRange: NSRange) {
-		startIndex = nativeRange.location
-		endIndex = nativeRange.location+nativeRange.length
-	}
-	#endif
 	
 	//
 	// Properties
 	//
 	
-	public var startIndex: IntMax 
-	public var endIndex: IntMax
+	public var startIndex: Element 
+	public var endIndex: Element
 	
 	//
 	// Methods
@@ -62,19 +58,19 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 	}
 	
 	/* IComparable<T> */
-	//func CompareTo(rhs: T) -> IntMax {
+	//func CompareTo(rhs: T) -> Element {
 	// }
 
 	//
 	// Subscripts & Iterators
 	//
 	
-	public subscript (i: IntMax) -> IntMax { 
+	public subscript (i: Element) -> Element { 
 		//return startIndex + i
 		return i
 	}
 	
-	public func GetSequence() -> ISequence<IntMax> {
+	public func GetSequence() -> ISequence<Element> {
 		var i = startIndex
 		while i < endIndex {
 			__yield i
@@ -86,7 +82,7 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 	// Silver-specific extensions not defined in standard Swift.Range:
 	//
 
-	public var length: IntMax {
+	public var length: Element {
 		return endIndex-startIndex
 	}
 	
@@ -98,3 +94,13 @@ public class Range /*: ISequence<IntMax>*/ {//<T : IntMax/*ForwardIndexType, IEq
 	#endif
 
 }
+
+//74138: Silver: constrained type extensions
+/*extension Range where Element == Int32 {
+	#if NOUGAT 
+	public init(_ nativeRange: NSRange) {
+		startIndex = nativeRange.location
+		endIndex = nativeRange.location+nativeRange.length
+	}
+	#endif	
+}*/

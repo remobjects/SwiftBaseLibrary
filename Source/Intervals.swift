@@ -2,24 +2,25 @@
 public typealias IntervalType = IIntervalType
 public protocol IIntervalType {
 
-  typealias Bound//:  Comparable
+	typealias Bound = Int//: Comparable, Incrementable
 
-  @warn_unused_result func contains(value: Int/*Bound*/) -> Bool
-  @warn_unused_result func clamp(intervalToClamp: IIntervalType<Bound>/*Self*/) -> IIntervalType<Bound>/*Self*/
+	@warn_unused_result func contains(value: Bound) -> Bool
+	@warn_unused_result func clamp(intervalToClamp: IIntervalType<Bound>/*Self*/) -> IIntervalType<Bound>/*Self*/
 
-  var isEmpty: Bool { get }
-  var start: Int/*Bound*/ { get }
-  var end: Int/*Bound*/ { get }
+	var isEmpty: Bool { get }
+	var start: Bound { get }
+	var end: Bound { get }
 }
 
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class ClosedInterval<Bound: Comparable> : IIntervalType, ISequence<Bound> {
+public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ : IIntervalType/*, ISequence<Bound>*/ {
 	
+	typealias Bound = Int64
 	//
 	// Initializers
 	//
 	
-	init(_ x: ClosedInterval<Bound>) {
+	init(_ x: ClosedInterval/*<Bound>*/) {
 		start = x.start
 		end = x.end
 	}
@@ -62,18 +63,18 @@ public class ClosedInterval<Bound: Comparable> : IIntervalType, ISequence<Bound>
 	
 	//@warn_unused_result func clamp(_ intervalToClamp: ClosedInterval<Bound>) -> ClosedInterval<Bound> {
 	@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
-		return ClosedInterval<Bound>(
+		/*return ClosedInterval<Bound>(
 		  self.start > intervalToClamp.start ? self.start
 			: self.end < intervalToClamp.start ? self.end
 			: intervalToClamp.start,
 		  self.end < intervalToClamp.end ? self.end
 			: self.start > intervalToClamp.end ? self.start
 			: intervalToClamp.end
-		)
+		)*/
 	}
 	
 	@warn_unused_result func contains(_ x: Bound) -> Bool {
-		return x >= start && x <= end
+		//return x >= start && x <= end
 	}
 	
 	//
@@ -84,21 +85,21 @@ public class ClosedInterval<Bound: Comparable> : IIntervalType, ISequence<Bound>
 		var i = start
 		while i <= end {
 			__yield i
-			i += 1
+			i = i+1//.successor()
 		}
 	}
 }
 
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class HalfOpenInterval<Bound: Comparable> : IIntervalType, ISequence<Bound> {
+public class HalfOpenInterval/*<Bound: Comparable>*/ : IIntervalType/*, ISequence<Bound>*/ {
 
-	typealias Bound = Int // for now
+	typealias Bound = Int64 // for now
 
 	//
 	// Initializers
 	//
 	
-	init(_ x: HalfOpenInterval) {
+	init(_ x: HalfOpenInterval/*<Bound>*/) {
 		self.start = x.start
 		self.end = x.end
 	}
@@ -141,7 +142,7 @@ public class HalfOpenInterval<Bound: Comparable> : IIntervalType, ISequence<Boun
 	
 	//@warn_unused_result func clamp(_ intervalToClamp: HalfOpenInterval<Bound>) -> HalfOpenInterval<Bound> {
 	@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
-		return HalfOpenInterval<Bound>(
+		return HalfOpenInterval/*<Bound>*/(
 		  self.start > intervalToClamp.start ? self.start
 			: self.end < intervalToClamp.start ? self.end
 			: intervalToClamp.start,
@@ -154,6 +155,7 @@ public class HalfOpenInterval<Bound: Comparable> : IIntervalType, ISequence<Boun
 	@warn_unused_result func contains(_ x: Bound) -> Bool {
 		return x >= start && x < end
 	}
+	
 	//
 	// Subscripts & Iterators
 	//
