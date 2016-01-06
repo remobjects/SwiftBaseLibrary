@@ -13,7 +13,7 @@ public protocol IIntervalType {
 }
 
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ : IIntervalType/*, ISequence<Bound>*/ {
+public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ /*: IIntervalType*//*, ISequence<Bound>*/ {
 	
 	typealias Bound = Int64
 	//
@@ -61,20 +61,16 @@ public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ : IIntervalTyp
 	// Methods
 	//
 	
-	//@warn_unused_result func clamp(_ intervalToClamp: ClosedInterval<Bound>) -> ClosedInterval<Bound> {
-	@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
-		/*return ClosedInterval<Bound>(
-		  self.start > intervalToClamp.start ? self.start
-			: self.end < intervalToClamp.start ? self.end
-			: intervalToClamp.start,
-		  self.end < intervalToClamp.end ? self.end
-			: self.start > intervalToClamp.end ? self.start
-			: intervalToClamp.end
-		)*/
+	@warn_unused_result func clamp(_ intervalToClamp: ClosedInterval/*<Bound>*/) -> ClosedInterval/*<Bound>*/ {
+	// @warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
+		return ClosedInterval/*<Bound>*/(
+		  self.start > intervalToClamp.start ? self.start : self.end < intervalToClamp.start ? self.end : intervalToClamp.start,
+		  self.end < intervalToClamp.end ? self.end : self.start > intervalToClamp.end ? self.start : intervalToClamp.end
+		)
 	}
 	
 	@warn_unused_result func contains(_ x: Bound) -> Bool {
-		//return x >= start && x <= end
+		return x >= start && x <= end
 	}
 	
 	//
@@ -91,7 +87,7 @@ public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ : IIntervalTyp
 }
 
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class HalfOpenInterval/*<Bound: Comparable>*/ : IIntervalType/*, ISequence<Bound>*/ {
+public class HalfOpenInterval/*<Bound: Comparable>*/ /*: IIntervalType*//*, ISequence<Bound>*/ {
 
 	typealias Bound = Int64 // for now
 
@@ -140,15 +136,11 @@ public class HalfOpenInterval/*<Bound: Comparable>*/ : IIntervalType/*, ISequenc
 	// Methods
 	//
 	
-	//@warn_unused_result func clamp(_ intervalToClamp: HalfOpenInterval<Bound>) -> HalfOpenInterval<Bound> {
-	@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
+	@warn_unused_result func clamp(_ intervalToClamp: HalfOpenInterval/*<Bound>*/) -> HalfOpenInterval/*<Bound>*/ {
+	//@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
 		return HalfOpenInterval/*<Bound>*/(
-		  self.start > intervalToClamp.start ? self.start
-			: self.end < intervalToClamp.start ? self.end
-			: intervalToClamp.start,
-		  self.end < intervalToClamp.end ? self.end
-			: self.start > intervalToClamp.end ? self.start
-			: intervalToClamp.end
+		  self.start > intervalToClamp.start ? self.start : self.end < intervalToClamp.start ? self.end : intervalToClamp.start,
+		  self.end < intervalToClamp.end ? self.end : self.start > intervalToClamp.end ? self.start : intervalToClamp.end
 		)
 	}
 	

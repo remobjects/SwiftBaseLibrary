@@ -2,7 +2,7 @@
 infix operator ... { precedence 135 associativity none } 
 infix operator ..< { precedence 135 associativity none }
 
-public extension Int32: Equatable, Comparable, ForwardIndexType {
+public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
 
 	// Equatable
 	
@@ -53,7 +53,7 @@ public extension Int32: Equatable, Comparable, ForwardIndexType {
 	}
 }
 
-public extension Int64: Equatable, Comparable, ForwardIndexType {
+public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	
 	// Equatable
 	func ==(lhs: Self, rhs: Self) -> Bool {

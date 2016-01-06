@@ -54,13 +54,12 @@ public typealias LazySequenceType<T> = ILazySequence<T>
 public typealias ILazySequence<T> = ISequence<T> // for now; maybe eventually we'=ll make non-lazy sequences too
 
 public protocol ForwardIndexType {
-	typealias Distance : SignedIntegerType = Int
+	typealias Distance /*: SignedIntegerType*/ = Int
 }
 
-public typealias Indexable = IIndexable // <> should't be needed in ancestor
+public typealias Indexable = IIndexable
 public protocol IIndexable {
-	typealias Index : ForwardIndexType // <> shoudlnt be needed
-	typealias Distance // should not be needed, should inherit
+	typealias Index : ForwardIndexType
 	typealias Element
 	var startIndex: Index { get }
 	var endIndex: Index { get }
@@ -69,11 +68,8 @@ public protocol IIndexable {
 
 public typealias CollectionType = ICollectionType
 public protocol ICollectionType : IIndexable {
-	typealias Index : ForwardIndexType, Comparable // should not be needed, should inherit
-	typealias Distance // should not be needed, should inherit
-	typealias Element // should not be needed, should inherit
-	var startIndex: ForwardIndexType { get } // <> shoudlnt be needed
-	var endIndex: ForwardIndexType { get } // <> shoudlnt be needed
+	var startIndex: ForwardIndexType { get }
+	var endIndex: ForwardIndexType { get }
 	subscript (i: Int) -> Element { get }
 }
 
