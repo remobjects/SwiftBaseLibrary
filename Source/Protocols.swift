@@ -59,7 +59,7 @@ public protocol ForwardIndexType {
 
 public typealias Indexable = IIndexable
 public protocol IIndexable {
-	typealias Index : ForwardIndexType
+	typealias Index: ForwardIndexType
 	typealias Element
 	var startIndex: Index { get }
 	var endIndex: Index { get }

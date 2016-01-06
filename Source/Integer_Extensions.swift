@@ -4,28 +4,6 @@ infix operator ..< { precedence 135 associativity none }
 
 public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
 
-	// Equatable
-	
-	func ==(lhs: Self, rhs: Self) -> Bool {
-		return rhs == lhs
-	}
-
-	// Comparable
-
-	func <(lhs: Self, rhs: Self) -> Bool {
-		return lhs < rhs
-	}
-	func <=(lhs: Self, rhs: Self) -> Bool {
-		return lhs <= rhs
-	}
-	func >=(lhs: Self, rhs: Self) -> Bool {
-		return lhs >= rhs
-	}
-	func >(lhs: Self, rhs: Self) -> Bool {
-		return lhs > rhs
-	}
-	
-	
 	// Interval Operators
 	
 	public func ... (a: Int32, b: Int32) -> ClosedInterval/*<Int32>*/ {
@@ -54,26 +32,6 @@ public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
 }
 
 public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
-	
-	// Equatable
-	func ==(lhs: Self, rhs: Self) -> Bool {
-		return rhs == lhs
-	}
-
-	// Comparable
-
-	func <(lhs: Self, rhs: Self) -> Bool {
-		return lhs < rhs
-	}
-	func <=(lhs: Self, rhs: Self) -> Bool {
-		return lhs <= rhs
-	}
-	func >=(lhs: Self, rhs: Self) -> Bool {
-		return lhs >= rhs
-	}
-	func >(lhs: Self, rhs: Self) -> Bool {
-		return lhs > rhs
-	}
 	
 	// Interval Operators
 	
