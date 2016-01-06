@@ -4,8 +4,8 @@
 public typealias Int = Int64
 public typealias UInt = UInt64
 #elseif NOUGAT
-public typealias Int = NSInteger
-public typealias UInt = NSUInteger
+public typealias Int = Int64//NSInteger
+public typealias UInt = UInt64//NSUInteger
 #endif
 public typealias Int8 = SByte
 public typealias UInt8 = Byte
