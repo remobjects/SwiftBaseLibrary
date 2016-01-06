@@ -1,14 +1,11 @@
 ﻿public typealias NSObject = Object
 
-#if ECHOES
-public typealias Int = IntPtr
-public typealias UInt = UIntPtr
+#if ECHOES || COOPER
+public typealias Int = Int64
+public typealias UInt = UInt64
 #elseif NOUGAT
 public typealias Int = NSInteger
 public typealias UInt = NSUInteger
-#elseif COOPER
-public typealias Int = Int32
-public typealias UInt = UInt32
 #endif
 public typealias Int8 = SByte
 public typealias UInt8 = Byte
