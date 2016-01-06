@@ -1,13 +1,13 @@
 ﻿
 /* Numbers */
 
-public typealias Equatable = IEquatable
-public protocol IEquatable { // NE19 The public type "IEquatable" has a duplicate with the same short name in reference "Nougat", which is not allowed on Cocoa
+//public typealias Equatable = IEquatable
+public protocol Equatable { // NE19 The public type "IEquatable" has a duplicate with the same short name in reference "Nougat", which is not allowed on Cocoa
 	func ==(lhs: Self, rhs: Self) -> Bool
 }
 
-public typealias Comparable = IComparable
-public protocol IComparable : Equatable {
+//public typealias Comparable = IComparable
+public protocol Comparable : Equatable {
 	func <(lhs: Self, rhs: Self) -> Bool
 	func <=(lhs: Self, rhs: Self) -> Bool
 	func >=(lhs: Self, rhs: Self) -> Bool
