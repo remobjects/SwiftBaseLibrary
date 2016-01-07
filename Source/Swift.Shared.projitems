@@ -30,7 +30,7 @@
             <VirtualFolder>Sequences</VirtualFolder>
         </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Object_Extensions.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Mirror.swift"/>
+        <None Include="$(MSBuildThisFileDirectory)Mirror.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Intervals.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift"/>
         <None Include="$(MSBuildThisFileDirectory)Collections.swift"/>
