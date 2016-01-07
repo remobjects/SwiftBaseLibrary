@@ -268,7 +268,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public mutating func sort(isOrderedBefore: (T, T) -> Bool) {
 		#if COOPER
-		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int {
+		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {
@@ -297,7 +297,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public func sorted(isOrderedBefore: (T, T) -> Bool) -> [T] { 
 		#if COOPER
 		let result: ArrayList<T> = [T](items: self) 
-		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
+		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {

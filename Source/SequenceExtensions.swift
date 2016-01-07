@@ -209,7 +209,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		//todo: make more lazy?
 		#if COOPER
 		let result: ArrayList<T> = [T](items: self) 
-		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int { // ToDo: check if this is the right order
+		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {
