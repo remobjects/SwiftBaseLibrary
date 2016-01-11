@@ -258,9 +258,13 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#endif
 	}
 
-	public func enumerate() -> ISequence<T> {
-		return self
-	}
+	// availabvle via ISequence anyways
+	/*public func enumerate() -> ISequence<(Int, T)> {
+		var index = 0
+		for element in self {
+			__yield (index, element)
+		}
+	}*/
 
 	public func lazy() -> ISequence<T> {
 		return self

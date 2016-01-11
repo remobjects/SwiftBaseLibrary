@@ -14,8 +14,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return nativeArrayToSequence(nativeArray)
 	}
 	
-	//74042: Silver: wrong "no such overload" error when implementing iterator in extension
-	internal static /*private*/ func nativeArrayToSequence(nativeArray: T[]) -> ISequence<T> { // make private once ctor workd
+	private static func nativeArrayToSequence(nativeArray: T[]) -> ISequence<T> { // make private once ctor workd
 		for e in nativeArray {
 			__yield e
 		}
@@ -49,8 +48,11 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		fatalError("dropLast() is not implemented yet.")
 	}
 
-	@warn_unused_result public func enumerate() -> ISequence<T> { // no-op in Silver
-		return self
+	@warn_unused_result public func enumerate() -> ISequence<(Int, T)> {
+		var index = 0
+		for element in self {
+			__yield (index, element)
+		}
 	}
 	
 	@warn_unused_result public func filter(includeElement: (T) throws -> Bool) rethrows -> ISequence<T> { 
