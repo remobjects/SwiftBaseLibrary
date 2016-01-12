@@ -236,8 +236,12 @@
 		}
 		return nil
 		#elseif NOUGAT
-		return self.integerValue 
-		#hint ToDo: doesn't handle invalid strings to return nil, yet
+		let formatter = NSNumberFormatter()
+		formatter.numberStyle = .NSNumberFormatterOrdinalStyle
+		if let number = formatter.numberFromString(self) {
+			return number.integerValue
+		}
+		return nil
 		#endif
 	}
 	
