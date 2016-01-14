@@ -10,40 +10,40 @@ public typealias StringInterpolationConvertible = IStringInterpolationConvertibl
 public typealias UnicodeScalarLiteralConvertible = IUnicodeScalarLiteralConvertible
 
 public protocol IArrayLiteralConvertible {
-	typealias Element
+	associatedtype Element
 	
 	init(arrayLiteral elements: Element...)
 }
 
 public protocol IBooleanLiteralConvertible {
-	typealias BooleanLiteralType
+	associatedtype BooleanLiteralType
 
 	init(booleanLiteral value: BooleanLiteralType)
 }
 
 public protocol IDictionaryLiteralConvertible {
-	typealias Key
-	typealias Value
+	associatedtype Key
+	associatedtype Value
 
 	init(dictionaryLiteral elements: (Key, Value)...)
 }
 
 //73998: Silver: compiler crash in base library
 public protocol IExtendedGraphemeClusterLiteralConvertible /*: UnicodeScalarLiteralConvertible*/ {
-	typealias ExtendedGraphemeClusterLiteralType
+	associatedtype ExtendedGraphemeClusterLiteralType
 
 	/// Create an instance initialized to `value`.
 	init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType)
 }
 
 public protocol IFloatLiteralConvertible {
-	typealias FloatLiteralType
+	associatedtype FloatLiteralType
 
 	init(floatLiteral value: FloatLiteralType)
 }
 
 public protocol IIntegerLiteralConvertible {
-	typealias IntegerLiteralType
+	associatedtype IntegerLiteralType
 
 	init(integerLiteral value: IntegerLiteralType)
 }

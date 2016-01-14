@@ -54,13 +54,13 @@ public typealias LazySequenceType<T> = ILazySequence<T>
 public typealias ILazySequence<T> = ISequence<T> // for now; maybe eventually we'=ll make non-lazy sequences too
 
 public protocol ForwardIndexType {
-	typealias Distance /*: SignedIntegerType*/ = Int
+	associatedtype Distance /*: SignedIntegerType*/ = Int
 }
 
 public typealias Indexable = IIndexable
 public protocol IIndexable {
-	typealias Index: ForwardIndexType
-	typealias Element
+	associatedtype Index: ForwardIndexType
+	associatedtype Element
 	var startIndex: Index { get }
 	var endIndex: Index { get }
 	subscript(position: Index) -> Element { get }
@@ -75,6 +75,6 @@ public protocol ICollectionType : IIndexable {
 
 public typealias Sliceable = ISliceable
 public protocol ISliceable : ICollectionType {
-	typealias SubSlice : Sliceable // 71477: Silver: can't use constraint on type alias in public protocol
+	associatedtype SubSlice : Sliceable // 71477: Silver: can't use constraint on type alias in public protocol
 	subscript (bounds: Range/*<Index>*/) -> SubSlice { get } // //71476: Silver: can't use "Self." prefix on type aliases in generic public protocol
 }

@@ -1,28 +1,21 @@
-﻿public __inline func countElements(source: String?) -> Int {
+﻿public __inline func count(source: String?) -> Int {
 	return length(source)
 }
 
-public __inline func countElements<T>(source: [T]?) -> Int {
+public __inline func count<T>(source: [T]?) -> Int {
 	return length(source)
 }
 
-public __inline func countElements<T>(source: T[]?) -> Int {
+public __inline func count<T>(source: T[]?) -> Int {
 	return length(source)
 }
 
-public __inline func countElements<T>(source: ISequence<T>?) -> Int {
+public __inline func count<T>(source: ISequence<T>?) -> Int {
 	if let s = source {
 		return s.Count()
 	}
 	return 0
 }
-
-/* count() just duplicates countElements. We know, Ugh. */
-
-public __inline func count(source: String?) -> Int { return countElements(source) }
-public __inline func count<T>(source: [T]?) -> Int { return countElements(source) }
-public __inline func count<T>(source: T[]?) -> Int { return countElements(source) }
-public __inline func count<T>(source: ISequence<T>) -> Int { return countElements(source) }
 
 public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = default, allowEmptySlices: Bool = default) -> [String] {
 	

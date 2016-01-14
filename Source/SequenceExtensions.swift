@@ -24,14 +24,10 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return array as! ISequence<T> // 74041: Silver: warning for "as" cast that should be known safe
 	}
 
-	@warn_unused_result public func count() -> Int {
+	public var count: Int {
 		return self.Count()
 	}
 	
-	@warn_unused_result public func countElements() -> Int {
-		return self.Count()
-	}
-
 	@warn_unused_result public func dropFirst() -> ISequence<T> {
 		return self.Skip(1)
 	}
