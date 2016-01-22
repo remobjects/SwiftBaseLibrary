@@ -109,7 +109,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public subscript (index: Int) -> T {
 		get {
-			var value = __mapped[index]
+			var value: Object! = __mapped[index]
 			#if NOUGAT
 			if value == NSNull.null {
 				value = nil
