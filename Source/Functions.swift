@@ -59,8 +59,17 @@ public func debugPrint(objects: Any...) {//, separator separator: String = " ", 
 	print(objects)
 }
 
+public func print(object: Object, separator separator: String = " ", terminator terminator: String? = nil) {
+	write(object)
+	if let terminator = terminator {
+		write(terminator)
+	} else {
+		writeLn()
+	}
+}
+
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-planform new-line
-public func print(objects: Any...) {//, separator separator: String = " ", terminator terminator: String = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+public func print(objects: Any...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
 	let terminator: String? = nil
 	
