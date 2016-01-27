@@ -55,12 +55,16 @@ public func debugPrint(objects: Any...) {//, separator separator: String = " ", 
 }
 
 //74036: Can't use Obsolete(, true) on Java :(
-/*@Obsolete("Use print() instead")*/ public __inline func println(objects: Any...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
+/*@Obsolete("Use print() instead")*/ public __inline func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
 	print(objects)
 }
 
-public func print(object: Object, separator separator: String = " ", terminator terminator: String? = nil) {
-	write(object)
+public func print(object: Object?, separator separator: String = " ", terminator terminator: String? = nil) {
+	if let object = object {
+		write(object)
+	} else {
+		write("(null)")
+	}
 	if let terminator = terminator {
 		write(terminator)
 	} else {
@@ -69,18 +73,22 @@ public func print(object: Object, separator separator: String = " ", terminator 
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-planform new-line
-public func print(objects: Any...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+public func print(objects: Any?...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
 	let terminator: String? = nil
 	
 	var first = true
-	for o in objects {
+	for object in objects {
 		if !first {
 			write(separator)
 		} else {
 			first = false
 		}
-		write(o)
+		if let object = object {
+			write(object)
+		} else {
+			write("(null)")
+		}
 	}
 	if let terminator = terminator {
 		write(terminator)
