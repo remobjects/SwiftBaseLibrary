@@ -15,6 +15,7 @@
         <CreateHeaderFile>True</CreateHeaderFile>
         <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
         <Architecture>armv7k</Architecture>
+        <SimulatorArchitectures>i386</SimulatorArchitectures>
         <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
