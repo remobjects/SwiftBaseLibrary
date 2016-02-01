@@ -109,14 +109,14 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public subscript (index: Int) -> T {
 		get {
-            #if ECHOES || COOPER 
+			#if ECHOES || COOPER 
 			return __mapped[index]
 			#elseif NOUGAT
-            var value: AnyObject! = __mapped[index]
+			var value: AnyObject! = __mapped[index]
 			if value == NSNull.null {
 				value = nil
 			}
-            return value
+			return value
 			#endif
 		}
 		set {
