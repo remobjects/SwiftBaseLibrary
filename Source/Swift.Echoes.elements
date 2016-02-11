@@ -57,7 +57,7 @@
         <Reference Include="System.Core"/>
         <Reference Include="System.Data"/>
         <Reference Include="System.Xml"/>
-        <Reference Include="RemObjects.Elements.Dynamic">
+        <Reference Include="Echoes">
             <Private>True</Private>
         </Reference>
     </ItemGroup>

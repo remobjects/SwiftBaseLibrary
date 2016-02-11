@@ -37,9 +37,9 @@
         <GenerateBitcode>True</GenerateBitcode>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Foundation.fx"/>
-        <Reference Include="rtl.fx"/>
-        <Reference Include="libNougat.fx"/>
+        <Reference Include="Foundation"/>
+        <Reference Include="rtl"/>
+        <Reference Include="libNougat"/>
     </ItemGroup>
     <ItemGroup/>
     <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Oxygene/RemObjects.Oxygene.Nougat.targets"/>

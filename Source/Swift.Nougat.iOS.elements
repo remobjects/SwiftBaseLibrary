@@ -15,7 +15,7 @@
         <CreateHeaderFile>True</CreateHeaderFile>
         <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
         <Architecture>arm64,armv7s,armv7</Architecture>
-		<SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
+        <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
         <DeploymentTargetVersion>7.0</DeploymentTargetVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -39,9 +39,9 @@
         <GenerateBitcode>True</GenerateBitcode>
     </PropertyGroup>
     <ItemGroup>
-        <Reference Include="Foundation.fx"/>
-        <Reference Include="rtl.fx"/>
-        <Reference Include="libNougat.fx"/>
+        <Reference Include="Foundation"/>
+        <Reference Include="rtl"/>
+        <Reference Include="libNougat"/>
     </ItemGroup>
     <ItemGroup/>
     <Import Project="$(MSBuildExtensionsPath)/RemObjects Software/Oxygene/RemObjects.Oxygene.Nougat.targets"/>
