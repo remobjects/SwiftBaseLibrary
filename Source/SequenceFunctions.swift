@@ -1,16 +1,16 @@
-﻿public __inline func count(source: String?) -> Int {
+﻿@inline(__always) public func count(source: String?) -> Int {
 	return length(source)
 }
 
-public __inline func count<T>(source: [T]?) -> Int {
+@inline(__always) public func count<T>(source: [T]?) -> Int {
 	return length(source)
 }
 
-public __inline func count<T>(source: T[]?) -> Int {
+@inline(__always) public func count<T>(source: T[]?) -> Int {
 	return length(source)
 }
 
-public __inline func count<T>(source: ISequence<T>?) -> Int {
+@inline(__always) public func count<T>(source: ISequence<T>?) -> Int {
 	if let s = source {
 		return s.Count()
 	}
@@ -71,6 +71,6 @@ public func split(elements: String, separatorChar separator: Char) -> [String] {
 	#endif
 }
 
-public __inline func startsWith(s: String, `prefix`: String) -> Bool {
+@inline(__always) public func startsWith(s: String, `prefix`: String) -> Bool {
 	return s.hasPrefix(`prefix`)
 }

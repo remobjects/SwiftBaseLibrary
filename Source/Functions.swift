@@ -1,4 +1,4 @@
-﻿// public __inline func abs(x) // provied by compiler
+﻿// @inline(__always) public func abs(x) // provied by compiler
 	
 @Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
@@ -11,7 +11,7 @@
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-public __inline func debugPrint(object: Object?, separator separator: String = " ", terminator terminator: String? = nil) {
+@inline(__always) public func debugPrint(object: Object?, separator separator: String = " ", terminator terminator: String? = nil) {
 	if let object = object {
 		write(String(reflecting:object))
 	} else {
@@ -66,7 +66,7 @@ public func debugPrint(objects: Object?...) {//, separator separator: String = "
 	fatalError(message, file: file, line: line)
 }
 
-@Obsolete("Use print() instead") public __inline func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
+@Obsolete("Use print() instead") @inline(__always) public func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
 	print(objects)
 }
 
