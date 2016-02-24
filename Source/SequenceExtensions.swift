@@ -77,8 +77,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	//74036: Can't use Obsolete(, true) on Java :(
-	/*@Obsolete("generate() is not supported in Silver.", true)*/ public func generate() -> ISequence<T> { // no-op in Silver? i dont get what this does.
+	@Obsolete("generate() is not supported in Silver.", true) public func generate() -> ISequence<T> { // no-op in Silver? i dont get what this does.
 		fatalError("generate() is not supported in Silver.")
 	}
 	
@@ -86,8 +85,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return !self.Any()
 	}
 
-	//74036: Can't use Obsolete(, true) on Java :(
-	/*@Obsolete("Use joinWithSeparator() instead")*/ @warn_unused_result public func join(elements: ISequence<T>) -> ISequence<T> {
+	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(elements: ISequence<T>) -> ISequence<T> {
 		var first = true
 		for e in elements {
 			if !first {
@@ -101,8 +99,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	//74036: Can't use Obsolete(, true) on Java :(
-	/*@Obsolete("Use joinWithSeparator() instead")*/ @warn_unused_result public func join(elements: T[]) -> ISequence<T> { 
+	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(elements: T[]) -> ISequence<T> { 
 		var first = true
 		for e in elements {
 			if !first {

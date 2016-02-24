@@ -1,5 +1,4 @@
-﻿
-// public __inline func abs(x) // provied by compiler
+﻿// public __inline func abs(x) // provied by compiler
 	
 @Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
@@ -57,7 +56,6 @@ public func debugPrint(objects: Object?...) {//, separator separator: String = "
 		__throw Exception("Fatal Error, file "+file+", line "+line)
 	}
 }
-
 @Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)
@@ -68,8 +66,7 @@ public func debugPrint(objects: Object?...) {//, separator separator: String = "
 	fatalError(message, file: file, line: line)
 }
 
-//74036: Can't use Obsolete(, true) on Java :(
-/*@Obsolete("Use print() instead")*/ public __inline func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
+@Obsolete("Use print() instead") public __inline func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
 	print(objects)
 }
 
@@ -102,7 +99,7 @@ public func print(objects: Object?...) {//, separator separator: String = " ", t
 			write(object)
 		} else {
 			write("(null)")
-		}
+	 }
 	}
 	if let terminator = terminator {
 		write(terminator)
