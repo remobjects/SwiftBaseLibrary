@@ -73,3 +73,11 @@ public protocol SignedIntegerType : IntegerType, SignedNumberType {
 	func toIntMax() -> IntMax
 	static/*class*/ func from(_: IntMax) -> Self
 }
+
+/*public protocol Strideable : Equatable, Comparable {
+	func advancedBy(n: Self.Stride) -> Self
+	func distanceTo(other: Self) -> Self.Stride
+	//74693: Silver: can't overload interface methods by secondary names
+	func stride(# through: Self, by: Self) -> ISequence<Self>
+	//func stride(# to: Self, by: Self) -> ISequence<Self>
+}*/

@@ -29,6 +29,24 @@ public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
 	public func ..< (a: Int32, b: Int64) -> HalfOpenInterval/*<Int64>*/ {
 		return HalfOpenInterval/*<Int64>*/(a, b)
 	}
+
+	public func stride(# through: Int32, by: Int32) -> ISequence<Int32> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i <= through {
+			__yield i;
+			i += by
+		}
+	}
+
+	public func stride(# to: Int32, by: Int32) -> ISequence<Int32> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i < to {
+			__yield i;
+			i += by
+		}
+	}
 }
 
 public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
@@ -41,6 +59,66 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	
 	public func ..< (a: Int64, b: Int64) -> HalfOpenInterval/*<Int64>*/ {
 		return HalfOpenInterval/*<Int64>*/(a, b)
+	}
+
+	public func stride(# through: Int64, by: Int64) -> ISequence<Int64> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i <= through {
+			__yield i;
+			i += by
+		}
+	}
+
+	public func stride(# to: Int64, by: Int64) -> ISequence<Int64> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i < to {
+			__yield i;
+			i += by
+		}
+	}
+}
+
+public extension Float {
+	
+	public func stride(# through: Float, by: Float) -> ISequence<Float> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i <= through {
+			__yield i;
+			i += by
+		}
+	}
+
+	public func stride(# to: Float, by: Float) -> ISequence<Float> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i < to {
+			__yield i;
+			i += by
+		}
+	}
+}
+
+public extension Double {
+	
+	public func stride(# through: Double, by: Double) -> ISequence<Double> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i <= through {
+			__yield i;
+			i += by
+		}
+	}
+
+	public func stride(# to: Double, by: Double) -> ISequence<Double> {
+		precondition(by > 0, "'by' must be larger than zero")
+		var i = self
+		while i < to {
+			__yield i;
+			i += by
+		}
 	}
 }
 
