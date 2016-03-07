@@ -203,7 +203,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	@warn_unused_result public func sort(isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
 		//todo: make more lazy?
 		#if COOPER
-		let result: ArrayList<T> = [T](items: self) 
+		let result: ArrayList<T> = [T](sequence: self) 
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
@@ -213,7 +213,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}})	
 		return result
 		#elseif ECHOES
-		let result: List<T> = [T](items: self) 
+		let result: List<T> = [T](sequence: self) 
 		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
