@@ -1,5 +1,4 @@
-﻿
-// public __inline func abs(x) // provied by compiler
+﻿// @inline(__always) public func abs(x) // provied by compiler
 	
 @Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
@@ -11,23 +10,37 @@
 	fatalError(message, file: file, line: line)
 }
 
-public __inline func debugPrint(object: Any) {
-	writeLn(String(reflecting:object))
+// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
+@inline(__always) public func debugPrint(object: Object?, separator separator: String = " ", terminator terminator: String? = nil) {
+	if let object = object {
+		write(String(reflecting:object))
+	} else {
+		write("(null)")
+	}
+	if let terminator = terminator {
+		write(terminator)
+	} else {
+		writeLn()
+	}
 }
 
-// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-planform new-line
-public func debugPrint(objects: Any...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
+public func debugPrint(objects: Object?...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
 	let terminator: String? = nil
 	
 	var first = true
-	for o in objects {
+	for object in objects {
 		if !first {
 			write(separator)
 		} else {
 			first = false
 		}
-		write(String(reflecting:o))
+		if let object = object {
+			write(String(reflecting:object))
+		} else {
+			write("(null)")
+		}
 	}
 	if let terminator = terminator {
 		write(terminator)
@@ -43,7 +56,6 @@ public func debugPrint(objects: Any...) {//, separator separator: String = " ", 
 		__throw Exception("Fatal Error, file "+file+", line "+line)
 	}
 }
-
 @Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)
@@ -54,8 +66,7 @@ public func debugPrint(objects: Any...) {//, separator separator: String = " ", 
 	fatalError(message, file: file, line: line)
 }
 
-//74036: Can't use Obsolete(, true) on Java :(
-/*@Obsolete("Use print() instead")*/ public __inline func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
+@Obsolete("Use print() instead") @inline(__always) public func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
 	print(objects)
 }
 
@@ -72,8 +83,8 @@ public func print(object: Object?, separator separator: String = " ", terminator
 	}
 }
 
-// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-planform new-line
-public func print(objects: Any?...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
+// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
+public func print(objects: Object?...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
 	let separator: String = " "
 	let terminator: String? = nil
 	
@@ -88,7 +99,7 @@ public func print(objects: Any?...) {//, separator separator: String = " ", term
 			write(object)
 		} else {
 			write("(null)")
-		}
+	 }
 	}
 	if let terminator = terminator {
 		write(terminator)

@@ -1,7 +1,7 @@
 ﻿public extension Object {
 
 	#if !NOUGAT
-	public __inline func description() -> String {
+	@inline(__always) public func description() -> String {
 		#if COOPER
 		return self.toString()
 		#elseif ECHOES

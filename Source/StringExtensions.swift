@@ -17,6 +17,13 @@
 		#endif
 	}
 
+	//74397: Silver SLB: Internal Error when adding new .ctor to String Extension
+	/*
+	public init(_ c: Char) {
+		return String(count: 1, repeatedValue: c)
+	}
+	*/
+
 	/*
 	public init(_ object: AnyObject) {
 		if let o = subject as? ICustomStringConvertible {
