@@ -277,7 +277,7 @@
 				if i > startIndex {
 					result += " "
 				}
-				result += UInt64(self[i]).toHexString(4)
+				result += UInt64(self[i]).toHexString(length: 4)
 			}
 			result += ")"
 			return result
@@ -320,7 +320,7 @@
 				if i > startIndex {
 					result += " "
 				}
-				result += UInt64(self[i]).toHexString(8)
+				result += UInt64(self[i]).toHexString(length: 8)
 			}
 			result += ")"
 			return result
@@ -363,7 +363,7 @@
 				if i > startIndex {
 					result += " "
 				}
-				result += UInt64(self[i]).toHexString(2)
+				result += UInt64(self[i]).toHexString(length: 2)
 			}
 			result += ")"
 			return result
