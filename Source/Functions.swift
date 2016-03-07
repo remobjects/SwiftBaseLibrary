@@ -11,7 +11,7 @@
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-@inline(__always) public func debugPrint(object: Object?, separator separator: String = " ", terminator terminator: String? = nil) {
+@inline(__always) public func debugPrint(object: Object?, separator: String = " ", terminator: String? = nil) {
 	if let object = object {
 		write(String(reflecting:object))
 	} else {
@@ -25,10 +25,7 @@
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-public func debugPrint(objects: Object?...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
-	let separator: String = " "
-	let terminator: String? = nil
-	
+public func debugPrint(objects: Object?..., separator: String = " ", terminator: String? = nil) {
 	var first = true
 	for object in objects {
 		if !first {
@@ -70,7 +67,7 @@ public func debugPrint(objects: Object?...) {//, separator separator: String = "
 	print(objects)
 }
 
-public func print(object: Object?, separator separator: String = " ", terminator terminator: String? = nil) {
+public func print(object: Object?, separator: String = " ", terminator: String? = nil) {
 	if let object = object {
 		write(object)
 	} else {
@@ -84,10 +81,7 @@ public func print(object: Object?, separator separator: String = " ", terminator
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-public func print(objects: Object?...) {//, separator separator: String = " ", terminator terminator: String? = nil) { // 73994: Silver: "..." params syntax should be allowed not only for the last param
-	let separator: String = " "
-	let terminator: String? = nil
-	
+public func print(objects: Object?..., separator: String = " ", terminator: String? = nil) {
 	var first = true
 	for object in objects {
 		if !first {
