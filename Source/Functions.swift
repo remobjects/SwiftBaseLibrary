@@ -102,22 +102,13 @@ public func print(objects: Object?..., separator: String = " ", terminator: Stri
 	}
 }
 
-//todo: delegate to readLn() function once we have that in core compiler
-@warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
+@inline(__always) @warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
 	#if COOPER
-	return System.console().readLine() + (!stripNewline ? System.lineSeparator() : "")
+	return readLn() + (!stripNewline ? System.lineSeparator() : "")
 	#elseif ECHOES
-	return Console.ReadLine() + (!stripNewline ? Environment.NewLine : "")
+	return readLn() + (!stripNewline ? Environment.NewLine : "")
 	#elseif NOUGAT
-	var result = ""
-	repeat {
-		let c = getchar()
-		if c == 10 || c == 13 {
-			return result + (!stripNewline ? "\n" : "")
-		}
-		result += Char(c)
-	} while true
-	return (!stripNewline ? "\n" : "") // only to keep warning away, never reached // 74112: Silver: erroneous "method does not return value" 
+	return readLn() + (!stripNewline ? "\n" : "")
 	#endif
 }
 

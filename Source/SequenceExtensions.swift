@@ -24,7 +24,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return array as! ISequence<T> // 74041: Silver: warning for "as" cast that should be known safe
 	}
 
-	public func count() -> Int {
+	@warn_unused_result public func count() -> Int {
 		return self.Count()
 	}
 	
