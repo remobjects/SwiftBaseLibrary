@@ -102,7 +102,9 @@ public func print(objects: Object?..., separator: String = " ", terminator: Stri
 	}
 }
 
-@inline(__always) @warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
+//workaround for 74755: Internal error in SBL when readLn() is inlined: don't inline:
+//@inline(__always)
+@warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
 	#if COOPER
 	return readLn() + (!stripNewline ? System.lineSeparator() : "")
 	#elseif ECHOES

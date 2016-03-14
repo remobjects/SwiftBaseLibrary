@@ -49,6 +49,8 @@ public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
 		}
 	}
 
+	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
+	#if NOUGAT
 	public func stride(# to: Int32, by: Int32) -> ISequence<Int32> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -57,6 +59,7 @@ public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
 			i += by
 		}
 	}
+	#endif
 }
 
 public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
@@ -90,6 +93,8 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 		}
 	}
 
+	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
+	#if NOUGAT
 	public func stride(# to: Int64, by: Int64) -> ISequence<Int64> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -98,6 +103,7 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 			i += by
 		}
 	}
+	#endif
 }
 
 public extension Float {
@@ -121,6 +127,8 @@ public extension Float {
 		}
 	}
 
+	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
+	#if NOUGAT
 	public func stride(# to: Float, by: Float) -> ISequence<Float> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -129,6 +137,7 @@ public extension Float {
 			i += by
 		}
 	}
+	#endif
 }
 
 public extension Double {
@@ -152,6 +161,8 @@ public extension Double {
 		}
 	}
 
+	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
+	#if NOUGAT
 	public func stride(# to: Double, by: Double) -> ISequence<Double> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -160,6 +171,7 @@ public extension Double {
 			i += by
 		}
 	}
+	#endif
 }
 
 public extension UInt64 {
