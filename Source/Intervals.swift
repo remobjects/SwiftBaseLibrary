@@ -2,7 +2,7 @@
 public typealias IntervalType = IIntervalType
 public protocol IIntervalType {
 
-	typealias Bound = Int//: Comparable, Incrementable
+	associatedtype Bound = Int//: Comparable, Incrementable
 
 	@warn_unused_result func contains(value: Bound) -> Bool
 	@warn_unused_result func clamp(intervalToClamp: IIntervalType<Bound>/*Self*/) -> IIntervalType<Bound>/*Self*/

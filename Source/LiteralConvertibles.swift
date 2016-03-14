@@ -54,19 +54,19 @@ public protocol INilLiteralConvertible {
 }
 
 public protocol IStringLiteralConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
-	typealias StringLiteralType
+	associatedtype StringLiteralType
 
 	init(stringLiteral value: StringLiteralType)
 }
 
 public protocol IStringInterpolationConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
-	typealias StringInterpolationType
+	associatedtype StringInterpolationType
 
 	init(stringInterpolation value: StringInterpolationType)
 }
 
 public protocol IUnicodeScalarLiteralConvertible {
-	typealias UnicodeScalarLiteralType
+	associatedtype UnicodeScalarLiteralType
 
 	init(unicodeScalarLiteral value: UnicodeScalarLiteralType)
 }
