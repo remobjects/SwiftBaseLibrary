@@ -44,6 +44,9 @@ public typealias AnyClass = rtl.Class
 public typealias AnyClass = java.lang.Class
 #endif
 
+#if NOUGAT
+public typealias Selector = SEL
+#endif
 
 /* more obsucre integer aliases */
 
