@@ -7,7 +7,7 @@
         <RootNamespace>Swift.Shared</RootNamespace>
     </PropertyGroup>
     <Import Project="Swift.Shared.projitems" Label="Shared"/>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Oxygene\RemObjects.Elements.SharedProject.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.SharedProject.targets"/>
     <PropertyGroup>
         <PreBuildEvent/>
     </PropertyGroup>
