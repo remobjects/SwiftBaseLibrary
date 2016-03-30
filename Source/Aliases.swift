@@ -77,5 +77,8 @@ public typealias UnicodeScalarType = String
 //public typealias Void = () // define dby Compiler
 public typealias Word = Int
 
+public typealias COpaquePointer = UnsafePointer<Void>
+public typealias UnsafeMutablePointer<T> = UnsafePointer<T>
+
 //struct Float80 { // A record needs to have at least 1 field or a "StructLayoutAttribute" with "Size > 0"
 //}

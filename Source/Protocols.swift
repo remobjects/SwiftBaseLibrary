@@ -30,6 +30,10 @@ public protocol IRawRepresentable {
 	var rawValue: Self.RawValue { get }
 }
 
+public typealias ErrorType = IErrorType
+public protocol IErrorType {
+}
+
 public typealias Hashable = IHashable
 public protocol IHashable /*: Equatable*/ {
 	var hashValue: Int { get }
