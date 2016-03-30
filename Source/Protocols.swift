@@ -23,6 +23,13 @@ public protocol ICustomDebugStringConvertible {
 	#endif
 }
 
+public typealias RawRepresentable = IRawRepresentable
+public protocol IRawRepresentable {
+	associatedtype RawValue
+	init/*?*/(rawValue rawValue: Self.RawValue)
+	var rawValue: Self.RawValue { get }
+}
+
 public typealias Hashable = IHashable
 public protocol IHashable /*: Equatable*/ {
 	var hashValue: Int { get }
