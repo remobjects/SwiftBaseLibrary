@@ -34,7 +34,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Intervals.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift"/>
         <None Include="$(MSBuildThisFileDirectory)Collections.swift"/>
-        <None Include="$(MSBuildThisFileDirectory)Bit.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Bit.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Integer_Protocols.swift"/>
     </ItemGroup>
     <ItemGroup>

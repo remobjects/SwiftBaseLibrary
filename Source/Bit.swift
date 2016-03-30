@@ -1,8 +1,8 @@
 ﻿/// A `RandomAccessIndexType` that has two possible values.  Used as
 /// the `Index` type for `CollectionOfOne<T>`.
-public enum Bit : Int32, ForwardIndexType<Distance> { //, Comparable, RandomAccessIndexType, _Reflectable { // 74094: Silver: interfaces on enums
+public enum Bit { //: Int32, ForwardIndexType<Distance> { //, Comparable, RandomAccessIndexType, _Reflectable { // 74094: Silver: interfaces on enums
 
-	associatedtype typealias /*Distance*/ = Int // 74095: Silver: cant use type alias in an enum
+	//associatedtype typealias /*Distance*/ = Int // 74095: Silver: cant use type alias in an enum
 
 	case Zero = 0, One = 1
 
