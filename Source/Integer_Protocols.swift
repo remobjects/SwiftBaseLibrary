@@ -64,15 +64,26 @@ public protocol BitwiseOperationsType {
 public protocol IntegerType : IntegerLiteralConvertible, CustomStringConvertible, /*ArrayBoundType,*/ Hashable, IntegerArithmeticType, BitwiseOperationsType, Incrementable {
 }
 
-public protocol SignedNumberType : Comparable, IntegerLiteralConvertible {
-	func -(lhs: Self, rhs: Self) -> Self
-	prefix func -(x: Self) -> Self
+public typealias SignedNumberType = ISignedNumberType
+public protocol ISignedNumberType : Comparable, IntegerLiteralConvertible {
+	@warn_unused_result prefix func -(_ x: Self) -> Self
+	@warn_unused_result func -(_ lhs: Self, _ rhs: Self) -> Self
+	//func -(lhs: Self, rhs: Self) -> Self
+	//prefix func -(x: Self) -> Self
 }
 
-public protocol SignedIntegerType : IntegerType, SignedNumberType {
-	func toIntMax() -> IntMax
-	static/*class*/ func from(_: IntMax) -> Self
+public typealias SignedIntegerType = ISignedIntegerType
+public protocol ISignedIntegerType {
+	init(_ value: IntMax)
+	@warn_unused_result func toIntMax() -> IntMax
 }
+
+public typealias UnsignedIntegerType = IUnsignedIntegerType
+public protocol IUnsignedIntegerType {
+	init(_ value: UIntMax)
+	@warn_unused_result func toUIntMax() -> UIntMax
+}
+
 
 /*public protocol Strideable : Equatable, Comparable {
 	func advancedBy(n: Self.Stride) -> Self
