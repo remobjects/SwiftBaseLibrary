@@ -24,7 +24,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return array as! ISequence<T> // 74041: Silver: warning for "as" cast that should be known safe
 	}
 
-	@warn_unused_result public func count() -> Int {
+	public var count: Int {
 		return self.Count()
 	}
 	
@@ -55,7 +55,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Where() { return try! includeElement($0) }
 	}
 
-	@warn_unused_result public func first() -> T? {
+	public var first: T? {
 		return self.FirstOrDefault()
 	}
 	
@@ -81,7 +81,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		fatalError("generate() is not supported in Silver.")
 	}
 	
-	@warn_unused_result public func isEmpty<T>() -> Bool {
+	public var isEmpty: Bool {
 		return !self.Any()
 	}
 

@@ -51,7 +51,7 @@
 			// ToDo: fall back to reflection to call debugDescription?
 			// ToDo: fall back to checking for extension methods
 			#elseif NOUGAT
-			if (subject.respondsToSelector("debugDescription")) {
+			if subject.respondsToSelector(#selector(debugDescription)) {
 				return subject.debugDescription
 			}
 			// ToDo: fall back to checking for extension methods
