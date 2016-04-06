@@ -58,34 +58,3 @@ public protocol IStreamable {
 	mutating func next() -> Element?
 }*/
 
-public typealias SequenceType<T> = ISequence<T>
-//public protocol ISequence<T> // is priovided by the compiler
-
-public typealias LazySequenceType<T> = ILazySequence<T>
-public typealias ILazySequence<T> = ISequence<T> // for now; maybe eventually we'=ll make non-lazy sequences too
-
-public protocol ForwardIndexType {
-	associatedtype Distance /*: SignedIntegerType*/ = Int
-}
-
-public typealias Indexable = IIndexable
-public protocol IIndexable {
-	associatedtype Index: ForwardIndexType
-	associatedtype Element
-	var startIndex: Index { get }
-	var endIndex: Index { get }
-	subscript(position: Index) -> Element { get }
-}
-
-public typealias CollectionType = ICollectionType
-public protocol ICollectionType : IIndexable {
-	var startIndex: ForwardIndexType { get }
-	var endIndex: ForwardIndexType { get }
-	subscript (i: Int) -> Element { get }
-}
-
-public typealias Sliceable = ISliceable
-public protocol ISliceable : ICollectionType {
-	associatedtype SubSlice : Sliceable // 71477: Silver: can't use constraint on type alias in public protocol
-	subscript (bounds: Range/*<Index>*/) -> SubSlice { get } // //71476: Silver: can't use "Self." prefix on type aliases in generic public protocol
-}

@@ -14,16 +14,15 @@ public protocol Comparable : Equatable {
 	func >(lhs: Self, rhs: Self) -> Bool
 }
 
-public typealias Incrementable = IIncrementable
-public protocol IIncrementable : Equatable {
+public typealias IIncrementable = Incrementable
+public protocol Incrementable : Equatable {
 	func successor() -> Self
 }
 
 // CAUTION: Magic type name. 
 // The compiler will allow any value implementing Swift.IBooleanType type to be used as boolean
-// ToDo: compiler issue 74064 to enable this behaviour
-public typealias BooleanType = IBooleanType
-public protocol IBooleanType {
+public typealias IBooleanType = BooleanType
+public protocol BooleanType {
 	var boolValue: Bool { get }
 }
 
@@ -60,16 +59,14 @@ public protocol BitwiseOperationsType {
 	//static/*class*/ var allZeros: Self { get }
 }
 
-// workaround for error E36: Interface type expected, found "IntegerLiteralConvertible<T>!"
-public protocol IntegerType : IntegerLiteralConvertible, CustomStringConvertible, /*ArrayBoundType,*/ Hashable, IntegerArithmeticType, BitwiseOperationsType, Incrementable {
-}
-
 public typealias SignedNumberType = ISignedNumberType
 public protocol ISignedNumberType : Comparable, IntegerLiteralConvertible {
 	@warn_unused_result prefix func -(_ x: Self) -> Self
 	@warn_unused_result func -(_ lhs: Self, _ rhs: Self) -> Self
-	//func -(lhs: Self, rhs: Self) -> Self
-	//prefix func -(x: Self) -> Self
+}
+
+public protocol AbsoluteValuable : SignedNumberType {
+	@warn_unused_result static func abs(_ x: Self) -> Self
 }
 
 public typealias SignedIntegerType = ISignedIntegerType
@@ -83,12 +80,3 @@ public protocol IUnsignedIntegerType {
 	init(_ value: UIntMax)
 	@warn_unused_result func toUIntMax() -> UIntMax
 }
-
-
-/*public protocol Strideable : Equatable, Comparable {
-	func advancedBy(n: Self.Stride) -> Self
-	func distanceTo(other: Self) -> Self.Stride
-	//74693: Silver: can't overload interface methods by secondary names
-	func stride(# through: Self, by: Self) -> ISequence<Self>
-	//func stride(# to: Self, by: Self) -> ISequence<Self>
-}*/

@@ -10,7 +10,9 @@
     </PropertyGroup>
     <ItemGroup>
         <Compile Include="$(MSBuildThisFileDirectory)Protocols.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)SequenceFunctions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Sequence_Functions.swift">
+            <VirtualFolder>Sequences</VirtualFolder>
+        </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Functions.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Extensions.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Dictionary.swift"/>
@@ -22,7 +24,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)SequenceExtensions.swift">
+        <Compile Include="$(MSBuildThisFileDirectory)Sequence_Extensions.swift">
             <VirtualFolder>Sequences</VirtualFolder>
         </Compile>
         <None Include="$(MSBuildThisFileDirectory)Compose.swift"/>
@@ -36,6 +38,10 @@
         <None Include="$(MSBuildThisFileDirectory)Collections.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Bit.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Integer_Protocols.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Index_Protocols.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Sequence_Protocols.swift">
+            <VirtualFolder>Sequences</VirtualFolder>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Sequences">
