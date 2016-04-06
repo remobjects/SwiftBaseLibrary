@@ -8,12 +8,14 @@ public protocol ForwardIndexType {
 
 public protocol BidirectionalIndexType : ForwardIndexType {
     //@warn_unused_result func advancedBy(_ n: Self.Distance) -> Self                    // duped from ForwardIndexType?
-    //@warn_unused_result func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType
+    //@warn_unused_result func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
     @warn_unused_result func predecessor() -> Self
     @warn_unused_result func successor() -> Self
 }
 
 public protocol ReverseIndexType : BidirectionalIndexType {
+    associatedtype Base : BidirectionalIndexType
+    //associatedtype Distance : SignedIntegerType = Self.Base.Distance // duped from ForwardIndexType?
     init(_ base: Self.Base)
     var base: Self.Base { get }
 }
@@ -31,8 +33,8 @@ public protocol Strideable : Comparable {
 
 public protocol RandomAccessIndexType : BidirectionalIndexType, Strideable {
     //@warn_unused_result func advancedBy(_ n: Self.Distance) -> Self                    // duped from ForwardIndexType?
-    //@warn_unused_result func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType
-    //@warn_unused_result func distanceTo(_ other: Self) -> Self.Distance                // duped from ForwardIndexType
+    //@warn_unused_result func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
+    //@warn_unused_result func distanceTo(_ other: Self) -> Self.Distance                // duped from ForwardIndexType?
 }
 
 // workaround for error E36: Interface type expected, found "IntegerLiteralConvertible<T>!"
