@@ -18,7 +18,7 @@ public protocol Indexable {
 
 public typealias ICollectionType = CollectionType
 public protocol CollectionType : Indexable {
-  associatedtype SubSequence: Indexable, SequenceType = ISequence<Self>
+  associatedtype SubSequence: Indexable, SequenceType<Index> = ISequence<Index>
   subscript(bounds: Range/*<Index>*/) -> SubSequence { get }
 
   @warn_unused_result func prefixUpTo(end: Index) -> SubSequence
