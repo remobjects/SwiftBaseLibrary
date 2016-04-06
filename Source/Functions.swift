@@ -81,7 +81,7 @@ public func print(object: Object?, separator: String = " ", terminator: String? 
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-public func print(objects: Object?..., separator: String = " ", terminator: String? = nil) {
+public func print(_ objects: Object?..., separator: String = " ", terminator: String? = nil) {
 	var first = true
 	for object in objects {
 		if !first {
@@ -89,11 +89,7 @@ public func print(objects: Object?..., separator: String = " ", terminator: Stri
 		} else {
 			first = false
 		}
-		if let object = object {
-			write(object)
-		} else {
-			write("(null)")
-	 }
+		write(__toString(object))
 	}
 	if let terminator = terminator {
 		write(terminator)
@@ -102,19 +98,29 @@ public func print(objects: Object?..., separator: String = " ", terminator: Stri
 	}
 }
 
-//workaround for 74755: Internal error in SBL when readLn() is inlined: don't inline:
-//@inline(__always)
-@warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
-	#if COOPER
-	return readLn() + (!stripNewline ? System.lineSeparator() : "")
-	#elseif ECHOES
-	return readLn() + (!stripNewline ? Environment.NewLine : "")
-	#elseif NOUGAT
-	return readLn() + (!stripNewline ? "\n" : "")
-	#endif
+// different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
+func print<Target : OutputStreamType>(_ objects: Object?..., separator: String = " ", terminator: String? = nil, inout toStream output: Target) {
+	var first = true
+	for object in objects {
+		if !first {
+			output.write(separator)
+		} else {
+			first = false
+		}
+		output.write(__toString(object))
+	}
+	if let terminator = terminator {
+		output.write(terminator)
+	} else {
+		output.write(__newLine())
+	}
 }
 
-public func swap<T>(inout a: T, inout b: T) {
+@warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
+	return readLn() + (!stripNewline ? __newLine() : "")
+}
+
+@inline(__always) public func swap<T>(inout a: T, inout b: T) {
 	let temp = a
 	a = b
 	b = temp

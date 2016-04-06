@@ -42,6 +42,7 @@
         <Compile Include="$(MSBuildThisFileDirectory)Sequence_Protocols.swift">
             <VirtualFolder>Sequences</VirtualFolder>
         </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)__Internal.swift"/>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Sequences">
