@@ -13,6 +13,11 @@ public protocol BidirectionalIndexType : ForwardIndexType {
     @warn_unused_result func successor() -> Self
 }
 
+public protocol ReverseIndexType : BidirectionalIndexType {
+    init(_ base: Self.Base)
+    var base: Self.Base { get }
+}
+
 public protocol Strideable : Comparable {
     associatedtype Stride : SignedNumberType
     //74968: Silver: compiler ignores undefined associated type (`Self.whatever`)

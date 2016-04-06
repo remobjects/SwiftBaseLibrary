@@ -20,10 +20,12 @@ public typealias UnicodeScalar = Character // for now
 public typealias UTF16Char = Char // UInt16
 public typealias UTF32Char = UInt32
 #if !NOUGAT
+//public typealias String = String
 public typealias AnsiChar = Byte
 public typealias UTF8Char = Byte
 #else
 // Nougat has AnsiChar already
+//public typealias String = NSString
 public typealias UTF8Char = AnsiChar
 #endif
 
@@ -77,8 +79,10 @@ public typealias UnicodeScalarType = String
 //public typealias Void = () // define dby Compiler
 public typealias Word = Int
 
+#if NOUGAT
 public typealias COpaquePointer = UnsafePointer<Void>
 public typealias UnsafeMutablePointer<T> = UnsafePointer<T>
+#endif
 
 //struct Float80 { // A record needs to have at least 1 field or a "StructLayoutAttribute" with "Size > 0"
 //}

@@ -1,15 +1,17 @@
 ﻿
-public typealias IntervalType = IIntervalType
-public protocol IIntervalType {
+public typealias IIntervalType = IntervalType
+public protocol IntervalType {
 
-	associatedtype Bound = Int//: Comparable, Incrementable
+	associatedtype Bound : Comparable /*= Int*/
 
-	@warn_unused_result func contains(value: Bound) -> Bool
-	@warn_unused_result func clamp(intervalToClamp: IIntervalType<Bound>/*Self*/) -> IIntervalType<Bound>/*Self*/
+	@warn_unused_result func contains(value: Self.Bound) -> Bool
+	@warn_unused_result func clamp(intervalToClamp: Self) -> Self
+	//@warn_unused_result func overlaps<I : IntervalType where I.Bound == Bound>(_ other: I) -> Bool // E550 "Equals" constraints in "where" are not supported in Silver
+																									 // E549 Open generic type aliases in protocols are not supported in Silver
 
 	var isEmpty: Bool { get }
-	var start: Bound { get }
-	var end: Bound { get }
+	var start: Self.Bound { get }
+	var end: Self.Bound { get }
 }
 
 //74077: Allow GetSequence() to actually be used to implement ISequence
