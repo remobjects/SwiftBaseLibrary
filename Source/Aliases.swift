@@ -29,7 +29,6 @@ public typealias UTF8Char = Byte
 public typealias UTF8Char = AnsiChar
 #endif
 
-
 public typealias StaticString = String
 
 public typealias Float = Single
@@ -50,7 +49,7 @@ public typealias AnyClass = java.lang.Class
 public typealias Selector = SEL
 #endif
 
-/* more obsucre integer aliases */
+/* more obscure aliases */
 
 public typealias BooleanLiteralType = Bool
 public typealias CBool = Bool
@@ -62,6 +61,9 @@ public typealias CFloat = Float
 public typealias CInt = Int32
 public typealias CLong = Int
 public typealias CLongLong = Int64
+#if NOUGAT
+public typealias COpaquePointer = UnsafePointer<Void>
+#endif
 public typealias CShort = Int16
 public typealias CSignedChar = Int8
 public typealias CUnsignedChar = UInt8
@@ -74,15 +76,8 @@ public typealias ExtendedGraphemeClusterType = String
 public typealias FloatLiteralType = Double
 public typealias IntegerLiteralType = Int
 public typealias StringLiteralType = String
-public typealias UWord = UInt
+public typealias UWord = UInt16
 public typealias UnicodeScalarType = String
-//public typealias Void = () // define dby Compiler
+//public typealias Void = () // defined by Compiler
 public typealias Word = Int
 
-#if NOUGAT
-public typealias COpaquePointer = UnsafePointer<Void>
-public typealias UnsafeMutablePointer<T> = UnsafePointer<T>
-#endif
-
-//struct Float80 { // A record needs to have at least 1 field or a "StructLayoutAttribute" with "Size > 0"
-//}
