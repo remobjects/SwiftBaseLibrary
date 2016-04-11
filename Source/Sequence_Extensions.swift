@@ -406,3 +406,36 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	}
 }
 
+#if COOPER
+public extension java.util.Map.Entry {
+
+	public func GetTuple() -> (K,V) {
+		return (Key,Value)
+	}
+}
+#elseif ECHOES
+public extension System.Collections.Generic.KeyValuePair {
+
+	public func GetTuple() -> (TKey,TValue) {
+		return (Key,Value)
+	}
+}
+#elseif NOUGAT
+public extension Foundation.NSDictionary {
+
+	public func GetSequence() -> ISequence<(AnyObject,AnyObject)> {
+		for entry in self { 
+		  __yield (entry, self[entry]?)
+		}
+	}
+}
+
+public extension RemObjects.Elements.System.NSDictionary {
+
+	public func GetSequence() -> ISequence<(TKey,TValue)> {
+		for entry in self { 
+		  __yield (entry, self[entry]?)
+		}
+	}
+}
+#endif

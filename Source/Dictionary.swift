@@ -196,24 +196,21 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 
 public static class DictionaryHelper {
 	#if COOPER
-	public static func Enumerate<Key, Value>(_ val: java.util.HashMap<Key,Value>) -> ISequence<(Key, Value)>
-	{
+	public static func Enumerate<Key, Value>(_ val: java.util.HashMap<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val.entrySet() { 
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif ECHOES
-	public static func Enumerate<Key, Value>(_ val: System.Collections.Generic.Dictionary<Key,Value>) -> ISequence<(Key, Value)>
-	{
+	public static func Enumerate<Key, Value>(_ val: System.Collections.Generic.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val { 
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif NOUGAT
-	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary) -> ISequence<(Key, Value)>
-	{
+	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary) -> ISequence<(Key, Value)> {
 		for entry in val { 
 			var item: (Key, Value) =  (entry, val[entry]?)
 		  __yield item
