@@ -14,7 +14,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: /*Equatable, Coll
 		endIndex = x.endIndex
 	}
 	
-	public init(start: Element, end: Element) {
+	@Obsolete("Use ... or ..< operator instead") public init(start: Element, end: Element) {
 		startIndex = start
 		endIndex = end
 	}
