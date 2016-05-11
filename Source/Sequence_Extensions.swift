@@ -196,9 +196,9 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return value
 	}
 
-	/*public func reverse() -> ISequence<T> { // 74025: Silver: odd errors in base lib when i define Sequence.Reverse()
+	public func reverse() -> ISequence<T> {
 		return self.Reverse()
-	}*/
+	}
 
 	@warn_unused_result public func sort(isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
 		//todo: make more lazy?
