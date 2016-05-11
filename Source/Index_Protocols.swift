@@ -27,8 +27,7 @@ public protocol Strideable : Comparable {
 	@warn_unused_result func advancedBy(n: Self.Stride) -> Self
 	@warn_unused_result func distanceTo(other: Self) -> Self.Stride
 	@warn_unused_result func stride(# through: Self, by: Self) -> ISequence<Self>
-	//74693: Silver: can't overload interface methods by secondary names
-	//func stride(# to: Self, by: Self) -> ISequence<Self>
+	@warn_unused_result func stride(# to: Self, by: Self) -> ISequence<Self>
 }
 
 public protocol RandomAccessIndexType : BidirectionalIndexType, Strideable {
