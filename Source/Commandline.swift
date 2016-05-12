@@ -12,7 +12,7 @@ public func `$$setArgV`(args: String[]) {
 public func __stringArrayToCStringArray(arcv: [String]) -> (UnsafePointer<AnsiChar>)[] {
 	
 	var result = UnsafePointer<AnsiChar>[](length(arcv))
-	for var i = 0; i < arcv.count; i++ {
+	for i in 0 ..< arcv.count {
 		if arcv[i] != nil {
 			result[i] = (arcv[i] as! NSString).UTF8String
 		} else {

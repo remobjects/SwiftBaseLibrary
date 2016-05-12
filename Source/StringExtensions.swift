@@ -6,7 +6,7 @@
 
 		#if COOPER
 		var chars = Char[](count)
-		for var i: Int = 0; i < count; i++ {
+		for i in 0 ..< count {
 			chars[i] = c
 		}
 		return String(chars)

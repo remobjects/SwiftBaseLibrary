@@ -78,7 +78,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		#elseif NOUGAT
 		let newSelf: [T] = NSMutableArray(capacity: count)
 		#endif
-		for var i: Int = 0; i < count; i++ {
+		for i in 0 ..< count {
 			newSelf.append(repeatedValue)
 		}
 		return newSelf

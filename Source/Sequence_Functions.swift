@@ -32,7 +32,7 @@ public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int =
 		return true
 	}
 	
-	for var i = 0; i < elements.length(); i++ {
+	for i in 0 ..< elements.length() {
 		let ch = elements[i]
 		if isSeparator(ch) {
 			if !appendCurrent() {

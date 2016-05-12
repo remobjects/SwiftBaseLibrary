@@ -327,7 +327,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			if pCount == 0 {
 				return true // reached end of prefix
 			}
-			for var i = 0; i < sCount; i++ {
+			for i in 0 ..< sCount {
 				if i > pCount {
 					return true // reached end of prefix
 				}
