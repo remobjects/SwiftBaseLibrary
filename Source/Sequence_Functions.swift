@@ -17,7 +17,7 @@
 	return 0
 }
 
-public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = default, allowEmptySlices: Bool = default) -> [String] {
+public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> [String] {
 	
 	let result = [String]()
 	var currentString = ""

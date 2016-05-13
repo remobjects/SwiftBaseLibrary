@@ -141,7 +141,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
 	/// will not decrease.
-	public mutating func removeAll(keepCapacity: Bool = default) {
+	public mutating func removeAll(keepCapacity: Bool = false) {
 		#if COOPER
 		__mapped.clear()
 		#elseif ECHOES

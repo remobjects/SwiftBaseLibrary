@@ -46,20 +46,20 @@ public func debugPrint(objects: Object?..., separator: String = " ", terminator:
 	}
 }
 
-@noreturn public func fatalError(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UInt32 = __LINE__) {
+@noreturn public func fatalError(_ message: @autoclosure () -> String = nil, file: String = __FILE__, line: UInt32 = __LINE__) {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
 	} else {
 		__throw Exception("Fatal Error, file "+file+", line "+line)
 	}
 }
-@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String = nil, file: String = __FILE__, line: UWord = __LINE__) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)
 	}
 }
 
-@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String = default, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String = nil, file: String = __FILE__, line: UWord = __LINE__) {
 	fatalError(message, file: file, line: line)
 }
 

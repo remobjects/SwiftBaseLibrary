@@ -56,7 +56,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		return array.mutableCopy()
 	}
 
-	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = default) {
+	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false) {
 	}*/
 	#endif
 	
@@ -250,7 +250,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		}
 	}
 
-	public mutating func removeAll(keepCapacity: Bool = default) {
+	public mutating func removeAll(keepCapacity: Bool = false) {
 		#if COOPER
 		__mapped.clear()
 		#elseif ECHOES

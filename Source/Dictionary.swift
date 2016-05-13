@@ -143,7 +143,7 @@ __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictio
 		#endif
 	}
 
-	public mutating func removeAll(keepCapacity: Bool = default) {
+	public mutating func removeAll(keepCapacity: Bool = false) {
 		#if COOPER
 		__mapped.clear()
 		#elseif ECHOES

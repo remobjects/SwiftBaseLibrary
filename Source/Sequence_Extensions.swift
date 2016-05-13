@@ -233,7 +233,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
-	/*@warn_unused_result public func split(isSeparator: (T) -> Bool, maxSplit: Int = default, allowEmptySlices: Bool = default) -> ISequence<ISequence<T>> {
+	/*@warn_unused_result public func split(isSeparator: (T) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> ISequence<ISequence<T>> {
 	
 		let result = [String]()
 		var currentString = ""
