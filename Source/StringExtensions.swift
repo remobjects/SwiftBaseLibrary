@@ -17,28 +17,23 @@
 		#endif
 	}
 
-	//74397: Silver SLB: Internal Error when adding new .ctor to String Extension
-	/*
 	public init(_ c: Char) {
 		return String(count: 1, repeatedValue: c)
 	}
-	*/
 
-	/*
 	public init(_ object: AnyObject) {
-		if let o = subject as? ICustomStringConvertible {
+		if let o = object as? ICustomStringConvertible {
 			return o.description
 		} else {
 			#if COOPER
-			return subject.toString()
+			return object.toString()
 			#elseif ECHOES
-			return subject.ToString()
+			return object.ToString()
 			#elseif NOUGAT
-			return subject.description
+			return object.description
 			#endif
 		}
 	}
-	*/
 	
 	public init(reflecting subject: Object) {
 		if let o = subject as? ICustomDebugStringConvertible {
@@ -58,18 +53,7 @@
 			#endif
 		}
 		
-		//return init(subject)
-		if let o = subject as? ICustomStringConvertible {
-			return o.description
-		} else {
-			#if COOPER
-			return subject.toString()
-			#elseif ECHOES
-			return subject.ToString()
-			#elseif NOUGAT
-			return subject.description
-			#endif
-		}
+		return init(subject)
 	}
 	
 	//
@@ -211,7 +195,7 @@
 	
 	// Streamable
 	func writeTo<Target: OutputStreamType>(inout _ target: Target) {
-		//target.write(self) // 74052: Silver: generic contraints don't seem to work
+		target.write(self)
 	}
 
 	//
