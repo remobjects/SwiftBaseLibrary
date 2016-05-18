@@ -4,6 +4,8 @@ __mapped public class Set<T: class> : INSFastEnumeration<T> => Foundation.NSMuta
 __mapped public class Set<T> : Iterable<T> => java.util.ArrayList<T> {
 #elseif ECHOES
 __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
+#elseif ISLAND
+__mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T> {
 #endif
 	typealias Element = T
 	//typealias Index = SetIndex<T>
@@ -13,7 +15,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	public init() {
 		#if COOPER
 		return ArrayList<T>()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return List<T>()
 		#elseif NOUGAT
 		return NSMutableSet.set()
@@ -26,7 +28,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	public init(minimumCapacity: Int) {
 		#if COOPER
 		return ArrayList<T>()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return List<T>()
 		#elseif NOUGAT
 		return NSMutableSet.setWithCapacity(minimumCapacity)
@@ -40,7 +42,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		
 		#if COOPER
 		return ArrayList<T>(java.util.Arrays.asList(elements))
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return List<T>(elements)
 		#elseif NOUGAT
 		return NSMutableSet.setWithObjects((&elements[0] as! UnsafePointer<id>), count: length(elements))
@@ -74,7 +76,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	public func contains(member: T) -> Bool {
 		#if COOPER
 		return __mapped.contains(member)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return __mapped.Contains(member)
 		#elseif NOUGAT
 		return __mapped.containsObject(member)
@@ -92,7 +94,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		if !__mapped.contains(member) {
 			__mapped.add(member)
 		}
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		if !__mapped.Contains(member) {
 			__mapped.Add(member)
 		}
@@ -110,7 +112,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 			__mapped.remove(member)
 			return member
 		}
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		if __mapped.Contains(member) {
 			__mapped.Remove(member)
 			return member
@@ -129,7 +131,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#if COOPER
 		let result = __mapped.get(index)
 		__mapped.remove(index)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		let result = __mapped[index]
 		__mapped.RemoveAt(index)
 		#elseif NOUGAT
@@ -144,7 +146,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	public mutating func removeAll(keepCapacity: Bool = false) {
 		#if COOPER
 		__mapped.clear()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		__mapped.Clear()
 		#elseif NOUGAT
 		__mapped.removeAllObjects()
@@ -156,7 +158,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 		#if COOPER
 		let result = __mapped.get(0)
 		__mapped.remove(0)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		let result = __mapped[0]
 		__mapped.RemoveAt(0)
 		#elseif NOUGAT
@@ -172,7 +174,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	public var count: Int {
 		#if COOPER
 		return __mapped.size()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return __mapped.Count
 		#elseif NOUGAT
 		return __mapped.count
@@ -186,7 +188,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	subscript (position: Int/*SetIndex<T>*/) -> T {
 		#if COOPER
 		return __mapped.get(position)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return __mapped[position]
 		#elseif NOUGAT
 		return __mapped.allObjects[position]
@@ -201,7 +203,7 @@ __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List
 	/// A member of the set, or `nil` if the set is empty.
 	public var first: T? { 
 		if count > 0 {
-			#if COOPER || ECHOES
+			#if COOPER || ECHOES || ISLAND
 			return __mapped[0]
 			#elseif NOUGAT
 			return __mapped.allObjects[0]

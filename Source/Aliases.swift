@@ -1,6 +1,6 @@
 ﻿public typealias NSObject = Object
 
-#if ECHOES || COOPER
+#if ECHOES || COOPER || ISLAND
 public typealias Int = Int64
 public typealias UInt = UInt64
 #elseif NOUGAT

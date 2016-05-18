@@ -11,12 +11,14 @@ __mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMu
 __mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
 #elseif ECHOES
 __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
+#elseif ISLAND
+__mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List<T> {
 #endif
 
 	public init() {
 		#if COOPER
 		return ArrayList<T>()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return List<T>()
 		#elseif NOUGAT
 		return NSMutableArray.array()
@@ -26,7 +28,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public init(items: [T]) {
 		#if COOPER
 		return ArrayList<T>(items)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return List<T>(items)
 		#elseif NOUGAT
 		return items.mutableCopy
@@ -41,7 +43,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 		
 		#if COOPER
 		return ArrayList<T>(java.util.Arrays.asList(array))
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return List<T>(array)
 		#elseif NOUGAT
 		return NSMutableArray.arrayWithObjects((&array[0] as! UnsafePointer<id>), count: length(array))
@@ -63,7 +65,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public init(sequence: ISequence<T>) {
 		#if COOPER
 		return sequence.ToList()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return sequence.ToList()
 		#elseif NOUGAT
 		return sequence.array().mutableCopy()
@@ -73,7 +75,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public init(count: Int, repeatedValue: T) {
 		#if COOPER
 		let newSelf: [T] = ArrayList<T>(count)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		let newSelf: [T] = List<T>(count)
 		#elseif NOUGAT
 		let newSelf: [T] = NSMutableArray(capacity: count)
@@ -87,7 +89,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public init(capacity: Int) { // not in Apple Swift 
 		#if COOPER
 		return ArrayList<T>(capacity)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return List<T>(capacity)
 		#elseif NOUGAT
 		return NSMutableArray(capacity: capacity)
@@ -97,7 +99,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public var nativeArray: T[] {
 		#if COOPER
 		return __mapped.toArray(T[](__mapped.Count()))
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return __mapped.ToArray()
 		#elseif NOUGAT
 		let c = count
@@ -109,7 +111,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	
 	public subscript (index: Int) -> T {
 		get {
-			#if ECHOES || COOPER 
+			#if ECHOES || COOPER | ISLAND
 			return __mapped[index]
 			#elseif NOUGAT
 			var value: AnyObject! = __mapped[index]
@@ -120,7 +122,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 			#endif
 		}
 		set {
-			#if COOPER || ECHOES
+			#if COOPER | ECHOES | ISLAND
 			__mapped[index] = newValue
 			#elseif NOUGAT
 			if newValue == nil {
@@ -135,7 +137,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public var count: Int {
 		#if COOPER
 		return __mapped.size()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return __mapped.Count
 		#elseif NOUGAT
 		return __mapped.count
@@ -145,7 +147,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public var capacity: Int { 
 		#if COOPER
 		return -1
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		return __mapped.Capacity
 		#elseif NOUGAT
 		return -1
@@ -174,7 +176,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public mutating func reserveCapacity(minimumCapacity: Int) {
 		#if COOPER
 		__mapped.ensureCapacity(minimumCapacity)
-		#elseif ECHOES | NOUGAT
+		#elseif ECHOES | ISLAND | NOUGAT
 		// N/A
 		#endif
 	}
@@ -182,7 +184,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public mutating func extend(sequence: ISequence<T>) {
 		#if COOPER
 		__mapped.addAll(sequence.ToList())
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		__mapped.AddRange(sequence.ToList())
 		#elseif NOUGAT
 		__mapped.addObjectsFromArray(sequence.array())
@@ -192,7 +194,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public mutating func extend(array: [T]) {
 		#if COOPER
 		__mapped.addAll(array)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		__mapped.AddRange(array)
 		#elseif NOUGAT
 		__mapped.addObjectsFromArray(array)
@@ -202,7 +204,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public mutating func append(newElement: T) {
 		#if COOPER
 		__mapped.add(newElement)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		__mapped.Add(newElement)
 		#elseif NOUGAT
 		if let val = newElement {
@@ -216,7 +218,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public mutating func insert(newElement: T, atIndex index: Int) {
 		#if COOPER
 		__mapped.add(index, newElement)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		__mapped.Insert(index, newElement)
 		#elseif NOUGAT
 		if let val = newElement {
@@ -230,7 +232,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public mutating func removeAtIndex(index: Int) -> T {
 		#if COOPER
 		return __mapped.remove(index)
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		let result = self[index]
 		__mapped.RemoveAt(index)
 		return result
@@ -253,7 +255,7 @@ __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.Li
 	public mutating func removeAll(keepCapacity: Bool = false) {
 		#if COOPER
 		__mapped.clear()
-		#elseif ECHOES
+		#elseif ECHOES | ISLAND
 		__mapped.Clear()
 		#elseif NOUGAT
 		__mapped.removeAllObjects()

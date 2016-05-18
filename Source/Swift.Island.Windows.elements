@@ -1,0 +1,58 @@
+<?xml version="1.0" standalone="no"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
+    <PropertyGroup>
+        <ProductVersion>3.5</ProductVersion>
+        <RootNamespace>Swift</RootNamespace>
+        <ProjectGuid>{d32e206a-1255-4da9-8287-64e5e988aba4}</ProjectGuid>
+        <OutputType>library</OutputType>
+        <AssemblyName>Swift</AssemblyName>
+        <AllowGlobals>False</AllowGlobals>
+        <AllowLegacyWith>False</AllowLegacyWith>
+        <AllowLegacyOutParams>False</AllowLegacyOutParams>
+        <AllowLegacyCreate>False</AllowLegacyCreate>
+        <AllowUnsafeCode>False</AllowUnsafeCode>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <Optimize>false</Optimize>
+        <OutputPath>.\bin\Debug</OutputPath>
+        <DefineConstants>DEBUG;TRACE;</DefineConstants>
+        <GenerateDebugInfo>True</GenerateDebugInfo>
+        <EnableAsserts>True</EnableAsserts>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <StartMode>Project</StartMode>
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <CpuType>anycpu</CpuType>
+        <RuntimeVersion>v25</RuntimeVersion>
+        <XmlDoc>False</XmlDoc>
+        <XmlDocWarningLevel>WarningOnPublicMembers</XmlDocWarningLevel>
+        <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <Optimize>true</Optimize>
+        <OutputPath>.\bin\Release</OutputPath>
+        <GenerateDebugInfo>True</GenerateDebugInfo>
+        <EnableAsserts>False</EnableAsserts>
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <CaptureConsoleOutput>False</CaptureConsoleOutput>
+        <StartMode>Project</StartMode>
+        <RegisterForComInterop>False</RegisterForComInterop>
+        <CpuType>anycpu</CpuType>
+        <RuntimeVersion>v25</RuntimeVersion>
+        <XmlDoc>False</XmlDoc>
+        <XmlDocWarningLevel>WarningOnPublicMembers</XmlDocWarningLevel>
+        <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
+        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+        <DefineConstants>SIGN</DefineConstants>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="gc"/>
+        <Reference Include="Island"/>
+        <Reference Include="rtl"/>
+    </ItemGroup>
+    <ItemGroup/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Windows.targets"/>
+    <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
+</Project>

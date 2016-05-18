@@ -11,6 +11,8 @@ __mapped public class Dictionary<Key: class, Value: class> /*: INSFastEnumeratio
 __mapped public class Dictionary<Key,Value> => java.util.HashMap<Key,Value> {
 #elseif ECHOES
 __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictionary<Key,Value> {
+#elseif ISLAND
+__mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictionary<Key,Value> {
 #endif
 
 	public init() {
