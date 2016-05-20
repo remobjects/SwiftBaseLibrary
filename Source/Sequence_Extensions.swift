@@ -48,6 +48,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		var index = 0
 		for element in self {
 			__yield (index, element)
+			index += 1
 		}
 	}
 	

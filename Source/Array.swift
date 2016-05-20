@@ -267,6 +267,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		var index = 0
 		for element in self {
 			__yield (index, element)
+			index += 1
 		}
 	}*/
 
