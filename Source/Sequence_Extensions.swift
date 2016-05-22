@@ -52,6 +52,16 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
+	@warn_unused_result public func indexOf( @noescape predicate: (T) -> Bool) -> Int? {
+		for (i, element) in self.enumerate() {
+			if (predicate(element) == true){
+				return i
+			}
+		}
+		
+		return nil
+	}
+	
 	@warn_unused_result public func filter(includeElement: (T) throws -> Bool) rethrows -> ISequence<T> { 
 		return self.Where() { return try! includeElement($0) }
 	}

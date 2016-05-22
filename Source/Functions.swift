@@ -125,3 +125,22 @@ func print<Target : OutputStreamType>(_ objects: Object?..., separator: String =
 	a = b
 	b = temp
 }
+
+public func stride(from start: Double, to end: Double, by stride: Double) -> ISequence<Double> {
+	precondition(stride > 0, "'by' must be larger than zero")
+	var i = start
+	while i < end {
+		__yield i;
+		i += stride
+	}
+}
+
+
+public func stride(from start: Double, through end: Double, by stride: Double) -> ISequence<Double> {
+	precondition(stride > 0, "'by' must be larger than zero")
+	var i = start
+	while i <= end {
+		__yield i;
+		i += stride
+	}
+}
