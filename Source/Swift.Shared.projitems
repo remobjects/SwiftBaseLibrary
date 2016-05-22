@@ -43,6 +43,7 @@
             <VirtualFolder>Sequences</VirtualFolder>
         </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)__Internal.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Dispatch.swift"/>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Sequences">

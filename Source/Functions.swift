@@ -135,14 +135,15 @@ public func stride(from start: Int, to end: Int, by stride: Int) -> ISequence<In
 	}
 }
 
-public func stride(from start: Int, through end: Int, by stride: Int) -> ISequence<Int> {
+//75284: Silver: can't overload global func on parameter names?
+/*public func stride(from start: Int, through end: Int, by stride: Int) -> ISequence<Int> {
 	precondition(stride > 0, "'by' must be larger than zero")
 	var i = start
 	while i <= end {
 		__yield i;
 		i += stride
 	}
-}
+}*/
 
 public func stride(from start: Double, to end: Double, by stride: Double) -> ISequence<Double> {
 	precondition(stride > 0, "'by' must be larger than zero")
@@ -153,11 +154,12 @@ public func stride(from start: Double, to end: Double, by stride: Double) -> ISe
 	}
 }
 
-public func stride(from start: Double, through end: Double, by stride: Double) -> ISequence<Double> {
+//75284: Silver: can't overload global func on parameter names?
+/*public func stride(from start: Double, through end: Double, by stride: Double) -> ISequence<Double> {
 	precondition(stride > 0, "'by' must be larger than zero")
 	var i = start
 	while i <= end {
 		__yield i;
 		i += stride
 	}
-}
+}*/

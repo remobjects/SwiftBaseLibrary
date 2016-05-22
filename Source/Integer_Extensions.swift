@@ -94,7 +94,7 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	}
 
 	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
-	#if NOUGAT
+	#if !COOPER
 	public func stride(# to: Int64, by: Int64) -> ISequence<Int64> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -162,7 +162,7 @@ public extension Double {
 	}
 
 	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
-	#if NOUGAT
+	#if !COOPER
 	public func stride(# to: Double, by: Double) -> ISequence<Double> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
