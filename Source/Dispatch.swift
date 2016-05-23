@@ -1,20 +1,5 @@
 ﻿#if NOUGAT
 
-class DispatchGroup : DispatchObject {
-	/*init() {
-	}
-	func wait(timeout: DispatchTime /*= default*/) -> Int {
-	}
-	func wait(walltime timeout: DispatchWalltime) -> Int {
-	}
-	func notify(queue: DispatchQueue, exeute block: () -> Void) {
-	}
-	func enter() {
-	}
-	func leave() {
-	}*/
-}
-
 /*class DispatchIO : DispatchObject {
 	enum StreamType : UInt {
 		case stream
@@ -70,94 +55,146 @@ class DispatchGroup : DispatchObject {
 	}
 }*/
 
-class DispatchObject /*: OS_object*/ {
+public class DispatchObject /*: OS_object*/ {
+
+	private init(rawValue: dispatch_object_t) {
+		self.rawValue = rawValue
+	}
+	
+	let rawValue: dispatch_object_t
+	
 	func suspend() {
+		dispatch_suspend(rawValue)
 	}
 	func resume() {
+		dispatch_resume(rawValue)
 	}
 	func setTargetQueue(queue: DispatchQueue?) {
+		if let queue = queue {
+			dispatch_set_target_queue(rawValue, queue.queue)
+		} else {
+			 // what?
+		}
 	}
 }
 
-class DispatchQueue : DispatchObject {
+class DispatchGroup : DispatchObject {
+	init() {
+	}
+	/*func wait(timeout: DispatchTime /*= default*/) -> Int {
+		dispatch_wait(rawValue, timeout.rawValue)
+	}
+	/*func wait(walltime timeout: DispatchWalltime) -> Int {
+	}*/
+	func notify(queue: DispatchQueue, exeute block: () -> Void) {
+		dispatch_notify(rawValue, queue.queue, block)
+	}
+	func enter() {
+		dispatch_group_enter(rawValue)
+	}
+	func leave() {
+		dispatch_group_leave(rawValue)
+	}*/
+}
 
-	private let rawValue: dispatch_queue_t
-	private init(rawValue: dispatch_queue_t) {
-		self.rawValue = rawValue
+public class DispatchQueue : DispatchObject {
+
+	private init(queue: dispatch_queue_t) {
+		super.init(rawValue: queue as! dispatch_object_t)
+	}
+	
+	var queue: dispatch_queue_t {
+		return rawValue as! dispatch_queue_t
 	}
 
 	enum GlobalAttributes /*: OptionSet*/ {
-		case qosUserInteractive = DISPATCH_QUEUE_PRIORITY_BACKGROUND
+		//case qosUserInteractive = DISPATCH_QUEUE_PRIORITY_BACKGROUND
 		//case qosUserInitiated = DISPATCH_QUEUE_PRIORITY_BACKGROUND
-		case qosDefault = DISPATCH_QUEUE_PRIORITY_DEFAULT
+		//case qosDefault = DISPATCH_QUEUE_PRIORITY_DEFAULT
 		//case qosUtility: DispatchQueue.GlobalAttributes
-		case qosBackground = DISPATCH_QUEUE_PRIORITY_BACKGROUND
+		//case qosBackground = DISPATCH_QUEUE_PRIORITY_BACKGROUND
 		//typealias Element = DispatchQueue.GlobalAttributes
 		//typealias RawValue = UInt64
+		case Background = DISPATCH_QUEUE_PRIORITY_BACKGROUND
+		case Default = DISPATCH_QUEUE_PRIORITY_DEFAULT
+		case High = DISPATCH_QUEUE_PRIORITY_HIGH
+		case Low = DISPATCH_QUEUE_PRIORITY_LOW
 	}
-	lazy class var main: DispatchQueue = DispatchQueue(rawValue: dispatch_get_main_queue())
-	//class var main: DispatchQueue { get }
+	
+	var label: String {
+		return NSString.stringWithUTF8String(dispatch_queue_get_label(queue))
+	}
+	
+	lazy class var main: DispatchQueue = DispatchQueue(queue: dispatch_get_main_queue())
+	
 	class func global(attributes: DispatchQueue.GlobalAttributes) -> DispatchQueue {
 		let raw = dispatch_get_global_queue(attributes.rawValue, 0)
-		return DispatchQueue(rawValue: raw)
+		return DispatchQueue(queue: raw)
 	}
-	class func getSpecific<T>(key: DispatchSpecificKey<T>) -> T? {
-	}
+	
 	convenience init(label: String, attributes: DispatchQueueAttributes /*= default*/, target: DispatchQueue? /*= default*/) {
 		let raw = dispatch_queue_create(label.UTF8String, 0)
-		init(rawValue: raw)
+		init(queue: raw)
 	}
 	
 	func after(when: DispatchTime, execute work: /*@convention(block)*/ () -> Void) {
+		dispatch_after(when.rawValue, queue, work)
+	}
+	/*func after(walltime when: DispatchWalltime, execute work: /*@convention(block)*/ () -> Void) {
 		dispatch_after(when.rawValue, rawValue, work)
-	}
-	func after(walltime when: DispatchWalltime, execute work: /*@convention(block)*/ () -> Void) {
-		//dispatch_after(when.rawValue, rawValue, work)
-	}
+	}*/
 
-	func apply(applier iterations: Int, execute block: @noescape (Int) -> Void) {
+	func apply(applier iterations: UInt64, execute block: @noescape (UInt64) -> Void) {
+		dispatch_apply(iterations, queue, block)
 	}
-	func asynchronously(execute workItem: DispatchWorkItem) {
-	}
+	
+	/*func asynchronously(execute workItem: DispatchWorkItem) {
+	}*/
+	
 	func asynchronously(group: DispatchGroup? /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute work: /*@convention(block)*/ () -> Void) {
-		dispatch_async(rawValue, work)
-	}
-	var label: String {
-		return NSString.stringWithUTF8String(dispatch_queue_get_label(rawValue))
+		dispatch_async(queue, work)
 	}
 	
 	func synchronously(execute block: @noescape () -> Void) {
-		dispatch_sync(rawValue, block)
+		dispatch_sync(queue, block)
 	}
-	func synchronously(execute workItem: DispatchWorkItem) {
-	}
+	
+	/*func synchronously(execute workItem: DispatchWorkItem) {
+	}*/
+	
 	func synchronously<T>(execute work: @noescape () throws -> T) rethrows -> T {
-		//dispatch_sync(rawValue, work) // E486 Parameter 2 is "block (_ ref error: NSError!) -> T<T>", should be "dispatch_block_t!", in call to rtl.dispatch_sync(_ queue: dispatch_queue_t!, _ block: dispatch_block_t!)
 		var result: T
-		dispatch_sync(rawValue) {
-			//result = try! work() // E62 Type mismatch, cannot assign "T" to "T"
+		var e: AnyObject?
+		dispatch_sync(queue) {
+			do {
+				result = try! work()
+			} catch {
+				e = error
+			}
+		}
+		if let error = e {
+			throw error
 		}
 		return result
 	}
-	func synchronously<T>(flags: DispatchWorkItemFlags, execute work: @noescape () throws -> T) rethrows -> T {
-		var result: T
-		dispatch_sync(rawValue) {
-			//result = try! work() // E62 Type mismatch, cannot assign "T" to "T"
-		}
-		return result
-	}
+	
+	/*func synchronously<T>(flags: DispatchWorkItemFlags, execute work: @noescape () throws -> T) rethrows -> T {
+	}*/
 	
 	/*var qos: DispatchQoS {
 		var priority: Int
 		//let qos = dispatch_queue_get_qos_class(rawValue, &priority) // E486 Parameter 2 is "Int", should be "UnsafePointer<Int32>", in call to rtl.dispatch_queue_get_qos_class(_ queue: dispatch_queue_t!, _ relative_priority_ptr: UnsafePointer<Int32>) -> qos_class_t
 		//return DispatchQoS(qosClass: qos, relativePriority: priority)
 	}*/
-	func getSpecific<T>(key: DispatchSpecificKey<T>) -> T? {
+	/*class func getSpecific<T>(key: DispatchSpecificKey<T>) -> T? {
+	}*/
+	
+	/*func getSpecific<T>(key: DispatchSpecificKey<T>) -> T? {
 		//return dispatch_queue_get_specific(rawValue, key)
 	}
 	func setSpecific<T>(key: DispatchSpecificKey<T>, value: T) {
 		//return dispatch_queue_set_specific(rawValue, key, value)
-	}
+	}*/
 }
 
 @noreturn func dispatchMain() {
@@ -261,6 +298,7 @@ class DispatchSource : DispatchObject {
 
 
 protocol DispatchSourceType /*: NSObjectProtocol*/ {
+	// 75299: Swift: compiler confused about `typealias` in protocol
 	typealias DispatchSourceHandler = /*@convention(block)*/ () -> Void
 	func setEventHandler(handler: DispatchSourceHandler?)
 	func setCancelHandler(handler: DispatchSourceHandler?)
@@ -352,7 +390,7 @@ extension DispatchSourceFileSystemObject {
   //var mask: DispatchSource.FileSystemEvent { get }
 }
 extension DispatchSourceUserDataOr {
-  func mergeData(value: UInt) {
+	func mergeData(value: UInt) {
 	}
 }
 struct DispatchData /*: RandomAccessCollection, _ObjectiveCBridgeable*/ {
@@ -413,6 +451,7 @@ struct DispatchDataIterator /*: IteratorProtocol, Sequence*/ {
 	typealias Iterator = DispatchDataIterator
 	typealias SubSequence = AnySequence<_Element>*/
 }
+
 struct DispatchQoS /*: Equatable*/ {
 	let qosClass: DispatchQoS.QoSClass
 	let relativePriority: Int
@@ -436,6 +475,7 @@ struct DispatchQoS /*: Equatable*/ {
 		self.relativePriority = relativePriority
 	}
 	private /*convenience*/ init(qosClass: DispatchQoS.QoSClass) {
+		// 75300: Swift: odd error about inaccessible ctor
 		//self.init(qosClass: qosClass, relativePriority: 0) // E152 No accessible constructors for type DispatchQoS
 		self.qosClass = qosClass
 		self.relativePriority = 0
@@ -489,16 +529,16 @@ struct DispatchTime {
 }
 struct DispatchWalltime {
 
-	init(time: __struct_timespec) {
-		self.time = time
+	init(rawValue: dispatch_time_t) {
+		self.rawValue = rawValue
 	}
 
-	let time: __struct_timespec
+	let rawValue: dispatch_time_t
 
-	/*static func now() -> DispatchWalltime {
-		return DispatchWalltime(time: dispatch_walltime(nil, 0))
+	static func now() -> DispatchWalltime {
+		return DispatchWalltime(rawValue: dispatch_walltime(nil, 0))
 	}
-	static let distantFuture: DispatchWalltime = DispatchWalltime(time: dispatch_walltime(DISPATCH_TIME_FOREVER, 0))*/
+	//static let distantFuture: DispatchWalltime = DispatchWalltime(time: dispatch_walltime(DISPATCH_TIME_FOREVER, 0))*/
 }
 
 enum DispatchTimeInterval {
@@ -510,10 +550,10 @@ enum DispatchTimeInterval {
 
 prefix func -(interval: DispatchTimeInterval) -> DispatchTimeInterval {
 	switch interval {
-		case .seconds(let seconds):		   return DispatchTimeInterval.seconds(seconds)
-		case .milliseconds(let milliseconds): return DispatchTimeInterval.seconds(milliseconds)
-		case .microseconds(let microseconds): return DispatchTimeInterval.seconds(microseconds)
-		case .nanoseconds(let nanoseconds):   return DispatchTimeInterval.seconds(nanoseconds)
+		case .seconds(let seconds):		   return DispatchTimeInterval.seconds(-seconds)
+		case .milliseconds(let milliseconds): return DispatchTimeInterval.seconds(-milliseconds)
+		case .microseconds(let microseconds): return DispatchTimeInterval.seconds(-microseconds)
+		case .nanoseconds(let nanoseconds):   return DispatchTimeInterval.seconds(-nanoseconds)
 	}
 }
 
@@ -530,14 +570,22 @@ func +(time: DispatchTime, seconds: Double) -> DispatchTime {
 }
 
 /*func +(time: DispatchWalltime, interval: DispatchTimeInterval) -> DispatchWalltime {
+	switch interval {
+		case .seconds(let seconds):		   return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, seconds	  * 1_000_000_000))
+		case .milliseconds(let milliseconds): return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, milliseconds * 1_000_000))
+		case .microseconds(let microseconds): return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, microseconds * 1_000))
+		case .nanoseconds(let nanoseconds):   return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, nanoseconds))
+	}
 }
 
 func +(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
 	//return DispatchWalltime(time: dispatch_time(time.time, Int64(seconds*1_000_000_000.0)))
 }
+*/
 
-func -(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
-	//return time + -interval // E119 Cannot use the unary operator "-" on type "DispatchTimeInterval"
+/*func -(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
+	//75301: Swift: int call custom unary `-` operator
+	return time + -interval // E119 Cannot use the unary operator "-" on type "DispatchTimeInterval"
 }*/
 
 func -(time: DispatchTime, seconds: Double) -> DispatchTime {
@@ -545,10 +593,10 @@ func -(time: DispatchTime, seconds: Double) -> DispatchTime {
 }
 
 /*func -(time: DispatchWalltime, interval: DispatchTimeInterval) -> DispatchWalltime {
-	//return time + -interval // E119 Cannot use the unary operator "-" on type "DispatchTimeInterval"
-}
+	return time + -interval // E119 Cannot use the unary operator "-" on type "DispatchTimeInterval"
+}*/
 
-func -(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
+/*func -(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
 	return time + -seconds
 }*/
 
