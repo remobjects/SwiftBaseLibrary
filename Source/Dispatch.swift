@@ -524,7 +524,7 @@ struct DispatchTime {
 	static func now() -> DispatchTime {
 		return DispatchTime(rawValue: dispatch_time(DISPATCH_TIME_NOW, 0))
 	}
-	static lazy let distantFuture: DispatchTime = DispatchTime(rawValue: dispatch_time(DISPATCH_TIME_FOREVER, 0))
+	static lazy let distantFuture: DispatchTime = DispatchTime(rawValue: DISPATCH_TIME_FOREVER)
 
 }
 struct DispatchWalltime {
@@ -538,7 +538,7 @@ struct DispatchWalltime {
 	static func now() -> DispatchWalltime {
 		return DispatchWalltime(rawValue: dispatch_walltime(nil, 0))
 	}
-	//static let distantFuture: DispatchWalltime = DispatchWalltime(time: dispatch_walltime(DISPATCH_TIME_FOREVER, 0))*/
+	static lazy let distantFuture: DispatchWalltime = DispatchWalltime(rawValue: DISPATCH_TIME_FOREVER)
 }
 
 enum DispatchTimeInterval {
@@ -559,9 +559,9 @@ prefix func -(interval: DispatchTimeInterval) -> DispatchTimeInterval {
 
 func +(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
 	switch interval {
-		case .seconds(let seconds):		   return DispatchTime(rawValue: dispatch_time(time.rawValue, seconds	  * 1_000_000_000))
-		case .milliseconds(let milliseconds): return DispatchTime(rawValue: dispatch_time(time.rawValue, milliseconds * 1_000_000))
-		case .microseconds(let microseconds): return DispatchTime(rawValue: dispatch_time(time.rawValue, microseconds * 1_000))
+		case .seconds(let seconds):		   return DispatchTime(rawValue: dispatch_time(time.rawValue, seconds	  * NSEC_PER_SEC))
+		case .milliseconds(let milliseconds): return DispatchTime(rawValue: dispatch_time(time.rawValue, milliseconds * NSEC_PER_MSEC))
+		case .microseconds(let microseconds): return DispatchTime(rawValue: dispatch_time(time.rawValue, microseconds * NSEC_PER_USEC))
 		case .nanoseconds(let nanoseconds):   return DispatchTime(rawValue: dispatch_time(time.rawValue, nanoseconds))
 	}
 }
@@ -569,19 +569,18 @@ func +(time: DispatchTime, seconds: Double) -> DispatchTime {
 	return DispatchTime(rawValue: dispatch_time(time.rawValue, Int64(seconds*1_000_000_000.0)))
 }
 
-/*func +(time: DispatchWalltime, interval: DispatchTimeInterval) -> DispatchWalltime {
+func +(time: DispatchWalltime, interval: DispatchTimeInterval) -> DispatchWalltime {
 	switch interval {
-		case .seconds(let seconds):		   return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, seconds	  * 1_000_000_000))
-		case .milliseconds(let milliseconds): return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, milliseconds * 1_000_000))
-		case .microseconds(let microseconds): return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, microseconds * 1_000))
-		case .nanoseconds(let nanoseconds):   return DispatchWalltime(rawValue: dispatch_walltime(time.rawValue, nanoseconds))
+		case .seconds(let seconds):		   return DispatchWalltime(rawValue: dispatch_time(time.rawValue, seconds	  * NSEC_PER_SEC))
+		case .milliseconds(let milliseconds): return DispatchWalltime(rawValue: dispatch_time(time.rawValue, milliseconds * NSEC_PER_MSEC))
+		case .microseconds(let microseconds): return DispatchWalltime(rawValue: dispatch_time(time.rawValue, microseconds * NSEC_PER_USEC))
+		case .nanoseconds(let nanoseconds):   return DispatchWalltime(rawValue: dispatch_time(time.rawValue, nanoseconds))
 	}
 }
 
 func +(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
-	//return DispatchWalltime(time: dispatch_time(time.time, Int64(seconds*1_000_000_000.0)))
+	return DispatchWalltime(rawValue: dispatch_time(time.rawValue, Int64(seconds*NSEC_PER_SEC)))
 }
-*/
 
 /*func -(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
 	//75301: Swift: int call custom unary `-` operator
@@ -593,14 +592,13 @@ func -(time: DispatchTime, seconds: Double) -> DispatchTime {
 }
 
 /*func -(time: DispatchWalltime, interval: DispatchTimeInterval) -> DispatchWalltime {
-	return time + -interval // E119 Cannot use the unary operator "-" on type "DispatchTimeInterval"
+	//75301: Swift: int call custom unary `-` operator
+	return time + -interval
 }*/
 
-/*func -(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
+func -(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
 	return time + -seconds
-}*/
-
-
+}
 
 //
 //

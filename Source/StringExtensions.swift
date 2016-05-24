@@ -1,4 +1,4 @@
-﻿public extension String /*: Streamable*/ {
+﻿public extension String : Streamable {
 	
 	typealias Index = Int
 	
