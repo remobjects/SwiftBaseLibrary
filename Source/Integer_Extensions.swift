@@ -1,8 +1,7 @@
 ﻿
-infix operator ... { precedence 135 associativity none } 
-infix operator ..< { precedence 135 associativity none }
+// Equatable, Comparable, Incrementable, SignedNumberType, SignedIntegerType, IntegerArithmeticType, ForwardIndexType */
 
-public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
+public extension Int32  {
 
 	// Interval Operators
 	
@@ -30,6 +29,16 @@ public extension Int32 {//: Equatable, Comparable, ForwardIndexType {
 		return HalfOpenInterval/*<Int64>*/(a, b)
 	}
 
+}
+
+public extension Int32 /*: AbsoluteValuable*/ {
+
+	@warn_unused_result static func abs(_ x: Self) -> Self {
+		return ABS(x)
+	}
+}
+
+public extension Int32 /*: Strideable*/ {
 	// Strideable
 
 	func advancedBy(n: Int32) -> Int32 {

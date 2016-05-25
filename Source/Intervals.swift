@@ -1,4 +1,7 @@
 ﻿
+infix operator ... { precedence 135 associativity none } 
+infix operator ..< { precedence 135 associativity none }
+
 public typealias IIntervalType = IntervalType
 public protocol IntervalType {
 

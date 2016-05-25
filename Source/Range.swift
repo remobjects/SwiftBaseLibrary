@@ -1,6 +1,6 @@
 ﻿
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public class Range/*<Element: ForwardIndexType, Comparable>*/: /*Equatable, CollectionType,*/ CustomStringConvertible, CustomDebugStringConvertible/* ISequence<IntMax>*/ {
+/*@Obsolete("Use Intervals instead")*/ public class Range/*<Element: ForwardIndexType, Comparable>*/: /*Equatable, CollectionType,*/ CustomStringConvertible, CustomDebugStringConvertible/* ISequence<IntMax>*/ {
 
 	//typealias Index = Int64//Element
 	typealias Element = Int64
