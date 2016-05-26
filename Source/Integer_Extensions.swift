@@ -34,7 +34,13 @@ public extension Int32  {
 public extension Int32 /*: AbsoluteValuable*/ {
 
 	@warn_unused_result static func abs(_ x: Self) -> Self {
+		#if COOPER
+		return Int32.abs(x)
+		#elseif ECHOES || ISLAND
+		return Math.Abs(x)
+		#elseif NOUGAT
 		return ABS(x)
+		#endif
 	}
 }
 
