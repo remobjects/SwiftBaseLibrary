@@ -58,20 +58,20 @@
 public class DispatchObject /*: OS_object*/ {
 
 	private init(rawValue: dispatch_object_t) {
-		self.rawValue = rawValue
+		self.object = rawValue
 	}
 	
-	let rawValue: dispatch_object_t
+	let object: dispatch_object_t
 	
 	func suspend() {
-		dispatch_suspend(rawValue)
+		dispatch_suspend(object)
 	}
 	func resume() {
-		dispatch_resume(rawValue)
+		dispatch_resume(object)
 	}
 	func setTargetQueue(queue: DispatchQueue?) {
 		if let queue = queue {
-			dispatch_set_target_queue(rawValue, queue.queue)
+			dispatch_set_target_queue(object, queue.queue)
 		} else {
 			 // what?
 		}
@@ -80,41 +80,67 @@ public class DispatchObject /*: OS_object*/ {
 
 class DispatchGroup : DispatchObject {
 	init() {
+		var temp: dispatch_object_t
+		temp._dg = dispatch_group_create()
+		super.init(rawValue: temp)
 	}
-	/*func wait(timeout: DispatchTime /*= default*/) -> Int {
-		dispatch_wait(rawValue, timeout.rawValue)
+	
+	var group: dispatch_group_t {
+		return object._dg
 	}
-	/*func wait(walltime timeout: DispatchWalltime) -> Int {
-	}*/
-	func notify(queue: DispatchQueue, exeute block: () -> Void) {
-		dispatch_notify(rawValue, queue.queue, block)
+
+	
+	func wait(timeout: DispatchTime /*= default*/) -> Int {
+		return dispatch_wait(group, timeout.rawValue)
 	}
+	
+	func wait(walltime timeout: DispatchWalltime) -> Int {
+		return dispatch_wait(group, timeout.rawValue)
+	}
+	
+	func notify(queue: DispatchQueue, exeute block: () -> ()) {
+		dispatch_notify(group, queue.object, block)
+	}
+	
 	func enter() {
-		dispatch_group_enter(rawValue)
+		dispatch_group_enter(group)
 	}
+	
 	func leave() {
-		dispatch_group_leave(rawValue)
-	}*/
+		dispatch_group_leave(group)
+	}
+}
+
+//75321: Nougat: HI is missing QOS_CLASS_USER_INTERACTIVE & Co
+private enum __QOS_ENUM {
+	case QOS_CLASS_USER_INTERACTIVE = 0x21
+	case QOS_CLASS_USER_INITIATED = 0x19
+	case QOS_CLASS_DEFAULT = 0x15
+	case QOS_CLASS_UTILITY = 0x11
+	case QOS_CLASS_BACKGROUND = 0x09
+	case QOS_CLASS_UNSPECIFIED = 0x00
 }
 
 public class DispatchQueue : DispatchObject {
 
 	private init(queue: dispatch_queue_t) {
-		super.init(rawValue: queue as! dispatch_object_t)
+		var temp: dispatch_object_t
+		temp._dq = queue
+		super.init(rawValue: temp)
 	}
 	
 	var queue: dispatch_queue_t {
-		return rawValue as! dispatch_queue_t
+		return object._dq
 	}
 
 	enum GlobalAttributes /*: OptionSet*/ {
-		//case qosUserInteractive = DISPATCH_QUEUE_PRIORITY_BACKGROUND
-		//case qosUserInitiated = DISPATCH_QUEUE_PRIORITY_BACKGROUND
-		//case qosDefault = DISPATCH_QUEUE_PRIORITY_DEFAULT
-		//case qosUtility: DispatchQueue.GlobalAttributes
-		//case qosBackground = DISPATCH_QUEUE_PRIORITY_BACKGROUND
-		//typealias Element = DispatchQueue.GlobalAttributes
-		//typealias RawValue = UInt64
+		case qosUserInteractive = __QOS_ENUM.QOS_CLASS_USER_INTERACTIVE
+		case qosUserInitiated = __QOS_ENUM.QOS_CLASS_USER_INITIATED
+		case qosDefault = __QOS_ENUM.QOS_CLASS_DEFAULT
+		case qosUtility = __QOS_ENUM.QOS_CLASS_UTILITY
+		case qosBackground = __QOS_ENUM.QOS_CLASS_BACKGROUND
+		case qosUnspecified = __QOS_ENUM.QOS_CLASS_UNSPECIFIED
+		
 		case Background = DISPATCH_QUEUE_PRIORITY_BACKGROUND
 		case Default = DISPATCH_QUEUE_PRIORITY_DEFAULT
 		case High = DISPATCH_QUEUE_PRIORITY_HIGH
@@ -140,16 +166,19 @@ public class DispatchQueue : DispatchObject {
 	func after(when: DispatchTime, execute work: /*@convention(block)*/ () -> Void) {
 		dispatch_after(when.rawValue, queue, work)
 	}
-	/*func after(walltime when: DispatchWalltime, execute work: /*@convention(block)*/ () -> Void) {
-		dispatch_after(when.rawValue, rawValue, work)
-	}*/
+	func after(walltime when: DispatchWalltime, execute work: /*@convention(block)*/ () -> Void) {
+		dispatch_after(when.rawValue, queue, work)
+	}
 
 	func apply(applier iterations: UInt64, execute block: @noescape (UInt64) -> Void) {
 		dispatch_apply(iterations, queue, block)
 	}
 	
-	/*func asynchronously(execute workItem: DispatchWorkItem) {
-	}*/
+	func asynchronously(execute workItem: DispatchWorkItem) {
+		dispatch_async(queue) {
+			workItem.perform()
+		}
+	}
 	
 	func asynchronously(group: DispatchGroup? /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute work: /*@convention(block)*/ () -> Void) {
 		dispatch_async(queue, work)
@@ -159,8 +188,11 @@ public class DispatchQueue : DispatchObject {
 		dispatch_sync(queue, block)
 	}
 	
-	/*func synchronously(execute workItem: DispatchWorkItem) {
-	}*/
+	func synchronously(execute workItem: DispatchWorkItem) {
+		dispatch_sync(queue) {
+			workItem.perform()
+		}
+	}
 	
 	func synchronously<T>(execute work: @noescape () throws -> T) rethrows -> T {
 		var result: T
@@ -198,6 +230,57 @@ public class DispatchQueue : DispatchObject {
 }
 
 @noreturn func dispatchMain() {
+	dispatch_main()
+}
+
+//
+//
+//
+
+class DispatchWorkItem {
+	init(group: DispatchGroup/*?*/ /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute block: () -> ()) {
+		self.block = block
+		self.group = group
+	}
+	
+	private let block: () -> ()
+	private let group: DispatchGroup/*?*/
+	
+	func perform() {
+		block()
+	}
+	
+	func wait(timeout: DispatchTime /*= default*/) -> Int {
+		return dispatch_wait(group.group, timeout.rawValue)
+	}
+	
+	func wait(timeout: DispatchWalltime) -> Int {
+		return dispatch_wait(group.group, timeout.rawValue)
+	}
+	
+	func notify(queue: DispatchQueue, execute notifyBlock: /*@convention(block)*/ () -> Void) {
+		dispatch_notify(group.group, queue.object, notifyBlock) 
+	}
+	
+	func cancel() {
+	}
+	
+	/*var isCancelled: Bool { get }*/
+}
+
+struct DispatchWorkItemFlags /*: OptionSet, RawRepresentable*/ {
+	let rawValue: UInt
+	init(rawValue: UInt) {
+		self.rawValue = rawValue
+	}
+	//static let barrier: DispatchWorkItemFlags
+	//static let detached: DispatchWorkItemFlags
+	//static let assignCurrentContext: DispatchWorkItemFlags
+	//static let noQoS: DispatchWorkItemFlags
+	//static let inheritQoS: DispatchWorkItemFlags
+	//static let enforceQoS: DispatchWorkItemFlags
+	typealias Element = DispatchWorkItemFlags
+	typealias RawValue = UInt
 }
 
 /*class DispatchSemaphore : DispatchObject {
@@ -461,19 +544,21 @@ struct DispatchQoS /*: Equatable*/ {
 	static let userInitiated: DispatchQoS   = DispatchQoS(qosClass: QoSClass.userInitiated)
 	static let userInteractive: DispatchQoS = DispatchQoS(qosClass: QoSClass.userInteractive)
 	static let unspecified: DispatchQoS	 = DispatchQoS(qosClass: QoSClass.unspecified)
+
 	enum QoSClass {
-		case background
-		case utility
-		case defaultQoS
-		case userInitiated
-		case userInteractive
-		case unspecified
-		//var hashValue: Int { get }
+		case background = __QOS_ENUM.QOS_CLASS_BACKGROUND
+		case utility = __QOS_ENUM.QOS_CLASS_UTILITY
+		case defaultQoS = __QOS_ENUM.QOS_CLASS_DEFAULT
+		case userInitiated = __QOS_ENUM.QOS_CLASS_USER_INITIATED
+		case userInteractive = __QOS_ENUM.QOS_CLASS_USER_INTERACTIVE
+		case unspecified = __QOS_ENUM.QOS_CLASS_UNSPECIFIED
 	}
+
 	init(qosClass: DispatchQoS.QoSClass, relativePriority: Int) {
 		self.qosClass = qosClass
 		self.relativePriority = relativePriority
 	}
+
 	private /*convenience*/ init(qosClass: DispatchQoS.QoSClass) {
 		// 75300: Swift: odd error about inaccessible ctor
 		//self.init(qosClass: qosClass, relativePriority: 0) // E152 No accessible constructors for type DispatchQoS
@@ -482,9 +567,10 @@ struct DispatchQoS /*: Equatable*/ {
 	}
 }
 
-infix func ==(a: DispatchQoS.QoSClass, b: DispatchQoS.QoSClass) -> Bool {  // wy is this needed?
+infix func ==(a: DispatchQoS.QoSClass, b: DispatchQoS.QoSClass) -> Bool {  // why is this needed, don't enums == automatically?
 	return a == b
 }
+
 func ==(a: DispatchQoS, b: DispatchQoS) -> Bool {
 	return a.qosClass == b.qosClass && a.relativePriority == b.relativePriority
 }
@@ -496,6 +582,7 @@ struct DispatchQueueAttributes /*: OptionSet*/ {
 	}
 	static let serial: DispatchQueueAttributes = DispatchQueueAttributes(rawValue: DISPATCH_QUEUE_SERIAL)
 	static let concurrent: DispatchQueueAttributes = DispatchQueueAttributes(rawValue: DISPATCH_QUEUE_CONCURRENT)
+	
 	//static let qosUserInteractive: DispatchQueueAttributes
 	//static let qosUserInitiated: DispatchQueueAttributes
 	//static let qosDefault: DispatchQueueAttributes
@@ -582,57 +669,20 @@ func +(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
 	return DispatchWalltime(rawValue: dispatch_time(time.rawValue, Int64(seconds*NSEC_PER_SEC)))
 }
 
-/*func -(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
-	//75301: Swift: int call custom unary `-` operator
-	return time + -interval // E119 Cannot use the unary operator "-" on type "DispatchTimeInterval"
-}*/
+func -(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
+	return time + -interval
+}
 
 func -(time: DispatchTime, seconds: Double) -> DispatchTime {
 	return time + -seconds
 }
 
-/*func -(time: DispatchWalltime, interval: DispatchTimeInterval) -> DispatchWalltime {
-	//75301: Swift: int call custom unary `-` operator
+func -(time: DispatchWalltime, interval: DispatchTimeInterval) -> DispatchWalltime {
 	return time + -interval
-}*/
+}
 
 func -(time: DispatchWalltime, seconds: Double) -> DispatchWalltime {
 	return time + -seconds
-}
-
-//
-//
-//
-
-class DispatchWorkItem {
-	/*init(group: DispatchGroup? /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, block: () -> ()) {
-	}
-	func perform() {
-	}
-	func wait(timeout: DispatchTime /*= default*/) -> Int {
-	}
-	func wait(timeout: DispatchWalltime) -> Int {
-	}
-	func notify(queue: DispatchQueue, execute: /*@convention(block)*/ () -> Void) {
-	}
-	func cancel() {
-	}
-	var isCancelled: Bool { get }*/
-}
-
-struct DispatchWorkItemFlags /*: OptionSet, RawRepresentable*/ {
-	let rawValue: UInt
-	init(rawValue: UInt) {
-		self.rawValue = rawValue
-	}
-	//static let barrier: DispatchWorkItemFlags
-	//static let detached: DispatchWorkItemFlags
-	//static let assignCurrentContext: DispatchWorkItemFlags
-	//static let noQoS: DispatchWorkItemFlags
-	//static let inheritQoS: DispatchWorkItemFlags
-	//static let enforceQoS: DispatchWorkItemFlags
-	typealias Element = DispatchWorkItemFlags
-	typealias RawValue = UInt
 }
 
 #endif
