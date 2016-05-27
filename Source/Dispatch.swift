@@ -1,5 +1,10 @@
 ﻿#if NOUGAT
 
+#if IOS || MACOS
+#define OLD_DEPLOYMENT_TARGET
+#endif
+
+
 /*class DispatchIO : DispatchObject {
 	enum StreamType : UInt {
 		case stream
@@ -80,27 +85,35 @@ public class DispatchObject /*: OS_object*/ {
 
 class DispatchGroup : DispatchObject {
 	init() {
+		#if OLD_DEPLOYMENT_TARGET
 		var temp: dispatch_object_t
 		temp._dg = dispatch_group_create()
 		super.init(rawValue: temp)
+		#else
+		super.init(rawValue: dispatch_group_create())
+		#endif
 	}
 	
 	var group: dispatch_group_t {
+		#if OLD_DEPLOYMENT_TARGET
 		return object._dg
+		#else
+		return object as! dispatch_group_t
+		#endif
 	}
 
 	
-	func wait(timeout: DispatchTime /*= default*/) -> Int {
-		return dispatch_wait(group, timeout.rawValue)
+	/*func wait(timeout: DispatchTime /*= default*/) -> Int {
+		//return dispatch_wait(group, timeout.rawValue)
 	}
 	
 	func wait(walltime timeout: DispatchWalltime) -> Int {
-		return dispatch_wait(group, timeout.rawValue)
+		//return dispatch_wait(group, timeout.rawValue)
 	}
 	
 	func notify(queue: DispatchQueue, exeute block: () -> ()) {
-		dispatch_notify(group, queue.object, block)
-	}
+		//dispatch_notify(group, queue.object, block)
+	}*/
 	
 	func enter() {
 		dispatch_group_enter(group)
@@ -124,13 +137,21 @@ private enum __QOS_ENUM {
 public class DispatchQueue : DispatchObject {
 
 	private init(queue: dispatch_queue_t) {
+		#if OLD_DEPLOYMENT_TARGET
 		var temp: dispatch_object_t
 		temp._dq = queue
 		super.init(rawValue: temp)
+		#else
+		super.init(rawValue: queue)
+		#endif
 	}
 	
 	var queue: dispatch_queue_t {
+		#if OLD_DEPLOYMENT_TARGET
 		return object._dq
+		#else
+		return object as! dispatch_queue_t
+		#endif
 	}
 
 	enum GlobalAttributes /*: OptionSet*/ {
@@ -170,7 +191,7 @@ public class DispatchQueue : DispatchObject {
 		dispatch_after(when.rawValue, queue, work)
 	}
 
-	func apply(applier iterations: UInt64, execute block: @noescape (UInt64) -> Void) {
+	func apply(applier iterations: UInt64, execute block: @noescape (NSUInteger) -> Void) {
 		dispatch_apply(iterations, queue, block)
 	}
 	
@@ -250,17 +271,17 @@ class DispatchWorkItem {
 		block()
 	}
 	
-	func wait(timeout: DispatchTime /*= default*/) -> Int {
-		return dispatch_wait(group.group, timeout.rawValue)
+	/*func wait(timeout: DispatchTime /*= default*/) -> Int {
+		//return dispatch_wait(group.group, timeout.rawValue)
 	}
 	
 	func wait(timeout: DispatchWalltime) -> Int {
-		return dispatch_wait(group.group, timeout.rawValue)
+		//return dispatch_wait(group.group, timeout.rawValue)
 	}
 	
 	func notify(queue: DispatchQueue, execute notifyBlock: /*@convention(block)*/ () -> Void) {
-		dispatch_notify(group.group, queue.object, notifyBlock) 
-	}
+		//dispatch_notify(group.group, queue.object, notifyBlock) 
+	}*/
 	
 	func cancel() {
 	}
