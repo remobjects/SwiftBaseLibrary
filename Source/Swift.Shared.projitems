@@ -15,14 +15,22 @@
         </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Functions.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Extensions.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Dictionary.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Dictionary.swift">
+            <VirtualFolder>Collection Types</VirtualFolder>
+        </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Commandline.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Array.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Array.swift">
+            <VirtualFolder>Collection Types</VirtualFolder>
+        </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Aliases.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Range.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Range.swift">
+            <VirtualFolder>Numbers and such</VirtualFolder>
+        </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Set.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)StringExtensions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Set.swift">
+            <VirtualFolder>Collection Types</VirtualFolder>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)String_Extensions.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Sequence_Extensions.swift">
             <VirtualFolder>Sequences</VirtualFolder>
@@ -33,20 +41,39 @@
         </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Object_Extensions.swift"/>
         <None Include="$(MSBuildThisFileDirectory)Mirror.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Intervals.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift"/>
-        <None Include="$(MSBuildThisFileDirectory)Collections.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Bit.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Integer_Protocols.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Index_Protocols.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Intervals.swift">
+            <VirtualFolder>Numbers and such</VirtualFolder>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift">
+            <VirtualFolder>Numbers and such</VirtualFolder>
+        </Compile>
+        <None Include="$(MSBuildThisFileDirectory)Collections.swift">
+            <VirtualFolder>Collection Types</VirtualFolder>
+        </None>
+        <Compile Include="$(MSBuildThisFileDirectory)Bit.swift">
+            <VirtualFolder>Numbers and such</VirtualFolder>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Integer_Protocols.swift">
+            <VirtualFolder>Numbers and such</VirtualFolder>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Index_Protocols.swift">
+            <VirtualFolder>Numbers and such</VirtualFolder>
+        </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Sequence_Protocols.swift">
             <VirtualFolder>Sequences</VirtualFolder>
         </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)__Internal.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Dispatch.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)Char_Extensions.swift"/>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Sequences">
+            <Virtual>True</Virtual>
+        </Folder>
+        <Folder Include="Collection Types">
+            <Virtual>True</Virtual>
+        </Folder>
+        <Folder Include="Numbers and such">
             <Virtual>True</Virtual>
         </Folder>
     </ItemGroup>

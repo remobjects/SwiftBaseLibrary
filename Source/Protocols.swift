@@ -46,7 +46,8 @@ public protocol IOutputStreamType {
 
 public typealias Streamable = IStreamable
 public protocol IStreamable {
-	func writeTo<Target: OutputStreamType>(inout _ target: Target)
+	//func writeTo<Target: OutputStreamType>(inout _ target: OutputStreamType)
+	func writeTo(_ target: OutputStreamType) // deliberately different that Apple's SBL due to limitations on Island
 }
 
 //

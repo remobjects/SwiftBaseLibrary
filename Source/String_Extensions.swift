@@ -194,7 +194,7 @@
 	}
 	
 	// Streamable
-	func writeTo<Target: OutputStreamType>(inout _ target: Target) {
+	func writeTo(_ target: OutputStreamType) {
 		target.write(self)
 	}
 
