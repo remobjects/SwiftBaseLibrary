@@ -49,6 +49,7 @@ public extension UnicodeScalar : Streamable {
 	}
 	
 	#if COOPER
+	//workaround for 75341: Silver: Cooper: adding any interface to a struct via extension requires implementing `equals` and `hashCode`.
 	func equals(_ arg1: Object!) -> Boolean {
 		if let v = arg1 as? UnicodeScalar {
 			return v == self
