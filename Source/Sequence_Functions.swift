@@ -74,3 +74,22 @@ public func split(elements: String, separatorChar separator: Char) -> [String] {
 @inline(__always) public func startsWith(s: String, `prefix`: String) -> Bool {
 	return s.hasPrefix(`prefix`)
 }
+
+public func sequence<T>(first: T, next: T -> T?) -> ISequence<T> {
+	var nextResult: T? = first
+	while nextResult != nil {
+		__yield nextResult
+		nextResult = next(nextResult!)
+	}
+}
+
+//75374: Swift Compatibility: Cannot use `inout` in closure
+/*public func sequence<T, State>(state: State, next: (inout State) -> T?) -> ISequence<T> {
+	var nextResult: T?
+	repeat {
+		nextResult = next(&state)
+		if let nextResult = nextResult {
+			__yield nextResult
+		}
+	} while nextResult != nil
+}*/
