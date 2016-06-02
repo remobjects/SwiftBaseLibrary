@@ -139,7 +139,7 @@
 	//
 
 	#if !NOUGAT
-	public func hasPrefix(`prefix`: String) -> Bool {
+	public func hasPrefix(_ `prefix`: String) -> Bool {
 		#if COOPER
 		return startsWith(`prefix`)
 		#elseif ECHOES
@@ -147,7 +147,7 @@
 		#endif
 	}
 
-	public func hasSuffix(suffix: String) -> Bool {
+	public func hasSuffix(_ suffix: String) -> Bool {
 		#if COOPER
 		return endsWith(suffix)
 		#elseif ECHOES
@@ -164,7 +164,7 @@
 		return NSString.stringWithUTF8String(cs)
 	}
 	
-	public static func fromCStringRepairingIllFormedUTF8(cs: UnsafePointer<AnsiChar>) -> (String?, /*hadError:*/ Bool) {
+	public static func fromCStringRepairingIllFormedUTF8(_ cs: UnsafePointer<AnsiChar>) -> (String?, /*hadError:*/ Bool) {
 		if cs == nil {
 			return (nil, false)
 		}
@@ -173,7 +173,7 @@
 	}
 	#endif
 	
-	public func withUTF8Buffer<R>(@noescape body: (/*UnsafeBufferPointer<UInt8>*/UTF8Char[]) -> R) -> R {
+	public func withUTF8Buffer<R>(@noescape _ body: (/*UnsafeBufferPointer<UInt8>*/UTF8Char[]) -> R) -> R {
 		return body(utf8.stringData)
 	}
 	

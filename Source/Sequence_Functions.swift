@@ -1,23 +1,23 @@
-﻿@inline(__always) public func count(source: String?) -> Int {
+﻿@inline(__always) public func count(_ source: String?) -> Int {
 	return length(source)
 }
 
-@inline(__always) public func count<T>(source: [T]?) -> Int {
+@inline(__always) public func count<T>(_ source: [T]?) -> Int {
 	return length(source)
 }
 
-@inline(__always) public func count<T>(source: T[]?) -> Int {
+@inline(__always) public func count<T>(_ source: T[]?) -> Int {
 	return length(source)
 }
 
-@inline(__always) public func count<T>(source: ISequence<T>?) -> Int {
+@inline(__always) public func count<T>(_ source: ISequence<T>?) -> Int {
 	if let s = source {
 		return s.Count()
 	}
 	return 0
 }
 
-public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> [String] {
+public func split(_ elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> [String] {
 	
 	let result = [String]()
 	var currentString = ""
@@ -51,7 +51,7 @@ public func split(elements: String, isSeparator: (Char) -> Bool, maxSplit: Int =
 	return result
 }
 
-public func split(elements: String, separatorString separator: String) -> [String] {
+public func split(_ elements: String, separatorString separator: String) -> [String] {
 	#if COOPER
 	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(separator)))
 	#elseif ECHOES
@@ -61,7 +61,7 @@ public func split(elements: String, separatorString separator: String) -> [Strin
 	#endif
 }
 
-public func split(elements: String, separatorChar separator: Char) -> [String] {
+public func split(_ elements: String, separatorChar separator: Char) -> [String] {
 	#if COOPER
 	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(java.lang.String.valueOf(separator))))
 	#elseif ECHOES
@@ -71,7 +71,7 @@ public func split(elements: String, separatorChar separator: Char) -> [String] {
 	#endif
 }
 
-@inline(__always) public func startsWith(s: String, `prefix`: String) -> Bool {
+@inline(__always) public func startsWith(_ s: String, `prefix`: String) -> Bool {
 	return s.hasPrefix(`prefix`)
 }
 

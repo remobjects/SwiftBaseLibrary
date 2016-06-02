@@ -173,7 +173,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return nil
 	}
 
-	public mutating func reserveCapacity(minimumCapacity: Int) {
+	public mutating func reserveCapacity(_ minimumCapacity: Int) {
 		#if COOPER
 		__mapped.ensureCapacity(minimumCapacity)
 		#elseif ECHOES | ISLAND | NOUGAT
@@ -181,7 +181,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func extend(sequence: ISequence<T>) {
+	public mutating func extend(_ sequence: ISequence<T>) {
 		#if COOPER
 		__mapped.addAll(sequence.ToList())
 		#elseif ECHOES | ISLAND
@@ -191,7 +191,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 	
-	public mutating func extend(array: [T]) {
+	public mutating func extend(_ array: [T]) {
 		#if COOPER
 		__mapped.addAll(array)
 		#elseif ECHOES | ISLAND
@@ -201,7 +201,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func append(newElement: T) {
+	public mutating func append(_ newElement: T) {
 		#if COOPER
 		__mapped.add(newElement)
 		#elseif ECHOES | ISLAND
@@ -215,7 +215,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func insert(newElement: T, atIndex index: Int) {
+	public mutating func insert(_ newElement: T, atIndex index: Int) {
 		#if COOPER
 		__mapped.add(index, newElement)
 		#elseif ECHOES | ISLAND
@@ -229,7 +229,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func removeAtIndex(index: Int) -> T {
+	public mutating func removeAtIndex(_ index: Int) -> T {
 		#if COOPER
 		return __mapped.remove(index)
 		#elseif ECHOES | ISLAND
@@ -275,7 +275,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return self
 	}
 	
-	public mutating func sort(isOrderedBefore: (T, T) -> Bool) {
+	public mutating func sort(_ isOrderedBefore: (T, T) -> Bool) {
 		#if COOPER
 		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
 			if isOrderedBefore(a,b) {
@@ -303,7 +303,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public func sorted(isOrderedBefore: (T, T) -> Bool) -> [T] { 
+	public func sorted(_ isOrderedBefore: (T, T) -> Bool) -> [T] { 
 		#if COOPER
 		let result: ArrayList<T> = [T](items: self) 
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
@@ -335,7 +335,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public func map<U>(transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+	public func map<U>(_ transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		return __mapped.Select({ return transform($0) })
 		#elseif ECHOES | NOUGAT
@@ -347,7 +347,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return (__mapped as! ISequence<T>).Reverse()
 	}
 
-	public func filter(includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+	public func filter(_ includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if COOPER
 		return __mapped.Where({ return includeElement($0) })
 		#elseif ECHOES | NOUGAT
@@ -377,7 +377,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	// Silver-specific extensions not defined in standard Swift.Array:
 	//
 
-	public func contains(item: T) -> Bool {
+	public func contains(_ item: T) -> Bool {
 		#if COOPER
 		return __mapped.contains(item)
 		#elseif ECHOES

@@ -99,7 +99,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		}
 	}
 
-	public mutating func updateValue(value: Value, forKey key: Key) -> Value? {
+	public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
 		#if COOPER
 		if __mapped.containsKey(key) {
 			let old = __mapped[key]
@@ -125,7 +125,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		#endif
 	}
 
-	public mutating func removeValueForKey(key: Key) -> Value? {
+	public mutating func removeValueForKey(_ key: Key) -> Value? {
 		#if COOPER
 		if __mapped.containsKey(key) {
 			return __mapped.remove(key)
@@ -206,6 +206,13 @@ public static class DictionaryHelper {
 	}
 	#elseif ECHOES
 	public static func Enumerate<Key, Value>(_ val: System.Collections.Generic.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
+		for entry in val { 
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+		  __yield item
+		}
+	}
+	#elseif ISLANBD
+	public static func Enumerate<Key, Value>(_ val: RemObjects.Elements.System.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val { 
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item

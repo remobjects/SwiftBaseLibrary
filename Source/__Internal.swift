@@ -9,7 +9,7 @@ func __newLine() -> String {
 	#endif
 }
 
-@inline(__always) func __toString(object: Object?) -> String {
+@inline(__always) func __toString(_ object: Object?) -> String {
 	if let object = object {
 		#if COOPER
 		return object.toString()

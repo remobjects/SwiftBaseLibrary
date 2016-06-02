@@ -7,8 +7,8 @@ public protocol IntervalType {
 
 	associatedtype Bound : Comparable /*= Int*/
 
-	@warn_unused_result func contains(value: Self.Bound) -> Bool
-	@warn_unused_result func clamp(intervalToClamp: Self) -> Self
+	@warn_unused_result func contains(_ value: Self.Bound) -> Bool
+	@warn_unused_result func clamp(_ intervalToClamp: Self) -> Self
 	//@warn_unused_result func overlaps<I : IntervalType where I.Bound == Bound>(_ other: I) -> Bool // E550 "Equals" constraints in "where" are not supported in Silver
 																									 // E549 Open generic type aliases in protocols are not supported in Silver
 

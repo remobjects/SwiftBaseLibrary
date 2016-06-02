@@ -73,7 +73,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	//var endIndex: SetIndex<T> { get }
 
 	/// Returns `true` if the set contains a member.
-	public func contains(member: T) -> Bool {
+	public func contains(_ member: T) -> Bool {
 		#if COOPER
 		return __mapped.contains(member)
 		#elseif ECHOES | ISLAND
@@ -89,7 +89,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	// }
 
 	/// Insert a member into the set.
-	public mutating func insert(member: T) {
+	public mutating func insert(_ member: T) {
 		#if COOPER
 		if !__mapped.contains(member) {
 			__mapped.add(member)
@@ -106,7 +106,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}
 
 	/// Remove the member from the set and return it if it was present.
-	public mutating func remove(member: T) -> T? {
+	public mutating func remove(_ member: T) -> T? {
 		#if COOPER
 		if __mapped.contains(member) {
 			__mapped.remove(member)
@@ -127,7 +127,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}
 
 	/// Remove the member referenced by the given index.
-	mutating func removeAtIndex(index: /*SetIndex<T>*/Int) -> T {
+	mutating func removeAtIndex(_ index: /*SetIndex<T>*/Int) -> T {
 		#if COOPER
 		let result = __mapped.get(index)
 		__mapped.remove(index)
@@ -257,7 +257,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	/// sequence will be ignored.
 	mutating func exclusiveOrInPlace<S : SequenceType where T == T>(sequence: S)*/
 
-	public func subtract(anotherSet: Set<T>) -> Set<T> {
+	public func subtract(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
 			for elem in self {
@@ -269,7 +269,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		return result
 	}
 	
-	/*public func subtract(anotherSequence: ISequence<T>) -> Set<T> {
+	/*public func subtract(_ anotherSequence: ISequence<T>) -> Set<T> {
 		var result = Set<T>()
 		//74103: Silver: can't find (one specific) extension method on ISequence
 		var array = anotherSequence.toSwiftArray()
@@ -284,7 +284,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}*/
 	// todo: port others to Sequence as well.
 
-	public func intersect(anotherSet: Set<T>) -> Set<T> {
+	public func intersect(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
 			for elem in self {
@@ -296,7 +296,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		return result
 	}
 	
-	public func union(anotherSet: Set<T>) -> Set<T> {
+	public func union(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		for elem in self {
 			result.insert(elem)
@@ -309,7 +309,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		return result
 	}
 	
-	public func exclusiveOr(anotherSet: Set<T>) -> Set<T> {
+	public func exclusiveOr(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		for elem in self {
 			if (!anotherSet.contains(elem)) {

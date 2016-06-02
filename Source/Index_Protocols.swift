@@ -1,9 +1,9 @@
 ﻿
 public protocol ForwardIndexType {
 	associatedtype Distance /*: SignedIntegerType*/ = Int
-	@warn_unused_result func advancedBy(n: Self.Distance) -> Self
-	@warn_unused_result func advancedBy(n: Self.Distance, limit: Self) -> Self
-	@warn_unused_result func distanceTo(end: Self) -> Self.Distance
+	@warn_unused_result func advancedBy(_ n: Self.Distance) -> Self
+	@warn_unused_result func advancedBy(_ n: Self.Distance, limit: Self) -> Self
+	@warn_unused_result func distanceTo(_ end: Self) -> Self.Distance
 }
 
 public protocol BidirectionalIndexType : ForwardIndexType {
@@ -24,8 +24,8 @@ public protocol Strideable : Comparable {
 	associatedtype Stride : SignedNumberType
 	//74968: Silver: compiler ignores undefined associated type (`Self.whatever`)
 	
-	@warn_unused_result func advancedBy(n: Self.Stride) -> Self
-	@warn_unused_result func distanceTo(other: Self) -> Self.Stride
+	@warn_unused_result func advancedBy(_ n: Self.Stride) -> Self
+	@warn_unused_result func distanceTo(_ other: Self) -> Self.Stride
 	@warn_unused_result func stride(# through: Self, by: Self) -> ISequence<Self>
 	@warn_unused_result func stride(# to: Self, by: Self) -> ISequence<Self>
 }

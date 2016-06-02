@@ -14,7 +14,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return nativeArrayToSequence(nativeArray)
 	}
 	
-	private static func nativeArrayToSequence(nativeArray: T[]) -> ISequence<T> { // make private once ctor workd
+	private static func nativeArrayToSequence(_ nativeArray: T[]) -> ISequence<T> { // make private once ctor workd
 		for e in nativeArray {
 			__yield e
 		}
@@ -32,7 +32,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Skip(1)
 	}
 
-	@warn_unused_result public func dropFirst(n: Int) -> ISequence<T> {
+	@warn_unused_result public func dropFirst(_ n: Int) -> ISequence<T> {
 		return self.Skip(n)
 	}
 
@@ -40,7 +40,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		fatalError("dropLast() is not implemented yet.")
 	}
 
-	@warn_unused_result public func dropLast(n: Int) -> ISequence<T> {
+	@warn_unused_result public func dropLast(_ n: Int) -> ISequence<T> {
 		fatalError("dropLast() is not implemented yet.")
 	}
 
@@ -52,7 +52,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	@warn_unused_result public func indexOf(@noescape predicate: (T) -> Bool) -> Int? {
+	@warn_unused_result public func indexOf(@noescape _ predicate: (T) -> Bool) -> Int? {
 		for (i, element) in self.enumerate() {
 			if (predicate(element) == true){
 				return i
@@ -61,7 +61,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return nil
 	}
 	
-	@warn_unused_result public func filter(includeElement: (T) throws -> Bool) rethrows -> ISequence<T> { 
+	@warn_unused_result public func filter(_ includeElement: (T) throws -> Bool) rethrows -> ISequence<T> { 
 		return self.Where() { return try! includeElement($0) }
 	}
 
@@ -69,7 +69,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.FirstOrDefault()
 	}
 	
-	@warn_unused_result func flatMap(@noescape transform: (T) throws -> T?) rethrows -> ISequence<T> {
+	@warn_unused_result func flatMap(@noescape _ transform: (T) throws -> T?) rethrows -> ISequence<T> {
 		for e in self {
 			if let e = try! transform(e) {
 				__yield e
@@ -95,7 +95,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return !self.Any()
 	}
 
-	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(elements: ISequence<T>) -> ISequence<T> {
+	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(_ elements: ISequence<T>) -> ISequence<T> {
 		var first = true
 		for e in elements {
 			if !first {
@@ -109,7 +109,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(elements: T[]) -> ISequence<T> { 
+	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(_ elements: T[]) -> ISequence<T> { 
 		var first = true
 		for e in elements {
 			if !first {
@@ -123,7 +123,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 
-	@warn_unused_result public func joinWithSeparator(separator: String) -> String {
+	@warn_unused_result public func joinWithSeparator(_ separator: String) -> String {
 		var first = true
 		var result = ""
 		for e in self {
@@ -137,7 +137,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return result
 	}
 	
-	@warn_unused_result public func joinWithSeparator(separator: ISequence<T>) -> ISequence<T> {
+	@warn_unused_result public func joinWithSeparator(_ separator: ISequence<T>) -> ISequence<T> {
 		var first = true
 		for e in self {
 			if !first {
@@ -151,7 +151,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	@warn_unused_result public func joinWithSeparator(separator: T[]) -> ISequence<T> { 
+	@warn_unused_result public func joinWithSeparator(_ separator: T[]) -> ISequence<T> { 
 		var first = true
 		for e in self {
 			if !first {
@@ -169,12 +169,12 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self
 	}
 	
-	@warn_unused_result public func map<U>(transform: (T) -> U) -> ISequence<U> {
+	@warn_unused_result public func map<U>(_ transform: (T) -> U) -> ISequence<U> {
 		return self.Select() { return transform($0) }
 	}
 
 	//74101: Silver: still two issues with try!
-	@warn_unused_result public func maxElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
+	@warn_unused_result public func maxElement(_ isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
 		var m: T? = nil
 		for e in self {
 			if m == nil || /*try!*/ !isOrderedBefore(m!, e) { // ToDo: check if this is the right order
@@ -184,7 +184,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return m
 	}
 
-	@warn_unused_result public func minElement(isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
+	@warn_unused_result public func minElement(_ isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
 		var m: T? = nil
 		for e in self {
 			if m == nil || /*try!*/ isOrderedBefore(m!, e) { // ToDo: check if this is the right order
@@ -194,11 +194,11 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return m
 	}
 	
-	@warn_unused_result public func `prefix`(maxLength: Int) -> ISequence<T> {
+	@warn_unused_result public func `prefix`(_ maxLength: Int) -> ISequence<T> {
 		return self.Take(maxLength)
 	}
 
-	@warn_unused_result public func reduce<U>(initial: U, combine: (U, T) -> U) -> U {
+	@warn_unused_result public func reduce<U>(_ initial: U, combine: (U, T) -> U) -> U {
 		var value = initial
 		for i in self {
 			value = combine(value, i)
@@ -210,7 +210,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Reverse()
 	}
 
-	@warn_unused_result public func sort(isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
+	@warn_unused_result public func sort(_ isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
 		//todo: make more lazy?
 		#if COOPER
 		let result: ArrayList<T> = [T](sequence: self) 
@@ -243,7 +243,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
-	/*@warn_unused_result public func split(isSeparator: (T) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> ISequence<ISequence<T>> {
+	/*@warn_unused_result public func split(_ isSeparator: (T) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> ISequence<ISequence<T>> {
 	
 		let result = [String]()
 		var currentString = ""
@@ -350,7 +350,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
-	@warn_unused_result public func suffix(maxLength: Int) -> ISequence<T> {
+	@warn_unused_result public func suffix(_ maxLength: Int) -> ISequence<T> {
 		fatalError("suffix() is not implemented yet.")
 	}
 
@@ -386,7 +386,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
-	@warn_unused_result public func contains(item: T) -> Bool {
+	@warn_unused_result public func contains(_ item: T) -> Bool {
 		#if COOPER
 		return self.contains(item)
 		#elseif ECHOES

@@ -94,11 +94,11 @@ public extension Int32 /*: AbsoluteValuable*/ {
 
 public extension Int32 /*: Strideable*/ {
 
-	func advancedBy(n: Int32) -> Int32 {
+	func advancedBy(_ n: Int32) -> Int32 {
 		return self + n;
 	}
 	
-	func distanceTo(other: Int32) -> Int32 {
+	func distanceTo(_ other: Int32) -> Int32 {
 		return other - self;
 	}
 	
@@ -138,11 +138,11 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 
 	// Strideable
 
-	func advancedBy(n: Int64) -> Int64 {
+	func advancedBy(_ n: Int64) -> Int64 {
 		return self + n;
 	}
 	
-	func distanceTo(other: Int64) -> Int64 {
+	func distanceTo(_ other: Int64) -> Int64 {
 		return other - self;
 	}
 	
@@ -172,11 +172,11 @@ public extension Float {
 	
 	// Strideable
 
-	func advancedBy(n: Float) -> Float {
+	func advancedBy(_ n: Float) -> Float {
 		return self + n;
 	}
 	
-	func distanceTo(other: Float) -> Float {
+	func distanceTo(_ other: Float) -> Float {
 		return other - self;
 	}
 	
@@ -206,11 +206,11 @@ public extension Double {
 	
 	// Strideable
 
-	func advancedBy(n: Double) -> Double {
+	func advancedBy(_ n: Double) -> Double {
 		return self + n;
 	}
 	
-	func distanceTo(other: Double) -> Double {
+	func distanceTo(_ other: Double) -> Double {
 		return other - self;
 	}
 	

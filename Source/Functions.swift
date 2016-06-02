@@ -1,6 +1,6 @@
 ﻿// @inline(__always) public func abs(x) // provied by compiler
 	
-@Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
+@Conditional("DEBUG") public func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)
 	}
@@ -11,7 +11,7 @@
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-@inline(__always) public func debugPrint(object: Object?, separator: String = " ", terminator: String? = nil) {
+@inline(__always) public func debugPrint(_ object: Object?, separator: String = " ", terminator: String? = nil) {
 	if let object = object {
 		write(String(reflecting:object))
 	} else {
@@ -25,7 +25,7 @@
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-public func debugPrint(objects: Object?..., separator: String = " ", terminator: String? = nil) {
+public func debugPrint(_ objects: Object?..., separator: String = " ", terminator: String? = nil) {
 	var first = true
 	for object in objects {
 		if !first {
@@ -53,7 +53,7 @@ public func debugPrint(objects: Object?..., separator: String = " ", terminator:
 		__throw Exception("Fatal Error, file "+file+", line "+line)
 	}
 }
-@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
+@Conditional("DEBUG") public func precondition(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)
 	}
@@ -63,7 +63,7 @@ public func debugPrint(objects: Object?..., separator: String = " ", terminator:
 	fatalError(message, file: file, line: line)
 }
 
-@Obsolete("Use print() instead") @inline(__always) public func println(objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
+@Obsolete("Use print() instead") @inline(__always) public func println(_ objects: Any?...) { // no longer defined for Swift, but we're keeping it for backward compartibiolitry for now
 	print(objects)
 }
 

@@ -42,7 +42,7 @@ public extension UnicodeScalar : Streamable {
 	}
 	#endif
 	
-	public func writeTo(target: OutputStreamType) {
+	public func writeTo(_ target: OutputStreamType) {
 		if let s = ToString() {
 			target.write(s)
 		}
