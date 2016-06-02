@@ -1,12 +1,12 @@
 ﻿// @inline(__always) public func abs(x) // provied by compiler
 	
-@Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") public func assert(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)
 	}
 }
 
-@Conditional("DEBUG") @noreturn public func assertionFailure(_ message: @autoclosure () -> String, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") @noreturn public func assertionFailure(_ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
 	fatalError(message, file: file, line: line)
 }
 
@@ -46,20 +46,20 @@ public func debugPrint(objects: Object?..., separator: String = " ", terminator:
 	}
 }
 
-@noreturn public func fatalError(_ message: @autoclosure () -> String, file: String = __FILE__, line: UInt32 = __LINE__) {
+@noreturn public func fatalError(_ message: @autoclosure () -> String, file: String = #file, line: UInt32 = #line) {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
 	} else {
 		__throw Exception("Fatal Error, file "+file+", line "+line)
 	}
 }
-@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") public func precondition(condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)
 	}
 }
 
-@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String, file: String = __FILE__, line: UWord = __LINE__) {
+@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
 	fatalError(message, file: file, line: line)
 }
 
