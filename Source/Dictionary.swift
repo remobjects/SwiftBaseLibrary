@@ -211,7 +211,7 @@ public static class DictionaryHelper {
 		  __yield item
 		}
 	}
-	#elseif ISLANBD
+	#elseif ISLAND
 	public static func Enumerate<Key, Value>(_ val: RemObjects.Elements.System.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val { 
 			var item: (Key, Value) =  (entry.Key, entry.Value)
