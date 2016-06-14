@@ -386,15 +386,11 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
+	#if ECHOES || ISLAND
 	@warn_unused_result public func contains(_ item: T) -> Bool {
-		#if COOPER
-		return self.contains(item)
-		#elseif ECHOES
 		return self.Contains(item)
-		#elseif NOUGAT
-		return self.contains(item)
-		#endif
 	}
+	#endif
 
 	#if NOUGAT
 	override var debugDescription: String! {
