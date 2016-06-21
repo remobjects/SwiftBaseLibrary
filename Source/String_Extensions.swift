@@ -276,7 +276,7 @@
 	}
 	
 	public class UTF32CharacterView: CharacterView, ICustomDebugStringConvertible {
-		private let stringData: Byte[]
+		/*fileprivate*/internal let stringData: Byte[]
 
 		private init(string: String) {
 			#if COOPER
@@ -321,7 +321,7 @@
 	public class UTF8CharacterView: CharacterView, ICustomDebugStringConvertible {
 		private let stringData: UTF8Char[]
 		
-		private init(string: String) {
+		/*fileprivate*/internal init(string: String) {
 			#if COOPER
 			stringData = []
 			fatalError("UTF8CharacterView is not implemenyted for Java yet.")
