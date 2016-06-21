@@ -248,7 +248,7 @@
 	public class UTF16CharacterView: CharacterView, ICustomDebugStringConvertible {
 		private let string: String
 		
-		private init(string: String) {
+		/*fileprivate*/internal  init(string: String) {
 			self.string = string
 		}
 		
@@ -278,7 +278,7 @@
 	public class UTF32CharacterView: CharacterView, ICustomDebugStringConvertible {
 		/*fileprivate*/internal let stringData: Byte[]
 
-		private init(string: String) {
+		/*fileprivate*/internal  init(string: String) {
 			#if COOPER
 			stringData = []
 			fatalError("UTF32CharacterView is not implemenyted for Java yet.")
