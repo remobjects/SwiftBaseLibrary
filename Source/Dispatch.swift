@@ -4,7 +4,7 @@
 #define OLD_DEPLOYMENT_TARGET
 #endif
 
-public enum DispatchPredicate {
+public public enum DispatchPredicate {
 	case onQueue(DispatchQueue)
 	case onQueueAsBarrier(DispatchQueue)
 	case notOnQueue(DispatchQueue)
@@ -30,7 +30,7 @@ public func dispatchPrecondition(condition: @autoclosure () -> DispatchPredicate
 }
 
 /*class DispatchIO : DispatchObject {
-	enum StreamType : UInt {
+	public enum StreamType : UInt {
 		case stream
 		case random
 		typealias RawValue = UInt
@@ -40,7 +40,7 @@ public func dispatchPrecondition(condition: @autoclosure () -> DispatchPredicate
 		}
 		let rawValue: UInt*/
 	}
-	struct CloseFlags /*: OptionSet, RawRepresentable*/ {
+	public struct CloseFlags /*: OptionSet, RawRepresentable*/ {
 		let rawValue: UInt
 		public init(rawValue: UInt) {
 			self.rawValue = rawValue
@@ -49,7 +49,7 @@ public func dispatchPrecondition(condition: @autoclosure () -> DispatchPredicate
 		typealias Element = DispatchIO.CloseFlags
 		typealias RawValue = UInt
 	}
-	struct IntervalFlags /*: OptionSet, RawRepresentable*/ {
+	public struct IntervalFlags /*: OptionSet, RawRepresentable*/ {
 		let rawValue: UInt
 		public init(rawValue: UInt) {
 		}
@@ -112,9 +112,9 @@ class DispatchGroup : DispatchObject {
 		#if OLD_DEPLOYMENT_TARGET
 		var temp: dispatch_object_t
 		temp._dg = dispatch_group_create()
-		super.public init(rawValue: temp)
+		super.init(rawValue: temp)
 		#else
-		super.public init(rawValue: dispatch_group_create())
+		super.init(rawValue: dispatch_group_create())
 		#endif
 	}
 	
@@ -151,7 +151,7 @@ class DispatchGroup : DispatchObject {
 //75321: Nougat: HI is missing QOS_CLASS_USER_INTERACTIVE & Co
 private enum __QOS_ENUM {
 	case QOS_CLASS_USER_INTERACTIVE = 0x21
-	case QOS_CLASS_USER_public initIATED = 0x19
+	case QOS_CLASS_USER_INITIATED = 0x19
 	case QOS_CLASS_DEFAULT = 0x15
 	case QOS_CLASS_UTILITY = 0x11
 	case QOS_CLASS_BACKGROUND = 0x09
@@ -164,9 +164,9 @@ public class DispatchQueue : DispatchObject {
 		#if OLD_DEPLOYMENT_TARGET
 		var temp: dispatch_object_t
 		temp._dq = queue
-		super.public init(rawValue: temp)
+		super.init(rawValue: temp)
 		#else
-		super.public init(rawValue: queue)
+		super.init(rawValue: queue)
 		#endif
 	}
 	
@@ -178,9 +178,9 @@ public class DispatchQueue : DispatchObject {
 		#endif
 	}
 
-	enum GlobalAttributes /*: OptionSet*/ {
+	public enum GlobalAttributes /*: OptionSet*/ {
 		case qosUserInteractive = __QOS_ENUM.QOS_CLASS_USER_INTERACTIVE
-		case qosUserpublic initiated = __QOS_ENUM.QOS_CLASS_USER_public initIATED
+		case qosUserInitiated = __QOS_ENUM.QOS_CLASS_USER_INITIATED
 		case qosDefault = __QOS_ENUM.QOS_CLASS_DEFAULT
 		case qosUtility = __QOS_ENUM.QOS_CLASS_UTILITY
 		case qosBackground = __QOS_ENUM.QOS_CLASS_BACKGROUND
@@ -203,9 +203,9 @@ public class DispatchQueue : DispatchObject {
 		return DispatchQueue(queue: raw)
 	}
 	
-	convenience public init(label: String, attributes: DispatchQueueAttributes /*= default*/, target: DispatchQueue? /*= default*/) {
+	public convenience init(label: String, attributes: DispatchQueueAttributes /*= default*/, target: DispatchQueue? /*= default*/) {
 		let raw = dispatch_queue_create(label.UTF8String, 0)
-		public init(queue: raw)
+		init(queue: raw)
 	}
 	
 	func after(when: DispatchTime, execute work: /*@convention(block)*/ () -> Void) {
@@ -313,7 +313,7 @@ class DispatchWorkItem {
 	/*var isCancelled: Bool { get }*/
 }
 
-struct DispatchWorkItemFlags /*: OptionSet, RawRepresentable*/ {
+public struct DispatchWorkItemFlags /*: OptionSet, RawRepresentable*/ {
 	let rawValue: UInt
 	public init(rawValue: UInt) {
 		self.rawValue = rawValue
@@ -340,7 +340,7 @@ struct DispatchWorkItemFlags /*: OptionSet, RawRepresentable*/ {
 }*/
 
 class DispatchSource : DispatchObject {
-	struct MachSendEvent /*: OptionSet, RawRepresentable*/ {
+	public struct MachSendEvent /*: OptionSet, RawRepresentable*/ {
 		let rawValue: UInt
 		public init(rawValue: UInt) {
 			self.rawValue = rawValue
@@ -349,7 +349,7 @@ class DispatchSource : DispatchObject {
 		typealias Element = DispatchSource.MachSendEvent
 		typealias RawValue = UInt
 	}
-	struct MemoryPressureEvent /*: OptionSet, RawRepresentable*/ {
+	public struct MemoryPressureEvent /*: OptionSet, RawRepresentable*/ {
 		let rawValue: UInt
 		public init(rawValue: UInt) {
 			self.rawValue = rawValue
@@ -361,7 +361,7 @@ class DispatchSource : DispatchObject {
 		typealias Element = DispatchSource.MemoryPressureEvent
 		typealias RawValue = UInt
 	}
-	struct ProcessEvent /*: OptionSet, RawRepresentable*/ {
+	public struct ProcessEvent /*: OptionSet, RawRepresentable*/ {
 		let rawValue: UInt
 		public init(rawValue: UInt) {
 			self.rawValue = rawValue
@@ -374,7 +374,7 @@ class DispatchSource : DispatchObject {
 		typealias Element = DispatchSource.ProcessEvent
 		typealias RawValue = UInt
 	}
-	struct TimerFlags /*: OptionSet, RawRepresentable*/ {
+	public struct TimerFlags /*: OptionSet, RawRepresentable*/ {
 		let rawValue: UInt
 		public init(rawValue: UInt) {
 			self.rawValue = rawValue
@@ -383,7 +383,7 @@ class DispatchSource : DispatchObject {
 		typealias Element = DispatchSource.TimerFlags
 		typealias RawValue = UInt
 	}
-	struct FileSystemEvent /*: OptionSet, RawRepresentable*/ {
+	public struct FileSystemEvent /*: OptionSet, RawRepresentable*/ {
 		let rawValue: UInt
 		public init(rawValue: UInt) {
 			self.rawValue = rawValue
@@ -521,12 +521,12 @@ extension DispatchSourceUserDataOr {
 	func mergeData(value: UInt) {
 	}
 }
-struct DispatchData /*: RandomAccessCollection, _ObjectiveCBridgeable*/ {
+public struct DispatchData /*: RandomAccessCollection, _ObjectiveCBridgeable*/ {
 	/*typealias Iterator = DispatchDataIterator
 	typealias Index = Int
 	typealias Indices = DefaultRandomAccessIndices<DispatchData>
 	/*static*/ let empty: DispatchData // E492 Flag "static" not allowed on this member
-	enum Deallocator {
+	public enum Deallocator {
 		case free
 		case unmap
 		case custom(DispatchQueue?, /*@convention(block)*/ () -> Void)
@@ -572,7 +572,7 @@ struct DispatchData /*: RandomAccessCollection, _ObjectiveCBridgeable*/ {
 	typealias SubSequence = RandomAccessSlice<DispatchData>
 	typealias _ObjectiveCType = __DispatchData*/
 }
-struct DispatchDataIterator /*: IteratorProtocol, Sequence*/ {
+public struct DispatchDataIterator /*: IteratorProtocol, Sequence*/ {
 	/*mutating func next() -> _Element? {
 	}
 	typealias Element = _Element
@@ -580,21 +580,21 @@ struct DispatchDataIterator /*: IteratorProtocol, Sequence*/ {
 	typealias SubSequence = AnySequence<_Element>*/
 }
 
-struct DispatchQoS /*: Equatable*/ {
+public struct DispatchQoS /*: Equatable*/ {
 	let qosClass: DispatchQoS.QoSClass
 	let relativePriority: Int
 	static let background: DispatchQoS	  = DispatchQoS(qosClass: QoSClass.background)
 	static let utility: DispatchQoS		 = DispatchQoS(qosClass: QoSClass.utility)
 	static let defaultQoS: DispatchQoS	  = DispatchQoS(qosClass: QoSClass.defaultQoS)
-	static let userpublic initiated: DispatchQoS   = DispatchQoS(qosClass: QoSClass.userpublic initiated)
+	static let userInitiated: DispatchQoS   = DispatchQoS(qosClass: QoSClass.userInitiated)
 	static let userInteractive: DispatchQoS = DispatchQoS(qosClass: QoSClass.userInteractive)
 	static let unspecified: DispatchQoS	 = DispatchQoS(qosClass: QoSClass.unspecified)
 
-	enum QoSClass {
+	public enum QoSClass {
 		case background = __QOS_ENUM.QOS_CLASS_BACKGROUND
 		case utility = __QOS_ENUM.QOS_CLASS_UTILITY
 		case defaultQoS = __QOS_ENUM.QOS_CLASS_DEFAULT
-		case userpublic initiated = __QOS_ENUM.QOS_CLASS_USER_public initIATED
+		case userInitiated = __QOS_ENUM.QOS_CLASS_USER_INITIATED
 		case userInteractive = __QOS_ENUM.QOS_CLASS_USER_INTERACTIVE
 		case unspecified = __QOS_ENUM.QOS_CLASS_UNSPECIFIED
 	}
@@ -620,7 +620,7 @@ func ==(a: DispatchQoS, b: DispatchQoS) -> Bool {
 	return a.qosClass == b.qosClass && a.relativePriority == b.relativePriority
 }
 
-struct DispatchQueueAttributes /*: OptionSet*/ {
+public struct DispatchQueueAttributes /*: OptionSet*/ {
 	let rawValue: dispatch_queue_attr_t
 	public init(rawValue: dispatch_queue_attr_t) {
 		self.rawValue = rawValue
@@ -645,7 +645,7 @@ final class DispatchSpecificKey<T> {
 // Time
 //
 
-struct DispatchTime {
+public struct DispatchTime {
 
 	private public init(rawValue: dispatch_time_t) {
 		self.rawValue = rawValue
@@ -659,7 +659,7 @@ struct DispatchTime {
 	static lazy let distantFuture: DispatchTime = DispatchTime(rawValue: DISPATCH_TIME_FOREVER)
 
 }
-struct DispatchWallTime {
+public struct DispatchWallTime {
 
 	public init(rawValue: dispatch_time_t) {
 		self.rawValue = rawValue
@@ -673,7 +673,7 @@ struct DispatchWallTime {
 	static lazy let distantFuture: DispatchWallTime = DispatchWallTime(rawValue: DISPATCH_TIME_FOREVER)
 }
 
-enum DispatchTimeInterval {
+public enum DispatchTimeInterval {
 	case seconds(Int)
 	case milliseconds(Int)
 	case microseconds(Int)
