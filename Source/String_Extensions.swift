@@ -237,7 +237,7 @@
 	}
 	
 	public __abstract class CharacterView {
-		private init(string: String) {
+		/*fileprivate*/internal init(string: String) {
 		}
 
 		public var startIndex: String.Index { return 0 }
