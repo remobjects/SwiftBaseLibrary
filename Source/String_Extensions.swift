@@ -319,7 +319,7 @@
 	}
 	
 	public class UTF8CharacterView: CharacterView, ICustomDebugStringConvertible {
-		private let stringData: UTF8Char[]
+		/*fileprivate*/internal  let stringData: UTF8Char[]
 		
 		/*fileprivate*/internal init(string: String) {
 			#if COOPER
