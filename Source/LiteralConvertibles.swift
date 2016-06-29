@@ -71,7 +71,7 @@ public protocol IUnicodeScalarLiteralConvertible {
 	init(unicodeScalarLiteral value: UnicodeScalarLiteralType)
 }
 
-#if NOUGAT
+#if COCOA
 public extension NSURL/*: StringLiteralConvertible*/ {
 	
 	//typealias ExtendedGraphemeClusterLiteralType = StringLiteralType

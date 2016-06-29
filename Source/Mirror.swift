@@ -44,7 +44,7 @@ public class Mirror : ICustomStringConvertible, ICustomReflectable, IStreamable 
 	var children: Children {
 		fatalError("Not implemented yet")
 	}
-	#if NOUGAT
+	#if COCOA
 	override var description: String! { 
 	#else
 	var description: String! { 

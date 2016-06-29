@@ -1,4 +1,4 @@
-﻿#if NOUGAT
+﻿#if COCOA
 
 #if IOS || MACOS
 #define OLD_DEPLOYMENT_TARGET

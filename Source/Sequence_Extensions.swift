@@ -212,7 +212,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 
 	@warn_unused_result public func sort(_ isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
 		//todo: make more lazy?
-		#if COOPER
+		#if JAVA
 		let result: ArrayList<T> = [T](sequence: self) 
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -222,7 +222,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			}
 		}})	
 		return result
-		#elseif ECHOES
+		#elseif CLR
 		let result: List<T> = [T](sequence: self) 
 		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -232,7 +232,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			}
 		}
 		return result
-		#elseif NOUGAT
+		#elseif COCOA
 		return self.array().sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
@@ -278,7 +278,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	}*/
 	
 	@warn_unused_result public func startsWith(`prefix` p: ISequence<T>) -> Bool {
-		#if COOPER
+		#if JAVA
 		let sEnum = self.iterator()
 		let pEnum = p.iterator()
 		while true {
@@ -303,7 +303,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	
 		return false;
-		#elseif ECHOES
+		#elseif CLR
 		let sEnum = self.GetEnumerator()
 		let pEnum = p.GetEnumerator()
 		while true {
@@ -321,7 +321,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			}
 		}
 		return false
-		#elseif NOUGAT
+		#elseif COCOA
 		let LOOP_SIZE = 16
 		let sState: NSFastEnumerationState = `default`(NSFastEnumerationState)
 		let pState: NSFastEnumerationState = `default`(NSFastEnumerationState)
@@ -363,36 +363,36 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	//
 	
 	/*@warn_unused_result public func nativeArray() -> T[] {
-		#if COOPER
+		#if JAVA
 		//return self.toArray()//T[]())
-		#elseif ECHOES
+		#elseif CLR
 		return self.ToArray()
-		#elseif NOUGAT
+		#elseif COCOA
 		//return self.array()
 		#endif
 	}*/
 
 	@warn_unused_result public func toSwiftArray() -> [T] {
-		#if COOPER
+		#if JAVA
 		let result = ArrayList<T>()
 		for e in self {
 			result.add(e);
 		}
 		return result
-		#elseif ECHOES
+		#elseif CLR
 		return self.ToList()
-		#elseif NOUGAT
+		#elseif COCOA
 		return self.array().mutableCopy
 		#endif
 	}
 
-	#if ECHOES || ISLAND
+	#if CLR || ISLAND
 	@warn_unused_result public func contains(_ item: T) -> Bool {
 		return self.Contains(item)
 	}
 	#endif
 
-	#if NOUGAT
+	#if COCOA
 	override var debugDescription: String! {
 	#else
 	public var debugDescription: String {
@@ -412,21 +412,21 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	}
 }
 
-#if COOPER
+#if JAVA
 public extension java.util.Map.Entry {
 
 	public func GetTuple() -> (K,V) {
 		return (Key,Value)
 	}
 }
-#elseif ECHOES
+#elseif CLR
 public extension System.Collections.Generic.KeyValuePair {
 
 	public func GetTuple() -> (TKey,TValue) {
 		return (Key,Value)
 	}
 }
-#elseif NOUGAT
+#elseif COCOA
 public extension Foundation.NSDictionary {
 
 	public func GetSequence() -> ISequence<(AnyObject,AnyObject)> {

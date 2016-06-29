@@ -5,22 +5,22 @@
 //
 //
 
-#if NOUGAT
+#if COCOA
 __mapped public class Dictionary<Key: class, Value: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableDictionary {
-#elseif COOPER
+#elseif JAVA
 __mapped public class Dictionary<Key,Value> => java.util.HashMap<Key,Value> {
-#elseif ECHOES
+#elseif CLR
 __mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictionary<Key,Value> {
 #elseif ISLAND
 __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictionary<Key,Value> {
 #endif
 
 	public init() {
-		#if COOPER
+		#if JAVA
 		return java.util.HashMap<Key,Value>()
-		#elseif ECHOES
+		#elseif CLR
 		return System.Collections.Generic.Dictionary<Key,Value>()
-		#elseif NOUGAT
+		#elseif COCOA
 		return Foundation.NSMutableDictionary()
 		#endif
 	}
@@ -30,16 +30,16 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 	}
 
 	public init(minimumCapacity: Int) {
-		#if COOPER
+		#if JAVA
 		return java.util.HashMap<Key,Value>(minimumCapacity)
-		#elseif ECHOES
+		#elseif CLR
 		return System.Collections.Generic.Dictionary<Key,Value>(minimumCapacity)
-		#elseif NOUGAT
+		#elseif COCOA
 		return Foundation.NSMutableDictionary(capacity: minimumCapacity)
 		#endif
 	}
 
-	#if NOUGAT
+	#if COCOA
 	public init(NSDictionary dictionary: NSDictionary) {
 		if dictionary == nil {
 			return Dictionary<Key,Value>()
@@ -58,22 +58,22 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 
 	public subscript (key: Key) -> Value? {
 		get {
-			#if COOPER
+			#if JAVA
 			if __mapped.containsKey(key) {
 				return __mapped[key]
 			}
 			return nil
-			#elseif ECHOES
+			#elseif CLR
 			if __mapped.ContainsKey(key) {
 				return __mapped[key]
 			}
 			return nil
-			#elseif NOUGAT
+			#elseif COCOA
 			return __mapped[key]
 			#endif
 		}
 		set {
-			#if COOPER
+			#if JAVA
 			if let v = newValue {
 				__mapped[key] = v
 			} else { 
@@ -81,7 +81,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 					__mapped.remove(key)
 				} 
 			}
-			#elseif ECHOES
+			#elseif CLR
 			if let v = newValue {
 				__mapped[key] = v
 			} else { 
@@ -89,7 +89,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 					__mapped.Remove(key)
 				} 
 			}
-			#elseif NOUGAT
+			#elseif COCOA
 			if let val = newValue {
 				__mapped[key] = val
 			} else {
@@ -100,21 +100,21 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 	}
 
 	public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
-		#if COOPER
+		#if JAVA
 		if __mapped.containsKey(key) {
 			let old = __mapped[key]
 			__mapped[key] = value
 			return old
 		}
 		return nil
-		#elseif ECHOES
+		#elseif CLR
 		if __mapped.ContainsKey(key) {
 			let old = __mapped[key]
 			__mapped[key] = value
 			return old
 		}
 		return nil
-		#elseif NOUGAT
+		#elseif COCOA
 		let old = __mapped[key]
 		if let val = value {
 			__mapped[key] = val
@@ -126,19 +126,19 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 	}
 
 	public mutating func removeValueForKey(_ key: Key) -> Value? {
-		#if COOPER
+		#if JAVA
 		if __mapped.containsKey(key) {
 			return __mapped.remove(key)
 		}
 		return nil
-		#elseif ECHOES
+		#elseif CLR
 		if __mapped.ContainsKey(key) {
 			let old = __mapped[key]
 			__mapped.Remove(key)
 			return old
 		}
 		return nil
-		#elseif NOUGAT
+		#elseif COCOA
 		let old = __mapped[key]
 		__mapped.removeObjectForKey(key)
 		return old
@@ -146,65 +146,65 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 	}
 
 	public mutating func removeAll(keepCapacity: Bool = false) {
-		#if COOPER
+		#if JAVA
 		__mapped.clear()
-		#elseif ECHOES
+		#elseif CLR
 		__mapped.Clear()
-		#elseif NOUGAT
+		#elseif COCOA
 		__mapped.removeAllObjects()
 		#endif
 	}
 
 	public var count: Int {
-		#if COOPER
+		#if JAVA
 		return __mapped.keySet().Count()
-		#elseif ECHOES
+		#elseif CLR
 		return __mapped.Count()
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.count
 		#endif
 	}
 
 	public var isEmpty: Bool { 
-		#if COOPER
+		#if JAVA
 		return __mapped.isEmpty()
-		#elseif ECHOES
+		#elseif CLR
 		return __mapped.Count() == 0
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.count == 0
 		#endif
 	}
 
 	public var keys: ISequence<Key> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		#if COOPER
+		#if JAVA
 		return __mapped.keySet()
-		#elseif ECHOES
+		#elseif CLR
 		return __mapped.Keys
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.allKeys as! ISequence<Key> 
 		#endif
 	}
 
 	public var values: ISequence<Value> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		#if COOPER
+		#if JAVA
 		return __mapped.values()
-		#elseif ECHOES
+		#elseif CLR
 		return __mapped.Values
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.allValues as! ISequence<Value>
 		#endif
 	}
 }
 
 public static class DictionaryHelper {
-	#if COOPER
+	#if JAVA
 	public static func Enumerate<Key, Value>(_ val: java.util.HashMap<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val.entrySet() { 
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
-	#elseif ECHOES
+	#elseif CLR
 	public static func Enumerate<Key, Value>(_ val: System.Collections.Generic.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val { 
 			var item: (Key, Value) =  (entry.Key, entry.Value)
@@ -218,7 +218,7 @@ public static class DictionaryHelper {
 		  __yield item
 		}
 	}
-	#elseif NOUGAT
+	#elseif COCOA
 	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary) -> ISequence<(Key, Value)> {
 		for entry in val { 
 			var item: (Key, Value) =  (entry, val[entry]?)

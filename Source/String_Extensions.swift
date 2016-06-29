@@ -4,15 +4,15 @@
 	
 	public init(count: Int, repeatedValue c: Char) {
 
-		#if COOPER
+		#if JAVA
 		var chars = Char[](count)
 		for i in 0 ..< count {
 			chars[i] = c
 		}
 		return String(chars)
-		#elseif ECHOES
+		#elseif CLR
 		return String(c, count)
-		#elseif NOUGAT
+		#elseif COCOA
 		return "".stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
 		#endif
 	}
@@ -25,11 +25,11 @@
 		if let o = object as? ICustomStringConvertible {
 			return o.description
 		} else {
-			#if COOPER
+			#if JAVA
 			return object.toString()
-			#elseif ECHOES
+			#elseif CLR
 			return object.ToString()
-			#elseif NOUGAT
+			#elseif COCOA
 			return object.description
 			#endif
 		}
@@ -39,13 +39,13 @@
 		if let o = subject as? ICustomDebugStringConvertible {
 			return o.debugDescription
 		} else {
-			#if COOPER
+			#if JAVA
 			// ToDo: fall back to reflection to call debugDescription?
 			// ToDo: fall back to checking for extension methods
-			#elseif ECHOES
+			#elseif CLR
 			// ToDo: fall back to reflection to call debugDescription?
 			// ToDo: fall back to checking for extension methods
-			#elseif NOUGAT
+			#elseif COCOA
 			if subject.respondsToSelector(#selector(debugDescription)) {
 				return subject.debugDescription
 			}
@@ -64,14 +64,14 @@
 		return String.UTF16CharacterView(string: self)
 	}
 	
-	#if !NOUGAT
+	#if !COCOA
 	public var debugDescription: String {
 		return self
 	}
 	#endif
 	
 	public var endIndex: String.Index { 
-		#if ECHOES
+		#if CLR
 		return self.Length
 		#else
 		return self.length()
@@ -79,11 +79,11 @@
 	}
 	
 	public var hashValue: Int {
-		#if COOPER
+		#if JAVA
 		return self.hashCode()
-		#elseif ECHOES
+		#elseif CLR
 		return self.GetHashCode()
-		#elseif NOUGAT
+		#elseif COCOA
 		return self.hashValue()
 		#endif
 	}
@@ -92,17 +92,17 @@
 		return length() == 0
 	}
 	
-	#if !NOUGAT
+	#if !COCOA
 	public var lowercaseString: String {
-		#if COOPER
+		#if JAVA
 		return self.toLowerCase()
-		#elseif ECHOES
+		#elseif CLR
 		return self.ToLower()
 		#endif
 	}
 	#endif
 	
-	#if NOUGAT
+	#if COCOA
 	/*public var nulTerminatedUTF8: Character[] {
 		return cStringUsingEncoding(.UTF8StringEncoding) // E62 Type mismatch, cannot assign "UnsafePointer<AnsiChar>" to "Character[]"
 	}*/
@@ -112,11 +112,11 @@
 		return 0
 	}
 	
-	#if !NOUGAT
+	#if !COCOA
 	public var uppercaseString: String {
-		#if COOPER
+		#if JAVA
 		return self.toUpperCase()
-		#elseif ECHOES
+		#elseif CLR
 		return self.ToUpper()
 		#endif
 	}
@@ -138,25 +138,25 @@
 	// Methods
 	//
 
-	#if !NOUGAT
+	#if !COCOA
 	public func hasPrefix(_ `prefix`: String) -> Bool {
-		#if COOPER
+		#if JAVA
 		return startsWith(`prefix`)
-		#elseif ECHOES
+		#elseif CLR
 		return StartsWith(`prefix`)
 		#endif
 	}
 
 	public func hasSuffix(_ suffix: String) -> Bool {
-		#if COOPER
+		#if JAVA
 		return endsWith(suffix)
-		#elseif ECHOES
+		#elseif CLR
 		return EndsWith(suffix)
 		#endif
 	}
 	#endif
 	
-	#if NOUGAT
+	#if COCOA
 	public static func fromCString(cs: UnsafePointer<AnsiChar>) -> String? {
 		if cs == nil {
 			return nil
@@ -184,11 +184,11 @@
 	//public subscript(range: String.Index) -> Character // implicitly provided by the compiler, already
 	
 	public subscript(range: Range/*<Int>*/) -> String {
-		#if COOPER
+		#if JAVA
 		return substring(range.startIndex, range.length)
-		#elseif ECHOES
+		#elseif CLR
 		return Substring(range.startIndex, range.length)
-		#elseif NOUGAT
+		#elseif COCOA
 		return substringWithRange(range.nativeRange) // todo: make a cast operator
 		#endif
 	}
@@ -202,9 +202,9 @@
 	// Silver-specific extensions not defined in standard Swift.String:
 	//
 
-	#if !NOUGAT
+	#if !COCOA
 	public func length() -> Int {
-		#if ECHOES
+		#if CLR
 		return self.Length
 		#else
 		return self.length() 
@@ -213,20 +213,20 @@
 	#endif
 	
 	public func toInt() -> Int? {
-		#if COOPER
+		#if JAVA
 		__try {
 			return Integer.parseInt(self)
 		} __catch E: NumberFormatException {
 			return nil
 		}
 		//return self.toLowercase()
-		#elseif ECHOES
+		#elseif CLR
 		var i = 0
 		if Int32.TryParse(self, &i) {
 			return i
 		}
 		return nil
-		#elseif NOUGAT
+		#elseif COCOA
 		let formatter = NSNumberFormatter()
 		formatter.numberStyle = .NSNumberFormatterOrdinalStyle
 		if let number = formatter.numberFromString(self) {
@@ -258,7 +258,7 @@
 			return string[index]
 		}
 
-		#if NOUGAT
+		#if COCOA
 		override var debugDescription: String! {
 		#else
 		public var debugDescription: String {
@@ -279,12 +279,12 @@
 		/*fileprivate*/internal let stringData: Byte[]
 
 		/*fileprivate*/internal  init(string: String) {
-			#if COOPER
+			#if JAVA
 			stringData = []
 			fatalError("UTF32CharacterView is not implemenyted for Java yet.")
-			#elseif ECHOES
+			#elseif CLR
 			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
-			#elseif NOUGAT
+			#elseif COCOA
 			if let utf32 = (string as! NSString).dataUsingEncoding(.NSUTF16LittleEndianStringEncoding) { // todo check order  
 				stringData = Byte[](capacity: utf32.length);
 				utf32.getBytes(stringData, length: utf32.length);
@@ -301,7 +301,7 @@
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
 		}
 
-		#if NOUGAT
+		#if COCOA
 		override var debugDescription: String! {
 		#else
 		public var debugDescription: String {
@@ -322,12 +322,12 @@
 		/*fileprivate*/internal  let stringData: UTF8Char[]
 		
 		/*fileprivate*/internal init(string: String) {
-			#if COOPER
+			#if JAVA
 			stringData = []
 			fatalError("UTF8CharacterView is not implemenyted for Java yet.")
-			#elseif ECHOES
+			#elseif CLR
 			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order  
-			#elseif NOUGAT
+			#elseif COCOA
 			if let utf8 = (string as! NSString).dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
 				stringData = UTF8Char[](capacity: utf8.length);
 				utf8.getBytes(stringData, length: utf8.length);
@@ -344,7 +344,7 @@
 			return stringData[index]
 		}
 
-		#if NOUGAT
+		#if COCOA
 		override var debugDescription: String! {
 		#else
 		public var debugDescription: String {

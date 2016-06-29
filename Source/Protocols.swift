@@ -1,5 +1,5 @@
 ﻿
-#if NOUGAT
+#if COCOA
 /*@unsafe_no_objc_tagged_pointer*/ public protocol _CocoaArrayType {
 	func objectAtIndex(index: Int) -> AnyObject
 	//func getObjects(_: UnsafeMutablePointer<AnyObject>, range: _SwiftNSRange)
@@ -16,7 +16,7 @@ public protocol ICustomStringConvertible {
 
 public typealias CustomDebugStringConvertible = ICustomDebugStringConvertible
 public protocol ICustomDebugStringConvertible {
-	#if NOUGAT
+	#if COCOA
 	var debugDescription: String! { get }
 	#else
 	var debugDescription: String { get }

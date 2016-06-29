@@ -8,7 +8,7 @@ public func `$$setArgV`(_ args: String[]) {
 	__C_ARGV = [String](arrayLiteral: args);
 }
 
-#if NOUGAT
+#if COCOA
 public func __stringArrayToCStringArray(_ arcv: [String]) -> (UnsafePointer<AnsiChar>)[] {
 	
 	var result = UnsafePointer<AnsiChar>[](length(arcv))

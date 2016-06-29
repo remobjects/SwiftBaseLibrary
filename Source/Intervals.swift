@@ -39,7 +39,7 @@ public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ /*: IIntervalT
 	// Properties
 	//
 	
-	#if NOUGAT
+	#if COCOA
 	override var description: String! {
 	#else
 	public var description: String {
@@ -47,7 +47,7 @@ public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ /*: IIntervalT
 		return "\(start)...\(end)"
 	}
 
-	#if NOUGAT
+	#if COCOA
 	override var debugDescription: String! {
 	#else
 	public var debugDescription: String {
@@ -114,7 +114,7 @@ public class HalfOpenInterval/*<Bound: Comparable>*/ /*: IIntervalType*//*, ISeq
 	// Properties
 	//
 	
-	#if NOUGAT
+	#if COCOA
 	override var description: String! {
 	#else
 	public var description: String {
@@ -122,7 +122,7 @@ public class HalfOpenInterval/*<Bound: Comparable>*/ /*: IIntervalType*//*, ISeq
 		return "\(start)..<\(end)"
 	}
 
-	#if NOUGAT
+	#if COCOA
 	override var debugDescription: String! {
 	#else
 	public var debugDescription: String {
