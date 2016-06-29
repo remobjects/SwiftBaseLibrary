@@ -7,13 +7,13 @@ Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Echoes", "Swift.Echoe
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Windows", "Swift.Island.Windows.elements", "{D32E206A-1255-4DA9-8287-64E5E988ABA4}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Nougat.OSX", "Swift.Nougat.OSX.elements", "{8F87CCEF-C142-49A8-8828-32211B2CBFBE}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Toffee.macOS", "Swift.Toffee.macOS.elements", "{8F87CCEF-C142-49A8-8828-32211B2CBFBE}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Nougat.iOS", "Swift.Nougat.iOS.elements", "{95F9545C-39BE-4A02-8673-8382ECB3F7AD}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Toffee.iOS", "Swift.Toffee.iOS.elements", "{95F9545C-39BE-4A02-8673-8382ECB3F7AD}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Nougat.tvOS", "Swift.Nougat.tvOS.elements", "{EA152C1C-C6DD-48F8-9415-8B7FDA4653D9}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Toffee.tvOS", "Swift.Toffee.tvOS.elements", "{EA152C1C-C6DD-48F8-9415-8B7FDA4653D9}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Nougat.watchOS", "Swift.Nougat.watchOS.elements", "{E0C9DDDB-B83F-4164-ADE4-577FB6611F3F}"
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Toffee.watchOS", "Swift.Toffee.watchOS.elements", "{E0C9DDDB-B83F-4164-ADE4-577FB6611F3F}"
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Shared", "Swift.Shared.elements", "{7952073B-795C-4074-954D-212FE780D7D3}"
 EndProject

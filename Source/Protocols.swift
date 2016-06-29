@@ -11,7 +11,7 @@
 
 public typealias CustomStringConvertible = ICustomStringConvertible
 public protocol ICustomStringConvertible {
-	var description: String! { get } // unwrapped nullable for better Nougat compatibility
+	var description: String! { get } // unwrapped nullable for better Cocoa compatibility
 }
 
 public typealias CustomDebugStringConvertible = ICustomDebugStringConvertible

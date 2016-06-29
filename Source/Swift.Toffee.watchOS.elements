@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
         <RootNamespace>Swift</RootNamespace>
-        <ProjectGuid>EA152C1C-C6DD-48F8-9415-8B7FDA4653D9</ProjectGuid>
+        <ProjectGuid>E0C9DDDB-B83F-4164-ADE4-577FB6611F3F</ProjectGuid>
         <OutputType>StaticLibrary</OutputType>
         <AssemblyName>Swift</AssemblyName>
         <AllowGlobals>False</AllowGlobals>
@@ -11,10 +11,12 @@
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <AllowUnsafeCode>False</AllowUnsafeCode>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <SDK>tvOS</SDK>
+        <SDK>watchOS</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
         <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-        <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
+        <Architecture>armv7k</Architecture>
+        <SimulatorArchitectures>i386</SimulatorArchitectures>
+        <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
@@ -39,9 +41,9 @@
     <ItemGroup>
         <Reference Include="Foundation"/>
         <Reference Include="rtl"/>
-        <Reference Include="libNougat"/>
+        <Reference Include="libToffee"/>
     </ItemGroup>
     <ItemGroup/>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Nougat.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets"/>
     <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>

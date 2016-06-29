@@ -148,7 +148,7 @@ class DispatchGroup : DispatchObject {
 	}
 }
 
-//75321: Nougat: HI is missing QOS_CLASS_USER_INTERACTIVE & Co
+//75321: HI is missing QOS_CLASS_USER_INTERACTIVE & Co
 private enum __QOS_ENUM {
 	case QOS_CLASS_USER_INTERACTIVE = 0x21
 	case QOS_CLASS_USER_INITIATED = 0x19

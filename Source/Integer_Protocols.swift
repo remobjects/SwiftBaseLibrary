@@ -2,7 +2,7 @@
 /* Numbers */
 
 //public typealias Equatable = IEquatable
-public protocol Equatable { // NE19 The public type "IEquatable" has a duplicate with the same short name in reference "Nougat", which is not allowed on Cocoa
+public protocol Equatable { // NE19 The public type "IEquatable" has a duplicate with the same short name, which is not allowed on Cocoa
 	func ==(lhs: Self, rhs: Self) -> Bool
 }
 
