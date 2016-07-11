@@ -379,14 +379,14 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			result.add(e);
 		}
 		return result
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return self.ToList()
 		#elseif COCOA
 		return self.array().mutableCopy
 		#endif
 	}
 
-	#if CLR || ISLAND
+	#if CLR //|| ISLAND
 	@warn_unused_result public func contains(_ item: T) -> Bool {
 		return self.Contains(item)
 	}

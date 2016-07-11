@@ -10,7 +10,7 @@ public extension UnicodeScalar : Streamable {
 		if asASCII && !isASCII() {
 			#if JAVA
 			return self.toString()
-			#elseif CLR
+			#elseif CLR || ISLAND
 			return self.ToString()
 			#elseif COCOA
 			return self.description()
@@ -19,8 +19,8 @@ public extension UnicodeScalar : Streamable {
 		else {
 			#if JAVA
 			return java.lang.String.format("\\u{%8x}", self as! Int32)
-			#elseif CLR
-			return System.String.Format("\\u{{{0:X8}}}", self as! Int32)
+			#elseif CLR || ISLAND
+			return /*System.*/String.Format("\\u{{{0:X8}}}", self as! Int32)
 			#elseif COCOA
 			return Foundation.NSString.stringWithFormat("\\u{%8x}", self as! Int32)
 			#endif

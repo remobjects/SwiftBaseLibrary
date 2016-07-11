@@ -4,7 +4,7 @@
 	
 	public init(count: Int, repeatedValue c: Char) {
 
-		#if JAVA
+		#if JAVA || ISLAND
 		var chars = Char[](count)
 		for i in 0 ..< count {
 			chars[i] = c
@@ -27,7 +27,7 @@
 		} else {
 			#if JAVA
 			return object.toString()
-			#elseif CLR
+			#elseif CLR || ISLAND
 			return object.ToString()
 			#elseif COCOA
 			return object.description
@@ -81,7 +81,7 @@
 	public var hashValue: Int {
 		#if JAVA
 		return self.hashCode()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return self.GetHashCode()
 		#elseif COCOA
 		return self.hashValue()
@@ -96,7 +96,7 @@
 	public var lowercaseString: String {
 		#if JAVA
 		return self.toLowerCase()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return self.ToLower()
 		#endif
 	}
@@ -116,7 +116,7 @@
 	public var uppercaseString: String {
 		#if JAVA
 		return self.toUpperCase()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return self.ToUpper()
 		#endif
 	}
@@ -142,7 +142,7 @@
 	public func hasPrefix(_ `prefix`: String) -> Bool {
 		#if JAVA
 		return startsWith(`prefix`)
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return StartsWith(`prefix`)
 		#endif
 	}
@@ -150,7 +150,7 @@
 	public func hasSuffix(_ suffix: String) -> Bool {
 		#if JAVA
 		return endsWith(suffix)
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return EndsWith(suffix)
 		#endif
 	}
@@ -186,7 +186,7 @@
 	public subscript(range: Range/*<Int>*/) -> String {
 		#if JAVA
 		return substring(range.startIndex, range.length)
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return Substring(range.startIndex, range.length)
 		#elseif COCOA
 		return substringWithRange(range.nativeRange) // todo: make a cast operator

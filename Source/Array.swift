@@ -316,7 +316,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return result
 		#elseif CLR
 		let result: List<T> = [T](items: self) 
-		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
+		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
 			} else {
@@ -338,7 +338,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	public func map<U>(_ transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
 		return __mapped.Select({ return transform($0) })
-		#elseif CLR | COCOA
+		#elseif CLR || ISLAND || COCOA
 		return __mapped.Select(transform)
 		#endif
 	}
@@ -350,7 +350,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	public func filter(_ includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
 		return __mapped.Where({ return includeElement($0) })
-		#elseif CLR | COCOA
+		#elseif CLR || ISLAND || COCOA
 		return __mapped.Where(includeElement)
 		#endif
 	}
@@ -380,7 +380,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	public func contains(_ item: T) -> Bool {
 		#if JAVA
 		return __mapped.contains(item)
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return __mapped.Contains(item)
 		#elseif COCOA
 		return __mapped.containsObject(item)

@@ -330,7 +330,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	public var description: String { 
 		#if JAVA
 		return __mapped.toString()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return __mapped.ToString()
 		#elseif COCOA
 		return __mapped.description

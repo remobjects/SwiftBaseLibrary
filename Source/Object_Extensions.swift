@@ -5,7 +5,7 @@ public extension Object : CustomStringConvertible, CustomDebugStringConvertible 
 	@inline(__always) public var description: String {
 		#if JAVA
 		return self.toString()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return self.ToString()
 		#endif
 	}
@@ -13,7 +13,7 @@ public extension Object : CustomStringConvertible, CustomDebugStringConvertible 
 	@inline(__always) public var debugDescription: String { 
 		#if JAVA
 		return self.toString()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return self.ToString()
 		#endif
 	}
@@ -25,7 +25,7 @@ public extension Object {
 	public var hashValue: Int {
 		#if JAVA
 		return self.hashCode()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return self.GetHashCode()
 		#elseif COCOA
 		return self.hashValue()

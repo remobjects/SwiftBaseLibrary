@@ -4,6 +4,8 @@ func __newLine() -> String {
 	return System.getProperty("line.separator")
 	#elseif CLR
 	return System.Environment.NewLine
+	#elseif ISLAND
+	return RemObjects.Elements.System.Environment.NewLine
 	#elseif COCOA
 	return "\n"
 	#endif
@@ -13,7 +15,7 @@ func __newLine() -> String {
 	if let object = object {
 		#if JAVA
 		return object.toString()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return object.ToString()
 		#elseif COCOA
 		return object.description

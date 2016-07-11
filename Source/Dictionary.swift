@@ -20,6 +20,8 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		return java.util.HashMap<Key,Value>()
 		#elseif CLR
 		return System.Collections.Generic.Dictionary<Key,Value>()
+		#elseif ISLAND
+		return RemObjects.Elements.System.Dictionary<Key,Value>()
 		#elseif COCOA
 		return Foundation.NSMutableDictionary()
 		#endif
@@ -34,6 +36,8 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		return java.util.HashMap<Key,Value>(minimumCapacity)
 		#elseif CLR
 		return System.Collections.Generic.Dictionary<Key,Value>(minimumCapacity)
+		#elseif ISLAND
+		return RemObjects.Elements.System.Dictionary<Key,Value>(minimumCapacity)
 		#elseif COCOA
 		return Foundation.NSMutableDictionary(capacity: minimumCapacity)
 		#endif
@@ -63,7 +67,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 				return __mapped[key]
 			}
 			return nil
-			#elseif CLR
+		#elseif CLR || ISLAND
 			if __mapped.ContainsKey(key) {
 				return __mapped[key]
 			}
@@ -81,7 +85,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 					__mapped.remove(key)
 				} 
 			}
-			#elseif CLR
+			#elseif CLR || ISLAND
 			if let v = newValue {
 				__mapped[key] = v
 			} else { 
@@ -107,7 +111,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 			return old
 		}
 		return nil
-		#elseif CLR
+		#elseif CLR || ISLAND
 		if __mapped.ContainsKey(key) {
 			let old = __mapped[key]
 			__mapped[key] = value
@@ -131,7 +135,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 			return __mapped.remove(key)
 		}
 		return nil
-		#elseif CLR
+		#elseif CLR || ISLAND
 		if __mapped.ContainsKey(key) {
 			let old = __mapped[key]
 			__mapped.Remove(key)
@@ -160,6 +164,8 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		return __mapped.keySet().Count()
 		#elseif CLR
 		return __mapped.Count()
+		#elseif ISLAND
+		return __mapped.Count
 		#elseif COCOA
 		return __mapped.count
 		#endif
@@ -170,6 +176,8 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		return __mapped.isEmpty()
 		#elseif CLR
 		return __mapped.Count() == 0
+		#elseif ISLAND
+		return __mapped.Count == 0
 		#elseif COCOA
 		return __mapped.count == 0
 		#endif
@@ -178,7 +186,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 	public var keys: ISequence<Key> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
 		return __mapped.keySet()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return __mapped.Keys
 		#elseif COCOA
 		return __mapped.allKeys as! ISequence<Key> 
@@ -188,7 +196,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 	public var values: ISequence<Value> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
 		return __mapped.values()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return __mapped.Values
 		#elseif COCOA
 		return __mapped.allValues as! ISequence<Value>

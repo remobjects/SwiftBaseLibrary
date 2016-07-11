@@ -241,7 +241,7 @@ public extension UInt64 {
 	internal func toHexString(# length: Int = 8) -> String {
 		#if JAVA
 		return String.format("%0\(length)x", self)
-		#elseif CLR
+		#elseif CLR || ISLAND
 		return String.Format("{0:x\(length)}", self)
 		#elseif COCOA
 		return String(format: "%0\(length)lld}", self)
