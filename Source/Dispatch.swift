@@ -148,16 +148,6 @@ class DispatchGroup : DispatchObject {
 	}
 }
 
-//75321: HI is missing QOS_CLASS_USER_INTERACTIVE & Co
-private enum __QOS_ENUM {
-	case QOS_CLASS_USER_INTERACTIVE = 0x21
-	case QOS_CLASS_USER_INITIATED = 0x19
-	case QOS_CLASS_DEFAULT = 0x15
-	case QOS_CLASS_UTILITY = 0x11
-	case QOS_CLASS_BACKGROUND = 0x09
-	case QOS_CLASS_UNSPECIFIED = 0x00
-}
-
 public class DispatchQueue : DispatchObject {
 
 	private public init(queue: dispatch_queue_t) {
@@ -179,12 +169,12 @@ public class DispatchQueue : DispatchObject {
 	}
 
 	public enum GlobalAttributes /*: OptionSet*/ {
-		case qosUserInteractive = __QOS_ENUM.QOS_CLASS_USER_INTERACTIVE
-		case qosUserInitiated = __QOS_ENUM.QOS_CLASS_USER_INITIATED
-		case qosDefault = __QOS_ENUM.QOS_CLASS_DEFAULT
-		case qosUtility = __QOS_ENUM.QOS_CLASS_UTILITY
-		case qosBackground = __QOS_ENUM.QOS_CLASS_BACKGROUND
-		case qosUnspecified = __QOS_ENUM.QOS_CLASS_UNSPECIFIED
+		case qosUserInteractive =  qos_class_t.QOS_CLASS_USER_INTERACTIVE
+		case qosUserInitiated = qos_class_t.QOS_CLASS_USER_INITIATED
+		case qosDefault = qos_class_t.QOS_CLASS_DEFAULT
+		case qosUtility = qos_class_t.QOS_CLASS_UTILITY
+		case qosBackground = qos_class_t.QOS_CLASS_BACKGROUND
+		case qosUnspecified = qos_class_t.QOS_CLASS_UNSPECIFIED
 		
 		case Background = DISPATCH_QUEUE_PRIORITY_BACKGROUND
 		case Default = DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -591,12 +581,12 @@ public struct DispatchQoS /*: Equatable*/ {
 	static let unspecified: DispatchQoS	 = DispatchQoS(qosClass: QoSClass.unspecified)
 
 	public enum QoSClass {
-		case background = __QOS_ENUM.QOS_CLASS_BACKGROUND
-		case utility = __QOS_ENUM.QOS_CLASS_UTILITY
-		case defaultQoS = __QOS_ENUM.QOS_CLASS_DEFAULT
-		case userInitiated = __QOS_ENUM.QOS_CLASS_USER_INITIATED
-		case userInteractive = __QOS_ENUM.QOS_CLASS_USER_INTERACTIVE
-		case unspecified = __QOS_ENUM.QOS_CLASS_UNSPECIFIED
+		case background = qos_class_t.QOS_CLASS_BACKGROUND
+		case utility = qos_class_t.QOS_CLASS_UTILITY
+		case defaultQoS = qos_class_t.QOS_CLASS_DEFAULT
+		case userInitiated = qos_class_t.QOS_CLASS_USER_INITIATED
+		case userInteractive = qos_class_t.QOS_CLASS_USER_INTERACTIVE
+		case unspecified = qos_class_t.QOS_CLASS_UNSPECIFIED
 	}
 
 	public init(qosClass: DispatchQoS.QoSClass, relativePriority: Int) {
