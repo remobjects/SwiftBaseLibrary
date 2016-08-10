@@ -243,6 +243,16 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
+	public mutating func remove(_ object: T) {
+		#if JAVA
+		__mapped.remove(object)
+		#elseif CLR | ISLAND
+		__mapped.Remove(object)
+		#elseif COCOA
+		__mapped.removeObject(object)
+		#endif
+	}
+
 	public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
