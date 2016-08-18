@@ -1,16 +1,16 @@
 ﻿
 public protocol ForwardIndexType {
 	associatedtype Distance /*: SignedIntegerType*/ = Int
-	@warn_unused_result func advancedBy(_ n: Self.Distance) -> Self
-	@warn_unused_result func advancedBy(_ n: Self.Distance, limit: Self) -> Self
-	@warn_unused_result func distanceTo(_ end: Self) -> Self.Distance
+	func advancedBy(_ n: Self.Distance) -> Self
+	func advancedBy(_ n: Self.Distance, limit: Self) -> Self
+	func distanceTo(_ end: Self) -> Self.Distance
 }
 
 public protocol BidirectionalIndexType : ForwardIndexType {
-	//@warn_unused_result func advancedBy(_ n: Self.Distance) -> Self					// duped from ForwardIndexType?
-	//@warn_unused_result func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
-	@warn_unused_result func predecessor() -> Self
-	@warn_unused_result func successor() -> Self
+	//func advancedBy(_ n: Self.Distance) -> Self					// duped from ForwardIndexType?
+	//func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
+	func predecessor() -> Self
+	func successor() -> Self
 }
 
 public protocol ReverseIndexType : BidirectionalIndexType {
@@ -24,16 +24,16 @@ public protocol Strideable : Comparable {
 	associatedtype Stride : SignedNumberType
 	//74968: Silver: compiler ignores undefined associated type (`Self.whatever`)
 	
-	@warn_unused_result func advancedBy(_ n: Self.Stride) -> Self
-	@warn_unused_result func distanceTo(_ other: Self) -> Self.Stride
-	@warn_unused_result func stride(# through: Self, by: Self) -> ISequence<Self>
-	@warn_unused_result func stride(# to: Self, by: Self) -> ISequence<Self>
+	func advancedBy(_ n: Self.Stride) -> Self
+	func distanceTo(_ other: Self) -> Self.Stride
+	func stride(# through: Self, by: Self) -> ISequence<Self>
+	func stride(# to: Self, by: Self) -> ISequence<Self>
 }
 
 public protocol RandomAccessIndexType : BidirectionalIndexType, Strideable {
-	//@warn_unused_result func advancedBy(_ n: Self.Distance) -> Self					// duped from ForwardIndexType?
-	//@warn_unused_result func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
-	//@warn_unused_result func distanceTo(_ other: Self) -> Self.Distance				// duped from ForwardIndexType?
+	//func advancedBy(_ n: Self.Distance) -> Self					// duped from ForwardIndexType?
+	//func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
+	//func distanceTo(_ other: Self) -> Self.Distance				// duped from ForwardIndexType?
 }
 
 // workaround for error E36: Interface type expected, found "IntegerLiteralConvertible<T>!"

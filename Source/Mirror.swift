@@ -1,7 +1,7 @@
 ﻿
 public typealias CustomReflectable = ICustomReflectable
 public protocol ICustomReflectable {
-	@warn_unused_result func customMirror() -> Mirror
+	func customMirror() -> Mirror
 }
 
 public typealias CustomLeafReflectable = ICustomLeafReflectable
@@ -58,13 +58,13 @@ public class Mirror : ICustomStringConvertible, ICustomReflectable, IStreamable 
 	// Methods
 	//
 
-	@warn_unused_result func customMirror() -> Mirror {
+	func customMirror() -> Mirror {
 		fatalError("Not implemented yet")
 	}
-	@warn_unused_result func descendant(_ first: IMirrorPathType, _ rest: IMirrorPathType...) -> Any? {
+	func descendant(_ first: IMirrorPathType, _ rest: IMirrorPathType...) -> Any? {
 		fatalError("Not implemented yet")
 	}
-	@warn_unused_result func superclassMirror() -> Mirror? {
+	func superclassMirror() -> Mirror? {
 		fatalError("Not implemented yet")
 	}
 	

@@ -81,7 +81,7 @@ public extension Int32  {
 
 public extension Int32 /*: AbsoluteValuable*/ {
 
-	@warn_unused_result static func abs(_ x: Self) -> Self {
+	static func abs(_ x: Self) -> Self {
 		#if JAVA
 		return Int32.abs(x)
 		#elseif CLR || ISLAND

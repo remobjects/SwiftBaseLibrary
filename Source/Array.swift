@@ -229,7 +229,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func removeAtIndex(_ index: Int) -> T {
+	@discardableResult public mutating func removeAtIndex(_ index: Int) -> T {
 		#if JAVA
 		return __mapped.remove(index)
 		#elseif CLR | ISLAND
@@ -253,7 +253,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func removeLast() -> T {
+	@discardableResult public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
 			return removeAtIndex(c-1)

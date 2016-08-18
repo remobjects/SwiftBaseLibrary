@@ -116,7 +116,7 @@ func print<Target : OutputStreamType>(_ objects: Object?..., separator: String =
 	}
 }
 
-@warn_unused_result public func readLine(# stripNewline: Bool = true) -> String {
+public func readLine(# stripNewline: Bool = true) -> String {
 	return readLn() + (!stripNewline ? __newLine() : "")
 }
 
