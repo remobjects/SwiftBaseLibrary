@@ -264,7 +264,7 @@ public class DispatchQueue : DispatchObject {
 	}*/
 }
 
-@noreturn func dispatchMain() {
+func dispatchMain() -> Never {
 	dispatch_main()
 }
 
