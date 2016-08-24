@@ -6,7 +6,7 @@
 	}
 }
 
-@Conditional("DEBUG") @noreturn public func assertionFailure(_ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
+@Conditional("DEBUG") public func assertionFailure(_ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) -> Never {
 	fatalError(message, file: file, line: line)
 }
 
@@ -46,7 +46,7 @@ public func debugPrint(_ objects: Object?..., separator: String = " ", terminato
 	}
 }
 
-@noreturn public func fatalError(_ message: @autoclosure () -> String, file: String = #file, line: UInt32 = #line) {
+public func fatalError(_ message: @autoclosure () -> String, file: String = #file, line: UInt32 = #line) -> Never {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
 	} else {
@@ -59,7 +59,7 @@ public func debugPrint(_ objects: Object?..., separator: String = " ", terminato
 	}
 }
 
-@Conditional("DEBUG") @noreturn public func preconditionFailure(_ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
+@Conditional("DEBUG") public func preconditionFailure(_ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) -> Never {
 	fatalError(message, file: file, line: line)
 }
 
