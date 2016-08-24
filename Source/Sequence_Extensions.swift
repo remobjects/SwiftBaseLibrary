@@ -341,7 +341,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 				if i > pCount {
 					return true // reached end of prefix
 				}
-				if !(sState.itemsPtr[i] as! Any).isEqual(pState.itemsPtr[i]) {
+				if !(sState.itemsPtr[i] as! Any).isEqual(to: pState.itemsPtr[i]) {
 					return false // found mismatch
 				}
 			}
