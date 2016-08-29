@@ -1,21 +1,23 @@
 ﻿
 func __newLine() -> String {
-	#if COOPER
+	#if JAVA
 	return System.getProperty("line.separator")
-	#elseif ECHOES
+	#elseif CLR
 	return System.Environment.NewLine
-	#elseif NOUGAT
+	#elseif ISLAND
+	return RemObjects.Elements.System.Environment.NewLine
+	#elseif COCOA
 	return "\n"
 	#endif
 }
 
 @inline(__always) func __toString(_ object: Object?) -> String {
 	if let object = object {
-		#if COOPER
+		#if JAVA
 		return object.toString()
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return object.ToString()
-		#elseif NOUGAT
+		#elseif COCOA
 		return object.description
 		#endif
 	} else {

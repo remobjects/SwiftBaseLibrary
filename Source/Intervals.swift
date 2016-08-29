@@ -7,9 +7,9 @@ public protocol IntervalType {
 
 	associatedtype Bound : Comparable /*= Int*/
 
-	@warn_unused_result func contains(_ value: Self.Bound) -> Bool
-	@warn_unused_result func clamp(_ intervalToClamp: Self) -> Self
-	//@warn_unused_result func overlaps<I : IntervalType where I.Bound == Bound>(_ other: I) -> Bool // E550 "Equals" constraints in "where" are not supported in Silver
+	func contains(_ value: Self.Bound) -> Bool
+	func clamp(_ intervalToClamp: Self) -> Self
+	//func overlaps<I : IntervalType where I.Bound == Bound>(_ other: I) -> Bool // E550 "Equals" constraints in "where" are not supported in Silver
 																									 // E549 Open generic type aliases in protocols are not supported in Silver
 
 	var isEmpty: Bool { get }
@@ -39,7 +39,7 @@ public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ /*: IIntervalT
 	// Properties
 	//
 	
-	#if NOUGAT
+	#if COCOA
 	override var description: String! {
 	#else
 	public var description: String {
@@ -47,7 +47,7 @@ public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ /*: IIntervalT
 		return "\(start)...\(end)"
 	}
 
-	#if NOUGAT
+	#if COCOA
 	override var debugDescription: String! {
 	#else
 	public var debugDescription: String {
@@ -66,15 +66,15 @@ public class ClosedInterval/*<Bound: Comparable, Incrementable>*/ /*: IIntervalT
 	// Methods
 	//
 	
-	@warn_unused_result func clamp(_ intervalToClamp: ClosedInterval/*<Bound>*/) -> ClosedInterval/*<Bound>*/ {
-	// @warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
+	func clamp(_ intervalToClamp: ClosedInterval/*<Bound>*/) -> ClosedInterval/*<Bound>*/ {
+	// func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
 		return ClosedInterval/*<Bound>*/(
 		  self.start > intervalToClamp.start ? self.start : self.end < intervalToClamp.start ? self.end : intervalToClamp.start,
 		  self.end < intervalToClamp.end ? self.end : self.start > intervalToClamp.end ? self.start : intervalToClamp.end
 		)
 	}
 	
-	@warn_unused_result func contains(_ x: Bound) -> Bool {
+	func contains(_ x: Bound) -> Bool {
 		return x >= start && x <= end
 	}
 	
@@ -114,7 +114,7 @@ public class HalfOpenInterval/*<Bound: Comparable>*/ /*: IIntervalType*//*, ISeq
 	// Properties
 	//
 	
-	#if NOUGAT
+	#if COCOA
 	override var description: String! {
 	#else
 	public var description: String {
@@ -122,7 +122,7 @@ public class HalfOpenInterval/*<Bound: Comparable>*/ /*: IIntervalType*//*, ISeq
 		return "\(start)..<\(end)"
 	}
 
-	#if NOUGAT
+	#if COCOA
 	override var debugDescription: String! {
 	#else
 	public var debugDescription: String {
@@ -141,15 +141,15 @@ public class HalfOpenInterval/*<Bound: Comparable>*/ /*: IIntervalType*//*, ISeq
 	// Methods
 	//
 	
-	@warn_unused_result func clamp(_ intervalToClamp: HalfOpenInterval/*<Bound>*/) -> HalfOpenInterval/*<Bound>*/ {
-	//@warn_unused_result func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
+	func clamp(_ intervalToClamp: HalfOpenInterval/*<Bound>*/) -> HalfOpenInterval/*<Bound>*/ {
+	//func clamp(_ intervalToClamp: IIntervalType<Bound>) -> IIntervalType<Bound> {
 		return HalfOpenInterval/*<Bound>*/(
 		  self.start > intervalToClamp.start ? self.start : self.end < intervalToClamp.start ? self.end : intervalToClamp.start,
 		  self.end < intervalToClamp.end ? self.end : self.start > intervalToClamp.end ? self.start : intervalToClamp.end
 		)
 	}
 	
-	@warn_unused_result func contains(_ x: Bound) -> Bool {
+	func contains(_ x: Bound) -> Bool {
 		return x >= start && x < end
 	}
 	

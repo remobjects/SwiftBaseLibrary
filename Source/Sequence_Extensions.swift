@@ -28,23 +28,23 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Count()
 	}
 	
-	@warn_unused_result public func dropFirst() -> ISequence<T> {
+	public func dropFirst() -> ISequence<T> {
 		return self.Skip(1)
 	}
 
-	@warn_unused_result public func dropFirst(_ n: Int) -> ISequence<T> {
+	public func dropFirst(_ n: Int) -> ISequence<T> {
 		return self.Skip(n)
 	}
 
-	@warn_unused_result public func dropLast() -> ISequence<T> {
+	public func dropLast() -> ISequence<T> {
 		fatalError("dropLast() is not implemented yet.")
 	}
 
-	@warn_unused_result public func dropLast(_ n: Int) -> ISequence<T> {
+	public func dropLast(_ n: Int) -> ISequence<T> {
 		fatalError("dropLast() is not implemented yet.")
 	}
 
-	@warn_unused_result public func enumerate() -> ISequence<(Int, T)> {
+	public func enumerate() -> ISequence<(Int, T)> {
 		var index = 0
 		for element in self {
 			__yield (index, element)
@@ -52,7 +52,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	@warn_unused_result public func indexOf(@noescape _ predicate: (T) -> Bool) -> Int? {
+	public func indexOf(@noescape _ predicate: (T) -> Bool) -> Int? {
 		for (i, element) in self.enumerate() {
 			if (predicate(element) == true){
 				return i
@@ -61,7 +61,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return nil
 	}
 	
-	@warn_unused_result public func filter(_ includeElement: (T) throws -> Bool) rethrows -> ISequence<T> { 
+	public func filter(_ includeElement: (T) throws -> Bool) rethrows -> ISequence<T> { 
 		return self.Where() { return try! includeElement($0) }
 	}
 
@@ -69,7 +69,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.FirstOrDefault()
 	}
 	
-	@warn_unused_result func flatMap(@noescape _ transform: (T) throws -> T?) rethrows -> ISequence<T> {
+	func flatMap(@noescape _ transform: (T) throws -> T?) rethrows -> ISequence<T> {
 		for e in self {
 			if let e = try! transform(e) {
 				__yield e
@@ -77,7 +77,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	@warn_unused_result public func flatten() -> ISequence<T> { // no-op in Silver? i dont get what this does.
+	public func flatten() -> ISequence<T> { // no-op in Silver? i dont get what this does.
 		return self
 	}
 	
@@ -95,7 +95,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return !self.Any()
 	}
 
-	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(_ elements: ISequence<T>) -> ISequence<T> {
+	@Obsolete("Use joinWithSeparator() instead") public func join(_ elements: ISequence<T>) -> ISequence<T> {
 		var first = true
 		for e in elements {
 			if !first {
@@ -109,7 +109,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	@Obsolete("Use joinWithSeparator() instead") @warn_unused_result public func join(_ elements: T[]) -> ISequence<T> { 
+	@Obsolete("Use joinWithSeparator() instead") public func join(_ elements: T[]) -> ISequence<T> { 
 		var first = true
 		for e in elements {
 			if !first {
@@ -123,7 +123,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 
-	@warn_unused_result public func joinWithSeparator(_ separator: String) -> String {
+	public func joinWithSeparator(_ separator: String) -> String {
 		var first = true
 		var result = ""
 		for e in self {
@@ -137,7 +137,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return result
 	}
 	
-	@warn_unused_result public func joinWithSeparator(_ separator: ISequence<T>) -> ISequence<T> {
+	public func joinWithSeparator(_ separator: ISequence<T>) -> ISequence<T> {
 		var first = true
 		for e in self {
 			if !first {
@@ -151,7 +151,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	@warn_unused_result public func joinWithSeparator(_ separator: T[]) -> ISequence<T> { 
+	public func joinWithSeparator(_ separator: T[]) -> ISequence<T> { 
 		var first = true
 		for e in self {
 			if !first {
@@ -169,12 +169,12 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self
 	}
 	
-	@warn_unused_result public func map<U>(_ transform: (T) -> U) -> ISequence<U> {
+	public func map<U>(_ transform: (T) -> U) -> ISequence<U> {
 		return self.Select() { return transform($0) }
 	}
 
 	//74101: Silver: still two issues with try!
-	@warn_unused_result public func maxElement(_ isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
+	public func maxElement(_ isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
 		var m: T? = nil
 		for e in self {
 			if m == nil || /*try!*/ !isOrderedBefore(m!, e) { // ToDo: check if this is the right order
@@ -184,7 +184,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return m
 	}
 
-	@warn_unused_result public func minElement(_ isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
+	public func minElement(_ isOrderedBefore: (T, T) /*throws*/ -> Bool) -> T? {
 		var m: T? = nil
 		for e in self {
 			if m == nil || /*try!*/ isOrderedBefore(m!, e) { // ToDo: check if this is the right order
@@ -194,11 +194,11 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return m
 	}
 	
-	@warn_unused_result public func `prefix`(_ maxLength: Int) -> ISequence<T> {
+	public func `prefix`(_ maxLength: Int) -> ISequence<T> {
 		return self.Take(maxLength)
 	}
 
-	@warn_unused_result public func reduce<U>(_ initial: U, combine: (U, T) -> U) -> U {
+	public func reduce<U>(_ initial: U, combine: (U, T) -> U) -> U {
 		var value = initial
 		for i in self {
 			value = combine(value, i)
@@ -210,9 +210,9 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Reverse()
 	}
 
-	@warn_unused_result public func sort(_ isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
+	public func sort(_ isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
 		//todo: make more lazy?
-		#if COOPER
+		#if JAVA
 		let result: ArrayList<T> = [T](sequence: self) 
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -222,7 +222,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			}
 		}})	
 		return result
-		#elseif ECHOES
+		#elseif CLR
 		let result: List<T> = [T](sequence: self) 
 		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -232,7 +232,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			}
 		}
 		return result
-		#elseif NOUGAT
+		#elseif COCOA
 		return self.array().sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
@@ -243,7 +243,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
-	/*@warn_unused_result public func split(_ isSeparator: (T) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> ISequence<ISequence<T>> {
+	/*public func split(_ isSeparator: (T) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> ISequence<ISequence<T>> {
 	
 		let result = [String]()
 		var currentString = ""
@@ -277,8 +277,8 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return result
 	}*/
 	
-	@warn_unused_result public func startsWith(`prefix` p: ISequence<T>) -> Bool {
-		#if COOPER
+	public func startsWith(`prefix` p: ISequence<T>) -> Bool {
+		#if JAVA
 		let sEnum = self.iterator()
 		let pEnum = p.iterator()
 		while true {
@@ -303,7 +303,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	
 		return false;
-		#elseif ECHOES
+		#elseif CLR
 		let sEnum = self.GetEnumerator()
 		let pEnum = p.GetEnumerator()
 		while true {
@@ -321,7 +321,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			}
 		}
 		return false
-		#elseif NOUGAT
+		#elseif COCOA
 		let LOOP_SIZE = 16
 		let sState: NSFastEnumerationState = `default`(NSFastEnumerationState)
 		let pState: NSFastEnumerationState = `default`(NSFastEnumerationState)
@@ -350,7 +350,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
-	@warn_unused_result public func suffix(_ maxLength: Int) -> ISequence<T> {
+	public func suffix(_ maxLength: Int) -> ISequence<T> {
 		fatalError("suffix() is not implemented yet.")
 	}
 
@@ -362,37 +362,37 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	// Silver-specific extensions not defined in standard Swift.Array:
 	//
 	
-	/*@warn_unused_result public func nativeArray() -> T[] {
-		#if COOPER
+	/*public func nativeArray() -> T[] {
+		#if JAVA
 		//return self.toArray()//T[]())
-		#elseif ECHOES
+		#elseif CLR
 		return self.ToArray()
-		#elseif NOUGAT
+		#elseif COCOA
 		//return self.array()
 		#endif
 	}*/
 
-	@warn_unused_result public func toSwiftArray() -> [T] {
-		#if COOPER
+	public func toSwiftArray() -> [T] {
+		#if JAVA
 		let result = ArrayList<T>()
 		for e in self {
 			result.add(e);
 		}
 		return result
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return self.ToList()
-		#elseif NOUGAT
+		#elseif COCOA
 		return self.array().mutableCopy
 		#endif
 	}
 
-	#if ECHOES || ISLAND
-	@warn_unused_result public func contains(_ item: T) -> Bool {
+	#if CLR //|| ISLAND
+	public func contains(_ item: T) -> Bool {
 		return self.Contains(item)
 	}
 	#endif
 
-	#if NOUGAT
+	#if COCOA
 	override var debugDescription: String! {
 	#else
 	public var debugDescription: String {
@@ -412,21 +412,21 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	}
 }
 
-#if COOPER
+#if JAVA
 public extension java.util.Map.Entry {
 
 	public func GetTuple() -> (K,V) {
 		return (Key,Value)
 	}
 }
-#elseif ECHOES
+#elseif CLR
 public extension System.Collections.Generic.KeyValuePair {
 
 	public func GetTuple() -> (TKey,TValue) {
 		return (Key,Value)
 	}
 }
-#elseif NOUGAT
+#elseif COCOA
 public extension Foundation.NSDictionary {
 
 	public func GetSequence() -> ISequence<(AnyObject,AnyObject)> {

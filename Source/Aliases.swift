@@ -1,9 +1,9 @@
 ﻿public typealias NSObject = Object
 
-#if ECHOES || COOPER || ISLAND
+#if CLR || JAVA || ISLAND
 public typealias Int = Int64
 public typealias UInt = UInt64
-#elseif NOUGAT
+#elseif COCOA
 public typealias Int = Int64//NSInteger
 public typealias UInt = UInt64//NSUInteger
 #endif
@@ -19,13 +19,11 @@ public typealias Character = Char // for now
 public typealias UnicodeScalar = Character // for now
 public typealias UTF16Char = Char // UInt16
 public typealias UTF32Char = UInt32
-#if !NOUGAT
-//public typealias String = String
+#if !COCOA
 public typealias AnsiChar = Byte
 public typealias UTF8Char = Byte
 #else
-// Nougat has AnsiChar already
-//public typealias String = NSString
+// Cocoa has AnsiChar already
 public typealias UTF8Char = AnsiChar
 #endif
 
@@ -37,15 +35,15 @@ public typealias Float64 = Double
 
 public typealias Any = protocol<> //Dynamic;
 public typealias AnyObject = protocol<> //Dynamic;
-#if ECHOES
+#if CLR
 public typealias AnyClass = System.`Type`
-#elseif NOUGAT
+#elseif COCOA
 public typealias AnyClass = rtl.Class
-#elseif COOPER
+#elseif JAVA
 public typealias AnyClass = java.lang.Class
 #endif
 
-#if NOUGAT
+#if COCOA
 public typealias Selector = SEL
 #endif
 
@@ -61,7 +59,7 @@ public typealias CFloat = Float
 public typealias CInt = Int32
 public typealias CLong = Int
 public typealias CLongLong = Int64
-#if NOUGAT
+#if COCOA
 public typealias COpaquePointer = UnsafePointer<Void>
 #endif
 public typealias CShort = Int16

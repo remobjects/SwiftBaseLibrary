@@ -11,7 +11,7 @@
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <AllowUnsafeCode>False</AllowUnsafeCode>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <SDK>OS X</SDK>
+        <SDK>macOS</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
         <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
         <DeploymentTargetVersion>10.9</DeploymentTargetVersion>
@@ -39,8 +39,8 @@
         <Reference Include="CoreGraphics"/>
         <Reference Include="Foundation"/>
         <Reference Include="rtl"/>
-        <Reference Include="libNougat"/>
+        <Reference Include="libToffee"/>
     </ItemGroup>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Nougat.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets"/>
     <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>

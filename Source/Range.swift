@@ -30,7 +30,7 @@
 	// Methods
 	//
 	
-	#if NOUGAT
+	#if COCOA
 	override var description: String! {
 	#else
 	public var description: String {
@@ -38,7 +38,7 @@
 		return "\(startIndex)..<\(endIndex)"
 	}
 
-	#if NOUGAT
+	#if COCOA
 	override var debugDescription: String! {
 	#else
 	public var debugDescription: String {
@@ -86,7 +86,7 @@
 		return endIndex-startIndex
 	}
 	
-	#if NOUGAT 
+	#if COCOA 
 	// todo: make a cast operator
 	public var nativeRange: NSRange {
 		return NSMakeRange(startIndex, endIndex-startIndex)
@@ -97,7 +97,7 @@
 
 //74138: Silver: constrained type extensions
 /*extension Range where Element == Int32 {
-	#if NOUGAT 
+	#if COCOA 
 	public init(_ nativeRange: NSRange) {
 		startIndex = nativeRange.location
 		endIndex = nativeRange.location+nativeRange.length

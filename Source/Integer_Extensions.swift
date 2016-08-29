@@ -81,12 +81,12 @@ public extension Int32  {
 
 public extension Int32 /*: AbsoluteValuable*/ {
 
-	@warn_unused_result static func abs(_ x: Self) -> Self {
-		#if COOPER
+	static func abs(_ x: Self) -> Self {
+		#if JAVA
 		return Int32.abs(x)
-		#elseif ECHOES || ISLAND
+		#elseif CLR || ISLAND
 		return Math.Abs(x)
-		#elseif NOUGAT
+		#elseif COCOA
 		return ABS(x)
 		#endif
 	}
@@ -112,7 +112,7 @@ public extension Int32 /*: Strideable*/ {
 	}
 
 	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
-	#if NOUGAT
+	#if COCOA
 	public func stride(# to: Int32, by: Int32) -> ISequence<Int32> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -156,7 +156,7 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	}
 
 	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
-	#if !COOPER
+	#if !JAVA
 	public func stride(# to: Int64, by: Int64) -> ISequence<Int64> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -190,7 +190,7 @@ public extension Float {
 	}
 
 	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
-	#if NOUGAT
+	#if COCOA
 	public func stride(# to: Float, by: Float) -> ISequence<Float> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -224,7 +224,7 @@ public extension Double {
 	}
 
 	// workaround for 74743: Android app fails to run with SBL methods ovewrloaded by name only
-	#if !COOPER
+	#if !JAVA
 	public func stride(# to: Double, by: Double) -> ISequence<Double> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -239,11 +239,11 @@ public extension Double {
 public extension UInt64 {
 
 	internal func toHexString(# length: Int = 8) -> String {
-		#if COOPER
+		#if JAVA
 		return String.format("%0\(length)x", self)
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return String.Format("{0:x\(length)}", self)
-		#elseif NOUGAT
+		#elseif COCOA
 		return String(format: "%0\(length)lld}", self)
 		#endif
 	}

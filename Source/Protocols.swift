@@ -1,5 +1,5 @@
 ﻿
-#if NOUGAT
+#if COCOA
 /*@unsafe_no_objc_tagged_pointer*/ public protocol _CocoaArrayType {
 	func objectAtIndex(index: Int) -> AnyObject
 	//func getObjects(_: UnsafeMutablePointer<AnyObject>, range: _SwiftNSRange)
@@ -11,12 +11,12 @@
 
 public typealias CustomStringConvertible = ICustomStringConvertible
 public protocol ICustomStringConvertible {
-	var description: String! { get } // unwrapped nullable for better Nougat compatibility
+	var description: String! { get } // unwrapped nullable for better Cocoa compatibility
 }
 
 public typealias CustomDebugStringConvertible = ICustomDebugStringConvertible
 public protocol ICustomDebugStringConvertible {
-	#if NOUGAT
+	#if COCOA
 	var debugDescription: String! { get }
 	#else
 	var debugDescription: String { get }

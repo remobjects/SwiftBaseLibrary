@@ -1,8 +1,8 @@
-﻿#if NOUGAT
+﻿#if COCOA
 __mapped public class Set<T: class> : INSFastEnumeration<T> => Foundation.NSMutableSet {
-#elseif COOPER
+#elseif JAVA
 __mapped public class Set<T> : Iterable<T> => java.util.ArrayList<T> {
-#elseif ECHOES
+#elseif CLR
 __mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
 #elseif ISLAND
 __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T> {
@@ -13,11 +13,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 
 	/// Create an empty `Set`.
 	public init() {
-		#if COOPER
+		#if JAVA
 		return ArrayList<T>()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return List<T>()
-		#elseif NOUGAT
+		#elseif COCOA
 		return NSMutableSet.set()
 		#endif
 	}
@@ -26,11 +26,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	/// elements worth of storage.  The actual capacity will be the
 	/// smallest power of 2 that's >= `minimumCapacity`.
 	public init(minimumCapacity: Int) {
-		#if COOPER
+		#if JAVA
 		return ArrayList<T>()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return List<T>()
-		#elseif NOUGAT
+		#elseif COCOA
 		return NSMutableSet.setWithCapacity(minimumCapacity)
 		#endif
 	}
@@ -40,11 +40,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 			return Set<T>()
 		}
 		
-		#if COOPER
+		#if JAVA
 		return ArrayList<T>(java.util.Arrays.asList(elements))
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return List<T>(elements)
-		#elseif NOUGAT
+		#elseif COCOA
 		return NSMutableSet.setWithObjects((&elements[0] as! UnsafePointer<id>), count: length(elements))
 		#endif		
 	}
@@ -74,11 +74,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 
 	/// Returns `true` if the set contains a member.
 	public func contains(_ member: T) -> Bool {
-		#if COOPER
+		#if JAVA
 		return __mapped.contains(member)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return __mapped.Contains(member)
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.containsObject(member)
 		#endif
 	}
@@ -90,15 +90,15 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 
 	/// Insert a member into the set.
 	public mutating func insert(_ member: T) {
-		#if COOPER
+		#if JAVA
 		if !__mapped.contains(member) {
 			__mapped.add(member)
 		}
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		if !__mapped.Contains(member) {
 			__mapped.Add(member)
 		}
-		#elseif NOUGAT
+		#elseif COCOA
 		if !__mapped.containsObject(member) {
 			__mapped.addObject(member)
 		}
@@ -107,17 +107,17 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 
 	/// Remove the member from the set and return it if it was present.
 	public mutating func remove(_ member: T) -> T? {
-		#if COOPER
+		#if JAVA
 		if __mapped.contains(member) {
 			__mapped.remove(member)
 			return member
 		}
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		if __mapped.Contains(member) {
 			__mapped.Remove(member)
 			return member
 		}
-		#elseif NOUGAT
+		#elseif COCOA
 		if __mapped.containsObject(member) {
 			__mapped.removeObject(member)
 			return member
@@ -128,13 +128,13 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 
 	/// Remove the member referenced by the given index.
 	mutating func removeAtIndex(_ index: /*SetIndex<T>*/Int) -> T {
-		#if COOPER
+		#if JAVA
 		let result = __mapped.get(index)
 		__mapped.remove(index)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		let result = __mapped[index]
 		__mapped.RemoveAt(index)
-		#elseif NOUGAT
+		#elseif COCOA
 		let result = __mapped.allObjects[index]
 		__mapped.removeObject(result)
 		#endif
@@ -144,24 +144,24 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
 	/// will not decrease.
 	public mutating func removeAll(keepCapacity: Bool = false) {
-		#if COOPER
+		#if JAVA
 		__mapped.clear()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		__mapped.Clear()
-		#elseif NOUGAT
+		#elseif COCOA
 		__mapped.removeAllObjects()
 		#endif
 	}
 
 	/// Remove a member from the set and return it. Requires: `count > 0`.
 	mutating func removeFirst() -> T {
-		#if COOPER
+		#if JAVA
 		let result = __mapped.get(0)
 		__mapped.remove(0)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		let result = __mapped[0]
 		__mapped.RemoveAt(0)
-		#elseif NOUGAT
+		#elseif COCOA
 		let result = __mapped.allObjects[0]
 		__mapped.removeObject(result)
 		#endif
@@ -172,11 +172,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	///
 	/// Complexity: O(1)
 	public var count: Int {
-		#if COOPER
+		#if JAVA
 		return __mapped.size()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return __mapped.Count
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.count
 		#endif
 	}
@@ -186,11 +186,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}
 	
 	subscript (position: Int/*SetIndex<T>*/) -> T {
-		#if COOPER
+		#if JAVA
 		return __mapped.get(position)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return __mapped[position]
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.allObjects[position]
 		#endif
 	}
@@ -203,9 +203,9 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	/// A member of the set, or `nil` if the set is empty.
 	public var first: T? { 
 		if count > 0 {
-			#if COOPER || ECHOES || ISLAND
+			#if JAVA || CLR || ISLAND
 			return __mapped[0]
-			#elseif NOUGAT
+			#elseif COCOA
 			return __mapped.allObjects[0]
 			#endif
 		}
@@ -328,11 +328,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 
 	/// A textual representation of `self`.
 	public var description: String { 
-		#if COOPER
+		#if JAVA
 		return __mapped.toString()
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return __mapped.ToString()
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.description
 		#endif
 	}

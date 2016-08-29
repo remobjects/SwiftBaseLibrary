@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
         <RootNamespace>Swift</RootNamespace>
-        <ProjectGuid>95F9545C-39BE-4A02-8673-8382ECB3F7AD</ProjectGuid>
+        <ProjectGuid>EA152C1C-C6DD-48F8-9415-8B7FDA4653D9</ProjectGuid>
         <OutputType>StaticLibrary</OutputType>
         <AssemblyName>Swift</AssemblyName>
         <AllowGlobals>False</AllowGlobals>
@@ -11,12 +11,10 @@
         <AllowLegacyCreate>False</AllowLegacyCreate>
         <AllowUnsafeCode>False</AllowUnsafeCode>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <SDK>iOS</SDK>
+        <SDK>tvOS</SDK>
         <CreateHeaderFile>True</CreateHeaderFile>
         <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-        <Architecture>arm64,armv7s,armv7</Architecture>
-        <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
-        <DeploymentTargetVersion>7.0</DeploymentTargetVersion>
+        <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
@@ -41,9 +39,9 @@
     <ItemGroup>
         <Reference Include="Foundation"/>
         <Reference Include="rtl"/>
-        <Reference Include="libNougat"/>
+        <Reference Include="libToffee"/>
     </ItemGroup>
     <ItemGroup/>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Nougat.targets"/>
+    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets"/>
     <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
 </Project>

@@ -8,20 +8,20 @@ public extension UnicodeScalar : Streamable {
 	
 	public func escape(# asASCII: Bool) -> String {
 		if asASCII && !isASCII() {
-			#if COOPER
+			#if JAVA
 			return self.toString()
-			#elseif ECHOES
+			#elseif CLR || ISLAND
 			return self.ToString()
-			#elseif NOUGAT
+			#elseif COCOA
 			return self.description()
 			#endif
 		}
 		else {
-			#if COOPER
+			#if JAVA
 			return java.lang.String.format("\\u{%8x}", self as! Int32)
-			#elseif ECHOES
-			return System.String.Format("\\u{{{0:X8}}}", self as! Int32)
-			#elseif NOUGAT
+			#elseif CLR || ISLAND
+			return /*System.*/String.Format("\\u{{{0:X8}}}", self as! Int32)
+			#elseif COCOA
 			return Foundation.NSString.stringWithFormat("\\u{%8x}", self as! Int32)
 			#endif
 		}
@@ -31,12 +31,12 @@ public extension UnicodeScalar : Streamable {
 		return self <= 127
 	}
 	
-	#if !ECHOES && !ISLAND
+	#if !CLR && !ISLAND
 	private func ToString() -> String? {
-		#if COOPER
+		#if JAVA
 		let chars: Char[] = [self]
 		return java.lang.String(chars)
-		#elseif NOUGAT
+		#elseif COCOA
 		return Foundation.NSString.stringWithFormat("%c", self)
 		#endif
 	}
@@ -48,7 +48,7 @@ public extension UnicodeScalar : Streamable {
 		}
 	}
 	
-	#if COOPER
+	#if JAVA
 	//workaround for 75341: Silver: Cooper: adding any interface to a struct via extension requires implementing `equals` and `hashCode`.
 	func equals(_ arg1: Object!) -> Boolean {
 		if let v = arg1 as? UnicodeScalar {

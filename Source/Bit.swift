@@ -31,7 +31,7 @@ public enum Bit { //: Int32, ForwardIndexType<Distance> { //, Comparable, Random
 		return rawValue.advancedBy(n) > 0 ? One : Zero
 	}*/
 
-	//#if NOUGAT
+	//#if COCOA
 	//override var debugDescription: String! {
 	//#else
 	public var debugDescription: String {

@@ -1,19 +1,19 @@
 ﻿
-#if !NOUGAT
+#if !COCOA
 public extension Object : CustomStringConvertible, CustomDebugStringConvertible {
 
 	@inline(__always) public var description: String {
-		#if COOPER
+		#if JAVA
 		return self.toString()
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return self.ToString()
 		#endif
 	}
 
 	@inline(__always) public var debugDescription: String { 
-		#if COOPER
+		#if JAVA
 		return self.toString()
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return self.ToString()
 		#endif
 	}
@@ -23,11 +23,11 @@ public extension Object : CustomStringConvertible, CustomDebugStringConvertible 
 public extension Object {
 
 	public var hashValue: Int {
-		#if COOPER
+		#if JAVA
 		return self.hashCode()
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return self.GetHashCode()
-		#elseif NOUGAT
+		#elseif COCOA
 		return self.hashValue()
 		#endif
 	}

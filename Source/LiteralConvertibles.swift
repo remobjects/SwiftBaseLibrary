@@ -82,7 +82,7 @@ public protocol IExpressibleByUnicodeScalarLiteral {
 	init(unicodeScalarLiteral value: UnicodeScalarLiteralType)
 }
 
-#if NOUGAT
+#if COCOA
 public extension NSURL/*: ExpressibleByStringLiteral*/ {
 	
 	//typealias ExtendedGraphemeClusterLiteralType = StringLiteralType

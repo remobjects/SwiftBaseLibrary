@@ -2,7 +2,7 @@
 /* Numbers */
 
 //public typealias Equatable = IEquatable
-public protocol Equatable { // NE19 The public type "IEquatable" has a duplicate with the same short name in reference "Nougat", which is not allowed on Cocoa
+public protocol Equatable { // NE19 The public type "IEquatable" has a duplicate with the same short name, which is not allowed on Cocoa
 	func ==(lhs: Self, rhs: Self) -> Bool
 }
 
@@ -61,22 +61,22 @@ public protocol BitwiseOperationsType {
 
 public typealias SignedNumberType = ISignedNumberType
 public protocol ISignedNumberType : Comparable, IntegerLiteralConvertible {
-	@warn_unused_result prefix func -(_ x: Self) -> Self
-	@warn_unused_result func -(_ lhs: Self, _ rhs: Self) -> Self
+	prefix func -(_ x: Self) -> Self
+	func -(_ lhs: Self, _ rhs: Self) -> Self
 }
 
 public protocol AbsoluteValuable : SignedNumberType {
-	@warn_unused_result static func abs(_ x: Self) -> Self
+	static func abs(_ x: Self) -> Self
 }
 
 public typealias SignedIntegerType = ISignedIntegerType
 public protocol ISignedIntegerType {
 	init(_ value: IntMax)
-	@warn_unused_result func toIntMax() -> IntMax
+	func toIntMax() -> IntMax
 }
 
 public typealias UnsignedIntegerType = IUnsignedIntegerType
 public protocol IUnsignedIntegerType {
 	init(_ value: UIntMax)
-	@warn_unused_result func toUIntMax() -> UIntMax
+	func toUIntMax() -> UIntMax
 }

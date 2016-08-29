@@ -52,21 +52,21 @@ public func split(_ elements: String, isSeparator: (Char) -> Bool, maxSplit: Int
 }
 
 public func split(_ elements: String, separatorString separator: String) -> [String] {
-	#if COOPER
+	#if JAVA
 	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(separator)))
-	#elseif ECHOES
+	#elseif CLR
 	return [String](arrayLiteral: (elements as! System.String).Split([separator], .None))
-	#elseif NOUGAT
+	#elseif COCOA
 	return (elements as! Foundation.NSString).componentsSeparatedByString(separator) as! [String]
 	#endif
 }
 
 public func split(_ elements: String, separatorChar separator: Char) -> [String] {
-	#if COOPER
+	#if JAVA
 	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(java.lang.String.valueOf(separator))))
-	#elseif ECHOES
+	#elseif CLR
 	return [String](arrayLiteral: (elements as! System.String).Split([separator], .None))
-	#elseif NOUGAT
+	#elseif COCOA
 	return (elements as! Foundation.NSString).componentsSeparatedByString(NSString.stringWithFormat("%c", separator)) as! [String]
 	#endif
 }
@@ -75,7 +75,7 @@ public func split(_ elements: String, separatorChar separator: Char) -> [String]
 	return s.hasPrefix(`prefix`)
 }
 
-public func sequence<T>(first: T, next: T -> T?) -> ISequence<T> {
+public func sequence<T>(first: T, next: (T) -> T?) -> ISequence<T> {
 	var nextResult: T? = first
 	while nextResult != nil {
 		__yield nextResult

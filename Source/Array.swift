@@ -5,32 +5,32 @@
 //
 //
 
-#if NOUGAT
+#if COCOA
 __mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
-#elseif COOPER
+#elseif JAVA
 __mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
-#elseif ECHOES
+#elseif CLR
 __mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
 #elseif ISLAND
 __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List<T> {
 #endif
 
 	public init() {
-		#if COOPER
+		#if JAVA
 		return ArrayList<T>()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return List<T>()
-		#elseif NOUGAT
+		#elseif COCOA
 		return NSMutableArray.array()
 		#endif
 	}
 	
 	public init(items: [T]) {
-		#if COOPER
+		#if JAVA
 		return ArrayList<T>(items)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return List<T>(items)
-		#elseif NOUGAT
+		#elseif COCOA
 		return items.mutableCopy
 		#endif
 	}
@@ -41,16 +41,16 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 			return [T]()
 		}
 		
-		#if COOPER
+		#if JAVA
 		return ArrayList<T>(java.util.Arrays.asList(array))
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return List<T>(array)
-		#elseif NOUGAT
+		#elseif COCOA
 		return NSMutableArray.arrayWithObjects((&array[0] as! UnsafePointer<id>), count: length(array))
 		#endif		
 	}
 	
-	#if NOUGAT
+	#if COCOA
 	public init(NSArray array: NSArray<T>) {
 		if array == nil {
 			return [T]()
@@ -63,21 +63,21 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	#endif
 	
 	public init(sequence: ISequence<T>) {
-		#if COOPER
+		#if JAVA
 		return sequence.ToList()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return sequence.ToList()
-		#elseif NOUGAT
+		#elseif COCOA
 		return sequence.array().mutableCopy()
 		#endif
 	}
 
 	public init(count: Int, repeatedValue: T) {
-		#if COOPER
+		#if JAVA
 		let newSelf: [T] = ArrayList<T>(count)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		let newSelf: [T] = List<T>(count)
-		#elseif NOUGAT
+		#elseif COCOA
 		let newSelf: [T] = NSMutableArray(capacity: count)
 		#endif
 		for i in 0 ..< count {
@@ -87,21 +87,21 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 	
 	public init(capacity: Int) { // not in Apple Swift 
-		#if COOPER
+		#if JAVA
 		return ArrayList<T>(capacity)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return List<T>(capacity)
-		#elseif NOUGAT
+		#elseif COCOA
 		return NSMutableArray(capacity: capacity)
 		#endif
 	}
 	
 	public var nativeArray: T[] {
-		#if COOPER
+		#if JAVA
 		return __mapped.toArray(T[](__mapped.Count()))
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return __mapped.ToArray()
-		#elseif NOUGAT
+		#elseif COCOA
 		let c = count
 		var result = T[](c)
 		__mapped.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
@@ -111,9 +111,9 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	
 	public subscript (index: Int) -> T {
 		get {
-			#if ECHOES || COOPER | ISLAND
+			#if CLR || JAVA | ISLAND
 			return __mapped[index]
-			#elseif NOUGAT
+			#elseif COCOA
 			var value: AnyObject! = __mapped[index]
 			if value == NSNull.null {
 				value = nil
@@ -122,9 +122,9 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 			#endif
 		}
 		set {
-			#if COOPER | ECHOES | ISLAND
+			#if JAVA | CLR | ISLAND
 			__mapped[index] = newValue
-			#elseif NOUGAT
+			#elseif COCOA
 			if newValue == nil {
 				__mapped[index] = NSNull.null
 			} else {
@@ -135,21 +135,21 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 	
 	public var count: Int {
-		#if COOPER
+		#if JAVA
 		return __mapped.size()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return __mapped.Count
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.count
 		#endif
 	}
 	
 	public var capacity: Int { 
-		#if COOPER
+		#if JAVA
 		return -1
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		return __mapped.Capacity
-		#elseif NOUGAT
+		#elseif COCOA
 		return -1
 		#endif
 	}
@@ -174,39 +174,39 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 
 	public mutating func reserveCapacity(_ minimumCapacity: Int) {
-		#if COOPER
+		#if JAVA
 		__mapped.ensureCapacity(minimumCapacity)
-		#elseif ECHOES | ISLAND | NOUGAT
+		#elseif CLR | ISLAND | COCOA
 		// N/A
 		#endif
 	}
 
 	public mutating func extend(_ sequence: ISequence<T>) {
-		#if COOPER
+		#if JAVA
 		__mapped.addAll(sequence.ToList())
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		__mapped.AddRange(sequence.ToList())
-		#elseif NOUGAT
+		#elseif COCOA
 		__mapped.addObjectsFromArray(sequence.array())
 		#endif
 	}
 	
 	public mutating func extend(_ array: [T]) {
-		#if COOPER
+		#if JAVA
 		__mapped.addAll(array)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		__mapped.AddRange(array)
-		#elseif NOUGAT
+		#elseif COCOA
 		__mapped.addObjectsFromArray(array)
 		#endif
 	}
 
 	public mutating func append(_ newElement: T) {
-		#if COOPER
+		#if JAVA
 		__mapped.add(newElement)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		__mapped.Add(newElement)
-		#elseif NOUGAT
+		#elseif COCOA
 		if let val = newElement {
 			__mapped.addObject(newElement)
 		} else {
@@ -216,11 +216,11 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 
 	public mutating func insert(_ newElement: T, atIndex index: Int) {
-		#if COOPER
+		#if JAVA
 		__mapped.add(index, newElement)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		__mapped.Insert(index, newElement)
-		#elseif NOUGAT
+		#elseif COCOA
 		if let val = newElement {
 			__mapped.insertObject(newElement, atIndex: index)
 		} else {
@@ -229,21 +229,31 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func removeAtIndex(_ index: Int) -> T {
-		#if COOPER
+	@discardableResult public mutating func removeAtIndex(_ index: Int) -> T {
+		#if JAVA
 		return __mapped.remove(index)
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		let result = self[index]
 		__mapped.RemoveAt(index)
 		return result
-		#elseif NOUGAT
+		#elseif COCOA
 		let result = self[index]
 		__mapped.removeObjectAtIndex(index)
 		return result
 		#endif
 	}
 
-	public mutating func removeLast() -> T {
+	public mutating func remove(_ object: T) {
+		#if JAVA
+		__mapped.remove(object)
+		#elseif CLR | ISLAND
+		__mapped.Remove(object)
+		#elseif COCOA
+		__mapped.removeObject(object)
+		#endif
+	}
+
+	@discardableResult public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
 			return removeAtIndex(c-1)
@@ -253,11 +263,11 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 
 	public mutating func removeAll(keepCapacity: Bool = false) {
-		#if COOPER
+		#if JAVA
 		__mapped.clear()
-		#elseif ECHOES | ISLAND
+		#elseif CLR | ISLAND
 		__mapped.Clear()
-		#elseif NOUGAT
+		#elseif COCOA
 		__mapped.removeAllObjects()
 		#endif
 	}
@@ -276,7 +286,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 	
 	public mutating func sort(_ isOrderedBefore: (T, T) -> Bool) {
-		#if COOPER
+		#if JAVA
 		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
 			if isOrderedBefore(a,b) {
 				return 1
@@ -284,7 +294,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 				return -1
 			}
 		}})	
-		#elseif ECHOES
+		#elseif CLR
 		__mapped.Sort({ (a: T, b: T) -> Boolean in
 			if isOrderedBefore(a,b) {
 				return -1
@@ -292,7 +302,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 				return 1
 			}
 		})
-		#elseif NOUGAT
+		#elseif COCOA
 		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
@@ -304,7 +314,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 
 	public func sorted(_ isOrderedBefore: (T, T) -> Bool) -> [T] { 
-		#if COOPER
+		#if JAVA
 		let result: ArrayList<T> = [T](items: self) 
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -314,9 +324,9 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 			}
 		}})	
 		return result
-		#elseif ECHOES
+		#elseif CLR
 		let result: List<T> = [T](items: self) 
-		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
+		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
 			} else {
@@ -324,7 +334,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 			}
 		}
 		return result
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
@@ -336,9 +346,9 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 
 	public func map<U>(_ transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		#if COOPER
+		#if JAVA
 		return __mapped.Select({ return transform($0) })
-		#elseif ECHOES | NOUGAT
+		#elseif CLR || ISLAND || COCOA
 		return __mapped.Select(transform)
 		#endif
 	}
@@ -348,9 +358,9 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 
 	public func filter(_ includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		#if COOPER
+		#if JAVA
 		return __mapped.Where({ return includeElement($0) })
-		#elseif ECHOES | NOUGAT
+		#elseif CLR || ISLAND || COCOA
 		return __mapped.Where(includeElement)
 		#endif
 	}
@@ -378,11 +388,11 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	//
 
 	public func contains(_ item: T) -> Bool {
-		#if COOPER
+		#if JAVA
 		return __mapped.contains(item)
-		#elseif ECHOES
+		#elseif CLR || ISLAND
 		return __mapped.Contains(item)
-		#elseif NOUGAT
+		#elseif COCOA
 		return __mapped.containsObject(item)
 		#endif
 	}
