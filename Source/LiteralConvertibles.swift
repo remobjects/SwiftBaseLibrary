@@ -1,27 +1,38 @@
-﻿public typealias ArrayLiteralConvertible = IArrayLiteralConvertible
-public typealias BooleanLiteralConvertible = IBooleanLiteralConvertible
-public typealias DictionaryLiteralConvertible = IDictionaryLiteralConvertible
-//public typealias ExtendedGraphemeClusterLiteralConvertible = IExtendedGraphemeClusterLiteralConvertible
-public typealias FloatLiteralConvertible = IFloatLiteralConvertible
-public typealias IntegerLiteralConvertible = IIntegerLiteralConvertible
-public typealias NilLiteralConvertible = INilLiteralConvertible
-public typealias StringLiteralConvertible = IStringLiteralConvertible
-public typealias StringInterpolationConvertible = IStringInterpolationConvertible
-public typealias UnicodeScalarLiteralConvertible = IUnicodeScalarLiteralConvertible
+﻿public typealias ExpressibleByArrayLiteral = IExpressibleByArrayLiteral
+public typealias ExpressibleByBooleanLiteral = IExpressibleByBooleanLiteral
+public typealias ExpressibleByDictionaryLiteral = IExpressibleByDictionaryLiteral
+//public typealias ExpressibleByExtendedGraphemeClusterLiteral = IExpressibleByExtendedGraphemeClusterLiteral
+public typealias ExpressibleByFloatLiteral = IExpressibleByFloatLiteral
+public typealias ExpressibleByIntegerLiteral = IExpressibleByIntegerLiteral
+public typealias ExpressibleByNilLiteral = IExpressibleByNilLiteral
+public typealias ExpressibleByStringLiteral = IExpressibleByStringLiteral
+public typealias ExpressibleByStringInterpolation = IExpressibleByStringInterpolation
+public typealias ExpressibleByUnicodeScalarLiteral = IExpressibleByUnicodeScalarLiteral
 
-public protocol IArrayLiteralConvertible {
+public typealias NilLiteralConvertible = ExpressibleByNilLiteral
+public typealias BooleanLiteralConvertible = ExpressibleByBooleanLiteral
+public typealias FloatLiteralConvertible = ExpressibleByFloatLiteral
+public typealias IntegerLiteralConvertible = ExpressibleByIntegerLiteral
+public typealias UnicodeScalarLiteralConvertible = ExpressibleByUnicodeScalarLiteral
+//public typealias ExtendedGraphemeClusterLiteralConvertible = ExpressibleByExtendedGraphemeClusterLiteral
+public typealias StringLiteralConvertible = ExpressibleByStringLiteral
+public typealias StringInterpolationConvertible = ExpressibleByStringInterpolation
+public typealias ArrayLiteralConvertible = ExpressibleByArrayLiteral
+public typealias DictionaryLiteralConvertible = ExpressibleByDictionaryLiteral
+
+public protocol IExpressibleByArrayLiteral {
 	associatedtype Element
 	
 	init(arrayLiteral elements: Element...)
 }
 
-public protocol IBooleanLiteralConvertible {
+public protocol IExpressibleByBooleanLiteral {
 	associatedtype BooleanLiteralType
 
 	init(booleanLiteral value: BooleanLiteralType)
 }
 
-public protocol IDictionaryLiteralConvertible {
+public protocol IExpressibleByDictionaryLiteral {
 	associatedtype Key
 	associatedtype Value
 
@@ -29,50 +40,50 @@ public protocol IDictionaryLiteralConvertible {
 }
 
 //73998: Silver: compiler crash in base library
-public protocol IExtendedGraphemeClusterLiteralConvertible /*: UnicodeScalarLiteralConvertible*/ {
+public protocol IExpressibleByExtendedGraphemeClusterLiteral /*: ExpressibleByUnicodeScalarLiteral*/ {
 	associatedtype ExtendedGraphemeClusterLiteralType
 
 	/// Create an instance initialized to `value`.
 	init(extendedGraphemeClusterLiteral value: ExtendedGraphemeClusterLiteralType)
 }
 
-public protocol IFloatLiteralConvertible {
+public protocol IExpressibleByFloatLiteral {
 	associatedtype FloatLiteralType
 
 	init(floatLiteral value: FloatLiteralType)
 }
 
-public protocol IIntegerLiteralConvertible {
+public protocol IExpressibleByIntegerLiteral {
 	associatedtype IntegerLiteralType
 
 	init(integerLiteral value: IntegerLiteralType)
 }
 
-public protocol INilLiteralConvertible {
+public protocol IExpressibleByNilLiteral {
 
 	//init(nilLiteral: ())
 }
 
-public protocol IStringLiteralConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
+public protocol IExpressibleByStringLiteral /*: ExpressibleByExtendedGraphemeClusterLiteral*/ {
 	associatedtype StringLiteralType
 
 	init(stringLiteral value: StringLiteralType)
 }
 
-public protocol IStringInterpolationConvertible /*: ExtendedGraphemeClusterLiteralConvertible*/ {
+public protocol IExpressibleByStringInterpolation /*: ExpressibleByExtendedGraphemeClusterLiteral*/ {
 	associatedtype StringInterpolationType
 
 	init(stringInterpolation value: StringInterpolationType)
 }
 
-public protocol IUnicodeScalarLiteralConvertible {
+public protocol IExpressibleByUnicodeScalarLiteral {
 	associatedtype UnicodeScalarLiteralType
 
 	init(unicodeScalarLiteral value: UnicodeScalarLiteralType)
 }
 
 #if NOUGAT
-public extension NSURL/*: StringLiteralConvertible*/ {
+public extension NSURL/*: ExpressibleByStringLiteral*/ {
 	
 	//typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
 	
