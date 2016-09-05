@@ -53,21 +53,25 @@ public func split(_ elements: String, isSeparator: (Char) -> Bool, maxSplit: Int
 
 public func split(_ elements: String, separatorString separator: String) -> [String] {
 	#if JAVA
-	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(separator)))
+	return [String](arrayLiteral: (elements as! NativeString).split(java.util.regex.Pattern.quote(separator)))
 	#elseif CLR
-	return [String](arrayLiteral: (elements as! System.String).Split([separator], .None))
+	return [String](arrayLiteral: (elements as! NativeString).Split([separator], .None))
+	#elseif ISLAND
+	return [String](arrayLiteral: (elements as! NativeString).Split(separator))
 	#elseif COCOA
-	return (elements as! Foundation.NSString).componentsSeparatedByString(separator) as! [String]
+	return (elements as! NativeString).componentsSeparatedByString(separator) as! [String]
 	#endif
 }
 
 public func split(_ elements: String, separatorChar separator: Char) -> [String] {
 	#if JAVA
-	return [String](arrayLiteral: (elements as! java.lang.String).split(java.util.regex.Pattern.quote(java.lang.String.valueOf(separator))))
+	return [String](arrayLiteral: (elements as! NativeString).split(java.util.regex.Pattern.quote(java.lang.String.valueOf(separator))))
 	#elseif CLR
-	return [String](arrayLiteral: (elements as! System.String).Split([separator], .None))
+	return [String](arrayLiteral: (elements as! NativeString).Split([separator], .None))
+	#elseif ISLAND
+	return [String](arrayLiteral: (elements as! NativeString).Split(separator))
 	#elseif COCOA
-	return (elements as! Foundation.NSString).componentsSeparatedByString(NSString.stringWithFormat("%c", separator)) as! [String]
+	return (elements as! NativeString).componentsSeparatedByString(NSString.stringWithFormat("%c", separator)) as! [String]
 	#endif
 }
 

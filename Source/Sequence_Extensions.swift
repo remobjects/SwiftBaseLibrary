@@ -222,7 +222,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			}
 		}})	
 		return result
-		#elseif CLR
+		#elseif CLR //|| ISLAND
 		let result: List<T> = [T](sequence: self) 
 		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
@@ -303,15 +303,23 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	
 		return false;
-		#elseif CLR
+		#elseif CLR || ISLAND
 		let sEnum = self.GetEnumerator()
 		let pEnum = p.GetEnumerator()
 		while true {
 			if pEnum.MoveNext() {
 				if sEnum.MoveNext() {
+					#if CLR
 					if !EqualityComparer<T>.Default.Equals(sEnum.Current, pEnum.Current) {
 						return false // cound mismatch
 					}
+					#elseif ISLAND
+					if sEnum.Current == nil && pEnum.Current == nil {
+					} else if sEnum.Current != nil && pEnum.Current != nil && sEnum.Current.Equals(pEnum.Current) {
+					} else {
+						return false
+					}
+					#endif
 				} else {
 					return false // reached end of s
 				}
