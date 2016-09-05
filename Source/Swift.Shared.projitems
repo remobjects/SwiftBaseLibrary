@@ -30,6 +30,7 @@
             <VirtualFolder>Collection Types</VirtualFolder>
         </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)String_Extensions.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)String.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Sequence_Extensions.swift">
             <VirtualFolder>Sequences</VirtualFolder>
