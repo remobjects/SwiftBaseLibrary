@@ -60,8 +60,8 @@
 	// Properties
 	//
 	
-	public var characters: String.UTF16CharacterView {
-		return String.UTF16CharacterView(string: self)
+	public var characters: SwiftString.CharacterView {
+		return SwiftString.CharacterView(string: self)
 	}
 	
 	#if !COCOA
@@ -122,16 +122,16 @@
 	}
 	#endif
 
-	public var utf8: String.UTF8CharacterView {
-		return String.UTF8CharacterView(string: self)
+	public var utf8: SwiftString.UTF8View {
+		return SwiftString.UTF8View(string: self)
 	}
 	
-	public var utf16: String.UTF16CharacterView {
-		return String.UTF16CharacterView(string: self)
+	public var utf16: SwiftString.UTF16View {
+		return SwiftString.UTF16View(string: self)
 	}
 	
-	public var unicodeScalars: String.UTF32CharacterView {
-		return String.UTF32CharacterView(string: self)
+	public var unicodeScalars: SwiftString.UnicodeScalarView {
+		return SwiftString.UnicodeScalarView(string: self)
 	}
 	
 	//
@@ -274,91 +274,6 @@
 			return result
 		}
 	}
-	
-	public class UTF32CharacterView: CharacterView, ICustomDebugStringConvertible {
-		/*fileprivate*/internal let stringData: Byte[]
 
-		/*fileprivate*/internal  init(string: String) {
-			#if JAVA
-			stringData = []
-			fatalError("UTF32CharacterView is not implemenyted for Java yet.")
-			#elseif CLR
-			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
-			#elseif COCOA
-			if let utf32 = (string as! NSString).dataUsingEncoding(.NSUTF16LittleEndianStringEncoding) { // todo check order  
-				stringData = Byte[](capacity: utf32.length);
-				utf32.getBytes(stringData, length: utf32.length);
-			} else {
-				stringData = []
-				fatalError("Encoding of string to UTF32 failed.")
-			}
-			#endif
-		}
-		
-		public override var endIndex: String.Index { return RemObjects.Elements.System.length(stringData)/4 }
-
-		public subscript(index: Int) -> UTF32Char {
-			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
-		}
-
-		#if COCOA
-		override var debugDescription: String! {
-		#else
-		public var debugDescription: String {
-		#endif
-			var result = "UTF32CharacterView("
-			for i in startIndex..<endIndex {
-				if i > startIndex {
-					result += " "
-				}
-				result += UInt64(self[i]).toHexString(length: 8)
-			}
-			result += ")"
-			return result
-		}
-	}
-	
-	public class UTF8CharacterView: CharacterView, ICustomDebugStringConvertible {
-		/*fileprivate*/internal  let stringData: UTF8Char[]
-		
-		/*fileprivate*/internal init(string: String) {
-			#if JAVA
-			stringData = []
-			fatalError("UTF8CharacterView is not implemenyted for Java yet.")
-			#elseif CLR
-			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order  
-			#elseif COCOA
-			if let utf8 = (string as! NSString).dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
-				stringData = UTF8Char[](capacity: utf8.length);
-				utf8.getBytes(stringData, length: utf8.length);
-			} else {
-				stringData = []
-				fatalError("Encoding of string to UTF8 failed.")
-			}
-			#endif
-		}
-		
-		public override var endIndex: String.Index { return RemObjects.Elements.System.length(stringData) }
-
-		public subscript(index: Int) -> UTF8Char {
-			return stringData[index]
-		}
-
-		#if COCOA
-		override var debugDescription: String! {
-		#else
-		public var debugDescription: String {
-		#endif
-			var result = "UTF8CharacterView("
-			for i in startIndex..<endIndex {
-				if i > startIndex {
-					result += " "
-				}
-				result += UInt64(self[i]).toHexString(length: 2)
-			}
-			result += ")"
-			return result
-		}
-	}
 }
 

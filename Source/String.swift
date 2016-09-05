@@ -109,8 +109,8 @@ public struct SwiftString /*: Streamable*/ {
 	// Properties
 	//
 	
-	public var characters: SwiftString.UTF16CharacterView {
-		return SwiftString.UTF16CharacterView(string: self)
+	public var characters: SwiftString.CharacterView {
+		return SwiftString.CharacterView(string: stringValue) 
 	}
 	
 	#if !COCOA
@@ -169,16 +169,16 @@ public struct SwiftString /*: Streamable*/ {
 		#endif
 	}
 
-	public var utf8: SwiftString.UTF8CharacterView {
-		return SwiftString.UTF8CharacterView(string: self)
+	public var utf8: SwiftString.UTF8View {
+		return SwiftString.UTF8View(string: stringValue)
 	}
 	
-	public var utf16: SwiftString.UTF16CharacterView {
-		return SwiftString.UTF16CharacterView(string: self)
+	public var utf16: SwiftString.UTF16View {
+		return SwiftString.UTF16View(string: stringValue)
 	}
 	
-	public var unicodeScalars: SwiftString.UTF32CharacterView {
-		return SwiftString.UTF32CharacterView(string: self)
+	public var unicodeScalars: SwiftString.UnicodeScalarView {
+		return SwiftString.UnicodeScalarView(string: stringValue)
 	}
 	
 	//
@@ -252,7 +252,7 @@ public struct SwiftString /*: Streamable*/ {
 			return nil
 		}
 		//return self.toLowercase()
-		#elseif CLR
+		#elseif CLR// || ISLAND
 		var i = 0
 		if Int32.TryParse(stringValue, &i) {
 			return i
@@ -279,8 +279,8 @@ public struct SwiftString /*: Streamable*/ {
 		#endif
 	}
 	
-	public __abstract class CharacterView {
-		fileprivate init(string: SwiftString) {
+	public __abstract class BaseCharacterView {
+		internal init(string: NativeString) {
 		}
 
 		public var startIndex: SwiftString.Index { return 0 }
@@ -288,11 +288,14 @@ public struct SwiftString /*: Streamable*/ {
 		
 	}
 	
-	public class UTF16CharacterView: CharacterView, ICustomDebugStringConvertible {
+	public typealias CharacterView = UTF16View // for now
+	public typealias UnicodeScalarView = UTF32View // for now
+	
+	public class UTF16View: BaseCharacterView, ICustomDebugStringConvertible {
 		private let stringData: NativeString
 		
-		fileprivate init(string: SwiftString) {
-			self.stringData = string.stringValue
+		internal init(string: NativeString) {
+			self.stringData = string
 		}
 		
 		public override var endIndex: SwiftString.Index { return length(stringData) }
@@ -301,6 +304,7 @@ public struct SwiftString /*: Streamable*/ {
 			return stringData[index]
 		}
 
+		//@ToString public func description() -> String { // ASPE ToString method must return a String type
 		#if COCOA
 		override var debugDescription: String! {
 		#else
@@ -318,17 +322,17 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 	
-	public class UTF32CharacterView: CharacterView, ICustomDebugStringConvertible {
+	public class UTF32View: BaseCharacterView, ICustomDebugStringConvertible {
 		private let stringData: Byte[]
 
-		fileprivate init(string: SwiftString) {
+		internal init(string: NativeString) {
 			#if JAVA
 			stringData = []
 			fatalError("UTF32CharacterView is not implemenyted for Java yet.")
 			#elseif CLR
-			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string.stringValue) // todo check order  
+			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
 			#elseif COCOA
-			if let utf32 = (string.stringValue as! NSString).dataUsingEncoding(.NSUTF16LittleEndianStringEncoding) { // todo check order  
+			if let utf32 = string.dataUsingEncoding(.NSUTF16LittleEndianStringEncoding) { // todo check order  
 				stringData = Byte[](capacity: utf32.length);
 				utf32.getBytes(stringData, length: utf32.length);
 			} else {
@@ -344,6 +348,7 @@ public struct SwiftString /*: Streamable*/ {
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
 		}
 
+		//@ToString public func description() -> String { // ASPE ToString method must return a String type
 		#if COCOA
 		override var debugDescription: String! {
 		#else
@@ -361,17 +366,17 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 	
-	public class UTF8CharacterView: CharacterView, ICustomDebugStringConvertible {
-		fileprivate let stringData: UTF8Char[]
+	public class UTF8View: BaseCharacterView, ICustomDebugStringConvertible {
+		internal let stringData: UTF8Char[]
 		
-		fileprivate init(string: SwiftString) {
+		internal init(string: NativeString) {
 			#if JAVA
 			stringData = []
 			fatalError("UTF8CharacterView is not implemenyted for Java yet.")
 			#elseif CLR
-			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string.stringValue) // todo check order  
+			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order  
 			#elseif COCOA
-			if let utf8 = (string.stringValue as! NSString).dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
+			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
 				stringData = UTF8Char[](capacity: utf8.length);
 				utf8.getBytes(stringData, length: utf8.length);
 			} else {
@@ -387,6 +392,7 @@ public struct SwiftString /*: Streamable*/ {
 			return stringData[index]
 		}
 
+		//@ToString public func description() -> String { // ASPE ToString method must return a String type
 		#if COCOA
 		override var debugDescription: String! {
 		#else
