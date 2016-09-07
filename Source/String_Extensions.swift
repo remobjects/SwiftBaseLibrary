@@ -219,8 +219,7 @@
 		} __catch E: NumberFormatException {
 			return nil
 		}
-		//return self.toLowercase()
-		#elseif CLR
+		#elseif CLR || ISLAND
 		var i = 0
 		if Int32.TryParse(self, &i) {
 			return i

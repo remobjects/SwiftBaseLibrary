@@ -113,11 +113,9 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString.CharacterView(string: stringValue) 
 	}
 	
-	#if !COCOA
-	public var debugDescription: SwiftString {
-		return self
+	@ToString public func description() -> String { // ASPE ToString method must return a String type
+		return stringValue
 	}
-	#endif
 	
 	public var endIndex: SwiftString.Index { 
 		return RemObjects.Elements.System.length(stringValue) // for now?
@@ -127,11 +125,11 @@ public struct SwiftString /*: Streamable*/ {
 	
 	public var hashValue: Int {
 		#if JAVA
-		return self.hashCode()
+		return stringValue.hashCode()
 		#elseif CLR || ISLAND
-		return self.GetHashCode()
+		return stringValue.GetHashCode()
 		#elseif COCOA
-		return self.hashValue()
+		return stringValue.hashValue()
 		#endif
 	}
 	
@@ -252,7 +250,7 @@ public struct SwiftString /*: Streamable*/ {
 			return nil
 		}
 		//return self.toLowercase()
-		#elseif CLR// || ISLAND
+		#elseif CLR || ISLAND
 		var i = 0
 		if Int32.TryParse(stringValue, &i) {
 			return i
@@ -291,7 +289,7 @@ public struct SwiftString /*: Streamable*/ {
 	public typealias CharacterView = UTF16View // for now
 	public typealias UnicodeScalarView = UTF32View // for now
 	
-	public class UTF16View: BaseCharacterView, ICustomDebugStringConvertible {
+	public class UTF16View: BaseCharacterView {
 		private let stringData: NativeString
 		
 		internal init(string: NativeString) {
@@ -304,12 +302,7 @@ public struct SwiftString /*: Streamable*/ {
 			return stringData[index]
 		}
 
-		//@ToString public func description() -> String { // ASPE ToString method must return a String type
-		#if COCOA
-		override var debugDescription: String! {
-		#else
-		public var debugDescription: String {
-		#endif
+		@ToString public func description() -> String {
 			var result = "UTF16CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {
@@ -322,7 +315,7 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 	
-	public class UTF32View: BaseCharacterView, ICustomDebugStringConvertible {
+	public class UTF32View: BaseCharacterView {
 		private let stringData: Byte[]
 
 		internal init(string: NativeString) {
@@ -348,12 +341,7 @@ public struct SwiftString /*: Streamable*/ {
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
 		}
 
-		//@ToString public func description() -> String { // ASPE ToString method must return a String type
-		#if COCOA
-		override var debugDescription: String! {
-		#else
-		public var debugDescription: String {
-		#endif
+		@ToString public func description() -> String {
 			var result = "UTF32CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {
@@ -366,7 +354,7 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 	
-	public class UTF8View: BaseCharacterView, ICustomDebugStringConvertible {
+	public class UTF8View: BaseCharacterView {
 		internal let stringData: UTF8Char[]
 		
 		internal init(string: NativeString) {
@@ -392,12 +380,7 @@ public struct SwiftString /*: Streamable*/ {
 			return stringData[index]
 		}
 
-		//@ToString public func description() -> String { // ASPE ToString method must return a String type
-		#if COCOA
-		override var debugDescription: String! {
-		#else
-		public var debugDescription: String {
-		#endif
+		@ToString public func description() -> String {
 			var result = "UTF8CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {
