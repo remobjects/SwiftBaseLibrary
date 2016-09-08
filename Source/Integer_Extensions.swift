@@ -244,7 +244,7 @@ public extension UInt64 {
 		#elseif CLR || ISLAND
 		return String.Format("{0:x\(length)}", self)
 		#elseif COCOA
-		return String(format: "%0\(length)lld}", self)
+		return String(format: "%0\(length)llx", self)
 		#endif
 	}
 }
