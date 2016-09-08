@@ -30,7 +30,9 @@
             <VirtualFolder>Collection Types</VirtualFolder>
         </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)String_Extensions.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)String.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)String.swift">
+            <VirtualFolder>String</VirtualFolder>
+        </Compile>
         <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
         <Compile Include="$(MSBuildThisFileDirectory)Sequence_Extensions.swift">
             <VirtualFolder>Sequences</VirtualFolder>
@@ -67,7 +69,12 @@
         <Compile Include="$(MSBuildThisFileDirectory)Char_Extensions.swift">
             <VirtualFolder>Numbers and such</VirtualFolder>
         </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)String.Encoding.swift"/>
+        <Compile Include="$(MSBuildThisFileDirectory)String.Encoding.swift">
+            <VirtualFolder>String</VirtualFolder>
+        </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)String.Views.swift">
+            <VirtualFolder>String</VirtualFolder>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Sequences">
@@ -77,6 +84,9 @@
             <Virtual>True</Virtual>
         </Folder>
         <Folder Include="Numbers and such">
+            <Virtual>True</Virtual>
+        </Folder>
+        <Folder Include="String">
             <Virtual>True</Virtual>
         </Folder>
     </ItemGroup>
