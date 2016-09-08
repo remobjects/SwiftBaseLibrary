@@ -324,7 +324,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 			}
 		}})	
 		return result
-		#elseif CLR
+		#elseif CLR || ISLAND
 		let result: List<T> = [T](items: self) 
 		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {

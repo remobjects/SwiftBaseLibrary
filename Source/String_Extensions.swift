@@ -122,17 +122,21 @@
 	}
 	#endif
 
+	#if !ISLAND
 	public var utf8: SwiftString.UTF8View {
 		return SwiftString.UTF8View(string: self)
 	}
+	#endif
 	
 	public var utf16: SwiftString.UTF16View {
 		return SwiftString.UTF16View(string: self)
 	}
 	
+	#if !ISLAND
 	public var unicodeScalars: SwiftString.UnicodeScalarView {
 		return SwiftString.UnicodeScalarView(string: self)
 	}
+	#endif
 	
 	//
 	// Methods
@@ -173,9 +177,11 @@
 	}
 	#endif
 	
+	#if !ISLAND
 	public func withUTF8Buffer<R>(@noescape _ body: (/*UnsafeBufferPointer<UInt8>*/UTF8Char[]) -> R) -> R {
 		return body(utf8.stringData)
 	}
+	#endif
 	
 	//
 	// Subscripts

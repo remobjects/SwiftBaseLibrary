@@ -113,9 +113,12 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString.CharacterView(string: stringValue) 
 	}
 	
+	#if !ISLAND
+	//76074: Island: SBNL: cannot use `@ToString` on a struct
 	@ToString public func description() -> String { // ASPE ToString method must return a String type
 		return stringValue
 	}
+	#endif
 	
 	public var endIndex: SwiftString.Index { 
 		return RemObjects.Elements.System.length(stringValue) // for now?
@@ -167,17 +170,21 @@ public struct SwiftString /*: Streamable*/ {
 		#endif
 	}
 
+	#if !ISLAND
 	public var utf8: SwiftString.UTF8View {
 		return SwiftString.UTF8View(string: stringValue)
 	}
+	#endif
 	
 	public var utf16: SwiftString.UTF16View {
 		return SwiftString.UTF16View(string: stringValue)
 	}
 	
+	#if !ISLAND
 	public var unicodeScalars: SwiftString.UnicodeScalarView {
 		return SwiftString.UnicodeScalarView(string: stringValue)
 	}
+	#endif
 	
 	//
 	// Methods
@@ -205,9 +212,11 @@ public struct SwiftString /*: Streamable*/ {
 	}
 	#endif
 	
+	#if !ISLAND
 	public func withUTF8Buffer<R>(@noescape _ body: (/*UnsafeBufferPointer<UInt8>*/UTF8Char[]) -> R) -> R {
 		return body(utf8.stringData)
 	}
+	#endif
 	
 	//
 	// Subscripts
@@ -271,7 +280,29 @@ public struct SwiftString /*: Streamable*/ {
 	//
 	
 	public struct Encoding {
+		static let ascii: SwiftString.Encoding = Encoding()
+		static let iso2022JP: SwiftString.Encoding = Encoding()
+		static let isoLatin1: SwiftString.Encoding = Encoding()
+		static let isoLatin2: SwiftString.Encoding = Encoding()
+		static let japaneseEUC: SwiftString.Encoding = Encoding()
+		static let macOSRoman: SwiftString.Encoding = Encoding()
+		static let nextstep: SwiftString.Encoding = Encoding()
+		static let nonLossyASCII: SwiftString.Encoding = Encoding()
+		static let shiftJIS: SwiftString.Encoding = Encoding()
+		static let symbol: SwiftString.Encoding = Encoding()
+		static let unicode: SwiftString.Encoding = Encoding()
 		static let utf16: SwiftString.Encoding = Encoding()
+		static let utf16BigEndian: SwiftString.Encoding = Encoding()
+		static let utf16LittleEndian: SwiftString.Encoding = Encoding()
+		static let utf32: SwiftString.Encoding = Encoding()
+		static let utf32BigEndian: SwiftString.Encoding = Encoding()
+		static let utf32LittleEndian: SwiftString.Encoding = Encoding()
+		static let utf8: SwiftString.Encoding = Encoding()
+		static let windowsCP1250: SwiftString.Encoding = Encoding()
+		static let windowsCP1251: SwiftString.Encoding = Encoding()
+		static let windowsCP1252: SwiftString.Encoding = Encoding()
+		static let windowsCP1253: SwiftString.Encoding = Encoding()
+		static let windowsCP1254: SwiftString.Encoding = Encoding()
 		#if COCOA
 		var nativeEncoding: NSStringEncoding
 		#endif
@@ -287,7 +318,9 @@ public struct SwiftString /*: Streamable*/ {
 	}
 	
 	public typealias CharacterView = UTF16View // for now
+	#if !ISLAND
 	public typealias UnicodeScalarView = UTF32View // for now
+	#endif
 	
 	public class UTF16View: BaseCharacterView {
 		private let stringData: NativeString
@@ -315,6 +348,7 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 	
+	#if !ISLAND
 	public class UTF32View: BaseCharacterView {
 		private let stringData: Byte[]
 
@@ -324,6 +358,8 @@ public struct SwiftString /*: Streamable*/ {
 			fatalError("UTF32CharacterView is not implemenyted for Java yet.")
 			#elseif CLR
 			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
+			#elseif ISLAND
+			throw Exception("UTF32View is not supported on Island yet.")
 			#elseif COCOA
 			if let utf32 = string.dataUsingEncoding(.NSUTF16LittleEndianStringEncoding) { // todo check order  
 				stringData = Byte[](capacity: utf32.length);
@@ -353,7 +389,9 @@ public struct SwiftString /*: Streamable*/ {
 			return result
 		}
 	}
+	#endif
 	
+	#if !ISLAND
 	public class UTF8View: BaseCharacterView {
 		internal let stringData: UTF8Char[]
 		
@@ -363,6 +401,8 @@ public struct SwiftString /*: Streamable*/ {
 			fatalError("UTF8CharacterView is not implemenyted for Java yet.")
 			#elseif CLR
 			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order  
+			#elseif ISLAND
+			throw Exception("UTF8View is not supported on Island yet.")
 			#elseif COCOA
 			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
 				stringData = UTF8Char[](capacity: utf8.length);
@@ -392,5 +432,6 @@ public struct SwiftString /*: Streamable*/ {
 			return result
 		}
 	}
+	#endif
 }
 

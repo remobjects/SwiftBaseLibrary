@@ -2,6 +2,8 @@
 	return length(source)
 }
 
+#if !ISLAND
+//76072: Island: SBL fails on public generic methods
 @inline(__always) public func count<T>(_ source: [T]?) -> Int {
 	return length(source)
 }
@@ -16,6 +18,7 @@
 	}
 	return 0
 }
+#endif
 
 public func split(_ elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> [String] {
 	
