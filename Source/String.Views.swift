@@ -7,7 +7,9 @@ public extension SwiftString {
 
 		public var startIndex: SwiftString.Index { return 0 }
 		public __abstract var endIndex: SwiftString.Index { get }
-		
+
+		public __abstract var count: Int { get }
+		public var isEmpty: Bool { return count > 0 }		
 	}
 	
 	public typealias CharacterView = UTF16View // for now
@@ -22,7 +24,12 @@ public extension SwiftString {
 			self.stringData = string
 		}
 		
+		public override var count: Int { return length(stringData) }
+		
 		public override var endIndex: SwiftString.Index { return length(stringData) }
+
+		// 76085: Silver: `Char` becomes String when using with `?:` operator
+		var first: UTF16Char? { return count > 0 ? self[0] : nil as? UTF16Char } 
 
 		public subscript(index: Int) -> UTF16Char {
 			return stringData[index]
@@ -64,7 +71,11 @@ public extension SwiftString {
 			#endif
 		}
 		
+		public override var count: Int { return length(stringData) }
+		
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData)/4 }
+
+		var first: UTF32Char? { return count > 0 ? self[0] : nil }
 
 		public subscript(index: Int) -> UTF32Char {
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
@@ -107,7 +118,11 @@ public extension SwiftString {
 			#endif
 		}
 		
+		public override var count: Int { return length(stringData) }
+		
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
+
+		var first: UTF8Char? { return count > 0 ? self[0] : nil }
 
 		public subscript(index: Int) -> UTF8Char {
 			return stringData[index]

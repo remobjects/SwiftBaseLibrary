@@ -167,12 +167,6 @@ public struct SwiftString /*: Streamable*/ {
 		#endif
 	}
 	
-	#if COCOA
-	/*public var nulTerminatedUTF8: Character[] {
-		return cStringUsingEncoding(.UTF8StringEncoding) // E62 Type mismatch, cannot assign "UnsafePointer<AnsiChar>" to "Character[]"
-	}*/
-	#endif
-	
 	public var startIndex: SwiftString.Index {
 		return 0
 	}
@@ -190,6 +184,16 @@ public struct SwiftString /*: Streamable*/ {
 	#if !ISLAND
 	public var utf8: SwiftString.UTF8View {
 		return SwiftString.UTF8View(string: nativeStringValue)
+	}
+	#endif
+	
+	#if COCOA
+	public var utf8CString: UTF8Char[] {
+		let utf8 = nativeStringValue.cStringUsingEncoding(.UTF8StringEncoding)
+		let len = strlen(utf8)+1
+		let result = UTF8Char[](len)
+		memcpy(result, utf8, len)
+		return result
 	}
 	#endif
 	
