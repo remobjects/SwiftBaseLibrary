@@ -12,10 +12,91 @@ public extension SwiftString {
 		public var isEmpty: Bool { return count > 0 }		
 	}
 	
-	public typealias CharacterView = UTF16View // for now
-	#if !ISLAND
-	public typealias UnicodeScalarView = UTF32View // for now
-	#endif
+	public class CharacterView: BaseCharacterView {
+		private let stringData: [Character]
+
+		internal init(string: NativeString) {
+			stringData = [Character](capacity: length(string))
+
+			var currentCharacter: NativeString = ""
+			var currentSurrogate: Char?
+			func addCharacter() {
+				if length(currentCharacter) > 0 {
+					self.stringData.append(Character(nativeStringValue: currentCharacter))
+					currentCharacter = ""
+				}
+			}
+			
+			for i in 0 ..< length(string) {
+				let c = string[i]
+				let c2 = Int(c)
+				/*switch Int(c) {
+					case 0x000000...0x00D7FF, 0x00E000...0x00FFFF:
+						if currenrtSurrogate != nil {
+							throw Exception("Invalid surrogate pair at index \(i)")
+						}
+						currentCharacter = currentCharacter+String(c)
+					case 0x00D800...0x00DBFF:
+						if currenrtSurrogate != nil {
+							throw Exception("Invalid surrogate pair at index \(i)")
+						}
+						currentSurrogate = c
+					case 0x00DC00...0x00DBFF:
+						if let currenrtSurrogate = currenrtSurrogate {
+							currentCharacter = currentCharacter+String(currentSurrogate)+String(c)
+							currentSurrogate = nil
+						} else {
+							throw Exception("Invalid surrogate pair at index \(i)")
+						}
+				}*/
+				if c2 <= 0x0D7FF || c2 > 0x00E000 {
+					//print(NSString.stringWithFormat("char %x", c2)) 
+					if currentSurrogate != nil {
+						throw Exception("Invalid surrogate pair at index \(i)")
+					}
+					currentCharacter = currentCharacter+String(c)
+				} else if c2 >= 0x00D800 && c2 <= 0x00DBFF {
+					//print(NSString.stringWithFormat("s1 %x", c2)) 
+					if currentSurrogate != nil {
+						throw Exception("Invalid surrogate pair at index \(i)")
+					}
+					currentSurrogate = c
+				} else if c2 >= 0x00DC00 && c2 < 0x00DFFF {
+					//print(NSString.stringWithFormat("s2 %x", c2)) 
+					if let surrogate = currentSurrogate {
+						currentCharacter = currentCharacter+surrogate+c
+						currentSurrogate = nil
+					} else {
+						throw Exception("Invalid surrogate pair at index \(i)")
+					}
+				}
+				addCharacter()
+			}
+			//addCharacter()
+		}
+		
+		public override var count: Int { return length(stringData) }
+		
+		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
+
+		var first: Character? { return count > 0 ? self[0] : nil }
+
+		public subscript(index: Int) -> Character {
+			return stringData[index]
+		}
+
+		@ToString public func description() -> String {
+			var result = "UTF32CharacterView("
+			for i in startIndex..<endIndex {
+				if i > startIndex {
+					result += " "
+				}
+				result += "\""+self[i].nativeStringValue+"\"" // todo: convert to hex?
+			}
+			result += ")"
+			return result
+		}
+	}
 	
 	public class UTF16View: BaseCharacterView {
 		private let stringData: NativeString
@@ -49,6 +130,8 @@ public extension SwiftString {
 	}
 	
 	#if !ISLAND
+	public typealias UnicodeScalarView = UTF32View
+
 	public class UTF32View: BaseCharacterView {
 		private let stringData: Byte[]
 
@@ -61,7 +144,7 @@ public extension SwiftString {
 			#elseif ISLAND
 			throw Exception("UTF32View is not supported on Island yet.")
 			#elseif COCOA
-			if let utf32 = string.dataUsingEncoding(.NSUTF16LittleEndianStringEncoding) { // todo check order  
+			if let utf32 = string.dataUsingEncoding(.NSUTF32LittleEndianStringEncoding) { // todo check order  
 				stringData = Byte[](capacity: utf32.length);
 				utf32.getBytes(stringData, length: utf32.length);
 			} else {
