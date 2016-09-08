@@ -82,6 +82,7 @@ public func split(_ elements: String, separatorChar separator: Char) -> [String]
 	return s.hasPrefix(`prefix`)
 }
 
+#if !ISLAND
 public func sequence<T>(first: T, next: (T) -> T?) -> ISequence<T> {
 	var nextResult: T? = first
 	while nextResult != nil {
@@ -89,6 +90,7 @@ public func sequence<T>(first: T, next: (T) -> T?) -> ISequence<T> {
 		nextResult = next(nextResult!)
 	}
 }
+#endif
 
 //75374: Swift Compatibility: Cannot use `inout` in closure
 /*public func sequence<T, State>(state: State, next: (inout State) -> T?) -> ISequence<T> {

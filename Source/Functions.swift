@@ -99,6 +99,7 @@ public func print(_ objects: Object?..., separator: String = " ", terminator: St
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
+#if !ISLAND
 func print<Target : OutputStreamType>(_ objects: Object?..., separator: String = " ", terminator: String? = nil, inout toStream output: Target) {
 	var first = true
 	for object in objects {
@@ -125,6 +126,7 @@ public func readLine(# stripNewline: Bool = true) -> String {
 	a = b
 	b = temp
 }
+#endif
 
 public func stride(from start: Int, to end: Int, by stride: Int) -> ISequence<Int> {
 	precondition(stride > 0, "'by' must be larger than zero")
