@@ -12,7 +12,7 @@ public struct SwiftString /*: Streamable*/ {
 	
 	typealias Index = Int
 	
-	fileprivate var stringValue: NativeString
+	fileprivate var nativeStringValue: NativeString
 	
 	public init(count: Int, repeatedValue c: Char) {
 
@@ -21,11 +21,11 @@ public struct SwiftString /*: Streamable*/ {
 		for i in 0 ..< count {
 			chars[i] = c
 		}
-		stringValue = NativeString(chars)
+		nativeStringValue = NativeString(chars)
 		#elseif CLR
-		stringValue = NativeString(c, count)
+		nativeStringValue = NativeString(c, count)
 		#elseif COCOA
-		stringValue = "".stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
+		nativeStringValue = "".stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
 		#endif
 	}
 
@@ -33,24 +33,40 @@ public struct SwiftString /*: Streamable*/ {
 		init(count: 1, repeatedValue: c)
 	}
 
+	public init(_ s: NativeString) {
+		nativeStringValue = s
+	}
+
+	public init(_ s: SwiftString) {
+		nativeStringValue = s.nativeStringValue
+	}
+
+	#if !ECHOES
+	public init(stringLiteral s: String) {
+		nativeStringValue = s
+	}
+	#endif
+
 	public init(_ object: AnyObject) {
 		if let o = object as? ICustomStringConvertible {
-			stringValue = o.description
+			nativeStringValue = o.description
 		} else {
 			#if JAVA
-			stringValue = object.toString()
+			nativeStringValue = object.toString()
 			#elseif CLR || ISLAND
-			stringValue = object.ToString()
+			nativeStringValue = object.ToString()
 			#elseif COCOA
-			stringValue = object.description
+			nativeStringValue = object.description
 			#endif
 		}
 	}
 	
 	//76037: Silver: compiler gets confused with overloaded ctors
+	#if !ECHOES
 	/*public convenience init(reflecting subject: Object) {
+		var subject = subject
 		if let o = subject as? ICustomDebugStringConvertible {
-			init(o.debugDescription)
+			subject = o.debugDescription
 		} else {
 			#if JAVA
 			// ToDo: fall back to reflection to call debugDescription?
@@ -60,34 +76,35 @@ public struct SwiftString /*: Streamable*/ {
 			// ToDo: fall back to checking for extension methods
 			#elseif COCOA
 			if subject.respondsToSelector(#selector(debugDescription)) {
-				stringValue = subject.debugDescription
+				subject = subject.debugDescription
 			}
 			// ToDo: fall back to checking for extension methods
 			#endif
-			init(subject)
 		}
+		init(subject)
 	}*/
+	#endif
 	
 	#if COCOA
 	init/*?*/ (cString: UnsafePointer<AnsiChar>, encoding: SwiftString.Encoding) {
-		stringValue = "" // WORKAROUND
+		nativeStringValue = "" // WORKAROUND
 		if cString == nil {
 			//return nil
 		} else {
-			stringValue = NSString.stringWithCString(cString, encoding: encoding.nativeEncoding)
-			if stringValue == nil {
+			nativeStringValue = NSString.stringWithCString(cString, encoding: encoding.rawValue)
+			if nativeStringValue == nil {
 				//return nil
 			}
 		}
 	}
 	
 	init/*?*/ (utf8String: UnsafePointer<AnsiChar>) {
-		stringValue = "" // WORKAROUND
+		nativeStringValue = "" // WORKAROUND
 		if utf8String == nil {
 			//return nil
 		} else {
-			stringValue = NSString.stringWithUTF8String(utf8String)
-			if stringValue == nil {
+			nativeStringValue = NSString.stringWithUTF8String(utf8String)
+			if nativeStringValue == nil {
 				//return nil
 			}
 		}
@@ -98,8 +115,8 @@ public struct SwiftString /*: Streamable*/ {
 			//return nil
 		}
 		//todo:  If CString contains ill-formed UTF-8 code unit sequences, replaces them with replacement characters (U+FFFD).
-		stringValue = NSString.stringWithUTF8String(utf8String)
-		if stringValue == nil {
+		nativeStringValue = NSString.stringWithUTF8String(utf8String)
+		if nativeStringValue == nil {
 			//return nil
 		}
 	}
@@ -110,43 +127,43 @@ public struct SwiftString /*: Streamable*/ {
 	//
 	
 	public var characters: SwiftString.CharacterView {
-		return SwiftString.CharacterView(string: stringValue) 
+		return SwiftString.CharacterView(string: nativeStringValue) 
 	}
 	
-	#if !ISLAND
-	//76074: Island: SBNL: cannot use `@ToString` on a struct
-	@ToString public func description() -> String { // ASPE ToString method must return a String type
-		return stringValue
+	#if !ISLAND && !COCOA
+	//76074: Island: SBL: cannot use `@ToString` on a struct
+	@ToString public func description() -> String {
+		return nativeStringValue
 	}
 	#endif
 	
 	public var endIndex: SwiftString.Index { 
-		return RemObjects.Elements.System.length(stringValue) // for now?
+		return RemObjects.Elements.System.length(nativeStringValue) // for now?
 	}
 	
 	var fastestEncoding: SwiftString.Encoding { return SwiftString.Encoding.utf16 }
 	
 	public var hashValue: Int {
 		#if JAVA
-		return stringValue.hashCode()
+		return nativeStringValue.hashCode()
 		#elseif CLR || ISLAND
-		return stringValue.GetHashCode()
+		return nativeStringValue.GetHashCode()
 		#elseif COCOA
-		return stringValue.hashValue()
+		return nativeStringValue.hashValue()
 		#endif
 	}
 	
 	public var isEmpty : Bool {
-		return RemObjects.Elements.System.length(stringValue) == 0
+		return RemObjects.Elements.System.length(nativeStringValue) == 0
 	}
 	
 	public var lowercaseString: SwiftString {
 		#if JAVA
-		return SwiftString(stringValue.toLowerCase())
+		return SwiftString(nativeStringValue.toLowerCase())
 		#elseif CLR || ISLAND
-		return SwiftString(stringValue.ToLower())
+		return SwiftString(nativeStringValue.ToLower())
 		#elseif COCOA
-		return SwiftString(stringValue.lowercaseString())
+		return SwiftString(nativeStringValue.lowercaseString())
 		#endif
 	}
 	
@@ -162,27 +179,27 @@ public struct SwiftString /*: Streamable*/ {
 	
 	public var uppercaseString: SwiftString {
 		#if JAVA
-		return SwiftString(stringValue.toUpperCase())
+		return SwiftString(nativeStringValue.toUpperCase())
 		#elseif CLR || ISLAND
-		return SwiftString(stringValue.ToUpper())
+		return SwiftString(nativeStringValue.ToUpper())
 		#elseif COCOA
-		return SwiftString(stringValue.uppercaseString())
+		return SwiftString(nativeStringValue.uppercaseString())
 		#endif
 	}
 
 	#if !ISLAND
 	public var utf8: SwiftString.UTF8View {
-		return SwiftString.UTF8View(string: stringValue)
+		return SwiftString.UTF8View(string: nativeStringValue)
 	}
 	#endif
 	
 	public var utf16: SwiftString.UTF16View {
-		return SwiftString.UTF16View(string: stringValue)
+		return SwiftString.UTF16View(string: nativeStringValue)
 	}
 	
 	#if !ISLAND
 	public var unicodeScalars: SwiftString.UnicodeScalarView {
-		return SwiftString.UnicodeScalarView(string: stringValue)
+		return SwiftString.UnicodeScalarView(string: nativeStringValue)
 	}
 	#endif
 	
@@ -193,21 +210,21 @@ public struct SwiftString /*: Streamable*/ {
 	#if !COCOA
 	public func hasPrefix(_ `prefix`: SwiftString) -> Bool {
 		#if JAVA
-		return stringValue.startsWith(`prefix`.stringValue)
+		return nativeStringValue.startsWith(`prefix`.nativeStringValue)
 		#elseif CLR || ISLAND
-		return stringValue.StartsWith(`prefix`.stringValue)
+		return nativeStringValue.StartsWith(`prefix`.nativeStringValue)
 		#elseif COCOA
-		return stringValue.hasPrefix(`prefix`.stringValue)
+		return nativeStringValue.hasPrefix(`prefix`.nativeStringValue)
 		#endif
 	}
 
 	public func hasSuffix(_ suffix: SwiftString) -> Bool {
 		#if JAVA
-		return stringValue.endsWith(suffix.stringValue)
+		return nativeStringValue.endsWith(suffix.nativeStringValue)
 		#elseif CLR || ISLAND
-		return stringValue.EndsWith(suffix.stringValue)
+		return nativeStringValue.EndsWith(suffix.nativeStringValue)
 		#elseif COCOA
-		return stringValue.hasSuffix(`prefix`.stringValue)
+		return nativeStringValue.hasSuffix(`prefix`.nativeStringValue)
 		#endif
 	}
 	#endif
@@ -226,17 +243,17 @@ public struct SwiftString /*: Streamable*/ {
 	
 	public subscript(range: Range/*<Int>*/) -> SwiftString {
 		#if JAVA
-		return SwiftString(stringValue.substring(range.startIndex, range.length))
+		return SwiftString(nativeStringValue.substring(range.startIndex, range.length))
 		#elseif CLR || ISLAND
-		return SwiftString(stringValue.Substring(range.startIndex, range.length))
+		return SwiftString(nativeStringValue.Substring(range.startIndex, range.length))
 		#elseif COCOA
-		return SwiftString(stringValue.substringWithRange(range.nativeRange)) // todo: make a cast operator
+		return SwiftString(nativeStringValue.substringWithRange(range.nativeRange)) // todo: make a cast operator
 		#endif
 	}
 	
 	// Streamable
 	func writeTo(_ target: OutputStreamType) {
-		target.write(stringValue)
+		target.write(nativeStringValue)
 	}
 
 	//
@@ -245,30 +262,30 @@ public struct SwiftString /*: Streamable*/ {
 
 	public func length() -> Int {
 		#if CLR || ISLAND
-		return stringValue.Length
+		return nativeStringValue.Length
 		#else
-		return stringValue.length() 
+		return nativeStringValue.length() 
 		#endif
 	}
 	
 	public func toInt() -> Int? {
 		#if JAVA
 		__try {
-			return Integer.parseInt(stringValue)
+			return Integer.parseInt(nativeStringValue)
 		} __catch E: NumberFormatException {
 			return nil
 		}
 		//return self.toLowercase()
 		#elseif CLR || ISLAND
 		var i = 0
-		if Int32.TryParse(stringValue, &i) {
+		if Int32.TryParse(nativeStringValue, &i) {
 			return i
 		}
 		return nil
 		#elseif COCOA
 		let formatter = NSNumberFormatter()
 		formatter.numberStyle = .NSNumberFormatterOrdinalStyle
-		if let number = formatter.numberFromString(stringValue) {
+		if let number = formatter.numberFromString(nativeStringValue) {
 			return number.integerValue
 		}
 		return nil
@@ -278,35 +295,6 @@ public struct SwiftString /*: Streamable*/ {
 	//
 	// Nested types
 	//
-	
-	public struct Encoding {
-		static let ascii: SwiftString.Encoding = Encoding()
-		static let iso2022JP: SwiftString.Encoding = Encoding()
-		static let isoLatin1: SwiftString.Encoding = Encoding()
-		static let isoLatin2: SwiftString.Encoding = Encoding()
-		static let japaneseEUC: SwiftString.Encoding = Encoding()
-		static let macOSRoman: SwiftString.Encoding = Encoding()
-		static let nextstep: SwiftString.Encoding = Encoding()
-		static let nonLossyASCII: SwiftString.Encoding = Encoding()
-		static let shiftJIS: SwiftString.Encoding = Encoding()
-		static let symbol: SwiftString.Encoding = Encoding()
-		static let unicode: SwiftString.Encoding = Encoding()
-		static let utf16: SwiftString.Encoding = Encoding()
-		static let utf16BigEndian: SwiftString.Encoding = Encoding()
-		static let utf16LittleEndian: SwiftString.Encoding = Encoding()
-		static let utf32: SwiftString.Encoding = Encoding()
-		static let utf32BigEndian: SwiftString.Encoding = Encoding()
-		static let utf32LittleEndian: SwiftString.Encoding = Encoding()
-		static let utf8: SwiftString.Encoding = Encoding()
-		static let windowsCP1250: SwiftString.Encoding = Encoding()
-		static let windowsCP1251: SwiftString.Encoding = Encoding()
-		static let windowsCP1252: SwiftString.Encoding = Encoding()
-		static let windowsCP1253: SwiftString.Encoding = Encoding()
-		static let windowsCP1254: SwiftString.Encoding = Encoding()
-		#if COCOA
-		var nativeEncoding: NSStringEncoding
-		#endif
-	}
 	
 	public __abstract class BaseCharacterView {
 		internal init(string: NativeString) {

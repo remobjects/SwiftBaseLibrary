@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
         <RootNamespace>Swift</RootNamespace>
@@ -40,6 +40,7 @@
         <Reference Include="Foundation"/>
         <Reference Include="rtl"/>
         <Reference Include="libToffee"/>
+        <Reference Include="CoreFoundation"/>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets"/>
     <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
