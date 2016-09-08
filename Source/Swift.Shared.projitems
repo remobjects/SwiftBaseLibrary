@@ -75,6 +75,9 @@
         <Compile Include="$(MSBuildThisFileDirectory)String.Views.swift">
             <VirtualFolder>String</VirtualFolder>
         </Compile>
+        <Compile Include="$(MSBuildThisFileDirectory)Character.swift">
+            <VirtualFolder>String</VirtualFolder>
+        </Compile>
     </ItemGroup>
     <ItemGroup>
         <Folder Include="Sequences">

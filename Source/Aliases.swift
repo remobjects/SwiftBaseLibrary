@@ -15,8 +15,7 @@ public typealias UIntMax = UInt64
 
 public typealias Bool = Boolean
 
-public typealias Character = Char // for now
-public typealias UnicodeScalar = Character // for now
+public typealias UnicodeScalar = UTF32Char
 public typealias UTF16Char = Char // UInt16
 public typealias UTF32Char = UInt32
 #if !COCOA

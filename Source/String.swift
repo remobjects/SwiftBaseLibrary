@@ -210,6 +210,34 @@ public struct SwiftString /*: Streamable*/ {
 	//
 	// Methods
 	//
+	
+	public mutating func append(_ c: Character) {
+		nativeStringValue = nativeStringValue+c.nativeStringValue
+	}
+
+	public mutating func append(_ c: UTF8Char) {
+		nativeStringValue = nativeStringValue+c
+	}
+
+	public mutating func append(_ s: SwiftString) {
+		nativeStringValue = nativeStringValue+s.nativeStringValue
+	}
+
+	public mutating func append(_ s: NativeString) {
+		nativeStringValue = nativeStringValue+s
+	}
+
+	public func appending(_ s: SwiftString) -> SwiftString {
+		return SwiftString(nativeStringValue+s.nativeStringValue)
+	}
+
+	public func appending(_ s: NativeString) -> SwiftString {
+		return SwiftString(nativeStringValue+s)
+	}
+
+	public func contains(_ s: SwiftString) -> Bool {
+		return index(of: s) != nil
+	}
 
 	#if !COCOA
 	public func hasPrefix(_ `prefix`: SwiftString) -> Bool {
@@ -233,6 +261,26 @@ public struct SwiftString /*: Streamable*/ {
 	}
 	#endif
 	
+	public func index(of s: SwiftString) -> Int? {
+		#if JAVA
+		let result = nativeStringValue.indexOf(s.nativeStringValue)
+		if result < 0 {
+			return nil
+		}
+		#elseif CLR || ISLAND
+		let result = nativeStringValue.IndexOf(s.nativeStringValue)
+		if result < 0 {
+			return nil
+		}
+		#elseif COCOA
+		let result = nativeStringValue.rangeOfString(s.nativeStringValue).location
+		if result == NSNotFound {
+			return nil
+		}
+		#endif
+		return result 
+	}
+
 	#if !ISLAND
 	public func withUTF8Buffer<R>(@noescape _ body: (/*UnsafeBufferPointer<UInt8>*/UTF8Char[]) -> R) -> R {
 		return body(utf8.stringData)
