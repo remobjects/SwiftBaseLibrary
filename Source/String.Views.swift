@@ -79,7 +79,9 @@ public extension SwiftString {
 		
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
 
+		#if !COOPER
 		var first: Character? { return count > 0 ? self[0] : nil }
+		#endif
 
 		public subscript(index: Int) -> Character {
 			return stringData[index]

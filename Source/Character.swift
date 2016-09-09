@@ -6,13 +6,13 @@
 		return nativeStringValue
 	}
 	
-	func toHexString() -> String {
+	internal func toHexString() -> String {
 		if length(nativeStringValue) == 1 {
 			return UInt32(nativeStringValue[0]).toHexString(length: 4)
 		} else if length(nativeStringValue) > 1 {
 			var result = ""
 			//var currentSurrogate: Int32?
-			var currentSurrogate: Char?
+			var currentSurrogate: Char? = nil
 			for i in 0 ..< length(nativeStringValue) {
 
 				let c = nativeStringValue[i]

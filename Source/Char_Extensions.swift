@@ -31,14 +31,17 @@ public extension UnicodeScalar : Streamable {
 		return self <= 127
 	}
 	
+	
 	#if !CLR && !ISLAND
 	private func ToString() -> String? {
-		#if JAVA
+		/*#if JAVA
 		let chars: Char[] = [self]
 		return java.lang.String(chars)
 		#elseif COCOA
 		return Foundation.NSString.stringWithFormat("%c", self)
-		#endif
+		#endif*/
+		#hint fix to convert properly from UTF-32 to String
+		return self.toHexString(length: 6)
 	}
 	#endif
 	
