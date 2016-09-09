@@ -91,7 +91,7 @@ public extension SwiftString {
 				if i > startIndex {
 					result += " "
 				}
-				result += "\""+self[i].nativeStringValue+"\"" // todo: convert to hex?
+				result += self[i].toHexString()
 			}
 			result += ")"
 			return result
@@ -122,7 +122,7 @@ public extension SwiftString {
 				if i > startIndex {
 					result += " "
 				}
-				result += UInt64(self[i]).toHexString(length: 4)
+				result += UInt16(self[i]).toHexString(length: 4)
 			}
 			result += ")"
 			return result
@@ -170,7 +170,7 @@ public extension SwiftString {
 				if i > startIndex {
 					result += " "
 				}
-				result += UInt64(self[i]).toHexString(length: 8)
+				result += UInt32(self[i]).toHexString(length: 8)
 			}
 			result += ")"
 			return result

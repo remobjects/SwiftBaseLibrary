@@ -1,11 +1,11 @@
 ﻿#if JAVA
-typealias NativeString = java.lang.String
+public typealias NativeString = java.lang.String
 #elseif CLR
-typealias NativeString = System.String
+public typealias NativeString = System.String
 #elseif ISLAND
-typealias NativeString = RemObjects.Elements.System.String
+public typealias NativeString = RemObjects.Elements.System.String
 #elseif COCOA
-typealias NativeString = Foundation.NSString
+public typealias NativeString = Foundation.NSString
 #endif
 
 public struct SwiftString /*: Streamable*/ {
