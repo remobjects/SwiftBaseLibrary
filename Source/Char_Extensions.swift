@@ -32,7 +32,6 @@ public extension UnicodeScalar : Streamable {
 	}
 	
 	
-	#if !CLR && !ISLAND
 	private func ToString() -> String? {
 		/*#if JAVA
 		let chars: Char[] = [self]
@@ -43,7 +42,6 @@ public extension UnicodeScalar : Streamable {
 		#hint fix to convert properly from UTF-32 to String
 		return self.toHexString(length: 6)
 	}
-	#endif
 	
 	public func writeTo(_ target: OutputStreamType) {
 		if let s = ToString() {
