@@ -19,7 +19,7 @@ public extension SwiftString {
 			stringData = [Character](capacity: length(string))
 
 			var currentCharacter: NativeString = ""
-			var currentSurrogate: Char?
+			var currentSurrogate: Char? = nil
 			func addCharacter() {
 				if length(currentCharacter) > 0 {
 					self.stringData.append(Character(nativeStringValue: currentCharacter))
@@ -134,7 +134,7 @@ public extension SwiftString {
 	#if !ISLAND
 	public typealias UnicodeScalarView = UTF32View
 
-	public class UTF32View: BaseCharacterView {
+	public class UTF32View: BaseCharacterView/*, ISequence<UTF32Char>*/ {
 		private let stringData: Byte[]
 
 		internal init(string: NativeString) {
@@ -164,6 +164,12 @@ public extension SwiftString {
 
 		public subscript(index: Int) -> UTF32Char {
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
+		}
+
+		public func GetSequence() -> ISequence<UTF32Char> {
+			for i in startIndex ..< endIndex {
+				__yield self[i]
+			}
 		}
 
 		@ToString public func description() -> String {

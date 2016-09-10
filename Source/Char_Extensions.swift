@@ -32,21 +32,22 @@ public extension UnicodeScalar : Streamable {
 	}
 	
 	
-	private func ToString() -> String? {
-		/*#if JAVA
-		let chars: Char[] = [self]
-		return java.lang.String(chars)
+	public func stringValue() -> String {
+		let bytes: Byte[] = [self & 0xff, (self >> 8) & 0xff, (self >> 16) & 0xff, (self >> 24) & 0xff, 0, 0, 0, 0]
+		#if JAVA
+		return java.lang.String(bytes,"UTF16")
+		#elseif CLR
+		return System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetString(bytes, 0, 1) // todo check order  
+		#elseif ISLAND
+		return self.toHexString(length: 6) // UnicodeScalar.ToString() is not supported on Island yet.
 		#elseif COCOA
-		return Foundation.NSString.stringWithFormat("%c", self)
-		#endif*/
-		#hint fix to convert properly from UTF-32 to String
-		return self.toHexString(length: 6)
+		#hint doesn't seem to work
+		return NSString.stringWithCString(bytes as! UnsafePointer<AnsiChar>, encoding:.UTF32LittleEndianStringEncoding)
+		#endif
 	}
 	
 	public func writeTo(_ target: OutputStreamType) {
-		if let s = ToString() {
-			target.write(s)
-		}
+		target.write(stringValue())
 	}
 	
 	#if JAVA

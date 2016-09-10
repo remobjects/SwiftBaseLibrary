@@ -17,7 +17,7 @@
 
 				let c = nativeStringValue[i]
 				let c2 = UInt32(c)
-				var newChar: String?
+				var newChar: String? = nil
 				if c2 <= 0x0D7FF || c2 > 0x00E000 {
 					if currentSurrogate != nil {
 						throw Exception("Invalid surrogate pair at index \(i)")

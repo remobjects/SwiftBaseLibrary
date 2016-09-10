@@ -248,3 +248,16 @@ public extension UInt64 {
 		#endif
 	}
 }
+
+public extension UInt32 {
+
+	internal func toHexString(# length: Int = 4) -> String {
+		#if JAVA
+		return String.format("%0\(length)x", self)
+		#elseif CLR || ISLAND
+		return String.Format("{0:x\(length)}", self)
+		#elseif COCOA
+		return String(format: "%0\(length)llx", self)
+		#endif
+	}
+}

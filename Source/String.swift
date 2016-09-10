@@ -215,12 +215,12 @@ public struct SwiftString /*: Streamable*/ {
 		nativeStringValue = nativeStringValue+c.nativeStringValue
 	}
 
-	public mutating func append(_ c: UTF8Char) {
+	public mutating func append(_ c: Char) {
 		//76100: Island: (rtl or compiler) cannot concat string+char
 		#if !ISLAND
 		nativeStringValue = nativeStringValue+c
 		#else
-		//nativeStringValue = nativeStringValue+String.FromChar(c)
+		nativeStringValue = nativeStringValue+String.FromChar(c)
 		#endif
 	}
 
