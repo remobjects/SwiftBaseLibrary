@@ -2,7 +2,7 @@
 
 	internal let nativeStringValue: NativeString
 	
-	/*@ToString*/ public func ToString() -> String {
+	@ToString public func ToString() -> String {
 		return nativeStringValue
 	}
 	

@@ -130,12 +130,9 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString.CharacterView(string: nativeStringValue) 
 	}
 	
-	#if !ISLAND && !COCOA
-	//76074: Island: SBL: cannot use `@ToString` on a struct
 	@ToString public func description() -> String {
 		return nativeStringValue
 	}
-	#endif
 	
 	public var endIndex: SwiftString.Index { 
 		return RemObjects.Elements.System.length(nativeStringValue) // for now?
@@ -216,12 +213,7 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	public mutating func append(_ c: Char) {
-		//76100: Island: (rtl or compiler) cannot concat string+char
-		#if !ISLAND
 		nativeStringValue = nativeStringValue+c
-		#else
-		nativeStringValue = nativeStringValue+String.FromChar(c)
-		#endif
 	}
 
 	public mutating func append(_ s: SwiftString) {
