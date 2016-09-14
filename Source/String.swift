@@ -304,6 +304,26 @@ public struct SwiftString /*: Streamable*/ {
 	func writeTo(_ target: OutputStreamType) {
 		target.write(nativeStringValue)
 	}
+	
+	//
+	// Operators
+	//
+
+	//76158: Silver: two very odd warnings rthat make no sense
+	/*func + (_ value1: SwiftString?, _ value2: SwiftString?) -> SwiftString {
+		return SwiftString(value1?.nativeStringValue + value2?.nativeStringValue)
+	}*/
+
+	//76157: Silver: Internal Error in SBL
+	/*
+	func + (_ value1: AnyObject?, _ value2: AnyObject?) -> SwiftString {
+		return SwiftString(__toNativeString(value1) + value2?.nativeStringValue)
+	}*/
+
+	//76158: Silver: two very odd warnings rthat make no sense
+	/*func + (_ value1: SwiftString?, _ value2: AnyObject?) -> SwiftString {
+		return SwiftString(value1?.nativeStringValue + __toNativeString(value2))
+	}*/
 
 	//
 	// Silver-specific extensions not defined in standard Swift.SwiftString:

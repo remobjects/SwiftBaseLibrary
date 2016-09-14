@@ -24,3 +24,17 @@ func __newLine() -> String {
 		return "(null)"
 	}
 }
+
+@inline(__always) func __toNativeString(_ object: Object?) -> String {
+	if let object = object {
+		#if JAVA
+		return object.toString()
+		#elseif CLR || ISLAND
+		return object.ToString()
+		#elseif COCOA
+		return object.description
+		#endif
+	} else {
+		return "(null)"
+	}
+}
