@@ -32,7 +32,7 @@ public extension SwiftString {
 			let te = System.Globalization.StringInfo.GetTextElementEnumerator(string)
 			te.Reset()
 			while te.MoveNext() {
-				stringData.append(Character(nativeStringValue: te.Current as! String))
+				stringData.append(Character(nativeStringValue: te.Current as! NativeString))
 			}
 			#elseif COCOA
 			var i = 0
@@ -41,7 +41,7 @@ public extension SwiftString {
 				let sequenceLength = string.rangeOfComposedCharacterSequenceAtIndex(i).length
 				
 				//76192: Silver: can't use range as subscript? (SBL)
-				let ch = string.__substring(range: i ..< i+sequenceLength)
+				let ch: NativeString = string.__substring(range: i ..< i+sequenceLength)
 				stringData.append(Character(nativeStringValue: ch))
 				i += sequenceLength
 			}
@@ -109,7 +109,7 @@ public extension SwiftString {
 			return stringData[index]
 		}
 
-		@ToString public func description() -> String {
+		@ToString public func description() -> NativeString {
 			var result = "UTF32CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {

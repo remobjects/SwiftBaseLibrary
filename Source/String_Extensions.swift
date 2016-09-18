@@ -1,4 +1,4 @@
-﻿public extension String : Streamable {
+﻿public extension NativeString : Streamable {
 	
 	typealias Index = Int
 	
@@ -9,16 +9,16 @@
 		for i in 0 ..< count {
 			chars[i] = c
 		}
-		return String(chars)
+		return NativeString(chars)
 		#elseif CLR
-		return String(c, count)
+		return NativeString(c, count)
 		#elseif COCOA
 		return "".stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
 		#endif
 	}
 
 	public init(_ c: Char) {
-		return String(count: 1, repeatedValue: c)
+		return NativeString(count: 1, repeatedValue: c)
 	}
 
 	public init(_ object: AnyObject) {
@@ -65,12 +65,12 @@
 	}
 	
 	#if !COCOA
-	public var debugDescription: String {
+	public var debugDescription: NativeString {
 		return self
 	}
 	#endif
 	
-	public var endIndex: String.Index { 
+	public var endIndex: NativeString.Index { 
 		#if CLR
 		return self.Length
 		#else
@@ -93,7 +93,7 @@
 	}
 	
 	#if !COCOA
-	public var lowercaseString: String {
+	public var lowercaseString: NativeString {
 		#if JAVA
 		return self.toLowerCase()
 		#elseif CLR || ISLAND
@@ -108,12 +108,12 @@
 	}*/
 	#endif
 	
-	public var startIndex: String.Index {
+	public var startIndex: NativeString.Index {
 		return 0
 	}
 	
 	#if !COCOA
-	public var uppercaseString: String {
+	public var uppercaseString: NativeString {
 		#if JAVA
 		return self.toUpperCase()
 		#elseif CLR || ISLAND
@@ -143,7 +143,7 @@
 	//
 
 	#if !COCOA
-	public func hasPrefix(_ `prefix`: String) -> Bool {
+	public func hasPrefix(_ `prefix`: NativeString) -> Bool {
 		#if JAVA
 		return startsWith(`prefix`)
 		#elseif CLR || ISLAND
@@ -151,7 +151,7 @@
 		#endif
 	}
 
-	public func hasSuffix(_ suffix: String) -> Bool {
+	public func hasSuffix(_ suffix: NativeString) -> Bool {
 		#if JAVA
 		return endsWith(suffix)
 		#elseif CLR || ISLAND
@@ -161,14 +161,14 @@
 	#endif
 	
 	#if COCOA
-	public static func fromCString(cs: UnsafePointer<AnsiChar>) -> String? {
+	public static func fromCString(cs: UnsafePointer<AnsiChar>) -> NativeString? {
 		if cs == nil {
 			return nil
 		}
 		return NSString.stringWithUTF8String(cs)
 	}
 	
-	public static func fromCStringRepairingIllFormedUTF8(_ cs: UnsafePointer<AnsiChar>) -> (String?, /*hadError:*/ Bool) {
+	public static func fromCStringRepairingIllFormedUTF8(_ cs: UnsafePointer<AnsiChar>) -> (NativeString?, /*hadError:*/ Bool) {
 		if cs == nil {
 			return (nil, false)
 		}
@@ -187,11 +187,11 @@
 	// Subscripts
 	//
 	
-	//public subscript(range: String.Index) -> Character // implicitly provided by the compiler, already
+	//public subscript(range: NativeString.Index) -> Character // implicitly provided by the compiler, already
 	
 	//76192: Silver: can't use range as subscript? (SBL)
-	internal func __substring(range: Range/*<Int>*/) -> String {
-	//public subscript(range: Range/*<Int>*/) -> String {
+	internal func __substring(range: Range/*<Int>*/) -> NativeString {
+	//public subscript(range: Range/*<Int>*/) -> NativeString {
 		#if JAVA
 		return substring(range.lowerBound, range.length)
 		#elseif CLR || ISLAND
@@ -207,7 +207,7 @@
 	}
 
 	//
-	// Silver-specific extensions not defined in standard Swift.String:
+	// Silver-specific extensions not defined in standard Swift.NativeString:
 	//
 
 	#if !COCOA
@@ -244,31 +244,31 @@
 	}
 	
 	public __abstract class CharacterView {
-		/*fileprivate*/internal init(string: String) {
+		/*fileprivate*/internal init(string: NativeString) {
 		}
 
-		public var startIndex: String.Index { return 0 }
-		public __abstract var endIndex: String.Index { get }
+		public var startIndex: NativeString.Index { return 0 }
+		public __abstract var endIndex: NativeString.Index { get }
 		
 	}
 	
 	public class UTF16CharacterView: CharacterView, ICustomDebugStringConvertible {
-		private let string: String
+		private let string: NativeString
 		
-		/*fileprivate*/internal  init(string: String) {
+		/*fileprivate*/internal  init(string: NativeString) {
 			self.string = string
 		}
 		
-		public override var endIndex: String.Index { return length(string) }
+		public override var endIndex: NativeString.Index { return length(string) }
 
 		public subscript(index: Int) -> UTF16Char {
 			return string[index]
 		}
 
 		#if COCOA
-		override var debugDescription: String! {
+		override var debugDescription: NativeString! {
 		#else
-		public var debugDescription: String {
+		public var debugDescription: NativeString {
 		#endif
 			var result = "UTF16CharacterView("
 			for i in startIndex..<endIndex {
