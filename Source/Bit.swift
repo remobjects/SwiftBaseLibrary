@@ -32,9 +32,9 @@ public enum Bit { //: Int32, ForwardIndexType<Distance> { //, Comparable, Random
 	}*/
 
 	//#if COCOA
-	//override var debugDescription: String! {
+	//override var debugDescription: NativeString! {
 	//#else
-	public var debugDescription: String {
+	public var debugDescription: NativeString {
 	//#endif
 		var result = "Bit("
 		switch self {

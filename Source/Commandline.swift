@@ -1,20 +1,20 @@
 ﻿internal var __C_ARGC = 0
-internal var __C_ARGV: [String]!
+internal var __C_ARGV: [NativeString]!
 public var C_ARGC: Int { get { return __C_ARGC; } }
-public var C_ARGV: [String] { get { return __C_ARGV!; } }
+public var C_ARGV: [NativeString] { get { return __C_ARGV!; } }
 
-public func `$$setArgV`(_ args: String[]) {
+public func `$$setArgV`(_ args: NativeString[]) {
 	__C_ARGC = length(args);
-	__C_ARGV = [String](arrayLiteral: args);
+	__C_ARGV = [NativeString](arrayLiteral: args);
 }
 
 #if COCOA
-public func __stringArrayToCStringArray(_ arcv: [String]) -> (UnsafePointer<AnsiChar>)[] {
+public func __stringArrayToCStringArray(_ arcv: [NativeString]) -> (UnsafePointer<AnsiChar>)[] {
 	
 	var result = UnsafePointer<AnsiChar>[](length(arcv))
 	for i in 0 ..< arcv.count {
 		if arcv[i] != nil {
-			result[i] = (arcv[i] as! NSString).UTF8String
+			result[i] = (arcv[i] as! NativeString).UTF8String
 		} else {
 			result[i] = nil
 		}

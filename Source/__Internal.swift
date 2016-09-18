@@ -1,5 +1,5 @@
 ﻿
-func __newLine() -> String {
+func __newLine() -> NativeString {
 	#if JAVA
 	return System.getProperty("line.separator")
 	#elseif CLR
@@ -11,7 +11,7 @@ func __newLine() -> String {
 	#endif
 }
 
-@inline(__always) func __toString(_ object: Object?) -> String {
+@inline(__always) func __toString(_ object: Object?) -> NativeString {
 	if let object = object {
 		#if JAVA
 		return object.toString()
@@ -25,7 +25,7 @@ func __newLine() -> String {
 	}
 }
 
-@inline(__always) func __toNativeString(_ object: Object?) -> String {
+@inline(__always) func __toNativeString(_ object: Object?) -> NativeString {
 	if let object = object {
 		#if JAVA
 		return object.toString()

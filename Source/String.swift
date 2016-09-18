@@ -8,6 +8,10 @@ public typealias NativeString = RemObjects.Elements.System.String
 public typealias NativeString = Foundation.NSString
 #endif
 
+//public typealias String = SwiftString
+
+@assembly:DefaultStringType("Swift", typeOf(Swift.SwiftString))
+
 public struct SwiftString /*: Streamable*/ {
 	
 	typealias Index = Int

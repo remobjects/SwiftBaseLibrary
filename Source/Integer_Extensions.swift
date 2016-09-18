@@ -238,26 +238,26 @@ public extension Double {
 
 public extension UInt64 {
 
-	internal func toHexString(# length: Int = 8) -> String {
+	internal func toHexString(# length: Int = 8) -> NativeString {
 		#if JAVA
-		return String.format("%0\(length)x", self)
+		return NativeString.format("%0\(length)x", self)
 		#elseif CLR || ISLAND
-		return String.Format("{0:x\(length)}", self)
+		return NativeString.Format("{0:x\(length)}", self)
 		#elseif COCOA
-		return String(format: "%0\(length)llx", self)
+		return NativeString(format: "%0\(length)llx", self)
 		#endif
 	}
 }
 
 public extension UInt32 {
 
-	internal func toHexString(# length: Int = 4) -> String {
+	internal func toHexString(# length: Int = 4) -> NativeString {
 		#if JAVA
-		return String.format("%0\(length)x", self)
+		return NativeString.format("%0\(length)x", self)
 		#elseif CLR || ISLAND
-		return String.Format("{0:x\(length)}", self)
+		return NativeString.Format("{0:x\(length)}", self)
 		#elseif COCOA
-		return String(format: "%0\(length)llx", self)
+		return NativeString(format: "%0\(length)llx", self)
 		#endif
 	}
 }

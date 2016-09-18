@@ -50,11 +50,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		}
 	}
 	
-	#if COCOA
-	override var description: String! {
-	#else
-	public var description: String {
-	#endif
+	@ToString public func description() -> NativeString {
 		if closed {
 			return "\(lowerBound)...\(upperBound)"
 		} else {
@@ -63,9 +59,9 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	}
 
 	#if COCOA
-	override var debugDescription: String! {
+	override var debugDescription: NativeString! {
 	#else
-	public var debugDescription: String {
+	public var debugDescription: NativeString {
 		#endif
 		if closed {
 			return "Range(\(String(reflecting: lowerBound))...\(String(reflecting: upperBound)))"

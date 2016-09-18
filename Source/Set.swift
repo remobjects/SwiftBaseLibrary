@@ -338,7 +338,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}
 
 	/// A textual representation of `self`, suitable for debugging.
-	public var debugDescription: String { 
+	public var debugDescription: NativeString { 
 		return description
 	}
 }
