@@ -18,16 +18,36 @@ public extension SwiftString {
 		internal init(string: NativeString) {
 			stringData = [Character](capacity: length(string))
 
-			var currentCharacter: NativeString = ""
-			var currentSurrogate: Char? = nil
-			func addCharacter() {
-				if length(currentCharacter) > 0 {
-					self.stringData.append(Character(nativeStringValue: currentCharacter))
-					currentCharacter = ""
-				}
+			#if JAVA
+			let it = java.text.BreakIterator.getCharacterInstance();
+			it.setText(string);
+			var start = it.first()
+			var end = it.next()
+			while (end != java.text.BreakIterator.DONE) {
+				stringData.append(Character(nativeStringValue: string.substring(start, end)))
+				start = end
+				end = it.next()
 			}
-			
-			for i in 0 ..< length(string) {
+			#elseif CLR
+			let te = System.Globalization.StringInfo.GetTextElementEnumerator(string)
+			te.Reset()
+			while te.MoveNext() {
+				stringData.append(Character(nativeStringValue: te.Current as! String))
+			}
+			#elseif COCOA
+			var i = 0
+			while i < length(string) {
+				
+				let sequenceLength = string.rangeOfComposedCharacterSequenceAtIndex(i).length
+				
+				//76192: Silver: can't use range as subscript? (SBL)
+				let ch = string.__substring(range: i ..< i+sequenceLength)
+				stringData.append(Character(nativeStringValue: ch))
+				i += sequenceLength
+			}
+			#endif
+				
+				/* old logic to detect surrogate pairs; not needed right now
 				let c = string[i]
 				let c2 = Int(c)
 				/*switch Int(c) {
@@ -51,13 +71,13 @@ public extension SwiftString {
 				}*/
 				if c2 <= 0x0D7FF || c2 > 0x00E000 {
 					//print(NSString.stringWithFormat("char %x", c2)) 
-					if currentSurrogate != nil {
+					if currentSurrogate != "\0"/*nil*/ {
 						throw Exception("Invalid surrogate pair at index \(i)")
 					}
 					currentCharacter = currentCharacter+String(c)
 				} else if c2 >= 0x00D800 && c2 <= 0x00DBFF {
 					//print(NSString.stringWithFormat("s1 %x", c2)) 
-					if currentSurrogate != nil {
+					if currentSurrogate != "\0"/*nil*/ {
 						throw Exception("Invalid surrogate pair at index \(i)")
 					}
 					currentSurrogate = c
@@ -65,13 +85,15 @@ public extension SwiftString {
 					//print(NSString.stringWithFormat("s2 %x", c2)) 
 					if let surrogate = currentSurrogate {
 						currentCharacter = currentCharacter+surrogate+c
-						currentSurrogate = nil
+						currentSurrogate = "\0"/*nil*/
 					} else {
 						throw Exception("Invalid surrogate pair at index \(i)")
 					}
 				}
 				addCharacter()
-			}
+				
+				i += 1
+			}*/
 			//addCharacter()
 		}
 		
