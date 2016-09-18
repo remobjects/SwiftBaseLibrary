@@ -51,30 +51,30 @@ public extension Int64 {
 
 public extension Int32  {
 
-	// Interval Operators
+	// Range Operators
 	
-	public func ... (a: Int32, b: Int32) -> ClosedInterval/*<Int32>*/ {
-		return ClosedInterval/*<Int32>*/(a, b)
+	public func ... (a: Int32, b: Int32) -> Range/*<Int32>*/ {
+		return Range/*<Int32>*/(a, b, closed: true)
 	}
 	
-	public func ... (a: Int64, b: Int32) -> ClosedInterval/*<Int64>*/ {
-		return ClosedInterval/*<Int64>*/(a, b)
+	public func ... (a: Int64, b: Int32) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, b, closed: true)
 	}
 	
-	public func ... (a: Int32, b: Int64) -> ClosedInterval/*<Int64>*/ {
-		return ClosedInterval/*<Int64>*/(a, b)
+	public func ... (a: Int32, b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, b, closed: true)
 	}
 	
-	public func ..< (a: Int32, b: Int32) -> HalfOpenInterval/*<Int32>*/ {
-		return HalfOpenInterval/*<Int64>*//*<Int32>*/(a, b)
+	public func ..< (a: Int32, b: Int32) -> Range/*<Int32>*/ {
+		return Range/*<Int64>*//*<Int32>*/(a, b, closed: false)
 	}
 	
-	public func ..< (a: Int64, b: Int32) -> HalfOpenInterval/*<Int64>*/ {
-		return HalfOpenInterval/*<Int64>*/(a, b)
+	public func ..< (a: Int64, b: Int32) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, b, closed: false)
 	}
 	
-	public func ..< (a: Int32, b: Int64) -> HalfOpenInterval/*<Int64>*/ {
-		return HalfOpenInterval/*<Int64>*/(a, b)
+	public func ..< (a: Int32, b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, b, closed: false)
 	}
 
 }
@@ -126,14 +126,14 @@ public extension Int32 /*: Strideable*/ {
 
 public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	
-	// Interval Operators
+	// Range Operators
 	
-	public func ... (a: Int64, b: Int64) -> ClosedInterval/*<Int64>*/ {
-		return ClosedInterval/*<Int64>*/(a, b)
+	public func ... (a: Int64, b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, b, closed: true)
 	}
 	
-	public func ..< (a: Int64, b: Int64) -> HalfOpenInterval/*<Int64>*/ {
-		return HalfOpenInterval/*<Int64>*/(a, b)
+	public func ..< (a: Int64, b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, b, closed: false)
 	}
 
 	// Strideable

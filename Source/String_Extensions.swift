@@ -189,11 +189,13 @@
 	
 	//public subscript(range: String.Index) -> Character // implicitly provided by the compiler, already
 	
-	public subscript(range: Range/*<Int>*/) -> String {
+	//76192: Silver: can't use range as subscript? (SBL)
+	internal func __substring(range: Range/*<Int>*/) -> String {
+	//public subscript(range: Range/*<Int>*/) -> String {
 		#if JAVA
-		return substring(range.startIndex, range.length)
+		return substring(range.lowerBound, range.length)
 		#elseif CLR || ISLAND
-		return Substring(range.startIndex, range.length)
+		return Substring(range.lowerBound, range.length)
 		#elseif COCOA
 		return substringWithRange(range.nativeRange) // todo: make a cast operator
 		#endif

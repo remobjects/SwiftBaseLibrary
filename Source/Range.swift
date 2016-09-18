@@ -1,41 +1,65 @@
 ﻿
 //74077: Allow GetSequence() to actually be used to implement ISequence
-/*@Obsolete("Use Intervals instead")*/ public class Range/*<Element: ForwardIndexType, Comparable>*/: /*Equatable, CollectionType,*/ CustomStringConvertible, CustomDebugStringConvertible/* ISequence<IntMax>*/ {
+
+public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConvertible, CustomDebugStringConvertible/* ISequence<IntMax>*/ {
 
 	//typealias Index = Int64//Element
-	typealias Element = Int64
+	typealias Bound = Int64
 	
 	//
 	// Initializers
 	//
 
 	public init(_ x: Range/*<Element>*/) {
-		startIndex = x.startIndex
-		endIndex = x.endIndex
+		self.lowerBound = x.lowerBound
+		self.upperBound = x.upperBound
+		self.closed = x.closed
 	}
 	
-	@Obsolete("Use ... or ..< operator instead") public init(start: Element, end: Element) {
-		startIndex = start
-		endIndex = end
+	internal init(_ lowerBound: Bound, _ upperBound: Bound, closed: Bool = false) {
+		self.lowerBound = lowerBound
+		self.upperBound = upperBound
+		self.closed = closed
 	}
 	
 	//
 	// Properties
 	//
 	
-	public var startIndex: Element 
-	public var endIndex: Element
+	public var lowerBound: Bound
+	public var upperBound: Bound
+	public var closed: Bool
+	
+	var isEmpty: Bool {
+		if closed {
+			return upperBound == lowerBound
+		} else {
+			return upperBound < lowerBound
+		}
+	}
 	
 	//
 	// Methods
 	//
+	
+	public func contains(_ element: Bound) -> Bool {
+		if closed {
+			return element >= lowerBound && element <= upperBound
+		} else {
+			return element >= lowerBound && element < upperBound
+		}
+	}
 	
 	#if COCOA
 	override var description: String! {
 	#else
 	public var description: String {
 	#endif
-		return "\(startIndex)..<\(endIndex)"
+		if closed {
+			return "\(lowerBound)...\(upperBound)"
+		} else {
+			return "\(lowerBound)..<\(upperBound)"
+		}
 	}
 
 	#if COCOA
@@ -43,18 +67,22 @@
 	#else
 	public var debugDescription: String {
 		#endif
-		return "Range(\(String(reflecting: startIndex))..<\(String(reflecting: endIndex)))"
+		if closed {
+			return "Range(\(String(reflecting: lowerBound))...\(String(reflecting: upperBound)))"
+		} else {
+			return "Range(\(String(reflecting: lowerBound))..<\(String(reflecting: upperBound)))"
+		}
 	}
 	
 	/* Equatable */
 
 	public func ==(lhs: Self, rhs: Self) -> Bool {
-		return lhs.startIndex == rhs.startIndex && lhs.endIndex == rhs.endIndex
+		return lhs.lowerBound == rhs.lowerBound && lhs.upperBound == rhs.upperBound && lhs.closed == rhs.closed
 	}
 	
 	/* IEquatable<T> */
 	public func Equals(rhs: /*Self*/Range) -> Bool { // 69955: Silver: two issues wit "Self" vs concrete generic type
-		return startIndex == rhs.startIndex && endIndex == rhs.endIndex 
+		return lowerBound == rhs.lowerBound && upperBound == rhs.upperBound && closed == rhs.closed
 	}
 	
 	/* IComparable<T> */
@@ -65,16 +93,23 @@
 	// Subscripts & Iterators
 	//
 	
-	public subscript (i: Element) -> Element { 
+	public subscript (i: Bound) -> Bound { 
 		//return startIndex + i
 		return i
 	}
 	
-	public func GetSequence() -> ISequence<Element> {
-		var i = startIndex
-		while i < endIndex {
-			__yield i
-			i += 1
+	public func GetSequence() -> ISequence<Bound> {
+		var i = lowerBound
+		if closed {
+			while i < upperBound {
+				__yield i
+				i += 1
+			}
+		} else {
+			while i <= upperBound {
+				__yield i
+				i += 1
+			}
 		}
 	}
 	
@@ -82,14 +117,18 @@
 	// Silver-specific extensions not defined in standard Swift.Range:
 	//
 
-	public var length: Element {
-		return endIndex-startIndex
+	public var length: Bound {
+		if closed {
+			return upperBound-lowerBound+1
+		} else {
+			return upperBound-lowerBound
+		}
 	}
 	
 	#if COCOA 
 	// todo: make a cast operator
 	public var nativeRange: NSRange {
-		return NSMakeRange(startIndex, endIndex-startIndex)
+		return NSMakeRange(lowerBound, length)
 	}
 	#endif
 

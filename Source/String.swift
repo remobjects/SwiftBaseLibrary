@@ -292,9 +292,9 @@ public struct SwiftString /*: Streamable*/ {
 	
 	public subscript(range: Range/*<Int>*/) -> SwiftString {
 		#if JAVA
-		return SwiftString(nativeStringValue.substring(range.startIndex, range.length))
+		return SwiftString(nativeStringValue.substring(range.lowerBound, range.length))
 		#elseif CLR || ISLAND
-		return SwiftString(nativeStringValue.Substring(range.startIndex, range.length))
+		return SwiftString(nativeStringValue.Substring(range.lowerBound, range.length))
 		#elseif COCOA
 		return SwiftString(nativeStringValue.substringWithRange(range.nativeRange)) // todo: make a cast operator
 		#endif
