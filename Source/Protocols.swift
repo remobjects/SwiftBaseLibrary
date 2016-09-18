@@ -11,16 +11,12 @@
 
 public typealias CustomStringConvertible = ICustomStringConvertible
 public protocol ICustomStringConvertible {
-	var description: String! { get } // unwrapped nullable for better Cocoa compatibility
+	var description: NativeString! { get } // unwrapped nullable for better Cocoa compatibility
 }
 
 public typealias CustomDebugStringConvertible = ICustomDebugStringConvertible
 public protocol ICustomDebugStringConvertible {
-	#if COCOA
-	var debugDescription: String! { get }
-	#else
-	var debugDescription: String { get }
-	#endif
+	var debugDescription: NativeString! { get } // unwrapped nullable for better Cocoa compatibility
 }
 
 public typealias RawRepresentable = IRawRepresentable

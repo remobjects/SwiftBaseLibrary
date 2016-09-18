@@ -2,11 +2,11 @@
 
 	internal let nativeStringValue: NativeString
 	
-	@ToString public func ToString() -> String {
+	@ToString public func ToString() -> NativeString {
 		return nativeStringValue
 	}
 	
-	internal func toHexString() -> String {
+	internal func toHexString() -> NativeString {
 		if length(nativeStringValue) == 1 {
 			return UInt32(nativeStringValue[0]).toHexString(length: 4)
 		} else if length(nativeStringValue) > 1 {
@@ -16,7 +16,7 @@
 
 				let c = nativeStringValue[i]
 				let c2 = UInt32(c)
-				var newChar: String? = nil
+				var newChar: NativeString? = nil
 				if c2 <= 0x0D7FF || c2 > 0x00E000 {
 					if currentSurrogate != "\0" {
 						throw Exception("Invalid surrogate pair at index \(i)")

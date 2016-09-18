@@ -2,7 +2,7 @@
 #if !COCOA
 public extension Object : CustomStringConvertible, CustomDebugStringConvertible {
 
-	@inline(__always) public var description: String {
+	@inline(__always) public var description: NativeString {
 		#if JAVA
 		return self.toString()
 		#elseif CLR || ISLAND
@@ -10,7 +10,7 @@ public extension Object : CustomStringConvertible, CustomDebugStringConvertible 
 		#endif
 	}
 
-	@inline(__always) public var debugDescription: String { 
+	@inline(__always) public var debugDescription: NativeString { 
 		#if JAVA
 		return self.toString()
 		#elseif CLR || ISLAND

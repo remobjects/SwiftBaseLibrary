@@ -140,7 +140,7 @@ public extension SwiftString {
 			return stringData[index]
 		}
 
-		@ToString public func description() -> String {
+		@ToString public func description() -> NativeString {
 			var result = "UTF16CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {
@@ -194,7 +194,7 @@ public extension SwiftString {
 			}
 		}
 
-		@ToString public func description() -> String {
+		@ToString public func description() -> NativeString {
 			var result = "UTF32CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {
@@ -241,7 +241,7 @@ public extension SwiftString {
 			return stringData[index]
 		}
 
-		@ToString public func description() -> String {
+		@ToString public func description() -> NativeString {
 			var result = "UTF8CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {

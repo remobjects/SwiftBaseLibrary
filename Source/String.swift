@@ -9,14 +9,13 @@ public typealias NativeString = Foundation.NSString
 #endif
 
 //public typealias String = SwiftString
-
-@assembly:DefaultStringType("Swift", typeOf(Swift.SwiftString))
+//@assembly:DefaultStringType("Swift", typeOf(Swift.SwiftString))
 
 public struct SwiftString /*: Streamable*/ {
 	
 	typealias Index = Int
 	
-	fileprivate var nativeStringValue: NativeString
+	/*fileprivate*/internal var nativeStringValue: NativeString // only so the .pas partial can access it
 	
 	public init(count: Int, repeatedValue c: Char) {
 
@@ -41,14 +40,14 @@ public struct SwiftString /*: Streamable*/ {
 		nativeStringValue = s
 	}
 
-	public init(_ s: SwiftString) {
+	/*public init(_ s: SwiftString) {
 		nativeStringValue = s.nativeStringValue
-	}
+	}*/
 
 	#if !ECHOES
-	public init(stringLiteral s: String) {
+	/*public init(stringLiteral s: SwiftString) {
 		nativeStringValue = s
-	}
+	}*/
 	#endif
 
 	public init(_ object: AnyObject) {
@@ -134,7 +133,7 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString.CharacterView(string: nativeStringValue) 
 	}
 	
-	@ToString public func description() -> String {
+	@ToString public func description() -> NativeString {
 		return nativeStringValue
 	}
 	

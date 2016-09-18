@@ -31,7 +31,6 @@ public extension UnicodeScalar : Streamable {
 		return self <= 127
 	}
 	
-	
 	public func asString() -> String {
 		let bytes: Byte[] = [self & 0xff, (self >> 8) & 0xff, (self >> 16) & 0xff, (self >> 24) & 0xff]//, 0, 0, 0, 0]
 		#if JAVA
