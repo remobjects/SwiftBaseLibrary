@@ -1,10 +1,10 @@
-<?xml version="1.0" standalone="no"?>
+<?xml version="1.0"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
     <PropertyGroup>
         <ProductVersion>3.5</ProductVersion>
         <RootNamespace>Swift</RootNamespace>
         <ProjectGuid>BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F</ProjectGuid>
-        <OutputType>library</OutputType>
+        <OutputType>Library</OutputType>
         <AssemblyName>Swift</AssemblyName>
         <AllowGlobals>False</AllowGlobals>
         <AllowLegacyWith>False</AllowLegacyWith>
