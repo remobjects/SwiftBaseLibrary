@@ -164,7 +164,7 @@ public class DispatchQueue : DispatchObject {
 		#endif
 	}
 	
-	var queue: dispatch_queue_t {
+	public var queue: dispatch_queue_t {
 		#if OLD_DEPLOYMENT_TARGET
 		return object._dq
 		#else
@@ -186,13 +186,13 @@ public class DispatchQueue : DispatchObject {
 		case Low = DISPATCH_QUEUE_PRIORITY_LOW
 	}
 	
-	var label: String {
+	public var label: String {
 		return NSString.stringWithUTF8String(dispatch_queue_get_label(queue))
 	}
 	
-	lazy class var main: DispatchQueue = DispatchQueue(queue: dispatch_get_main_queue())
+	public lazy class var main: DispatchQueue = DispatchQueue(queue: dispatch_get_main_queue())
 	
-	class func global(attributes: DispatchQueue.GlobalAttributes) -> DispatchQueue {
+	public class func global(attributes: DispatchQueue.GlobalAttributes) -> DispatchQueue {
 		let raw = dispatch_get_global_queue(attributes.rawValue, 0)
 		return DispatchQueue(queue: raw)
 	}
@@ -202,38 +202,38 @@ public class DispatchQueue : DispatchObject {
 		init(queue: raw)
 	}
 	
-	func after(when: DispatchTime, execute work: /*@convention(block)*/ () -> Void) {
+	public func after(when: DispatchTime, execute work: /*@convention(block)*/ () -> Void) {
 		dispatch_after(when.rawValue, queue, work)
 	}
-	func after(walltime when: DispatchWallTime, execute work: /*@convention(block)*/ () -> Void) {
+	public func after(walltime when: DispatchWallTime, execute work: /*@convention(block)*/ () -> Void) {
 		dispatch_after(when.rawValue, queue, work)
 	}
 
-	func apply(applier iterations: UInt64, execute block: @noescape (NSUInteger) -> Void) {
+	public func apply(applier iterations: UInt64, execute block: @noescape (NSUInteger) -> Void) {
 		dispatch_apply(iterations, queue, block)
 	}
 	
-	func asynchronously(execute workItem: DispatchWorkItem) {
+	public func asynchronously(execute workItem: DispatchWorkItem) {
 		dispatch_async(queue) {
 			workItem.perform()
 		}
 	}
 	
-	func asynchronously(group: DispatchGroup? /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute work: /*@convention(block)*/ () -> Void) {
+	public func asynchronously(group: DispatchGroup? /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute work: /*@convention(block)*/ () -> Void) {
 		dispatch_async(queue, work)
 	}
 	
-	func synchronously(execute block: @noescape () -> Void) {
+	public func synchronously(execute block: @noescape () -> Void) {
 		dispatch_sync(queue, block)
 	}
 	
-	func synchronously(execute workItem: DispatchWorkItem) {
+	public func synchronously(execute workItem: DispatchWorkItem) {
 		dispatch_sync(queue) {
 			workItem.perform()
 		}
 	}
 	
-	func synchronously<T>(execute work: @noescape () throws -> T) rethrows -> T {
+	public func synchronously<T>(execute work: @noescape () throws -> T) rethrows -> T {
 		var result: T
 		var e: AnyObject?
 		dispatch_sync(queue) {
@@ -276,7 +276,7 @@ func dispatchMain() -> Never {
 //
 //
 
-class DispatchWorkItem {
+public class DispatchWorkItem {
 	public init(group: DispatchGroup/*?*/ /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute block: () -> ()) {
 		self.block = block
 		self.group = group
@@ -285,7 +285,7 @@ class DispatchWorkItem {
 	private let block: () -> ()
 	private let group: DispatchGroup/*?*/
 	
-	func perform() {
+	public func perform() {
 		block()
 	}
 	
@@ -301,7 +301,7 @@ class DispatchWorkItem {
 		//dispatch_notify(group.group, queue.object, notifyBlock) 
 	}*/
 	
-	func cancel() {
+	public func cancel() {
 	}
 	
 	/*var isCancelled: Bool { get }*/
@@ -575,14 +575,14 @@ public struct DispatchDataIterator /*: IteratorProtocol, Sequence*/ {
 }
 
 public struct DispatchQoS /*: Equatable*/ {
-	let qosClass: DispatchQoS.QoSClass
-	let relativePriority: Int
-	static let background: DispatchQoS	  = DispatchQoS(qosClass: QoSClass.background)
-	static let utility: DispatchQoS		 = DispatchQoS(qosClass: QoSClass.utility)
-	static let defaultQoS: DispatchQoS	  = DispatchQoS(qosClass: QoSClass.defaultQoS)
-	static let userInitiated: DispatchQoS   = DispatchQoS(qosClass: QoSClass.userInitiated)
-	static let userInteractive: DispatchQoS = DispatchQoS(qosClass: QoSClass.userInteractive)
-	static let unspecified: DispatchQoS	 = DispatchQoS(qosClass: QoSClass.unspecified)
+	public let qosClass: DispatchQoS.QoSClass
+	public let relativePriority: Int
+	public static let background: DispatchQoS	  = DispatchQoS(qosClass: QoSClass.background)
+	public static let utility: DispatchQoS		 = DispatchQoS(qosClass: QoSClass.utility)
+	public static let defaultQoS: DispatchQoS	  = DispatchQoS(qosClass: QoSClass.defaultQoS)
+	public static let userInitiated: DispatchQoS   = DispatchQoS(qosClass: QoSClass.userInitiated)
+	public static let userInteractive: DispatchQoS = DispatchQoS(qosClass: QoSClass.userInteractive)
+	public static let unspecified: DispatchQoS	 = DispatchQoS(qosClass: QoSClass.unspecified)
 
 	public enum QoSClass {
 		case background = qos_class_t.QOS_CLASS_BACKGROUND
@@ -606,21 +606,21 @@ public struct DispatchQoS /*: Equatable*/ {
 	}
 }
 
-infix func ==(a: DispatchQoS.QoSClass, b: DispatchQoS.QoSClass) -> Bool {  // why is this needed, don't enums == automatically?
+public infix func ==(a: DispatchQoS.QoSClass, b: DispatchQoS.QoSClass) -> Bool {  // why is this needed, don't enums == automatically?
 	return a == b
 }
 
-func ==(a: DispatchQoS, b: DispatchQoS) -> Bool {
+public func ==(a: DispatchQoS, b: DispatchQoS) -> Bool {
 	return a.qosClass == b.qosClass && a.relativePriority == b.relativePriority
 }
 
 public struct DispatchQueueAttributes /*: OptionSet*/ {
-	let rawValue: dispatch_queue_attr_t
+	public let rawValue: dispatch_queue_attr_t
 	public init(rawValue: dispatch_queue_attr_t) {
 		self.rawValue = rawValue
 	}
-	static let serial: DispatchQueueAttributes = DispatchQueueAttributes(rawValue: DISPATCH_QUEUE_SERIAL)
-	static let concurrent: DispatchQueueAttributes = DispatchQueueAttributes(rawValue: DISPATCH_QUEUE_CONCURRENT)
+	public static let serial: DispatchQueueAttributes = DispatchQueueAttributes(rawValue: DISPATCH_QUEUE_SERIAL)
+	public static let concurrent: DispatchQueueAttributes = DispatchQueueAttributes(rawValue: DISPATCH_QUEUE_CONCURRENT)
 	
 	//static let qosUserInteractive: DispatchQueueAttributes
 	//static let qosUserpublic initiated: DispatchQueueAttributes
@@ -645,12 +645,12 @@ public struct DispatchTime {
 		self.rawValue = rawValue
 	}
 
-	let rawValue: dispatch_time_t
+	public let rawValue: dispatch_time_t
 	
-	static func now() -> DispatchTime {
+	public static func now() -> DispatchTime {
 		return DispatchTime(rawValue: dispatch_time(DISPATCH_TIME_NOW, 0))
 	}
-	static lazy let distantFuture: DispatchTime = DispatchTime(rawValue: DISPATCH_TIME_FOREVER)
+	public static lazy let distantFuture: DispatchTime = DispatchTime(rawValue: DISPATCH_TIME_FOREVER)
 
 }
 public struct DispatchWallTime {
@@ -659,12 +659,12 @@ public struct DispatchWallTime {
 		self.rawValue = rawValue
 	}
 
-	let rawValue: dispatch_time_t
+	public let rawValue: dispatch_time_t
 
-	static func now() -> DispatchWallTime {
+	public static func now() -> DispatchWallTime {
 		return DispatchWallTime(rawValue: dispatch_walltime(nil, 0))
 	}
-	static lazy let distantFuture: DispatchWallTime = DispatchWallTime(rawValue: DISPATCH_TIME_FOREVER)
+	public static lazy let distantFuture: DispatchWallTime = DispatchWallTime(rawValue: DISPATCH_TIME_FOREVER)
 }
 
 public enum DispatchTimeInterval {
@@ -674,7 +674,7 @@ public enum DispatchTimeInterval {
 	case nanoseconds(Int)
 }
 
-prefix func -(interval: DispatchTimeInterval) -> DispatchTimeInterval {
+public prefix func -(interval: DispatchTimeInterval) -> DispatchTimeInterval {
 	switch interval {
 		case .seconds(let seconds):		   return DispatchTimeInterval.seconds(-seconds)
 		case .milliseconds(let milliseconds): return DispatchTimeInterval.seconds(-milliseconds)
@@ -683,7 +683,7 @@ prefix func -(interval: DispatchTimeInterval) -> DispatchTimeInterval {
 	}
 }
 
-func +(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
+public func +(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
 	switch interval {
 		case .seconds(let seconds):		   return DispatchTime(rawValue: dispatch_time(time.rawValue, seconds	  * NSEC_PER_SEC))
 		case .milliseconds(let milliseconds): return DispatchTime(rawValue: dispatch_time(time.rawValue, milliseconds * NSEC_PER_MSEC))
@@ -691,11 +691,11 @@ func +(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
 		case .nanoseconds(let nanoseconds):   return DispatchTime(rawValue: dispatch_time(time.rawValue, nanoseconds))
 	}
 }
-func +(time: DispatchTime, seconds: Double) -> DispatchTime {
+public func +(time: DispatchTime, seconds: Double) -> DispatchTime {
 	return DispatchTime(rawValue: dispatch_time(time.rawValue, Int64(seconds*1_000_000_000.0)))
 }
 
-func +(time: DispatchWallTime, interval: DispatchTimeInterval) -> DispatchWallTime {
+public func +(time: DispatchWallTime, interval: DispatchTimeInterval) -> DispatchWallTime {
 	switch interval {
 		case .seconds(let seconds):		   return DispatchWallTime(rawValue: dispatch_time(time.rawValue, seconds	  * NSEC_PER_SEC))
 		case .milliseconds(let milliseconds): return DispatchWallTime(rawValue: dispatch_time(time.rawValue, milliseconds * NSEC_PER_MSEC))
@@ -704,23 +704,23 @@ func +(time: DispatchWallTime, interval: DispatchTimeInterval) -> DispatchWallTi
 	}
 }
 
-func +(time: DispatchWallTime, seconds: Double) -> DispatchWallTime {
+public func +(time: DispatchWallTime, seconds: Double) -> DispatchWallTime {
 	return DispatchWallTime(rawValue: dispatch_time(time.rawValue, Int64(seconds*NSEC_PER_SEC)))
 }
 
-func -(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
+public func -(time: DispatchTime, interval: DispatchTimeInterval) -> DispatchTime {
 	return time + -interval
 }
 
-func -(time: DispatchTime, seconds: Double) -> DispatchTime {
+public func -(time: DispatchTime, seconds: Double) -> DispatchTime {
 	return time + -seconds
 }
 
-func -(time: DispatchWallTime, interval: DispatchTimeInterval) -> DispatchWallTime {
+public func -(time: DispatchWallTime, interval: DispatchTimeInterval) -> DispatchWallTime {
 	return time + -interval
 }
 
-func -(time: DispatchWallTime, seconds: Double) -> DispatchWallTime {
+public func -(time: DispatchWallTime, seconds: Double) -> DispatchWallTime {
 	return time + -seconds
 }
 
