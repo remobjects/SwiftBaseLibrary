@@ -111,7 +111,7 @@ public class DispatchObject /*: OS_object*/ {
 	}
 }
 
-class DispatchGroup : DispatchObject {
+public class DispatchGroup : DispatchObject {
 	public init() {
 		#if OLD_DEPLOYMENT_TARGET
 		var temp: dispatch_object_t
