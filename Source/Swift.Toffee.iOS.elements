@@ -17,6 +17,7 @@
         <Architecture>arm64,armv7s,armv7</Architecture>
         <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
         <DeploymentTargetVersion>7.0</DeploymentTargetVersion>
+        <MangleTypeNames>True</MangleTypeNames>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>

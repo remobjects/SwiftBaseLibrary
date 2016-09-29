@@ -17,6 +17,7 @@
         <Architecture>armv7k</Architecture>
         <SimulatorArchitectures>i386</SimulatorArchitectures>
         <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
+        <MangleTypeNames>True</MangleTypeNames>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>

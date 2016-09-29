@@ -15,6 +15,7 @@
         <CreateHeaderFile>True</CreateHeaderFile>
         <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
         <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
+        <MangleTypeNames>True</MangleTypeNames>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
         <Optimize>false</Optimize>
