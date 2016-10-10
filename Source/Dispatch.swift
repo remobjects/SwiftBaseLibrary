@@ -219,6 +219,10 @@ public class DispatchQueue : DispatchObject {
 		}
 	}
 	
+	public func asynchronously(execute block: @noescape () -> Void) {
+		dispatch_async(queue, block)
+	}
+	
 	public func asynchronously(group: DispatchGroup? /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute work: /*@convention(block)*/ () -> Void) {
 		dispatch_async(queue, work)
 	}
