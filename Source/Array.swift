@@ -108,6 +108,26 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return result
 		#endif
 	}
+
+	func `prefix`(through: Int) -> [T] {
+		return self[0...through]
+	}
+		
+	func `prefix`(upTo: Int) -> [T] {
+		return self[0..<upTo]
+	}
+		
+	func suffix(from: Int) -> [T] {
+		return self[from..<count]
+	}
+
+	public subscript (range: Range) -> [T] {
+		#if TOFFEE
+		return self.Skip(range.lowerBound).Take(range.length).array().mutableCopy() as! NSMutableArray<T>
+		#else
+		return self.Skip(range.lowerBound).Take(range.length).ToList()
+		#endif
+	}
 	
 	public subscript (index: Int) -> T {
 		get {

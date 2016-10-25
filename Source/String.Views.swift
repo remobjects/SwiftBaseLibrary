@@ -2,8 +2,10 @@
 public extension SwiftString {
 
 	public __abstract class BaseCharacterView {
-		internal init(string: NativeString) {
+		internal init {
 		}
+		
+		typealias Index = Int
 
 		public var startIndex: SwiftString.Index { return 0 }
 		public __abstract var endIndex: SwiftString.Index { get }
@@ -14,6 +16,10 @@ public extension SwiftString {
 	
 	public class CharacterView: BaseCharacterView {
 		private let stringData: [Character]
+		
+		private init(stringData: [Character]) {
+			self.stringData = stringData
+		}
 
 		internal init(string: NativeString) {
 			stringData = [Character](capacity: length(string))
@@ -105,6 +111,22 @@ public extension SwiftString {
 		var first: Character? { return count > 0 ? self[0] : nil }
 		#endif
 
+		func `prefix`(through: Index) -> CharacterView {
+			return CharacterView(stringData: stringData[0...through])
+		}
+		
+		func `prefix`(upTo: Index) -> CharacterView {
+			return CharacterView(stringData: stringData[0..<upTo])
+		}
+		
+		func suffix(from: Index) -> CharacterView {
+			return CharacterView(stringData: stringData[from..<stringData.count])
+		}
+
+		public subscript(range: Range) -> CharacterView {
+			return CharacterView(stringData: stringData[range])
+		}
+
 		public subscript(index: Int) -> Character {
 			return stringData[index]
 		}
@@ -136,6 +158,22 @@ public extension SwiftString {
 		// 76085: Silver: `Char` becomes String when using with `?:` operator
 		var first: UTF16Char? { return count > 0 ? self[0] : nil as? UTF16Char } 
 
+		func `prefix`(through: Index) -> UTF16View {
+			return UTF16View(string: stringData.__substring(range: 0...through))
+		}
+		
+		func `prefix`(upTo: Index) -> UTF16View {
+			return UTF16View(string: stringData.__substring(range: 0..<upTo))
+		}
+		
+		func suffix(from: Index) -> UTF16View {
+			return UTF16View(string: stringData.__substring(range: from..<stringData.length()))
+		}
+
+		public subscript(range: Range) -> UTF16View {
+			return UTF16View(string: stringData.__substring(range: range))
+		}
+
 		public subscript(index: Int) -> UTF16Char {
 			return stringData[index]
 		}
@@ -158,6 +196,10 @@ public extension SwiftString {
 
 	public class UTF32View: BaseCharacterView/*, ISequence<UTF32Char>*/ {
 		private let stringData: Byte[]
+
+		private init(stringData: Byte[]) {
+			self.stringData = stringData
+		}
 
 		internal init(string: NativeString) {
 			#if JAVA
@@ -183,6 +225,22 @@ public extension SwiftString {
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData)/4 }
 
 		var first: UTF32Char? { return count > 0 ? self[0] : nil }
+
+		/*func `prefix`(through: Index) -> UTF32View {
+			return UTF32View(stringData: stringData[0...through])
+		}
+		
+		func `prefix`(upTo: Index) -> UTF32View {
+			return UTF32View(stringData: stringData[0..<upTo])
+		}
+		
+		func suffix(from: Index) -> UTF32View {
+			return UTF32View(stringData: stringData[from..<stringData.count])
+		}
+
+		public subscript(range: Range) -> UTF32View {
+			return UTF32View(stringData: stringData[range])
+		}*/
 
 		public subscript(index: Int) -> UTF32Char {
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
@@ -212,6 +270,10 @@ public extension SwiftString {
 	public class UTF8View: BaseCharacterView {
 		internal let stringData: UTF8Char[]
 		
+		private init(stringData: UTF8Char[]) {
+			self.stringData = stringData
+		}
+
 		internal init(string: NativeString) {
 			#if JAVA
 			stringData = []
@@ -236,6 +298,22 @@ public extension SwiftString {
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
 
 		var first: UTF8Char? { return count > 0 ? self[0] : nil }
+
+		/*func `prefix`(through: Index) -> UTF8View {
+			return UTF8View(stringData: stringData[0...through])
+		}
+		
+		func `prefix`(upTo: Index) -> UTF8View {
+			return UTF8View(stringData: stringData[0..<upTo])
+		}
+		
+		func suffix(from: Index) -> UTF8View {
+			return UTF8View(stringData: stringData[from..<stringData.count])
+		}
+
+		public subscript(range: Range) -> UTF8View {
+			return UTF8View(stringData: stringData[range])
+		}*/
 
 		public subscript(index: Int) -> UTF8Char {
 			return stringData[index]
