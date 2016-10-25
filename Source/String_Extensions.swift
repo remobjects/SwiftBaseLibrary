@@ -159,7 +159,7 @@
 		#endif
 	}
 	#endif
-	
+
 	#if COCOA
 	public static func fromCString(cs: UnsafePointer<AnsiChar>) -> NativeString? {
 		if cs == nil {
@@ -187,6 +187,18 @@
 	// Subscripts
 	//
 	
+	func `prefix`(through: Index) -> NativeString {
+		return __substring(range: 0...through)
+	}
+	
+	func `prefix`(upTo: Index) -> NativeString {
+		return __substring(range: 0..<upTo)
+	}
+	
+	func suffix(from: Index) -> NativeString {
+		return __substring(range: from..<length())
+	}
+
 	//public subscript(range: NativeString.Index) -> Character // implicitly provided by the compiler, already
 	
 	//76192: Silver: can't use range as subscript? (SBL)
