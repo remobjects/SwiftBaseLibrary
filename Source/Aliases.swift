@@ -1,11 +1,23 @@
 ﻿public typealias NSObject = Object
 
-#if CLR || JAVA || ISLAND
+#if CLR || JAVA 
 public typealias Int = Int64
 public typealias UInt = UInt64
+#elseif ISLAND
+	#if X86_64
+	public typealias Int = Int64
+	public typealias UInt = UInt64
+	#elseif I386
+	public typealias Int = Int32
+	public typealias UInt = UInt32
+	#elseif
+	#hint Unexpected bitness
+	public typealias Int = Int64
+	public typealias UInt = UInt64
+	#endif
 #elseif COCOA
-public typealias Int = Int64//NSInteger
-public typealias UInt = UInt64//NSUInteger
+public typealias Int = NSInteger
+public typealias UInt = NSUInteger
 #endif
 public typealias Int8 = SByte
 public typealias UInt8 = Byte
