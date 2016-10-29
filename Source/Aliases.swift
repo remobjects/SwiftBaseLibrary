@@ -10,7 +10,7 @@ public typealias UInt = UInt64
 	#elseif I386
 	public typealias Int = Int32
 	public typealias UInt = UInt32
-	#elseif
+	#else
 	#hint Unexpected bitness
 	public typealias Int = Int64
 	public typealias UInt = UInt64
