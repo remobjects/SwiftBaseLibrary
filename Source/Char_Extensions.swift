@@ -18,11 +18,11 @@ public extension UnicodeScalar : Streamable {
 		}
 		else {
 			#if JAVA
-			return java.lang.String.format("\\u{%8x}", self as! Int32)
+			return NativeString.format("\\u{%8x}", self as! Int32)
 			#elseif CLR || ISLAND
-			return /*System.*/String.Format("\\u{{{0:X8}}}", self as! Int32)
+			return NativeString.Format("\\u{{{0:X8}}}", self as! Int32)
 			#elseif COCOA
-			return Foundation.NSString.stringWithFormat("\\u{%8x}", self as! Int32)
+			return NativeString.stringWithFormat("\\u{%8x}", self as! Int32)
 			#endif
 		}
 	}
@@ -34,14 +34,13 @@ public extension UnicodeScalar : Streamable {
 	public func asString() -> String {
 		let bytes: Byte[] = [self & 0xff, (self >> 8) & 0xff, (self >> 16) & 0xff, (self >> 24) & 0xff]//, 0, 0, 0, 0]
 		#if JAVA
-		return java.lang.String(bytes,"UTF16")
+		return NativeString(bytes,"UTF16")
 		#elseif CLR
 		return System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetString(bytes, 0, 1) // todo check order  
 		#elseif ISLAND
-		#hint implement when we have UTF-32 support
-		return self.toHexString(length: 6) // UnicodeScalar.ToString() is not supported on Island yet.
+		return TextConvert.UTF32ToString(bytes)
 		#elseif COCOA
-		return NSString(bytes: bytes as! UnsafePointer<AnsiChar>, length: 4, encoding:.UTF32LittleEndianStringEncoding)
+		return NativeString(bytes: bytes as! UnsafePointer<AnsiChar>, length: 4, encoding:.UTF32LittleEndianStringEncoding)
 		#endif
 	}
 	
