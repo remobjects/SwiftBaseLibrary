@@ -122,7 +122,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}
 
 	public subscript (range: Range) -> [T] {
-		#if TOFFEE
+		#if COCOA
 		return self.Skip(range.lowerBound).Take(range.length).array().mutableCopy() as! NSMutableArray<T>
 		#else
 		return self.Skip(range.lowerBound).Take(range.length).ToList()
