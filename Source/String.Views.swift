@@ -203,18 +203,16 @@ public extension SwiftString {
 
 		internal init(string: NativeString) {
 			#if JAVA
-			stringData = []
-			fatalError("UTF32CharacterView is not implemenyted for Java yet.")
+			stringData = string.getBytes("UTF-32LE")
 			#elseif CLR
 			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
 			#elseif ISLAND
-			throw Exception("UTF32View is not supported on Island yet.")
+			stringData = textConvert.StringToUTF32(aValue, /*BOM:*/false) // todo check order  
 			#elseif COCOA
 			if let utf32 = string.dataUsingEncoding(.NSUTF32LittleEndianStringEncoding) { // todo check order  
 				stringData = Byte[](capacity: utf32.length);
 				utf32.getBytes(stringData, length: utf32.length);
 			} else {
-				stringData = []
 				fatalError("Encoding of SwiftString to UTF32 failed.")
 			}
 			#endif
@@ -276,18 +274,16 @@ public extension SwiftString {
 
 		internal init(string: NativeString) {
 			#if JAVA
-			stringData = []
-			fatalError("UTF8CharacterView is not implemenyted for Java yet.")
+			stringData = string.getBytes("UTF-8");
 			#elseif CLR
 			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order  
 			#elseif ISLAND
-			throw Exception("UTF8View is not supported on Island yet.")
+			stringData = TextConvert.StringToUTF8(aValue, /*BOM:*/false) // todo check order  
 			#elseif COCOA
 			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
 				stringData = UTF8Char[](capacity: utf8.length);
 				utf8.getBytes(stringData, length: utf8.length);
 			} else {
-				stringData = []
 				fatalError("Encoding of String to UTF8 failed.")
 			}
 			#endif
