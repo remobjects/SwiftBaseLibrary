@@ -197,8 +197,13 @@ public class DispatchQueue : DispatchObject {
 		return DispatchQueue(queue: raw)
 	}
 	
-	public convenience init(label: String, attributes: DispatchQueueAttributes /*= default*/, target: DispatchQueue? /*= default*/) {
-		let raw = dispatch_queue_create(label.UTF8String, 0)
+	public convenience init(label: String, attributes: DispatchQueueAttributes /*= default*/, target: DispatchQueue? = nil) {
+		var raw: dispatch_queue_t
+		if let target = target {
+			raw = target.queue
+		} else {
+			raw = dispatch_queue_create(label.UTF8String, nil)
+		}
 		init(queue: raw)
 	}
 	
