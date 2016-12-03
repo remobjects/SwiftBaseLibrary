@@ -127,7 +127,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}
 
 	/// Remove the member referenced by the given index.
-	mutating func removeAtIndex(_ index: /*SetIndex<T>*/Int) -> T {
+	mutating func remove(at index: /*SetIndex<T>*/Int) -> T {
 		#if JAVA
 		let result = __mapped.get(index)
 		__mapped.remove(index)

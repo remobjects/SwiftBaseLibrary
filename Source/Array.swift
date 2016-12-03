@@ -249,7 +249,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	@discardableResult public mutating func removeAtIndex(_ index: Int) -> T {
+	@discardableResult public mutating func remove(at index: Int) -> T {
 		#if JAVA
 		return __mapped.remove(index)
 		#elseif CLR | ISLAND
@@ -276,7 +276,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	@discardableResult public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
-			return removeAtIndex(c-1)
+			return remove(at: c-1)
 		}  else {
 			__throw Exception("Cannot remove last item of an empty array.")
 		}
