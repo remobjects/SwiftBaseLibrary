@@ -95,35 +95,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return !self.Any()
 	}
 
-	@Obsolete("Use joinWithSeparator() instead") public func join(_ elements: ISequence<T>) -> ISequence<T> {
-		var first = true
-		for e in elements {
-			if !first {
-				for i in self {
-					__yield i
-				}
-			} else {
-				first = false
-			}
-			__yield e
-		}
-	}
-	
-	@Obsolete("Use joinWithSeparator() instead") public func join(_ elements: T[]) -> ISequence<T> { 
-		var first = true
-		for e in elements {
-			if !first {
-				for i in self {
-					__yield i
-				}
-			} else {
-				first = false
-			}
-			__yield e
-		}
-	}
-
-	public func joinWithSeparator(_ separator: String) -> String {
+	public func joined(separator: String) -> String {
 		var first = true
 		var result = ""
 		for e in self {
@@ -137,7 +109,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return result
 	}
 	
-	public func joinWithSeparator(_ separator: ISequence<T>) -> ISequence<T> {
+	public func joined(separator: ISequence<T>) -> ISequence<T> {
 		var first = true
 		for e in self {
 			if !first {
@@ -151,7 +123,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 	}
 	
-	public func joinWithSeparator(_ separator: T[]) -> ISequence<T> { 
+	public func joined(separator: T[]) -> ISequence<T> { 
 		var first = true
 		for e in self {
 			if !first {
