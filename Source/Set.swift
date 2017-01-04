@@ -261,7 +261,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		return self.subtract(anotherSet)
 	}
 
-	@Deprecated
+	@Obsolete
 	public func subtract(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
@@ -293,7 +293,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		return self.intersect(anotherSet)
 	}
 
-	@Deprecated
+	@Obsolete
 	public func intersect(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
