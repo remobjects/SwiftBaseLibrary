@@ -48,7 +48,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		return NSMutableSet.setWithObjects((&elements[0] as! UnsafePointer<id>), count: length(elements))
 		#endif		
 	}
-
+	
 	/// Create a `Set` from a finite sequence of items.
 	//init<S : SequenceType where T == T>(_ sequence: S) { // Generics not allowed here
 	//}
@@ -257,6 +257,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	/// sequence will be ignored.
 	mutating func exclusiveOrInPlace<S : SequenceType where T == T>(sequence: S)*/
 
+	public func subtracting(_ anotherSet: Set<T>) -> Set<T> {
+		return self.subtract(anotherSet)
+	}
+
+	@Deprecated
 	public func subtract(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
@@ -284,6 +289,11 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}*/
 	// todo: port others to Sequence as well.
 
+	public func intersection(_ anotherSet: Set<T>) -> Set<T> {
+		return self.intersect(anotherSet)
+	}
+
+	@Deprecated
 	public func intersect(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
@@ -322,6 +332,16 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 			}
 		}
 		return result
+	}
+	
+	public static func + <T>(lhs: Set<T>, rhs: ISequence<T>) -> Set<T> {
+	
+		let targetSet = Set<T>().union(lhs)
+		for element in rhs {
+			targetSet.insert(element)
+		}
+	   
+		return targetSet
 	}
 	
 	//var hashValue: Int { get }

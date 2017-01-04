@@ -71,6 +71,13 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return sequence.array().mutableCopy()
 		#endif
 	}
+	
+	// our aggregate operations like .map, .filter will errase our collection type and yield ISequence
+	// so in order to have consistency with apple swift compiling
+	// we will do something like [String](fields.map(fieldNameWithRemovedPrivatePrefix)).someArrayFunc
+	public convenience init(_ sequence: ISequence<T>) {
+		return self.init(sequence: sequence)
+	}
 
 	public init(count: Int, repeatedValue: T) {
 		#if JAVA
@@ -372,7 +379,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return __mapped.Select(transform)
 		#endif
 	}
-
+	
 	public func reverse() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		return (__mapped as! ISequence<T>).Reverse()
 	}
@@ -416,5 +423,16 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return __mapped.containsObject(item)
 		#endif
 	}
+	
+	public static func + <T>(lhs: Array<T>, rhs: ISequence<T>) -> Array<T> {
+	
+		let targetArray = [T](items: lhs)
+		for element in rhs {
+			targetArray.append(element)
+		}
+	
+		return targetArray
+	}
 
+	
 }
