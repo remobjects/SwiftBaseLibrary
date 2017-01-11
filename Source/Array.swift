@@ -1,6 +1,6 @@
 ﻿//
 //
-// CAUTION: Magic type name. 
+// CAUTION: Magic type name.
 // The compiler will map the [] array syntax to Swift.Array<T>
 //
 //
@@ -24,7 +24,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return NSMutableArray.array()
 		#endif
 	}
-	
+
 	public init(items: [T]) {
 		#if JAVA
 		return ArrayList<T>(items)
@@ -34,22 +34,22 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return items.mutableCopy
 		#endif
 	}
-	
+
 	//init(array: T[]) { } // same as below.
 	public init(arrayLiteral array: T...) {
 		if array == nil || length(array) == 0 {
 			return [T]()
 		}
-		
+
 		#if JAVA
 		return ArrayList<T>(java.util.Arrays.asList(array))
 		#elseif CLR | ISLAND
 		return List<T>(array)
 		#elseif COCOA
 		return NSMutableArray.arrayWithObjects((&array[0] as! UnsafePointer<id>), count: length(array))
-		#endif		
+		#endif
 	}
-	
+
 	#if COCOA
 	public init(NSArray array: NSArray<T>) {
 		if array == nil {
@@ -61,7 +61,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false) {
 	}*/
 	#endif
-	
+
 	public init(sequence: ISequence<T>) {
 		#if JAVA
 		return sequence.ToList()
@@ -71,7 +71,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return sequence.array().mutableCopy()
 		#endif
 	}
-	
+
 	// our aggregate operations like .map, .filter will errase our collection type and yield ISequence
 	// so in order to have consistency with apple swift compiling
 	// we will do something like [String](fields.map(fieldNameWithRemovedPrivatePrefix)).someArrayFunc
@@ -92,8 +92,8 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		}
 		return newSelf
 	}
-	
-	public init(capacity: Int) { // not in Apple Swift 
+
+	public init(capacity: Int) { // not in Apple Swift
 		#if JAVA
 		return ArrayList<T>(capacity)
 		#elseif CLR | ISLAND
@@ -102,7 +102,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return NSMutableArray(capacity: capacity)
 		#endif
 	}
-	
+
 	public var nativeArray: T[] {
 		#if JAVA
 		return __mapped.toArray(T[](__mapped.Count()))
@@ -119,11 +119,11 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	func `prefix`(through: Int) -> [T] {
 		return self[0...through]
 	}
-		
+
 	func `prefix`(upTo: Int) -> [T] {
 		return self[0..<upTo]
 	}
-		
+
 	func suffix(from: Int) -> [T] {
 		return self[from..<count]
 	}
@@ -135,7 +135,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return self.Skip(range.lowerBound).Take(range.length).ToList()
 		#endif
 	}
-	
+
 	public subscript (index: Int) -> T {
 		get {
 			#if CLR || JAVA | ISLAND
@@ -160,7 +160,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 			#endif
 		}
 	}
-	
+
 	public var count: Int {
 		#if JAVA
 		return __mapped.size()
@@ -170,8 +170,8 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return __mapped.count
 		#endif
 	}
-	
-	public var capacity: Int { 
+
+	public var capacity: Int {
 		#if JAVA
 		return -1
 		#elseif CLR | ISLAND
@@ -181,18 +181,18 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public var isEmpty: Bool { 
-		return count == 0 
+	public var isEmpty: Bool {
+		return count == 0
 	}
 
-	public var first: T? { 
+	public var first: T? {
 		if count > 0 {
 			return __mapped[0]
 		}
 		return nil
 	}
 
-	public var last: T? { 
+	public var last: T? {
 		let c = count
 		if c > 0 {
 			return __mapped[c-1]
@@ -217,7 +217,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		__mapped.addObjectsFromArray(sequence.array())
 		#endif
 	}
-	
+
 	public mutating func extend(_ array: [T]) {
 		#if JAVA
 		__mapped.addAll(array)
@@ -242,7 +242,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public mutating func insert(_ newElement: T, atIndex index: Int) {
+	public mutating func insert(_ newElement: T, at index: Int) {
 		#if JAVA
 		__mapped.add(index, newElement)
 		#elseif CLR | ISLAND
@@ -311,7 +311,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	public func lazy() -> ISequence<T> {
 		return self
 	}
-	
+
 	public mutating func sort(_ isOrderedBefore: (T, T) -> Bool) {
 		#if JAVA
 		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
@@ -320,7 +320,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 			} else {
 				return -1
 			}
-		}})	
+		}})
 		#elseif CLR
 		__mapped.Sort({ (a: T, b: T) -> Boolean in
 			if isOrderedBefore(a,b) {
@@ -340,19 +340,19 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#endif
 	}
 
-	public func sorted(_ isOrderedBefore: (T, T) -> Bool) -> [T] { 
+	public func sorted(_ isOrderedBefore: (T, T) -> Bool) -> [T] {
 		#if JAVA
-		let result: ArrayList<T> = [T](items: self) 
+		let result: ArrayList<T> = [T](items: self)
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {
 				return -1
 			}
-		}})	
+		}})
 		return result
 		#elseif CLR || ISLAND
-		let result: List<T> = [T](items: self) 
+		let result: List<T> = [T](items: self)
 		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
@@ -379,7 +379,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return __mapped.Select(transform)
 		#endif
 	}
-	
+
 	public func reverse() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		return (__mapped as! ISequence<T>).Reverse()
 	}
@@ -395,7 +395,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	/// Call body(p), where p is a pointer to the Array's contiguous storage
 	/*func withUnsafeBufferPointer<R>(body: (UnsafeBufferPointer<T>) -> R) -> R {
 	}
-	
+
 	mutating func withUnsafeMutableBufferPointer<R>(body: (inout UnsafeMutableBufferPointer<T>) -> R) -> R {
 	}
 
@@ -409,7 +409,7 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 	}*/
 	/*mutating func removeRange(subRange: Range<Int>) {
 	}*/
-	
+
 	//
 	// Silver-specific extensions not defined in standard Swift.Array:
 	//
@@ -423,16 +423,16 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		return __mapped.containsObject(item)
 		#endif
 	}
-	
+
 	public static func + <T>(lhs: Array<T>, rhs: ISequence<T>) -> Array<T> {
-	
+
 		let targetArray = [T](items: lhs)
 		for element in rhs {
 			targetArray.append(element)
 		}
-	
+
 		return targetArray
 	}
 
-	
+
 }
