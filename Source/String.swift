@@ -12,11 +12,11 @@ public typealias NativeString = Foundation.NSString
 //@assembly:DefaultStringType("Swift", typeOf(Swift.SwiftString))
 
 public struct SwiftString /*: Streamable*/ {
-	
+
 	typealias Index = Int
-	
+
 	/*fileprivate*/internal var nativeStringValue: NativeString // only so the .pas partial can access it
-	
+
 	public init(count: Int, repeatedValue c: Char) {
 
 		#if JAVA || ISLAND
@@ -63,7 +63,7 @@ public struct SwiftString /*: Streamable*/ {
 			#endif
 		}
 	}
-	
+
 	//76037: Silver: compiler gets confused with overloaded ctors
 	#if !ECHOES
 	/*public convenience init(reflecting subject: Object) {
@@ -87,7 +87,7 @@ public struct SwiftString /*: Streamable*/ {
 		init(subject)
 	}*/
 	#endif
-	
+
 	#if COCOA
 	init/*?*/ (cString: UnsafePointer<AnsiChar>, encoding: SwiftString.Encoding) {
 		nativeStringValue = "" // WORKAROUND
@@ -100,7 +100,7 @@ public struct SwiftString /*: Streamable*/ {
 			}
 		}
 	}
-	
+
 	init/*?*/ (utf8String: UnsafePointer<AnsiChar>) {
 		nativeStringValue = "" // WORKAROUND
 		if utf8String == nil {
@@ -113,7 +113,7 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 
-	init/*?*/ (validatingUTF8 utf8String: UnsafePointer<AnsiChar>) { // E1 opening bracket expected, got 
+	init/*?*/ (validatingUTF8 utf8String: UnsafePointer<AnsiChar>) { // E1 opening bracket expected, got
 		if utf8String == nil {
 			//return nil
 		}
@@ -124,25 +124,25 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 	#endif
-	
+
 	//
 	// Properties
 	//
-	
+
 	public var characters: SwiftString.CharacterView {
-		return SwiftString.CharacterView(string: nativeStringValue) 
+		return SwiftString.CharacterView(string: nativeStringValue)
 	}
-	
+
 	@ToString public func description() -> NativeString {
 		return nativeStringValue
 	}
-	
-	public var endIndex: SwiftString.Index { 
+
+	public var endIndex: SwiftString.Index {
 		return RemObjects.Elements.System.length(nativeStringValue) // for now?
 	}
-	
+
 	var fastestEncoding: SwiftString.Encoding { return SwiftString.Encoding.utf16 }
-	
+
 	public var hashValue: Int {
 		#if JAVA
 		return nativeStringValue.hashCode()
@@ -152,11 +152,11 @@ public struct SwiftString /*: Streamable*/ {
 		return nativeStringValue.hashValue()
 		#endif
 	}
-	
+
 	public var isEmpty : Bool {
 		return RemObjects.Elements.System.length(nativeStringValue) == 0
 	}
-	
+
 	public var lowercaseString: SwiftString {
 		#if JAVA
 		return SwiftString(nativeStringValue.toLowerCase())
@@ -166,11 +166,11 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString(nativeStringValue.lowercaseString())
 		#endif
 	}
-	
+
 	public var startIndex: SwiftString.Index {
 		return 0
 	}
-	
+
 	public var uppercaseString: SwiftString {
 		#if JAVA
 		return SwiftString(nativeStringValue.toUpperCase())
@@ -186,7 +186,7 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString.UTF8View(string: nativeStringValue)
 	}
 	#endif
-	
+
 	#if COCOA
 	public var utf8CString: UTF8Char[] {
 		let utf8 = nativeStringValue.cStringUsingEncoding(.UTF8StringEncoding)
@@ -196,21 +196,21 @@ public struct SwiftString /*: Streamable*/ {
 		return result
 	}
 	#endif
-	
+
 	public var utf16: SwiftString.UTF16View {
 		return SwiftString.UTF16View(string: nativeStringValue)
 	}
-	
+
 	#if !ISLAND
 	public var unicodeScalars: SwiftString.UnicodeScalarView {
 		return SwiftString.UnicodeScalarView(string: nativeStringValue)
 	}
 	#endif
-	
+
 	//
 	// Methods
 	//
-	
+
 	public mutating func append(_ c: Character) {
 		nativeStringValue = nativeStringValue+c.nativeStringValue
 	}
@@ -260,7 +260,7 @@ public struct SwiftString /*: Streamable*/ {
 		#endif
 	}
 	#endif
-	
+
 	public func index(of s: SwiftString) -> Int? {
 		#if JAVA
 		let result = nativeStringValue.indexOf(s.nativeStringValue)
@@ -278,7 +278,7 @@ public struct SwiftString /*: Streamable*/ {
 			return nil
 		}
 		#endif
-		return result 
+		return result
 	}
 
 	#if !ISLAND
@@ -286,13 +286,13 @@ public struct SwiftString /*: Streamable*/ {
 		return body(utf8.stringData)
 	}
 	#endif
-	
+
 	//
 	// Subscripts
 	//
-	
+
 	//public subscript(range: SwiftString.Index) -> Character // implicitly provided by the compiler, already
-	
+
 	public subscript(range: Range/*<Int>*/) -> SwiftString {
 		#if JAVA
 		return SwiftString(nativeStringValue.substring(range.lowerBound, range.length))
@@ -302,12 +302,50 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString(nativeStringValue.substringWithRange(range.nativeRange)) // todo: make a cast operator
 		#endif
 	}
-	
+
 	// Streamable
 	func writeTo(_ target: OutputStreamType) {
 		target.write(nativeStringValue)
 	}
-	
+
+	//
+	//
+	//
+
+	func split(_ separator: String) -> [String] {
+
+		let separatorLength = separator.length()
+		if separatorLength == 0 {
+			return [self]
+		}
+
+		#if COOPER
+		//exit nativeString.split(java.util.regex.Pattern.quote(Separator)) as not nullable
+		//Custom implementation because `mapped.split` strips empty oparts at the end, making it incomopatible with the other three platfroms.
+		let result = [String]()
+		var i = 0
+		while true {
+			let p = nativeStringValue.indexOf(separator, i)
+			if p > -1 {
+				let part = nativeStringValue.substring(i, p-i)
+				result.append(part)
+				i = p+separatorLength
+			} else {
+				let part = nativeStringValue.substring(i)
+				result.append(part)
+				break
+			}
+		}
+		return result
+		#elseif ECHOES
+		return nativeStringValue.Split([separator], StringSplitOptions.None).ToList()
+		#elseif ISLAND
+		return nativeStringValue.Split(separator).ToList()
+		#elseif TOFFEE
+		return nativeStringValue.componentsSeparatedByString(separator).mutableCopy()
+		#endif
+	}
+
 	//
 	// Operators
 	//
@@ -336,10 +374,10 @@ public struct SwiftString /*: Streamable*/ {
 		#if CLR || ISLAND
 		return nativeStringValue.Length
 		#else
-		return nativeStringValue.length() 
+		return nativeStringValue.length()
 		#endif
 	}
-	
+
 	public func toInt() -> Int? {
 		#if JAVA
 		__try {
@@ -363,6 +401,5 @@ public struct SwiftString /*: Streamable*/ {
 		return nil
 		#endif
 	}
-	
-}
 
+}
