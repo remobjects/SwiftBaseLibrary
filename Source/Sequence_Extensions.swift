@@ -37,11 +37,11 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	}
 
 	public func dropLast() -> ISequence<T> {
-		fatalError("dropLast() is not implemented yet.")
+		return self.reverse().dropFirst().reverse()
 	}
 
 	public func dropLast(_ n: Int) -> ISequence<T> {
-		fatalError("dropLast() is not implemented yet.")
+		return self.reverse().dropFirst(n).reverse()
 	}
 
 	public func enumerate() -> ISequence<(Int, T)> {
