@@ -425,3 +425,14 @@ public extension RemObjects.Elements.System.NSDictionary {
 	}
 }
 #endif
+
+extension ISequence where T:ISequence{
+
+// turns ISequence<ISequence<T>> into ISequence<T> by concatenating the inner sequences 
+	public func flatten() -> ISequence<T.T> { 
+		for seq in self{
+			__yield seq  //sequence seq delegated to __yield
+		}
+	}
+	
+}
