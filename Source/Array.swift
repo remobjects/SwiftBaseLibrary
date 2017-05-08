@@ -111,7 +111,10 @@ __mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List
 		#elseif COCOA
 		let c = count
 		var result = T[](c)
-		__mapped.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
+		for i in 0 ..< count {
+			result[i] = __mapped[i];
+		}
+		//__mapped.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
 		return result
 		#endif
 	}
