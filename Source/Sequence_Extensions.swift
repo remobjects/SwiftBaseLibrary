@@ -37,11 +37,11 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	}
 
 	public func dropLast() -> ISequence<T> {
-		fatalError("dropLast() is not implemented yet.")
+		return self.reverse().dropFirst().reverse()
 	}
 
 	public func dropLast(_ n: Int) -> ISequence<T> {
-		fatalError("dropLast() is not implemented yet.")
+		return self.reverse().dropFirst(n).reverse()
 	}
 
 	public func enumerate() -> ISequence<(Int, T)> {
@@ -425,3 +425,14 @@ public extension RemObjects.Elements.System.NSDictionary {
 	}
 }
 #endif
+
+extension ISequence where T:ISequence{
+
+// turns ISequence<ISequence<T>> into ISequence<T> by concatenating the inner sequences 
+	public func flatten() -> ISequence<T.T> { 
+		for seq in self{
+			__yield seq  //sequence seq delegated to __yield
+		}
+	}
+	
+}
