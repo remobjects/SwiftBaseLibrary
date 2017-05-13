@@ -45,15 +45,15 @@ public class Mirror : ICustomStringConvertible, ICustomReflectable, IStreamable 
 		fatalError("Not implemented yet")
 	}
 	#if COCOA
-	override var description: String! { 
+	override var description: String! {
 	#else
-	var description: String! { 
+	var description: String! {
 	#endif
 		return "ToDo"
 	}
 	let displayStyle: Mirror.DisplayStyle? = nil
 	//let subjectType: Any.Type
-	
+
 	//
 	// Methods
 	//
@@ -67,7 +67,7 @@ public class Mirror : ICustomStringConvertible, ICustomReflectable, IStreamable 
 	func superclassMirror() -> Mirror? {
 		fatalError("Not implemented yet")
 	}
-	
+
 	//
 	// Interfaces
 	//
@@ -79,17 +79,16 @@ public class Mirror : ICustomStringConvertible, ICustomReflectable, IStreamable 
 	//
 	// Nested Types
 	//
-	
+
 	public enum DisplayStyle {
 		case Struct, Class, Enum, Tuple, Optional, Collection, Dictionary, Set
 	}
-	
+
 	public enum AncestorRepresentation {
 		case Generated
 		//case Customized(()->Mirror) // 74066: Silver: can't use an enum as default value, if it also has "more fancy" items
 		case Suppressed
 	}
 
-	
-}
 
+}

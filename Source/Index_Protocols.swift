@@ -7,7 +7,7 @@ public protocol ForwardIndexType {
 }
 
 public protocol BidirectionalIndexType : ForwardIndexType {
-	//func advancedBy(_ n: Self.Distance) -> Self					// duped from ForwardIndexType?
+	//func advancedBy(_ n: Self.Distance) -> Self                    // duped from ForwardIndexType?
 	//func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
 	func predecessor() -> Self
 	func successor() -> Self
@@ -23,7 +23,7 @@ public protocol ReverseIndexType : BidirectionalIndexType {
 public protocol Strideable : Comparable {
 	associatedtype Stride : SignedNumberType
 	//74968: Silver: compiler ignores undefined associated type (`Self.whatever`)
-	
+
 	func advancedBy(_ n: Self.Stride) -> Self
 	func distanceTo(_ other: Self) -> Self.Stride
 	func stride(# through: Self, by: Self) -> ISequence<Self>
@@ -31,13 +31,12 @@ public protocol Strideable : Comparable {
 }
 
 public protocol RandomAccessIndexType : BidirectionalIndexType, Strideable {
-	//func advancedBy(_ n: Self.Distance) -> Self					// duped from ForwardIndexType?
+	//func advancedBy(_ n: Self.Distance) -> Self                    // duped from ForwardIndexType?
 	//func advancedBy(_ n: Self.Distance, limit limit: Self) -> Self // duped from ForwardIndexType?
-	//func distanceTo(_ other: Self) -> Self.Distance				// duped from ForwardIndexType?
+	//func distanceTo(_ other: Self) -> Self.Distance                // duped from ForwardIndexType?
 }
 
 // workaround for error E36: Interface type expected, found "IntegerLiteralConvertible<T>!"
 public protocol IntegerType : RandomAccessIndexType {
 	// no members
 }
-

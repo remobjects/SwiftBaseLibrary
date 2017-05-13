@@ -1,51 +1,50 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
-    <PropertyGroup>
-        <RootNamespace>Swift</RootNamespace>
-        <ProjectGuid>E0C9DDDB-B83F-4164-ADE4-577FB6611F3F</ProjectGuid>
-        <OutputType>StaticLibrary</OutputType>
-        <AssemblyName>Swift</AssemblyName>
-        <AllowGlobals>False</AllowGlobals>
-        <AllowLegacyWith>False</AllowLegacyWith>
-        <AllowLegacyOutParams>False</AllowLegacyOutParams>
-        <AllowLegacyCreate>False</AllowLegacyCreate>
-        <AllowUnsafeCode>False</AllowUnsafeCode>
-        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
-        <SDK>watchOS</SDK>
-        <CreateHeaderFile>True</CreateHeaderFile>
-        <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-        <Architecture>armv7k</Architecture>
-        <SimulatorArchitectures>i386</SimulatorArchitectures>
-        <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
-        <MangleTypeNames>True</MangleTypeNames>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-        <Optimize>false</Optimize>
-        <OutputPath>.\bin\Debug</OutputPath>
-        <DefineConstants>DEBUG;TRACE;</DefineConstants>
-        <GenerateDebugInfo>True</GenerateDebugInfo>
-        <EnableAsserts>True</EnableAsserts>
-        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-        <CaptureConsoleOutput>False</CaptureConsoleOutput>
-        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-        <Optimize>true</Optimize>
-        <OutputPath>.\bin\Release</OutputPath>
-        <GenerateDebugInfo>True</GenerateDebugInfo>
-        <EnableAsserts>False</EnableAsserts>
-        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
-        <CaptureConsoleOutput>False</CaptureConsoleOutput>
-        <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
-        <GenerateBitcode>True</GenerateBitcode>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="Foundation"/>
-        <Reference Include="rtl"/>
-        <Reference Include="libToffee"/>
-        <Reference Include="CoreFoundation"/>
-    </ItemGroup>
-    <ItemGroup/>
-    <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets"/>
-    <Import Project="Swift.Shared.projitems" Label="Swift.Shared"/>
+  <PropertyGroup>
+    <RootNamespace>Swift</RootNamespace>
+    <ProjectGuid>E0C9DDDB-B83F-4164-ADE4-577FB6611F3F</ProjectGuid>
+    <OutputType>StaticLibrary</OutputType>
+    <AssemblyName>Swift</AssemblyName>
+    <AllowGlobals>False</AllowGlobals>
+    <AllowLegacyWith>False</AllowLegacyWith>
+    <AllowLegacyOutParams>False</AllowLegacyOutParams>
+    <AllowLegacyCreate>False</AllowLegacyCreate>
+    <AllowUnsafeCode>False</AllowUnsafeCode>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <SDK>watchOS</SDK>
+    <CreateHeaderFile>True</CreateHeaderFile>
+    <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
+    <Architecture>armv7k</Architecture>
+    <SimulatorArchitectures>i386</SimulatorArchitectures>
+    <DeploymentTargetVersion>2.0</DeploymentTargetVersion>
+    <MangleTypeNames>True</MangleTypeNames>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>false</Optimize>
+    <OutputPath>.\bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <GenerateDebugInfo>True</GenerateDebugInfo>
+    <EnableAsserts>True</EnableAsserts>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <CaptureConsoleOutput>False</CaptureConsoleOutput>
+    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>true</Optimize>
+    <OutputPath>.\bin\Release</OutputPath>
+    <GenerateDebugInfo>True</GenerateDebugInfo>
+    <EnableAsserts>False</EnableAsserts>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <CaptureConsoleOutput>False</CaptureConsoleOutput>
+    <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    <GenerateBitcode>True</GenerateBitcode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Foundation" />
+    <Reference Include="rtl" />
+    <Reference Include="libToffee" />
+    <Reference Include="CoreFoundation" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets" />
+  <Import Project="Swift.Shared.projitems" Label="Swift.Shared" />
 </Project>

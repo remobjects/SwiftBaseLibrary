@@ -16,7 +16,7 @@ type
     begin
       result := aString.nativeStringValue;
     end;
-    
+
   end;
 
 implementation

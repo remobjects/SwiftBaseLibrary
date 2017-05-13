@@ -22,7 +22,7 @@ public typealias DictionaryLiteralConvertible = ExpressibleByDictionaryLiteral
 
 public protocol IExpressibleByArrayLiteral {
 	associatedtype Element
-	
+
 	init(arrayLiteral elements: Element...)
 }
 
@@ -84,9 +84,9 @@ public protocol IExpressibleByUnicodeScalarLiteral {
 
 #if COCOA
 public extension NSURL/*: ExpressibleByStringLiteral*/ {
-	
+
 	//typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
-	
+
 	public class func convertFromExtendedGraphemeClusterLiteral(value: String) -> Self {
 		return self(string: value)
 	}

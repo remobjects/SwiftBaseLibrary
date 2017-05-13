@@ -1,6 +1,6 @@
 ﻿public typealias NSObject = Object
 
-#if CLR || JAVA 
+#if CLR || JAVA
 public typealias Int = Int64
 public typealias UInt = UInt64
 #elseif ISLAND
@@ -89,4 +89,3 @@ public typealias UWord = UInt16
 public typealias UnicodeScalarType = NativeString
 //public typealias Void = () // defined by Compiler
 public typealias Word = Int
-

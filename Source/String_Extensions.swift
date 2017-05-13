@@ -1,7 +1,7 @@
 ﻿public extension NativeString : Streamable {
-	
+
 	typealias Index = Int
-	
+
 	public init(count: Int, repeatedValue c: Char) {
 
 		#if JAVA || ISLAND
@@ -34,7 +34,7 @@
 			#endif
 		}
 	}
-	
+
 	public init(reflecting subject: Object) {
 		if let o = subject as? ICustomDebugStringConvertible {
 			return o.debugDescription
@@ -52,32 +52,32 @@
 			// ToDo: fall back to checking for extension methods
 			#endif
 		}
-		
+
 		return init(subject)
 	}
-	
+
 	//
 	// Properties
 	//
-	
+
 	public var characters: SwiftString.CharacterView {
 		return SwiftString.CharacterView(string: self)
 	}
-	
+
 	#if !COCOA
 	public var debugDescription: NativeString {
 		return self
 	}
 	#endif
-	
-	public var endIndex: NativeString.Index { 
+
+	public var endIndex: NativeString.Index {
 		#if CLR
 		return self.Length
 		#else
 		return self.length()
 		#endif
 	}
-	
+
 	public var hashValue: Int {
 		#if JAVA
 		return self.hashCode()
@@ -87,11 +87,11 @@
 		return self.hashValue()
 		#endif
 	}
-	
+
 	public var isEmpty : Bool {
 		return length() == 0
 	}
-	
+
 	#if !COCOA
 	public var lowercaseString: NativeString {
 		#if JAVA
@@ -101,17 +101,17 @@
 		#endif
 	}
 	#endif
-	
+
 	#if COCOA
 	/*public var nulTerminatedUTF8: Character[] {
 		return cStringUsingEncoding(.UTF8StringEncoding) // E62 Type mismatch, cannot assign "UnsafePointer<AnsiChar>" to "Character[]"
 	}*/
 	#endif
-	
+
 	public var startIndex: NativeString.Index {
 		return 0
 	}
-	
+
 	#if !COCOA
 	public var uppercaseString: NativeString {
 		#if JAVA
@@ -127,17 +127,17 @@
 		return SwiftString.UTF8View(string: self)
 	}
 	#endif
-	
+
 	public var utf16: SwiftString.UTF16View {
 		return SwiftString.UTF16View(string: self)
 	}
-	
+
 	#if !ISLAND
 	public var unicodeScalars: SwiftString.UnicodeScalarView {
 		return SwiftString.UnicodeScalarView(string: self)
 	}
 	#endif
-	
+
 	//
 	// Methods
 	//
@@ -167,7 +167,7 @@
 		}
 		return NSString.stringWithUTF8String(cs)
 	}
-	
+
 	public static func fromCStringRepairingIllFormedUTF8(_ cs: UnsafePointer<AnsiChar>) -> (NativeString?, /*hadError:*/ Bool) {
 		if cs == nil {
 			return (nil, false)
@@ -176,31 +176,31 @@
 		return (NSString.stringWithUTF8String(cs), false)
 	}
 	#endif
-	
+
 	#if !ISLAND
 	public func withUTF8Buffer<R>(@noescape _ body: (/*UnsafeBufferPointer<UInt8>*/UTF8Char[]) -> R) -> R {
 		return body(utf8.stringData)
 	}
 	#endif
-	
+
 	//
 	// Subscripts
 	//
-	
+
 	func `prefix`(through: Index) -> NativeString {
 		return __substring(range: 0...through)
 	}
-	
+
 	func `prefix`(upTo: Index) -> NativeString {
 		return __substring(range: 0..<upTo)
 	}
-	
+
 	func suffix(from: Index) -> NativeString {
 		return __substring(range: from..<length())
 	}
 
 	//public subscript(range: NativeString.Index) -> Character // implicitly provided by the compiler, already
-	
+
 	//76192: Silver: can't use range as subscript? (SBL)
 	internal func __substring(range: Range/*<Int>*/) -> NativeString {
 	//public subscript(range: Range/*<Int>*/) -> NativeString {
@@ -212,7 +212,7 @@
 		return substringWithRange(range.nativeRange) // todo: make a cast operator
 		#endif
 	}
-	
+
 	// Streamable
 	func writeTo(_ target: OutputStreamType) {
 		target.write(self)
@@ -227,11 +227,11 @@
 		#if CLR
 		return self.Length
 		#else
-		return self.length() 
+		return self.length()
 		#endif
 	}
 	#endif
-	
+
 	public func toInt() -> Int? {
 		#if JAVA
 		__try {
@@ -254,23 +254,23 @@
 		return nil
 		#endif
 	}
-	
+
 	public __abstract class CharacterView {
 		/*fileprivate*/internal init(string: NativeString) {
 		}
 
 		public var startIndex: NativeString.Index { return 0 }
 		public __abstract var endIndex: NativeString.Index { get }
-		
+
 	}
-	
+
 	public class UTF16CharacterView: CharacterView, ICustomDebugStringConvertible {
 		private let string: NativeString
-		
+
 		/*fileprivate*/internal  init(string: NativeString) {
 			self.string = string
 		}
-		
+
 		public override var endIndex: NativeString.Index { return length(string) }
 
 		public subscript(index: Int) -> UTF16Char {
@@ -295,4 +295,3 @@
 	}
 
 }
-

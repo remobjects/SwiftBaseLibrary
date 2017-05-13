@@ -5,7 +5,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 	//typealias Index = Int64//Element
 	typealias Bound = Int64
-	
+
 	//
 	// Initializers
 	//
@@ -15,21 +15,21 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		self.upperBound = x.upperBound
 		self.closed = x.closed
 	}
-	
+
 	internal init(_ lowerBound: Bound, _ upperBound: Bound, closed: Bool = false) {
 		self.lowerBound = lowerBound
 		self.upperBound = upperBound
 		self.closed = closed
 	}
-	
+
 	//
 	// Properties
 	//
-	
+
 	public var lowerBound: Bound
 	public var upperBound: Bound
 	public var closed: Bool
-	
+
 	var isEmpty: Bool {
 		if closed {
 			return upperBound == lowerBound
@@ -37,11 +37,11 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			return upperBound < lowerBound
 		}
 	}
-	
+
 	//
 	// Methods
 	//
-	
+
 	public func contains(_ element: Bound) -> Bool {
 		if closed {
 			return element >= lowerBound && element <= upperBound
@@ -49,7 +49,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			return element >= lowerBound && element < upperBound
 		}
 	}
-	
+
 	@ToString public func description() -> NativeString {
 		if closed {
 			return "\(lowerBound)...\(upperBound)"
@@ -69,18 +69,18 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			return "Range(\(String(reflecting: lowerBound))..<\(String(reflecting: upperBound)))"
 		}
 	}
-	
+
 	/* Equatable */
 
 	public func ==(lhs: Self, rhs: Self) -> Bool {
 		return lhs.lowerBound == rhs.lowerBound && lhs.upperBound == rhs.upperBound && lhs.closed == rhs.closed
 	}
-	
+
 	/* IEquatable<T> */
 	public func Equals(rhs: /*Self*/Range) -> Bool { // 69955: Silver: two issues wit "Self" vs concrete generic type
 		return lowerBound == rhs.lowerBound && upperBound == rhs.upperBound && closed == rhs.closed
 	}
-	
+
 	/* IComparable<T> */
 	//func CompareTo(rhs: T) -> Element {
 	// }
@@ -88,12 +88,12 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	//
 	// Subscripts & Iterators
 	//
-	
-	public subscript (i: Bound) -> Bound { 
+
+	public subscript (i: Bound) -> Bound {
 		//return startIndex + i
 		return i
 	}
-	
+
 	public func GetSequence() -> ISequence<Bound> {
 		var i = lowerBound
 		if closed {
@@ -108,7 +108,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			}
 		}
 	}
-	
+
 	//
 	// Silver-specific extensions not defined in standard Swift.Range:
 	//
@@ -120,8 +120,8 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			return upperBound-lowerBound
 		}
 	}
-	
-	#if COCOA 
+
+	#if COCOA
 	// todo: make a cast operator
 	public var nativeRange: NSRange {
 		return NSMakeRange(lowerBound, length)
@@ -132,10 +132,10 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 //74138: Silver: constrained type extensions
 /*extension Range where Element == Int32 {
-	#if COCOA 
+	#if COCOA
 	public init(_ nativeRange: NSRange) {
 		startIndex = nativeRange.location
 		endIndex = nativeRange.location+nativeRange.length
 	}
-	#endif	
+	#endif
 }*/

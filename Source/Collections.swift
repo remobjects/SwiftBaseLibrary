@@ -29,7 +29,7 @@ public struct CollectionOfOne<Element> : ICollectionType<Bit, Int, Element> {
 	//
 	// Subscripts & Iterators
 	//
-	
+
 	public subscript(position: Index) -> Element {
 		_precondition(position == .Zero, "Index out of range")
 		return element

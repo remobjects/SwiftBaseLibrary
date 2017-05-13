@@ -4,19 +4,19 @@ public extension SwiftString {
 	public __abstract class BaseCharacterView {
 		internal init {
 		}
-		
+
 		typealias Index = Int
 
 		public var startIndex: SwiftString.Index { return 0 }
 		public __abstract var endIndex: SwiftString.Index { get }
 
 		public __abstract var count: Int { get }
-		public var isEmpty: Bool { return count > 0 }		
+		public var isEmpty: Bool { return count > 0 }
 	}
-	
+
 	public class CharacterView: BaseCharacterView {
 		private let stringData: [Character]
-		
+
 		private init(stringData: [Character]) {
 			self.stringData = stringData
 		}
@@ -43,16 +43,16 @@ public extension SwiftString {
 			#elseif COCOA
 			var i = 0
 			while i < length(string) {
-				
+
 				let sequenceLength = string.rangeOfComposedCharacterSequenceAtIndex(i).length
-				
+
 				//76192: Silver: can't use range as subscript? (SBL)
 				let ch: NativeString = string.__substring(range: i ..< i+sequenceLength)
 				stringData.append(Character(nativeStringValue: ch))
 				i += sequenceLength
 			}
 			#endif
-				
+
 				/* old logic to detect surrogate pairs; not needed right now
 				let c = string[i]
 				let c2 = Int(c)
@@ -76,19 +76,19 @@ public extension SwiftString {
 						}
 				}*/
 				if c2 <= 0x0D7FF || c2 > 0x00E000 {
-					//print(NSString.stringWithFormat("char %x", c2)) 
+					//print(NSString.stringWithFormat("char %x", c2))
 					if currentSurrogate != "\0"/*nil*/ {
 						throw Exception("Invalid surrogate pair at index \(i)")
 					}
 					currentCharacter = currentCharacter+String(c)
 				} else if c2 >= 0x00D800 && c2 <= 0x00DBFF {
-					//print(NSString.stringWithFormat("s1 %x", c2)) 
+					//print(NSString.stringWithFormat("s1 %x", c2))
 					if currentSurrogate != "\0"/*nil*/ {
 						throw Exception("Invalid surrogate pair at index \(i)")
 					}
 					currentSurrogate = c
 				} else if c2 >= 0x00DC00 && c2 < 0x00DFFF {
-					//print(NSString.stringWithFormat("s2 %x", c2)) 
+					//print(NSString.stringWithFormat("s2 %x", c2))
 					if let surrogate = currentSurrogate {
 						currentCharacter = currentCharacter+surrogate+c
 						currentSurrogate = "\0"/*nil*/
@@ -97,14 +97,14 @@ public extension SwiftString {
 					}
 				}
 				addCharacter()
-				
+
 				i += 1
 			}*/
 			//addCharacter()
 		}
-		
+
 		public override var count: Int { return length(stringData) }
-		
+
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
 
 		#if !COOPER
@@ -114,11 +114,11 @@ public extension SwiftString {
 		func `prefix`(through: Index) -> CharacterView {
 			return CharacterView(stringData: stringData[0...through])
 		}
-		
+
 		func `prefix`(upTo: Index) -> CharacterView {
 			return CharacterView(stringData: stringData[0..<upTo])
 		}
-		
+
 		func suffix(from: Index) -> CharacterView {
 			return CharacterView(stringData: stringData[from..<stringData.count])
 		}
@@ -143,29 +143,29 @@ public extension SwiftString {
 			return result
 		}
 	}
-	
+
 	public class UTF16View: BaseCharacterView {
 		private let stringData: NativeString
-		
+
 		internal init(string: NativeString) {
 			self.stringData = string
 		}
-		
+
 		public override var count: Int { return length(stringData) }
-		
+
 		public override var endIndex: SwiftString.Index { return length(stringData) }
 
 		// 76085: Silver: `Char` becomes String when using with `?:` operator
-		var first: UTF16Char? { return count > 0 ? self[0] : nil as? UTF16Char } 
+		var first: UTF16Char? { return count > 0 ? self[0] : nil as? UTF16Char }
 
 		func `prefix`(through: Index) -> UTF16View {
 			return UTF16View(string: stringData.__substring(range: 0...through))
 		}
-		
+
 		func `prefix`(upTo: Index) -> UTF16View {
 			return UTF16View(string: stringData.__substring(range: 0..<upTo))
 		}
-		
+
 		func suffix(from: Index) -> UTF16View {
 			return UTF16View(string: stringData.__substring(range: from..<stringData.length()))
 		}
@@ -190,7 +190,7 @@ public extension SwiftString {
 			return result
 		}
 	}
-	
+
 	#if !ISLAND
 	public typealias UnicodeScalarView = UTF32View
 
@@ -205,11 +205,11 @@ public extension SwiftString {
 			#if JAVA
 			stringData = string.getBytes("UTF-32LE")
 			#elseif CLR
-			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order  
+			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order
 			#elseif ISLAND
-			stringData = textConvert.StringToUTF32(aValue, /*BOM:*/false) // todo check order  
+			stringData = textConvert.StringToUTF32(aValue, /*BOM:*/false) // todo check order
 			#elseif COCOA
-			if let utf32 = string.dataUsingEncoding(.NSUTF32LittleEndianStringEncoding) { // todo check order  
+			if let utf32 = string.dataUsingEncoding(.NSUTF32LittleEndianStringEncoding) { // todo check order
 				stringData = Byte[](capacity: utf32.length);
 				utf32.getBytes(stringData, length: utf32.length);
 			} else {
@@ -217,9 +217,9 @@ public extension SwiftString {
 			}
 			#endif
 		}
-		
+
 		public override var count: Int { return length(stringData) }
-		
+
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData)/4 }
 
 		var first: UTF32Char? { return count > 0 ? self[0] : nil }
@@ -227,11 +227,11 @@ public extension SwiftString {
 		/*func `prefix`(through: Index) -> UTF32View {
 			return UTF32View(stringData: stringData[0...through])
 		}
-		
+
 		func `prefix`(upTo: Index) -> UTF32View {
 			return UTF32View(stringData: stringData[0..<upTo])
 		}
-		
+
 		func suffix(from: Index) -> UTF32View {
 			return UTF32View(stringData: stringData[from..<stringData.count])
 		}
@@ -263,11 +263,11 @@ public extension SwiftString {
 		}
 	}
 	#endif
-	
+
 	#if !ISLAND
 	public class UTF8View: BaseCharacterView {
 		internal let stringData: UTF8Char[]
-		
+
 		private init(stringData: UTF8Char[]) {
 			self.stringData = stringData
 		}
@@ -276,11 +276,11 @@ public extension SwiftString {
 			#if JAVA
 			stringData = string.getBytes("UTF-8");
 			#elseif CLR
-			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order  
+			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order
 			#elseif ISLAND
-			stringData = TextConvert.StringToUTF8(aValue, /*BOM:*/false) // todo check order  
+			stringData = TextConvert.StringToUTF8(aValue, /*BOM:*/false) // todo check order
 			#elseif COCOA
-			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order  
+			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order
 				stringData = UTF8Char[](capacity: utf8.length);
 				utf8.getBytes(stringData, length: utf8.length);
 			} else {
@@ -288,9 +288,9 @@ public extension SwiftString {
 			}
 			#endif
 		}
-		
+
 		public override var count: Int { return length(stringData) }
-		
+
 		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
 
 		var first: UTF8Char? { return count > 0 ? self[0] : nil }
@@ -298,11 +298,11 @@ public extension SwiftString {
 		/*func `prefix`(through: Index) -> UTF8View {
 			return UTF8View(stringData: stringData[0...through])
 		}
-		
+
 		func `prefix`(upTo: Index) -> UTF8View {
 			return UTF8View(stringData: stringData[0..<upTo])
 		}
-		
+
 		func suffix(from: Index) -> UTF8View {
 			return UTF8View(stringData: stringData[from..<stringData.count])
 		}
@@ -328,5 +328,5 @@ public extension SwiftString {
 		}
 	}
 	#endif
-	
+
 }

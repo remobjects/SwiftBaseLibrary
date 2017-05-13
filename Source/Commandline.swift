@@ -10,7 +10,7 @@ public func `$$setArgV`(_ args: NativeString[]) {
 
 #if COCOA
 public func __stringArrayToCStringArray(_ arcv: [NativeString]) -> (UnsafePointer<AnsiChar>)[] {
-	
+
 	var result = UnsafePointer<AnsiChar>[](length(arcv))
 	for i in 0 ..< arcv.count {
 		if arcv[i] != nil {

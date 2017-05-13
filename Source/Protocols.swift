@@ -54,4 +54,3 @@ public protocol IStreamable {
 	typealias Element
 	mutating func next() -> Element?
 }*/
-

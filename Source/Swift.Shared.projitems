@@ -1,96 +1,96 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <PropertyGroup>
-        <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-        <HasSharedItems>true</HasSharedItems>
-        <SharedGUID>7952073B-795C-4074-954D-212FE780D7D3</SharedGUID>
-    </PropertyGroup>
-    <PropertyGroup Label="Configuration">
-        <Import_RootNamespace>Swift.Shared</Import_RootNamespace>
-    </PropertyGroup>
-    <ItemGroup>
-        <Compile Include="$(MSBuildThisFileDirectory)Protocols.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Sequence_Functions.swift">
-            <VirtualFolder>Sequences</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Functions.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Dictionary.swift">
-            <VirtualFolder>Collection Types</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Commandline.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Array.swift">
-            <VirtualFolder>Collection Types</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Aliases.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Range.swift">
-            <VirtualFolder>Numbers and such</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Set.swift">
-            <VirtualFolder>Collection Types</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)String_Extensions.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)String.swift">
-            <VirtualFolder>String</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Sequence_Extensions.swift">
-            <VirtualFolder>Sequences</VirtualFolder>
-        </Compile>
-        <None Include="$(MSBuildThisFileDirectory)Compose.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)INonLazySequence_Extensions.swift">
-            <VirtualFolder>Sequences</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Object_Extensions.swift"/>
-        <None Include="$(MSBuildThisFileDirectory)Mirror.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift">
-            <VirtualFolder>Numbers and such</VirtualFolder>
-        </Compile>
-        <None Include="$(MSBuildThisFileDirectory)Collections.swift">
-            <VirtualFolder>Collection Types</VirtualFolder>
-        </None>
-        <Compile Include="$(MSBuildThisFileDirectory)Bit.swift">
-            <VirtualFolder>Numbers and such</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Integer_Protocols.swift">
-            <VirtualFolder>Numbers and such</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Index_Protocols.swift">
-            <VirtualFolder>Numbers and such</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Sequence_Protocols.swift">
-            <VirtualFolder>Sequences</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)__Internal.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Dispatch.swift"/>
-        <Compile Include="$(MSBuildThisFileDirectory)Char_Extensions.swift">
-            <VirtualFolder>String</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)String.Encoding.swift">
-            <VirtualFolder>String</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)String.Views.swift">
-            <VirtualFolder>String</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)Character.swift">
-            <VirtualFolder>String</VirtualFolder>
-        </Compile>
-        <Compile Include="$(MSBuildThisFileDirectory)String.pas">
-            <VirtualFolder>String</VirtualFolder>
-        </Compile>
-    </ItemGroup>
-    <ItemGroup>
-        <Folder Include="Sequences">
-            <Virtual>True</Virtual>
-        </Folder>
-        <Folder Include="Collection Types">
-            <Virtual>True</Virtual>
-        </Folder>
-        <Folder Include="Numbers and such">
-            <Virtual>True</Virtual>
-        </Folder>
-        <Folder Include="String">
-            <Virtual>True</Virtual>
-        </Folder>
-    </ItemGroup>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>7952073B-795C-4074-954D-212FE780D7D3</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Swift.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Protocols.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sequence_Functions.swift">
+      <VirtualFolder>Sequences</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Functions.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dictionary.swift">
+      <VirtualFolder>Collection Types</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Commandline.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Array.swift">
+      <VirtualFolder>Collection Types</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Aliases.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Range.swift">
+      <VirtualFolder>Numbers and such</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)LiteralConvertibles.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Set.swift">
+      <VirtualFolder>Collection Types</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)String_Extensions.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)String.swift">
+      <VirtualFolder>String</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Functions_ObjC.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sequence_Extensions.swift">
+      <VirtualFolder>Sequences</VirtualFolder>
+    </Compile>
+    <None Include="$(MSBuildThisFileDirectory)Compose.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)INonLazySequence_Extensions.swift">
+      <VirtualFolder>Sequences</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Object_Extensions.swift" />
+    <None Include="$(MSBuildThisFileDirectory)Mirror.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift">
+      <VirtualFolder>Numbers and such</VirtualFolder>
+    </Compile>
+    <None Include="$(MSBuildThisFileDirectory)Collections.swift">
+      <VirtualFolder>Collection Types</VirtualFolder>
+    </None>
+    <Compile Include="$(MSBuildThisFileDirectory)Bit.swift">
+      <VirtualFolder>Numbers and such</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Integer_Protocols.swift">
+      <VirtualFolder>Numbers and such</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Index_Protocols.swift">
+      <VirtualFolder>Numbers and such</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Sequence_Protocols.swift">
+      <VirtualFolder>Sequences</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)__Internal.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dispatch.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Char_Extensions.swift">
+      <VirtualFolder>String</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)String.Encoding.swift">
+      <VirtualFolder>String</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)String.Views.swift">
+      <VirtualFolder>String</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Character.swift">
+      <VirtualFolder>String</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)String.pas">
+      <VirtualFolder>String</VirtualFolder>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sequences">
+      <Virtual>True</Virtual>
+    </Folder>
+    <Folder Include="Collection Types">
+      <Virtual>True</Virtual>
+    </Folder>
+    <Folder Include="Numbers and such">
+      <Virtual>True</Virtual>
+    </Folder>
+    <Folder Include="String">
+      <Virtual>True</Virtual>
+    </Folder>
+  </ItemGroup>
 </Project>

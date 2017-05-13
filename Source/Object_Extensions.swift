@@ -10,7 +10,7 @@ public extension Object : CustomStringConvertible, CustomDebugStringConvertible 
 		#endif
 	}
 
-	@inline(__always) public var debugDescription: NativeString { 
+	@inline(__always) public var debugDescription: NativeString {
 		#if JAVA
 		return self.toString()
 		#elseif CLR || ISLAND

@@ -1,11 +1,11 @@
 ﻿
 
 public extension UnicodeScalar : Streamable {
-	
-	public var value: UInt32 { 
-		return self as! UInt32 
+
+	public var value: UInt32 {
+		return self as! UInt32
 	}
-	
+
 	public func escape(# asASCII: Bool) -> String {
 		if asASCII && !isASCII() {
 			#if JAVA
@@ -26,28 +26,28 @@ public extension UnicodeScalar : Streamable {
 			#endif
 		}
 	}
-	
+
 	public func isASCII() -> Bool {
 		return self <= 127
 	}
-	
+
 	public func asString() -> String {
 		let bytes: Byte[] = [self & 0xff, (self >> 8) & 0xff, (self >> 16) & 0xff, (self >> 24) & 0xff]//, 0, 0, 0, 0]
 		#if JAVA
 		return NativeString(bytes,"UTF16")
 		#elseif CLR
-		return System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetString(bytes, 0, 1) // todo check order  
+		return System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetString(bytes, 0, 1) // todo check order
 		#elseif ISLAND
 		return TextConvert.UTF32ToString(bytes)
 		#elseif COCOA
 		return NativeString(bytes: bytes as! UnsafePointer<AnsiChar>, length: 4, encoding:.UTF32LittleEndianStringEncoding)
 		#endif
 	}
-	
+
 	public func writeTo(_ target: OutputStreamType) {
 		target.write(asString())
 	}
-	
+
 	#if JAVA
 	//workaround for 75341: Silver: Cooper: adding any interface to a struct via extension requires implementing `equals` and `hashCode`.
 	func equals(_ arg1: Object!) -> Boolean {
@@ -56,7 +56,7 @@ public extension UnicodeScalar : Streamable {
 		}
 		return false
 	}
-	
+
 	func hashCode() -> Integer {
 		return value
 	}

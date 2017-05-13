@@ -1,11 +1,11 @@
 ﻿public struct Character {
 
 	internal let nativeStringValue: NativeString
-	
+
 	@ToString public func ToString() -> NativeString {
 		return nativeStringValue
 	}
-	
+
 	internal func toHexString() -> NativeString {
 		if length(nativeStringValue) == 1 {
 			return UInt32(nativeStringValue[0]).toHexString(length: 4)
@@ -51,5 +51,4 @@
 			return "0"
 		}
 	}
-	
 }

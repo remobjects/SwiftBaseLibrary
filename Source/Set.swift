@@ -39,16 +39,16 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		if elements == nil || length(elements) == 0 {
 			return Set<T>()
 		}
-		
+
 		#if JAVA
 		return ArrayList<T>(java.util.Arrays.asList(elements))
 		#elseif CLR | ISLAND
 		return List<T>(elements)
 		#elseif COCOA
 		return NSMutableSet.setWithObjects((&elements[0] as! UnsafePointer<id>), count: length(elements))
-		#endif		
+		#endif
 	}
-	
+
 	/// Create a `Set` from a finite sequence of items.
 	//init<S : SequenceType where T == T>(_ sequence: S) { // Generics not allowed here
 	//}
@@ -60,7 +60,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	/// Complexity: amortized O(1) if `self` does not wrap a bridged
 	/// `NSSet`, O(N) otherwise.
 	//var startIndex: SetIndex<T> { get }
-	
+
 
 	/// The collection's "past the end" position.
 	///
@@ -181,10 +181,10 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		#endif
 	}
 
-	public var isEmpty: Bool { 
-		return count == 0 
+	public var isEmpty: Bool {
+		return count == 0
 	}
-	
+
 	subscript (position: Int/*SetIndex<T>*/) -> T {
 		#if JAVA
 		return __mapped.get(position)
@@ -201,7 +201,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	//func generate() -> SetGenerator<T>
 
 	/// A member of the set, or `nil` if the set is empty.
-	public var first: T? { 
+	public var first: T? {
 		if count > 0 {
 			#if JAVA || CLR || ISLAND
 			return __mapped[0]
@@ -268,7 +268,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		}
 		return result
 	}
-	
+
 	/*public func subtract(_ anotherSequence: ISequence<T>) -> Set<T> {
 		var result = Set<T>()
 		//74103: Silver: can't find (one specific) extension method on ISequence
@@ -295,7 +295,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		}
 		return result
 	}
-	
+
 	public func union(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		for elem in self {
@@ -308,7 +308,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		}
 		return result
 	}
-	
+
 	public func exclusiveOr(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		for elem in self {
@@ -323,21 +323,21 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 		}
 		return result
 	}
-	
+
 	public static func + <T>(lhs: Set<T>, rhs: ISequence<T>) -> Set<T> {
-	
+
 		let targetSet = Set<T>().union(lhs)
 		for element in rhs {
 			targetSet.insert(element)
 		}
-	   
+
 		return targetSet
 	}
-	
+
 	//var hashValue: Int { get }
 
 	/// A textual representation of `self`.
-	public var description: String { 
+	public var description: String {
 		#if JAVA
 		return __mapped.toString()
 		#elseif CLR || ISLAND
@@ -348,7 +348,7 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 	}
 
 	/// A textual representation of `self`, suitable for debugging.
-	public var debugDescription: NativeString { 
+	public var debugDescription: NativeString {
 		return description
 	}
 }

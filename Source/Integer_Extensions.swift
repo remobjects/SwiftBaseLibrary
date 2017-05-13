@@ -42,7 +42,7 @@ public extension Int32 {
 }
 
 public extension Int64 {
-	public static let max: Int64 =  9223372036854775807 //  0x7fff_ffff_ffff_ffff 
+	public static let max: Int64 =  9223372036854775807 //  0x7fff_ffff_ffff_ffff
 	public static let min: Int64 = -9223372036854775808 // -0x8000_0000_0000_0000
 	public static let allZeros: UInt8 = 0
 }
@@ -52,27 +52,27 @@ public extension Int64 {
 public extension Int32  {
 
 	// Range Operators
-	
+
 	public func ... (a: Int32, b: Int32) -> Range/*<Int32>*/ {
 		return Range/*<Int32>*/(a, b, closed: true)
 	}
-	
+
 	public func ... (a: Int64, b: Int32) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(a, b, closed: true)
 	}
-	
+
 	public func ... (a: Int32, b: Int64) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(a, b, closed: true)
 	}
-	
+
 	public func ..< (a: Int32, b: Int32) -> Range/*<Int32>*/ {
 		return Range/*<Int64>*//*<Int32>*/(a, b, closed: false)
 	}
-	
+
 	public func ..< (a: Int64, b: Int32) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(a, b, closed: false)
 	}
-	
+
 	public func ..< (a: Int32, b: Int64) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(a, b, closed: false)
 	}
@@ -97,11 +97,11 @@ public extension Int32 /*: Strideable*/ {
 	func advancedBy(_ n: Int32) -> Int32 {
 		return self + n;
 	}
-	
+
 	func distanceTo(_ other: Int32) -> Int32 {
 		return other - self;
 	}
-	
+
 	public func stride(# through: Int32, by: Int32) -> ISequence<Int32> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -125,13 +125,13 @@ public extension Int32 /*: Strideable*/ {
 }
 
 public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
-	
+
 	// Range Operators
-	
+
 	public func ... (a: Int64, b: Int64) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(a, b, closed: true)
 	}
-	
+
 	public func ..< (a: Int64, b: Int64) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(a, b, closed: false)
 	}
@@ -141,11 +141,11 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	func advancedBy(_ n: Int64) -> Int64 {
 		return self + n;
 	}
-	
+
 	func distanceTo(_ other: Int64) -> Int64 {
 		return other - self;
 	}
-	
+
 	public func stride(# through: Int64, by: Int64) -> ISequence<Int64> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -169,17 +169,17 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 }
 
 public extension Float {
-	
+
 	// Strideable
 
 	func advancedBy(_ n: Float) -> Float {
 		return self + n;
 	}
-	
+
 	func distanceTo(_ other: Float) -> Float {
 		return other - self;
 	}
-	
+
 	public func stride(# through: Float, by: Float) -> ISequence<Float> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
@@ -203,17 +203,17 @@ public extension Float {
 }
 
 public extension Double {
-	
+
 	// Strideable
 
 	func advancedBy(_ n: Double) -> Double {
 		return self + n;
 	}
-	
+
 	func distanceTo(_ other: Double) -> Double {
 		return other - self;
 	}
-	
+
 	public func stride(# through: Double, by: Double) -> ISequence<Double> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self

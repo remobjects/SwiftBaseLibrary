@@ -19,7 +19,7 @@ public protocol Incrementable : Equatable {
 	func successor() -> Self
 }
 
-// CAUTION: Magic type name. 
+// CAUTION: Magic type name.
 // The compiler will allow any value implementing Swift.IBooleanType type to be used as boolean
 public typealias IBooleanType = BooleanType
 public protocol BooleanType {

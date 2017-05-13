@@ -1,5 +1,5 @@
 ﻿// @inline(__always) public func abs(x) // provied by compiler
-	
+
 @Conditional("DEBUG") public func assert(_ condition: @autoclosure () -> Bool, _ message: @autoclosure () -> String, file: String = #file, line: UWord = #line) {
 	if (!condition()) {
 		fatalError(message, file: file, line: line)

@@ -5,7 +5,7 @@ import CoreFoundation
 public extension SwiftString {
 
 	public struct Encoding {
-		//76080: Island: error jusing "lazy" 
+		//76080: Island: error jusing "lazy"
 		public static /*lazy*/ let ascii: SwiftString.Encoding = Encoding(name: "ASCII")
 		//public static /*lazy*/ let iso2022JP: SwiftString.Encoding = Encoding()
 		//public static /*lazy*/ let isoLatin1: SwiftString.Encoding = Encoding()
@@ -29,7 +29,7 @@ public extension SwiftString {
 		//public static /*lazy*/ let windowsCP1252: SwiftString.Encoding = Encoding()
 		//public static /*lazy*/ let windowsCP1253: SwiftString.Encoding = Encoding()
 		//public static /*lazy*/ let windowsCP1254: SwiftString.Encoding = Encoding()
-		
+
 		init(rawValue: NativeEncoding) {
 			self.rawValue = rawValue
 		}
@@ -37,7 +37,7 @@ public extension SwiftString {
 		convenience init(name: String) {
 			init(rawValue: getNativeEncoding(name: name))
 		}
-		
+
 		static func getNativeEncoding(name: String) -> NativeEncoding {
 			#if JAVA
 			return java.nio.charset.Charset.forName(name)
@@ -64,7 +64,7 @@ public extension SwiftString {
 			}
 			#endif
 		}
-		
+
 		let rawValue: NativeEncoding
 
 		#if JAVA
@@ -77,6 +77,6 @@ public extension SwiftString {
 		typealias NativeEncoding = Foundation.NSStringEncoding
 		#endif
 	}
-	
-	
+
+
 }

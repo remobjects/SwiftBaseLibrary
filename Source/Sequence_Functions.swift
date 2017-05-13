@@ -18,10 +18,10 @@
 }
 
 public func split(_ elements: String, isSeparator: (Char) -> Bool, maxSplit: Int = 0, allowEmptySlices: Bool = false) -> [String] {
-	
+
 	let result = [String]()
 	var currentString = ""
-	
+
 	func appendCurrent() -> Bool {
 		if maxSplit > 0 && result.count >= maxSplit {
 			return false
@@ -31,7 +31,7 @@ public func split(_ elements: String, isSeparator: (Char) -> Bool, maxSplit: Int
 		}
 		return true
 	}
-	
+
 	for i in 0 ..< elements.length() {
 		let ch = elements[i]
 		if isSeparator(ch) {
@@ -43,11 +43,11 @@ public func split(_ elements: String, isSeparator: (Char) -> Bool, maxSplit: Int
 			currentString += ch
 		}
 	}
-	
+
 	if currentString.length() > 0 {
 		appendCurrent()
 	}
-	
+
 	return result
 }
 

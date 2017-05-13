@@ -1,7 +1,7 @@
 ﻿//
 //
-// CAUTION: Magic type name. 
-// The compiler will map the [:] dictionary syntax to Swift.Dictionaty<T,U> 
+// CAUTION: Magic type name.
+// The compiler will map the [:] dictionary syntax to Swift.Dictionaty<T,U>
 //
 //
 
@@ -80,18 +80,18 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 			#if JAVA
 			if let v = newValue {
 				__mapped[key] = v
-			} else { 
+			} else {
 					if __mapped.containsKey(key) {
 					__mapped.remove(key)
-				} 
+				}
 			}
 			#elseif CLR || ISLAND
 			if let v = newValue {
 				__mapped[key] = v
-			} else { 
+			} else {
 					if __mapped.ContainsKey(key) {
 					__mapped.Remove(key)
-				} 
+				}
 			}
 			#elseif COCOA
 			if let val = newValue {
@@ -171,7 +171,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		#endif
 	}
 
-	public var isEmpty: Bool { 
+	public var isEmpty: Bool {
 		#if JAVA
 		return __mapped.isEmpty()
 		#elseif CLR
@@ -189,7 +189,7 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 		#elseif CLR || ISLAND
 		return __mapped.Keys
 		#elseif COCOA
-		return __mapped.allKeys as! ISequence<Key> 
+		return __mapped.allKeys as! ISequence<Key>
 		#endif
 	}
 
@@ -207,28 +207,28 @@ __mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictio
 public static class DictionaryHelper {
 	#if JAVA
 	public static func Enumerate<Key, Value>(_ val: java.util.HashMap<Key,Value>) -> ISequence<(Key, Value)> {
-		for entry in val.entrySet() { 
+		for entry in val.entrySet() {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif CLR
 	public static func Enumerate<Key, Value>(_ val: System.Collections.Generic.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
-		for entry in val { 
+		for entry in val {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif ISLAND
 	public static func Enumerate<Key, Value>(_ val: RemObjects.Elements.System.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
-		for entry in val { 
+		for entry in val {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif COCOA
 	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary) -> ISequence<(Key, Value)> {
-		for entry in val { 
+		for entry in val {
 			var item: (Key, Value) =  (entry, val[entry]?)
 		  __yield item
 		}

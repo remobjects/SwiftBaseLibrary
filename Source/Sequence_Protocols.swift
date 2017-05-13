@@ -20,15 +20,15 @@ public typealias ICollectionType = CollectionType
 public protocol CollectionType : Indexable {
 	associatedtype SubSequence: Indexable, SequenceType<Index> = ISequence<Index>
 	subscript(bounds: Range/*<Index>*/) -> SubSequence { get }
-	
+
 	func prefixUpTo(_ end: Index) -> SubSequence
 	func suffixFrom(_ start: Index) -> SubSequence
 	func prefixThrough(_ position: Index) -> SubSequence
-	
+
 	var isEmpty: Bool { get }
 	//74969: Silver: compiler can't see nested associated type from associated type
 	var count: Int/*Index.Distance*/ { get }
-	
+
 	var first: Element? { get }
 }
 

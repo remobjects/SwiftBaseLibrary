@@ -7,7 +7,7 @@ infix operator ∘  { associativity left precedence 100 }  // The character is U
 
 /// Compose functions.
 ///
-///	 (g ∘ f)(x) == g(f(x))
+///     (g ∘ f)(x) == g(f(x))
 ///
 /// - Returns: a function that applies ``g`` to the result of applying ``f``
 ///   to the argument of the new function.
@@ -123,4 +123,3 @@ public func ⊇ <T, S: SequenceType<T>>(lhs: Set<T>, rhs: S) -> Bool {
 public func ⊉ <T, S: SequenceType<T>>(lhs: Set<T>, rhs: S) -> Bool {
 	return !lhs.isSupersetOf(rhs)
 }
-
