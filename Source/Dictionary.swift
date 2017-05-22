@@ -1,20 +1,23 @@
 ﻿//
 //
-// CAUTION: Magic type name.
-// The compiler will map the [:] dictionary syntax to Swift.Dictionaty<T,U>
+// CAUTION: Magic type name. 
+// The compiler will map the [:] dictionary syntax to Swift.Dictionaty<T,U> 
 //
 //
 
-#if COCOA
-__mapped public class Dictionary<Key: class, Value: class> /*: INSFastEnumeration<T>*/ => Foundation.NSMutableDictionary {
-#elseif JAVA
-__mapped public class Dictionary<Key,Value> => java.util.HashMap<Key,Value> {
-#elseif CLR
-__mapped public class Dictionary<Key,Value> => System.Collections.Generic.Dictionary<Key,Value> {
-#elseif ISLAND
-__mapped public class Dictionary<Key,Value> => RemObjects.Elements.System.Dictionary<Key,Value> {
-#endif
-
+__mapped public class Dictionary<Key, Value> /*: INSFastEnumeration<T>*/ => 
+  #if COCOA
+  Foundation.NSMutableDictionary 
+  #elseif JAVA
+  java.util.HashMap<Key,Value> 
+  #elseif CLR
+  System.Collections.Generic.Dictionary<Key,Value>
+  #elseif ISLAND
+  RemObjects.Elements.System.Dictionary<Key,Value>
+  #else
+  #error Unsupported platform
+  #endif
+{
 	public init() {
 		#if JAVA
 		return java.util.HashMap<Key,Value>()

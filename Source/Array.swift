@@ -5,16 +5,31 @@
 //
 //
 
-#if COCOA
-__mapped public class Array<T: class> : INSFastEnumeration<T> => Foundation.NSMutableArray {
-#elseif JAVA
-__mapped public class Array<T> : Iterable<T> => java.util.ArrayList<T> {
-#elseif CLR
-__mapped public class Array<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
-#elseif ISLAND
-__mapped public class Array<T> : ISequence<T> => RemObjects.Elements.System.List<T> {
-#endif
-
+__mapped public class Array<T> : 
+  #if COCOA
+  INSFastEnumeration<T> 
+  #elseif JAVA
+  Iterable<T>
+  #elseif CLR
+  IEnumerable<T>
+  #elseif ISLAND
+  ISequence<T>
+  #else
+  #error Unsupport platform
+  #endif
+  => 
+  #if COCOA
+  Foundation.NSMutableArray 
+  #elseif JAVA
+  java.util.ArrayList<T>
+  #elseif CLR
+  System.Collections.Generic.List<T>
+  #elseif ISLAND
+  RemObjects.Elements.System.List<T>
+  #else
+  #error Unsupport platform
+  #endif
+{
 	public init() {
 		#if JAVA
 		return ArrayList<T>()

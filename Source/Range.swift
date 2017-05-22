@@ -60,16 +60,22 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 	#if COCOA
 	override var debugDescription: NativeString! {
-	#else
-	public var debugDescription: NativeString {
-		#endif
 		if closed {
 			return "Range(\(String(reflecting: lowerBound))...\(String(reflecting: upperBound)))"
 		} else {
 			return "Range(\(String(reflecting: lowerBound))..<\(String(reflecting: upperBound)))"
 		}
 	}
-
+	#else
+	public var debugDescription: NativeString {
+		if closed {
+			return "Range(\(String(reflecting: lowerBound))...\(String(reflecting: upperBound)))"
+		} else {
+			return "Range(\(String(reflecting: lowerBound))..<\(String(reflecting: upperBound)))"
+		}
+	}
+		#endif
+	
 	/* Equatable */
 
 	public func ==(lhs: Self, rhs: Self) -> Bool {
@@ -120,8 +126,8 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			return upperBound-lowerBound
 		}
 	}
-
-	#if COCOA
+	
+	#if COCOA 
 	// todo: make a cast operator
 	public var nativeRange: NSRange {
 		return NSMakeRange(lowerBound, length)
@@ -132,10 +138,10 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 //74138: Silver: constrained type extensions
 /*extension Range where Element == Int32 {
-	#if COCOA
+	#if COCOA 
 	public init(_ nativeRange: NSRange) {
 		startIndex = nativeRange.location
 		endIndex = nativeRange.location+nativeRange.length
 	}
-	#endif
+	#endif	
 }*/

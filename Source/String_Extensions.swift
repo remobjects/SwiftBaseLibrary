@@ -279,9 +279,6 @@
 
 		#if COCOA
 		override var debugDescription: NativeString! {
-		#else
-		public var debugDescription: NativeString {
-		#endif
 			var result = "UTF16CharacterView("
 			for i in startIndex..<endIndex {
 				if i > startIndex {
@@ -292,6 +289,20 @@
 			result += ")"
 			return result
 		}
+		#else
+		public var debugDescription: NativeString {
+			var result = "UTF16CharacterView("
+			for i in startIndex..<endIndex {
+				if i > startIndex {
+					result += " "
+				}
+				result += UInt64(self[i]).toHexString(length: 4)
+			}
+			result += ")"
+			return result
+		}
+		#endif
 	}
 
 }
+

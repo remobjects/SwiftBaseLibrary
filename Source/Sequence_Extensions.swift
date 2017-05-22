@@ -374,9 +374,6 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 
 	#if COCOA
 	override var debugDescription: String! {
-	#else
-	public var debugDescription: String {
-	#endif
 		var result = "Sequence("
 		var first = true
 		for e in self {
@@ -390,6 +387,22 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		result += ")"
 		return result
 	}
+	#else
+	public var debugDescription: String {
+		var result = "Sequence("
+		var first = true
+		for e in self {
+			if !first {
+				result += ", "
+			} else {
+				first = false
+			}
+			result += String(reflecting: e)
+		}
+		result += ")"
+		return result
+	}
+	#endif
 }
 
 #if JAVA

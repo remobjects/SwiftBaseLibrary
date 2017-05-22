@@ -1,12 +1,29 @@
-﻿#if COCOA
-__mapped public class Set<T: class> : INSFastEnumeration<T> => Foundation.NSMutableSet {
-#elseif JAVA
-__mapped public class Set<T> : Iterable<T> => java.util.ArrayList<T> {
-#elseif CLR
-__mapped public class Set<T> : IEnumerable<T> => System.Collections.Generic.List<T> {
-#elseif ISLAND
-__mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T> {
-#endif
+﻿__mapped public class Set<T> : 
+  #if COCOA
+  INSFastEnumeration<T>
+  #elseif JAVA
+  Iterable<T>
+  #elseif CLR
+  IEnumerable<T>
+  #elseif ISLAND
+  ISequence<T>
+  #else 
+  #error Unknown platfomr
+  #endif
+=> 
+
+  #if COCOA
+  Foundation.NSMutableSet 
+  #elseif JAVA
+  java.util.ArrayList<T> 
+  #elseif CLR
+  System.Collections.Generic.List<T> 
+  #elseif ISLAND
+  RemObjects.Elements.System.List<T> 
+  #else
+  #error Unknown platfomr
+  #endif
+{
 	typealias Element = T
 	//typealias Index = SetIndex<T>
 	//typealias GeneratorType = SetGenerator<T>
@@ -333,7 +350,6 @@ __mapped public class Set<T> : ISequence<T> => RemObjects.Elements.System.List<T
 
 		return targetSet
 	}
-
 	//var hashValue: Int { get }
 
 	/// A textual representation of `self`.
