@@ -170,7 +170,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Take(maxLength)
 	}
 
-	public func reduce<U>(_ initial: U, combine: (U, T) -> U) -> U {
+	public func reduce<U>(_ initial: U, _ combine: (U, T) -> U) -> U {
 		var value = initial
 		for i in self {
 			value = combine(value, i)
