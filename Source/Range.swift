@@ -136,6 +136,18 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 }
 
+extension Range: Equatable {
+
+	public override func equals(_ o: Object!) -> Bool {
+		
+		guard let other = o as? Self else {
+			return false
+		}
+		
+		return (self == other)
+	}
+}
+
 //74138: Silver: constrained type extensions
 /*extension Range where Element == Int32 {
 	#if COCOA 
