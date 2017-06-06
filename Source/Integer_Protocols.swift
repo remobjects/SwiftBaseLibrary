@@ -26,6 +26,7 @@ public protocol BooleanType {
 	var boolValue: Bool { get }
 }
 
+public typealias IntegerArithmetic = IntegerArithmeticType
 public protocol IntegerArithmeticType : Comparable {
 	//class func addWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool) //71481: Silver: can't use Self in tuple on static funcs i(in public protocols?)
 	//class func subtractWithOverflow(lhs: Self, _ rhs: Self) -> (Self, overflow: Bool)
@@ -41,6 +42,7 @@ public protocol IntegerArithmeticType : Comparable {
 	func toIntMax() -> IntMax
 }
 
+public typealias BitwiseOperations = BitwiseOperationsType
 public protocol BitwiseOperationsType {
 	//func &(_: Self, _: Self) -> Self //69825: Silver: two probs with operators in public protocols
 	func |(_: Self, _: Self) -> Self
@@ -59,6 +61,7 @@ public protocol BitwiseOperationsType {
 	//static/*class*/ var allZeros: Self { get }
 }
 
+public typealias SignedNumber = ISignedNumberType
 public typealias SignedNumberType = ISignedNumberType
 public protocol ISignedNumberType : Comparable, IntegerLiteralConvertible {
 	prefix func -(_ x: Self) -> Self
@@ -69,12 +72,14 @@ public protocol AbsoluteValuable : SignedNumberType {
 	static func abs(_ x: Self) -> Self
 }
 
+public typealias SignedInteger = ISignedIntegerType
 public typealias SignedIntegerType = ISignedIntegerType
 public protocol ISignedIntegerType {
 	init(_ value: IntMax)
 	func toIntMax() -> IntMax
 }
 
+public typealias UnsignedInteger = IUnsignedIntegerType
 public typealias UnsignedIntegerType = IUnsignedIntegerType
 public protocol IUnsignedIntegerType {
 	init(_ value: UIntMax)
