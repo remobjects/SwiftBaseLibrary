@@ -35,7 +35,7 @@
 		}
 	}
 
-	public init(reflecting subject: Object) {
+	public convenience init(reflecting subject: Object) {
 		if let o = subject as? ICustomDebugStringConvertible {
 			return o.debugDescription
 		} else {
