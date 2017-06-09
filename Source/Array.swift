@@ -340,7 +340,7 @@ __mapped public class Array<T> :
 			}
 		}})
 		#elseif CLR
-		__mapped.Sort({ (a: T, b: T) -> Boolean in
+		__mapped.Sort({ (a: T, b: T) -> Integer in
 			if isOrderedBefore(a,b) {
 				return -1
 			} else {

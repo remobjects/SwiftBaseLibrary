@@ -196,7 +196,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return result
 		#elseif CLR || ISLAND
 		let result: List<T> = [T](sequence: self)
-		result.Sort() { (a: T, b: T) -> Boolean in // ToDo: check if this is the right order
+		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
 			} else {
