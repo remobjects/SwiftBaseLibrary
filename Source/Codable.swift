@@ -250,7 +250,9 @@ public protocol UnkeyedEncodingContainer {
     ///
     /// - parameter value: The value to encode.
     /// - throws: `CocoaError.coderInvalidValue` if the given value is invalid in the current context for this format.
+    #if !ISLAND
     mutating func encode<T : Encodable>(_ value: T?) throws
+    #endif
 
     /// Encodes the given value.
     ///
@@ -279,7 +281,9 @@ public protocol UnkeyedEncodingContainer {
     ///
     /// - parameter object: The object to encode.
     /// - throws: `CocoaError.coderInvalidValue` if the given value is invalid in the current context for this format.
+    #if !ISLAND
     mutating func encodeWeak<T : /*AnyObject &*/ Encodable>(_ object: T?) throws
+    #endif
 
     /// Encodes the elements of the given sequence.
     ///
@@ -373,10 +377,12 @@ public protocol SingleValueEncodingContainer {
     mutating func encode(_ value: Int32) throws
     mutating func encode(_ value: Int64) throws
     //mutating func encode(_ value: UInt) throws
+    #if !COOPER
     mutating func encode(_ value: UInt8) throws
     mutating func encode(_ value: UInt16) throws
     mutating func encode(_ value: UInt32) throws
     mutating func encode(_ value: UInt64) throws
+    #endif
     mutating func encode(_ value: Float) throws
     mutating func encode(_ value: Double) throws
     mutating func encode(_ value: String) throws
