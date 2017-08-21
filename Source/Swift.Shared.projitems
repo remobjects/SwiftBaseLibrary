@@ -79,6 +79,12 @@
       <VirtualFolder>String</VirtualFolder>
     </Compile>
     <None Include="$(MSBuildThisFileDirectory)Codable.swift" />
+    <None Include="$(MSBuildThisFileDirectory)CG_Extensions.swift">
+      <VirtualFolder>Cocoa</VirtualFolder>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)Foundation_Extension.swift">
+      <VirtualFolder>Cocoa</VirtualFolder>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sequences">
@@ -91,6 +97,9 @@
       <Virtual>True</Virtual>
     </Folder>
     <Folder Include="String">
+      <Virtual>True</Virtual>
+    </Folder>
+    <Folder Include="Cocoa">
       <Virtual>True</Virtual>
     </Folder>
   </ItemGroup>

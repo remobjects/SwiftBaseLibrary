@@ -42,6 +42,7 @@
     <Reference Include="rtl" />
     <Reference Include="libToffee" />
     <Reference Include="CoreFoundation" />
+    <Reference Include="CoreGraphics" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets" />
   <Import Project="Swift.Shared.projitems" Label="Swift.Shared" />
