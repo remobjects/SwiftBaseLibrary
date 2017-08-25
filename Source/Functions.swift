@@ -99,7 +99,7 @@ public func print(_ objects: Object?..., separator: String = " ", terminator: St
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-func print<Target : OutputStreamType>(_ objects: Object?..., separator: String = " ", terminator: String? = nil, inout toStream output: Target) {
+func print<Target : OutputStreamType>(_ objects: Object?..., separator: String = " ", terminator: String? = nil, to output: inout Target) {
 	var first = true
 	for object in objects {
 		if !first {
