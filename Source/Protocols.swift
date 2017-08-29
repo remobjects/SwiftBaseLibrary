@@ -4,7 +4,7 @@
 	func objectAtIndex(index: Int) -> AnyObject
 	//func getObjects(_: UnsafeMutablePointer<AnyObject>, range: _SwiftNSRange)
 	//func countByEnumeratingWithState(state: UnsafeMutablePointer<_SwiftNSFastEnumerationState>, objects buffer: UnsafeMutablePointer<AnyObject>, count len: Int) -> Int
-	//func copyWithZone(_: COpaquePointer) -> _CocoaArrayType
+	//func copyWithZone(_: OpaquePointer) -> _CocoaArrayType
 	var count: Int { get }
 }
 #endif

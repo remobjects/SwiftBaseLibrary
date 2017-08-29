@@ -71,7 +71,7 @@ public typealias CInt = Int32
 public typealias CLong = Int
 public typealias CLongLong = Int64
 #if COCOA
-public typealias COpaquePointer = UnsafePointer<Void>
+public typealias OpaquePointer = UnsafePointer<Void>
 #endif
 public typealias CShort = Int16
 public typealias CSignedChar = Int8
