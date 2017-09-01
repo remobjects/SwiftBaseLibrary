@@ -67,7 +67,7 @@ public func fatalError(_ message: @autoclosure () -> String, file: String = #fil
 	print(objects)
 }
 
-public func print(object: Object?, separator: String = " ", terminator: String? = nil) {
+public func print(object: Object?, separator: String, terminator: String?) {
 	if let object = object {
 		write(object)
 	} else {
@@ -78,6 +78,18 @@ public func print(object: Object?, separator: String = " ", terminator: String? 
 	} else {
 		writeLn()
 	}
+}
+
+@inline(__always) public func print(_ objects: Object?...) {
+	print(objects, separator: " ", terminator: nil)
+}
+
+@inline(__always) public func print(_ objects: Object?..., separator: String) {
+	print(objects, separator: separator, terminator: nil)
+}
+
+@inline(__always) public func print(_ objects: Object?..., terminator: String?) {
+	print(objects, separator: " ", terminator: terminator)
 }
 
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
