@@ -46,6 +46,12 @@ public func debugPrint(_ objects: Object?..., separator: String = " ", terminato
 	}
 }
 
+@discardableResult func dump<T>(_ value: T, name: String? = nil, indent: Int = 2, maxDepth: Int = -1, maxItems: Int = -1) -> T
+{
+	debugPrint(value)
+	return value
+}
+
 public func fatalError(_ message: @autoclosure () -> String, file: String = #file, line: UInt32 = #line) -> Never {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
