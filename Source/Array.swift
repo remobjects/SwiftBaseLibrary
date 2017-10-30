@@ -5,9 +5,9 @@
 //
 //
 
-__mapped public class Array<T> : 
+__mapped public class Array<T> :
   #if COCOA
-  INSFastEnumeration<T> 
+  INSFastEnumeration<T>
   #elseif JAVA
   Iterable<T>
   #elseif CLR
@@ -17,9 +17,9 @@ __mapped public class Array<T> :
   #else
   #error Unsupport platform
   #endif
-  => 
+  =>
   #if COCOA
-  Foundation.NSMutableArray 
+  Foundation.NSMutableArray
   #elseif JAVA
   java.util.ArrayList<T>
   #elseif CLR
