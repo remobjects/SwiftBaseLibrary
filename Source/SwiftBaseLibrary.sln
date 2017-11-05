@@ -9,6 +9,8 @@ Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Android", "Swi
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Linux", "Swift.Island.Linux.elements", "{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}"
 EndProject
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.WebAssembly", "Swift.Island.WebAssembly.elements", "{D38B4354-35C8-4BC9-9415-4D72A1F77CA1}"
+EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Windows", "Swift.Island.Windows.elements", "{D32E206A-1255-4DA9-8287-64E5E988ABA4}"
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Shared", "Swift.Shared.elements", "{7952073B-795C-4074-954D-212FE780D7D3}"
@@ -43,6 +45,10 @@ Global
 		{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
 		{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
 		{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{D38B4354-35C8-4BC9-9415-4D72A1F77CA1}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{D38B4354-35C8-4BC9-9415-4D72A1F77CA1}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{D38B4354-35C8-4BC9-9415-4D72A1F77CA1}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{D38B4354-35C8-4BC9-9415-4D72A1F77CA1}.Release|AnyCPU.Build.0 = Release|AnyCPU
 		{D32E206A-1255-4DA9-8287-64E5E988ABA4}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
 		{D32E206A-1255-4DA9-8287-64E5E988ABA4}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
 		{D32E206A-1255-4DA9-8287-64E5E988ABA4}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
