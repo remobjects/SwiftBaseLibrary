@@ -46,6 +46,7 @@
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
     <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
     <DefineConstants>SIGN</DefineConstants>
+    <Architecture>arm64-v8a;armeabi;armeabi-v7a;x86;x86_64</Architecture>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gc" />
