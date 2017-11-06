@@ -48,9 +48,7 @@
     <DefineConstants>SIGN</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="gc" />
     <Reference Include="Island" />
-    <Reference Include="rtl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.WebAssembly.targets" />
   <Import Project="Swift.Shared.projitems" Label="Swift.Shared" />

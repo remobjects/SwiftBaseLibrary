@@ -14,7 +14,7 @@
     <SDK>tvOS</SDK>
     <CreateHeaderFile>True</CreateHeaderFile>
     <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-    <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
+    <DeploymentTargetVersion>9.2</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
