@@ -45,7 +45,7 @@ public extension UnicodeScalar : Streamable {
 	}
 
 	public func writeTo(_ target: OutputStreamType) {
-		target.write(asString())
+		//target.write(asString())
 	}
 
 	#if JAVA

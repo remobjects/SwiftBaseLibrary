@@ -37,7 +37,7 @@ public protocol IHashable /*: Equatable*/ {
 
 public typealias OutputStreamType = IOutputStreamType
 public protocol IOutputStreamType {
-	mutating func write(_ string: String)
+	//mutating func write(_ string: String)
 }
 
 public typealias Streamable = IStreamable

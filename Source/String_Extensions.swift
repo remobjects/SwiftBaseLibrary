@@ -215,7 +215,7 @@
 
 	// Streamable
 	func writeTo(_ target: OutputStreamType) {
-		target.write(self)
+		//target.write(self)
 	}
 
 	//
@@ -305,4 +305,3 @@
 	}
 
 }
-

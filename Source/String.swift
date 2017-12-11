@@ -305,7 +305,7 @@ public struct SwiftString /*: Streamable*/ {
 
 	// Streamable
 	func writeTo(_ target: OutputStreamType) {
-		target.write(nativeStringValue)
+		//target.write(nativeStringValue)
 	}
 
 	//
