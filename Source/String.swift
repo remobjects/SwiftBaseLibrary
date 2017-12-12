@@ -388,7 +388,7 @@ public struct SwiftString /*: Streamable*/ {
 		//return self.toLowercase()
 		#elseif CLR || ISLAND
 		var i = 0
-		if Int32.TryParse(nativeStringValue, &i) {
+		if Int64.TryParse(nativeStringValue, &i) {
 			return i
 		}
 		return nil

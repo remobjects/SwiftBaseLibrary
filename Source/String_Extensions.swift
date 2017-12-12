@@ -241,7 +241,7 @@
 		}
 		#elseif CLR || ISLAND
 		var i = 0
-		if Int32.TryParse(self, &i) {
+		if Int64.TryParse(self, &i) {
 			return i
 		}
 		return nil
