@@ -189,21 +189,27 @@
 
 	func `prefix`(through: Index) -> NativeString {
 		return __substring(range: 0...through)
+		//return self[...through] // E119 Cannot use the unary operator "..." on type "extension String.Index"
 	}
 
 	func `prefix`(upTo: Index) -> NativeString {
 		return __substring(range: 0..<upTo)
+		//return self[..<upTo] // E119 Cannot use the unary operator "..<" on type "extension String.Index"
 	}
 
 	func suffix(from: Index) -> NativeString {
 		return __substring(range: from..<length())
+		//return self[from...]
 	}
 
 	//public subscript(range: NativeString.Index) -> Character // implicitly provided by the compiler, already
 
 	//76192: Silver: can't use range as subscript? (SBL)
+	public subscript(_ range: Range/*<Int>*/) -> NativeString {
+		return __substring(range: range)
+	}
+
 	internal func __substring(range: Range/*<Int>*/) -> NativeString {
-	//public subscript(_ range: Range/*<Int>*/) -> NativeString {
 		if range.upperBound != nil {
 			#if JAVA
 			return substring(coalesce(range.lowerBound, 0), range.length)

@@ -175,16 +175,15 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	// Silver-specific extensions not defined in standard Swift.Range:
 	//
 
-	public var length: Bound {
+	public var length: Bound? {
 		if let lowerBound = lowerBound, let upperBound = upperBound {
 			if closed {
 				return upperBound-lowerBound+1
 			} else {
 				return upperBound-lowerBound
 			}
-		} else {
-			throw Exception("Cannot determine the length of \(self) because it has no well-defined lower and upper bounds")
 		}
+		return nil
 	}
 
 	#if COCOA

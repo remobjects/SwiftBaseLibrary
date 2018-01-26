@@ -21,9 +21,9 @@ public protocol CollectionType : Indexable {
 	associatedtype SubSequence: Indexable, SequenceType<Index> = ISequence<Index>
 	subscript(bounds: Range/*<Index>*/) -> SubSequence { get }
 
-	func prefixUpTo(_ end: Index) -> SubSequence
-	func suffixFrom(_ start: Index) -> SubSequence
-	func prefixThrough(_ position: Index) -> SubSequence
+	func `prefix`(upTo: Index) -> SubSequence
+	func `prefix`(through: Index) -> SubSequence
+	func suffix(from: Index) -> SubSequence
 
 	var isEmpty: Bool { get }
 	//74969: Silver: compiler can't see nested associated type from associated type
