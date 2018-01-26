@@ -203,14 +203,30 @@
 
 	//76192: Silver: can't use range as subscript? (SBL)
 	internal func __substring(range: Range/*<Int>*/) -> NativeString {
-	//public subscript(range: Range/*<Int>*/) -> NativeString {
-		#if JAVA
-		return substring(range.lowerBound, range.length)
-		#elseif CLR || ISLAND
-		return Substring(range.lowerBound, range.length)
-		#elseif COCOA
-		return substringWithRange(range.nativeRange) // todo: make a cast operator
-		#endif
+	//public subscript(_ range: Range/*<Int>*/) -> NativeString {
+		if range.upperBound != nil {
+			#if JAVA
+			return substring(coalesce(range.lowerBound, 0), range.length)
+			#elseif CLR || ISLAND
+			return Substring(coalesce(range.lowerBound, 0), range.length)
+			#elseif COCOA
+			if range.lowerBound != nil {
+				return substringWithRange(range.nativeRange) // todo: make a cast operator
+			} else {
+				return substringToIndex(range.length)
+			}
+			#endif
+		} else if let lowerBound = range.lowerBound {
+			#if JAVA
+			return substring(lowerBound)
+			#elseif CLR || ISLAND
+			return Substring(lowerBound)
+			#elseif COCOA
+			return substringFromIndex(lowerBound)
+			#endif
+		} else {
+			return self
+		}
 	}
 
 	// Streamable

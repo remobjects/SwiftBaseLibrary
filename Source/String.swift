@@ -294,13 +294,29 @@ public struct SwiftString /*: Streamable*/ {
 	//public subscript(range: SwiftString.Index) -> Character // implicitly provided by the compiler, already
 
 	public subscript(range: Range/*<Int>*/) -> SwiftString {
-		#if JAVA
-		return SwiftString(nativeStringValue.substring(range.lowerBound, range.length))
-		#elseif CLR || ISLAND
-		return SwiftString(nativeStringValue.Substring(range.lowerBound, range.length))
-		#elseif COCOA
-		return SwiftString(nativeStringValue.substringWithRange(range.nativeRange)) // todo: make a cast operator
-		#endif
+		if range.upperBound != nil {
+			#if JAVA
+			return SwiftString(nativeStringValue.substring(coalesce(range.lowerBound, 0), range.length))
+			#elseif CLR || ISLAND
+			return SwiftString(nativeStringValue.Substring(coalesce(range.lowerBound, 0), range.length))
+			#elseif COCOA
+			if range.lowerBound != nil {
+				return SwiftString(nativeStringValue.substringWithRange(range.nativeRange)) // todo: make a cast operator
+			} else {
+				return SwiftString(nativeStringValue.substringToIndex(range.length))
+			}
+			#endif
+		} else if let lowerBound = range.lowerBound {
+			#if JAVA
+			return SwiftString(nativeStringValue.substring(lowerBound))
+			#elseif CLR || ISLAND
+			return SwiftString(nativeStringValue.Substring(lowerBound))
+			#elseif COCOA
+			return SwiftString(nativeStringValue.substringFromIndex(lowerBound))
+			#endif
+		} else {
+			return self
+		}
 	}
 
 	// Streamable
