@@ -77,6 +77,21 @@ public extension Int32  {
 		return Range/*<Int64>*/(a, b, closed: false)
 	}
 
+	public prefix func ... (b: Int32) -> Range/*<Int32>*/ {
+		return Range/*<Int32>*/(nil, b, closed: true)
+	}
+
+	public prefix func ..< (b: Int32) -> Range/*<Int32>*/ {
+		return Range/*<Int64>*//*<Int32>*/(nil, b, closed: false)
+	}
+
+	public postfix func ... (a: Int32) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, nil, closed: true)
+	}
+
+	public postfix func ..< (a: Int32) -> Range/*<Int32>*/ {
+		return Range/*<Int64>*//*<Int32>*/(a, nil, closed: false)
+	}
 }
 
 public extension Int32 /*: AbsoluteValuable*/ {
@@ -134,6 +149,22 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 
 	public func ..< (a: Int64, b: Int64) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(a, b, closed: false)
+	}
+
+	public prefix func ... (b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(nil, b, closed: true)
+	}
+
+	public prefix func ..< (b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(nil, b, closed: false)
+	}
+
+	public postfix func ... (a: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, nil, closed: true)
+	}
+
+	public postfix func ..< (a: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(a, nil, closed: false)
 	}
 
 	// Strideable

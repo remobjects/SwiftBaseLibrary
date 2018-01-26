@@ -16,7 +16,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		self.closed = x.closed
 	}
 
-	internal init(_ lowerBound: Bound, _ upperBound: Bound, closed: Bool = false) {
+	internal init(_ lowerBound: Bound?, _ upperBound: Bound?, closed: Bool = false) {
 		self.lowerBound = lowerBound
 		self.upperBound = upperBound
 		self.closed = closed
@@ -26,15 +26,19 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	// Properties
 	//
 
-	public var lowerBound: Bound
-	public var upperBound: Bound
+	public var lowerBound: Bound?
+	public var upperBound: Bound?
 	public var closed: Bool
 
 	var isEmpty: Bool {
-		if closed {
-			return upperBound == lowerBound
+		if let lowerBound = lowerBound, let upperBound = upperBound {
+			if closed {
+				return upperBound == lowerBound
+			} else {
+				return upperBound < lowerBound
+			}
 		} else {
-			return upperBound < lowerBound
+			return false
 		}
 	}
 
@@ -43,38 +47,76 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	//
 
 	public func contains(_ element: Bound) -> Bool {
-		if closed {
-			return element >= lowerBound && element <= upperBound
+		if let lowerBound = lowerBound {
+			if let upperBound = upperBound {
+				if closed {
+					return element >= lowerBound && element <= upperBound
+				} else {
+					return element >= lowerBound && element < upperBound
+				}
+			} else {
+				return element >= lowerBound
+			}
+		} else if let upperBound = upperBound {
+			if closed {
+				return element <= upperBound
+			} else {
+				return element < upperBound
+			}
 		} else {
-			return element >= lowerBound && element < upperBound
+			return true
 		}
 	}
 
 	@ToString public func description() -> NativeString {
-		if closed {
-			return "\(lowerBound)...\(upperBound)"
-		} else {
-			return "\(lowerBound)..<\(upperBound)"
+		var result = ""
+		if let lowerBound = lowerBound {
+			result += "\(lowerBound)"
 		}
+		if closed {
+			result += "..."
+		} else {
+			result += "..<"
+		}
+		if let upperBound = upperBound {
+			result = "\(upperBound)"
+		}
+		return result
 	}
 
 	#if COCOA
 	override var debugDescription: NativeString! {
-		if closed {
-			return "Range(\(String(reflecting: lowerBound))...\(String(reflecting: upperBound)))"
-		} else {
-			return "Range(\(String(reflecting: lowerBound))..<\(String(reflecting: upperBound)))"
+		var result = ""
+		if let lowerBound = lowerBound {
+			result += String(reflecting: lowerBound)
 		}
+		if closed {
+			result += "..."
+		} else {
+			result += "..<"
+		}
+		if let upperBound = upperBound {
+			result = String(reflecting: upperBound)
+		}
+		return result
 	}
 	#else
-	public var debugDescription: NativeString {
-		if closed {
-			return "Range(\(String(reflecting: lowerBound))...\(String(reflecting: upperBound)))"
-		} else {
-			return "Range(\(String(reflecting: lowerBound))..<\(String(reflecting: upperBound)))"
+	var debugDescription: NativeString! {
+		var result = ""
+		if let lowerBound = lowerBound {
+			result += String(reflecting: lowerBound)
 		}
+		if closed {
+			result += "..."
+		} else {
+			result += "..<"
+		}
+		if let upperBound = upperBound {
+			result = String(reflecting: upperBound)
+		}
+		return result
 	}
-		#endif
+	#endif
 
 	/* Equatable */
 
@@ -96,22 +138,36 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	//
 
 	public subscript (i: Bound) -> Bound {
-		//return startIndex + i
+		if let lowerBound = lowerBound {
+			return lowerBound + i
+		} else {
+			throw Exception("Cannot random-access \(self) because it has no well-defined lower bound")
+		}
 		return i
 	}
 
 	public func GetSequence() -> ISequence<Bound> {
-		var i = lowerBound
-		if closed {
-			while i <= upperBound {
-				__yield i
-				i += 1
+		if let lowerBound = lowerBound {
+			var i = lowerBound
+			if let upperBound = upperBound {
+				if closed {
+					while i <= upperBound {
+						__yield i
+						i += 1
+					}
+				} else {
+					while i < upperBound {
+						__yield i
+						i += 1
+					}
+				}
+			} else {
+				while true {
+					__yield i
+				}
 			}
 		} else {
-			while i < upperBound {
-				__yield i
-				i += 1
-			}
+			throw Exception("Cannot iterate over \(self) because it has no well-defined lower bound")
 		}
 	}
 
@@ -120,17 +176,25 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	//
 
 	public var length: Bound {
-		if closed {
-			return upperBound-lowerBound+1
+		if let lowerBound = lowerBound, let upperBound = upperBound {
+			if closed {
+				return upperBound-lowerBound+1
+			} else {
+				return upperBound-lowerBound
+			}
 		} else {
-			return upperBound-lowerBound
+			throw Exception("Cannot determine the length of \(self) because it has no well-defined lower and upper bounds")
 		}
 	}
 
 	#if COCOA
 	// todo: make a cast operator
 	public var nativeRange: NSRange {
-		return NSMakeRange(lowerBound, length)
+		if let lowerBound = lowerBound, upperBound != nil {
+			return NSMakeRange(lowerBound, length)
+		} else {
+			throw Exception("Cannot convert \(self) to NSRange because it has no well-defined lower and upper bounds")
+		}
 	}
 	#endif
 
