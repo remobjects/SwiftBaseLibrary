@@ -75,7 +75,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		}
 	}
 		#endif
-	
+
 	/* Equatable */
 
 	public func ==(lhs: Self, rhs: Self) -> Bool {
@@ -103,12 +103,12 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	public func GetSequence() -> ISequence<Bound> {
 		var i = lowerBound
 		if closed {
-			while i < upperBound {
+			while i <= upperBound {
 				__yield i
 				i += 1
 			}
 		} else {
-			while i <= upperBound {
+			while i < upperBound {
 				__yield i
 				i += 1
 			}
@@ -126,8 +126,8 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			return upperBound-lowerBound
 		}
 	}
-	
-	#if COCOA 
+
+	#if COCOA
 	// todo: make a cast operator
 	public var nativeRange: NSRange {
 		return NSMakeRange(lowerBound, length)
@@ -138,10 +138,10 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 //74138: Silver: constrained type extensions
 /*extension Range where Element == Int32 {
-	#if COCOA 
+	#if COCOA
 	public init(_ nativeRange: NSRange) {
 		startIndex = nativeRange.location
 		endIndex = nativeRange.location+nativeRange.length
 	}
-	#endif	
+	#endif
 }*/
