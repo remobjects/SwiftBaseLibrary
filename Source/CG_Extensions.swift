@@ -11,7 +11,7 @@ public extension CGPoint {
 		return CGPointMake(x, y)
 	}
 
-	public var zero: CGPoint { return CoreGraphics.CGPointZero }
+	public static var zero: CGPoint { return CoreGraphics.CGPointZero }
 }
 
 public extension CGSize {
@@ -24,7 +24,7 @@ public extension CGSize {
 		return CGSizeMake(width, height)
 	}
 
-	public var zero: CGSize { return CoreGraphics.CGSizeZero }
+	public static var zero: CGSize { return CoreGraphics.CGSizeZero }
 }
 
 public extension CGRect {
@@ -41,13 +41,18 @@ public extension CGRect {
 		return CGRectMake(x, y, width, height)
 	}
 
+	public var minX: CGFloat { return size.width  >= 0 ? origin.x : origin.x-size.width }
+	public var minY: CGFloat { return size.height >= 0 ? origin.y : origin.y-size.height }
+	public var maxX: CGFloat { return size.width  >= 0 ? origin.x+size.width  : origin.x }
+	public var maxY: CGFloat { return size.height >= 0 ? origin.y+size.height : origin.y }
+
 	public var x: CGFloat { return origin.x }
 	public var y: CGFloat { return origin.y }
 	public var width: CGFloat { return size.width }
 	public var height: CGFloat { return size.height }
 
-	public var zero: CGRect { return CoreGraphics.CGRectZero }
-	public var null: CGRect { return CoreGraphics.CGRectNull }
-	public var infinite: CGRect { return CoreGraphics.CGRectInfinite }
+	public static var zero: CGRect { return CoreGraphics.CGRectZero }
+	public static var null: CGRect { return CoreGraphics.CGRectNull }
+	public static var infinite: CGRect { return CoreGraphics.CGRectInfinite }
 }
 #endif
