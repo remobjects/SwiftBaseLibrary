@@ -182,7 +182,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Reverse()
 	}
 
-	public func sort(_ isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
+	public func sorted(by isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
 		//todo: make more lazy?
 		#if JAVA
 		let result: ArrayList<T> = [T](sequence: self)

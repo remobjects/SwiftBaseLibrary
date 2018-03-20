@@ -358,7 +358,7 @@ __mapped public class Array<T> :
 		#endif
 	}
 
-	public func sorted(_ isOrderedBefore: (T, T) -> Bool) -> [T] {
+	public func sorted(by isOrderedBefore: (T, T) -> Bool) -> [T] {
 		#if JAVA
 		let result: ArrayList<T> = [T](items: self)
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
