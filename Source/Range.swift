@@ -1,6 +1,8 @@
 ﻿
 //74077: Allow GetSequence() to actually be used to implement ISequence
 
+public infix operator >.. {}
+
 public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConvertible, CustomDebugStringConvertible/* ISequence<IntMax>*/ {
 
 	//typealias Index = Int64//Element
@@ -14,12 +16,21 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		self.lowerBound = x.lowerBound
 		self.upperBound = x.upperBound
 		self.closed = x.closed
+		self.reversed = false
 	}
 
 	internal init(_ lowerBound: Bound?, _ upperBound: Bound?, closed: Bool = false) {
 		self.lowerBound = lowerBound
 		self.upperBound = upperBound
 		self.closed = closed
+		self.reversed = false
+	}
+
+	internal init(_ lowerBound: Bound?, _ upperBound: Bound?, closed: Bool = false, reversed: Bool) {
+		self.lowerBound = lowerBound
+		self.upperBound = upperBound
+		self.closed = closed
+		self.reversed = reversed
 	}
 
 	//
@@ -29,6 +40,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	public var lowerBound: Bound?
 	public var upperBound: Bound?
 	public var closed: Bool
+	public var reversed: Bool
 
 	var isEmpty: Bool {
 		if let lowerBound = lowerBound, let upperBound = upperBound {
@@ -70,16 +82,30 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 	@ToString public func description() -> NativeString {
 		var result = ""
-		if let lowerBound = lowerBound {
-			result += "\(lowerBound)"
-		}
-		if closed {
-			result += "..."
+		if reversed {
+			if let upperBound = upperBound {
+				result = "\(upperBound)"
+			}
+			if closed {
+				result += "≤..."
+			} else {
+				result += "<.."
+			}
+			if let lowerBound = lowerBound {
+				result += "\(lowerBound)"
+			}
 		} else {
-			result += "..<"
-		}
-		if let upperBound = upperBound {
-			result = "\(upperBound)"
+			if let lowerBound = lowerBound {
+				result += "\(lowerBound)"
+			}
+			if closed {
+				result += "..."
+			} else {
+				result += "..<"
+			}
+			if let upperBound = upperBound {
+				result = "\(upperBound)"
+			}
 		}
 		return result
 	}
@@ -87,32 +113,60 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	#if COCOA
 	override var debugDescription: NativeString! {
 		var result = ""
-		if let lowerBound = lowerBound {
-			result += String(reflecting: lowerBound)
-		}
-		if closed {
-			result += "..."
+		if reversed {
+			if let upperBound = upperBound {
+				result = String(reflecting: upperBound)
+			}
+			if closed {
+				result += "≤..."
+			} else {
+				result += "<.."
+			}
+			if let lowerBound = lowerBound {
+				result += String(reflecting: lowerBound)
+			}
 		} else {
-			result += "..<"
-		}
-		if let upperBound = upperBound {
-			result = String(reflecting: upperBound)
+			if let lowerBound = lowerBound {
+				result += String(reflecting: lowerBound)
+			}
+			if closed {
+				result += "..."
+			} else {
+				result += "..<"
+			}
+			if let upperBound = upperBound {
+				result = String(reflecting: upperBound)
+			}
 		}
 		return result
 	}
 	#else
 	var debugDescription: NativeString! {
 		var result = ""
-		if let lowerBound = lowerBound {
-			result += String(reflecting: lowerBound)
-		}
-		if closed {
-			result += "..."
+		if reversed {
+			if let upperBound = upperBound {
+				result = String(reflecting: upperBound)
+			}
+			if closed {
+				result += "≤..."
+			} else {
+				result += "<.."
+			}
+			if let lowerBound = lowerBound {
+				result += String(reflecting: lowerBound)
+			}
 		} else {
-			result += "..<"
-		}
-		if let upperBound = upperBound {
-			result = String(reflecting: upperBound)
+			if let lowerBound = lowerBound {
+				result += String(reflecting: lowerBound)
+			}
+			if closed {
+				result += "..."
+			} else {
+				result += "..<"
+			}
+			if let upperBound = upperBound {
+				result = String(reflecting: upperBound)
+			}
 		}
 		return result
 	}
@@ -143,31 +197,48 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		} else {
 			throw Exception("Cannot random-access \(self) because it has no well-defined lower bound")
 		}
-		return i
 	}
 
 	public func GetSequence() -> ISequence<Bound> {
-		if let lowerBound = lowerBound {
-			var i = lowerBound
+		if reversed {
 			if let upperBound = upperBound {
-				if closed {
-					while i <= upperBound {
-						__yield i
-						i += 1
+				var i = upperBound
+				if !closed {
+					i--
+				}
+				if let lowerBound = lowerBound {
+					while i >= lowerBound {
+						__yield i--
 					}
 				} else {
-					while i < upperBound {
-						__yield i
-						i += 1
+					while i >= 0 {
+						__yield i--
 					}
 				}
 			} else {
-				while true {
-					__yield i
-				}
+				throw Exception("Cannot iterate over \(self) because it has no well-defined upper bound")
 			}
 		} else {
-			throw Exception("Cannot iterate over \(self) because it has no well-defined lower bound")
+			if let lowerBound = lowerBound {
+				var i = lowerBound
+				if let upperBound = upperBound {
+					if closed {
+						while i <= upperBound {
+							__yield i++
+						}
+					} else {
+						while i < upperBound {
+							__yield i++
+						}
+					}
+				} else {
+					while true {
+						__yield i++
+					}
+				}
+			} else {
+				throw Exception("Cannot iterate over \(self) because it has no well-defined lower bound")
+			}
 		}
 	}
 

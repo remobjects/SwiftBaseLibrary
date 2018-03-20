@@ -317,6 +317,14 @@ __mapped public class Array<T> :
 		#endif
 	}
 
+	public mutating func swapAt(_ i: Int, _ j: Int) {
+		if i != j {
+			let temp = self[i]
+			self[i] = self[j]
+			self[j] = temp
+		}
+	}
+
 	// availabvle via ISequence anyways
 	/*public func enumerate() -> ISequence<(Int, T)> {
 		var index = 0
@@ -330,7 +338,7 @@ __mapped public class Array<T> :
 		return self
 	}
 
-	public mutating func sort(_ isOrderedBefore: (T, T) -> Bool) {
+	public mutating func sort(by isOrderedBefore: (T, T) -> Bool) {
 		#if JAVA
 		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
 			if isOrderedBefore(a,b) {
@@ -390,6 +398,23 @@ __mapped public class Array<T> :
 		#endif
 	}
 
+	public mutating func reverse() {
+		for i in 0..<count/2 {
+			swapAt(i, count-i-1)
+		}
+	}
+
+	public func reversed() -> Array<T> {
+		let result = Array<T>(capacity: count)
+		for i in count>..0 {
+			result.append(self[i])
+		}
+		return result
+	}
+
+	//public mutating func partition(by belongsInSecondPartition: (Element) throws -> Bool) rethrows -> Int {
+	//}
+
 	public func map<U>(_ transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
 		return __mapped.Select({ return transform($0) })
@@ -398,9 +423,9 @@ __mapped public class Array<T> :
 		#endif
 	}
 
-	public func reverse() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		return (__mapped as! ISequence<T>).Reverse()
-	}
+	//public func reversed() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+		//return (__mapped as! ISequence<T>).Reverse()
+	//}
 
 	public func filter(_ includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA

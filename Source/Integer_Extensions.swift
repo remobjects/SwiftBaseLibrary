@@ -77,12 +77,28 @@ public extension Int32  {
 		return Range/*<Int64>*/(a, b, closed: false)
 	}
 
+	public func >.. (a: Int32, b: Int32) -> Range/*<Int32>*/ {
+		return Range/*<Int64>*//*<Int32>*/(b, a, closed: false, reversed: true)
+	}
+
+	public func >.. (a: Int64, b: Int32) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(b, a, closed: false, reversed: true)
+	}
+
+	public func >.. (a: Int32, b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(b, a, closed: false, reversed: true)
+	}
+
 	public prefix func ... (b: Int32) -> Range/*<Int32>*/ {
 		return Range/*<Int32>*/(nil, b, closed: true)
 	}
 
 	public prefix func ..< (b: Int32) -> Range/*<Int32>*/ {
 		return Range/*<Int64>*//*<Int32>*/(nil, b, closed: false)
+	}
+
+	public postfix func >.. (b: Int32) -> Range/*<Int32>*/ {
+		return Range/*<Int64>*//*<Int32>*/(b, nil, closed: false, reversed: true)
 	}
 
 	public postfix func ... (a: Int32) -> Range/*<Int64>*/ {
@@ -151,12 +167,20 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 		return Range/*<Int64>*/(a, b, closed: false)
 	}
 
+	public func >.. (a: Int64, b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(b, a, closed: false, reversed: true)
+	}
+
 	public prefix func ... (b: Int64) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(nil, b, closed: true)
 	}
 
 	public prefix func ..< (b: Int64) -> Range/*<Int64>*/ {
 		return Range/*<Int64>*/(nil, b, closed: false)
+	}
+
+	public postfix func >.. (b: Int64) -> Range/*<Int64>*/ {
+		return Range/*<Int64>*/(b, nil, closed: false, reversed: true)
 	}
 
 	public postfix func ... (a: Int64) -> Range/*<Int64>*/ {
