@@ -1,13 +1,13 @@
 ﻿public typealias NSObject = Object
 
 #if CLR || JAVA
-public typealias Int = Int64
-public typealias UInt = UInt64
-#elseif ISLAND
-	#if X86_64
 	public typealias Int = Int64
 	public typealias UInt = UInt64
-	#elseif I386
+#elseif ISLAND
+	#if CPU64
+	public typealias Int = Int64
+	public typealias UInt = UInt64
+	#elseif CPU32
 	public typealias Int = Int32
 	public typealias UInt = UInt32
 	#else
@@ -16,8 +16,8 @@ public typealias UInt = UInt64
 	public typealias UInt = UInt64
 	#endif
 #elseif COCOA
-public typealias Int = NSInteger
-public typealias UInt = NSUInteger
+	public typealias Int = NSInteger
+	public typealias UInt = NSUInteger
 #endif
 public typealias Int8 = SByte
 public typealias UInt8 = Byte
@@ -30,11 +30,11 @@ public typealias Bool = Boolean
 public typealias UnicodeScalar = UTF32Char
 public typealias UTF16Char = Char // UInt16
 public typealias UTF32Char = UInt32
-#if !COCOA
+#if !COCOA && !ISLAND
 public typealias AnsiChar = Byte
 public typealias UTF8Char = Byte
 #else
-// Cocoa has AnsiChar already
+// Cocoa and Island already have AnsiChar
 public typealias UTF8Char = AnsiChar
 #endif
 
