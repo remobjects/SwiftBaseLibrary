@@ -22,7 +22,7 @@ public extension Int8 {
 			return Int8.Parse(value);
 		} else if #defined(COCOA) {
 			if let result = parseNumber(value) {
-				return result.charValue
+				return result.shortValue
 			} else {
 				throw Exception("Error parsing Integer")
 			}
