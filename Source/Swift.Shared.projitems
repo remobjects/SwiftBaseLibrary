@@ -88,6 +88,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bool.swift">
       <VirtualFolder>Numbers and such</VirtualFolder>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Number_Constructors.swift">
+      <VirtualFolder>Numbers and such</VirtualFolder>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sequences">
