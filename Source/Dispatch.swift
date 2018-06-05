@@ -1,6 +1,6 @@
 ﻿#if COCOA
 
-#if IOS || MACOS
+#if MACOS
 #define OLD_DEPLOYMENT_TARGET
 #endif
 
