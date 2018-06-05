@@ -244,7 +244,7 @@
 	// Silver-specific extensions not defined in standard Swift.NativeString:
 	//
 
-	#if !COCOA
+	#if !COCOA && !JAVA
 	public func length() -> Int {
 		#if CLR
 		return self.Length
