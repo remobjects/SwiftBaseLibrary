@@ -10,6 +10,7 @@
   #else 
   #error Unknown platfomr
   #endif
+  ,IExpressibleByArrayLiteral
 => 
 
   #if COCOA
