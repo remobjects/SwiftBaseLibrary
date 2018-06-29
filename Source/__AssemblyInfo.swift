@@ -5,7 +5,7 @@ import System.Runtime.InteropServices
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-@assembly:AssemblyTitle("RemObjects Silver Base Librray for Swift")
+@assembly:AssemblyTitle("RemObjects Silver Base Library for Swift")
 @assembly:AssemblyDescription("")
 @assembly:AssemblyConfiguration("")
 @assembly:AssemblyCompany("RemObjects Software")
