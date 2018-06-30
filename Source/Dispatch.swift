@@ -1,8 +1,6 @@
 ﻿#if COCOA
 
-#if MACOS
-#define OLD_DEPLOYMENT_TARGET
-#endif
+//#define OLD_DEPLOYMENT_TARGET
 
 public public enum DispatchPredicate {
 	case onQueue(DispatchQueue)
