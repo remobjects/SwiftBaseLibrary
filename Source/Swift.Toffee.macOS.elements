@@ -16,11 +16,12 @@
     <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
     <DeploymentTargetVersion>10.9</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
+    <KnownConditionalDefines>DEBUG;OLD_DEPLOYMENT_TARGET;TRACE</KnownConditionalDefines>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
     <OutputPath>.\bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <DefineConstants>DEBUG;OLD_DEPLOYMENT_TARGET;TRACE</DefineConstants>
     <GenerateDebugInfo>True</GenerateDebugInfo>
     <EnableAsserts>True</EnableAsserts>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -35,6 +36,7 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <CaptureConsoleOutput>False</CaptureConsoleOutput>
     <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
+    <DefineConstants>OLD_DEPLOYMENT_TARGET</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CoreGraphics" />

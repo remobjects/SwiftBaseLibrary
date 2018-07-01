@@ -1,7 +1,5 @@
 ﻿#if COCOA
 
-//#define OLD_DEPLOYMENT_TARGET
-
 public public enum DispatchPredicate {
 	case onQueue(DispatchQueue)
 	case onQueueAsBarrier(DispatchQueue)
