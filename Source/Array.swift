@@ -51,7 +51,7 @@ __mapped public class Array<T> :
 	}
 
 	//init(array: T[]) { } // same as below.
-	public init(arrayLiteral array: T...) {
+	public init(arrayLiteral array: T! ...) {
 		if array == nil || length(array) == 0 {
 			return [T]()
 		}
@@ -60,8 +60,14 @@ __mapped public class Array<T> :
 		return ArrayList<T>(java.util.Arrays.asList(array))
 		#elseif CLR | ISLAND
 		return List<T>(array)
-		#elseif COCOA
-		return NSMutableArray.arrayWithObjects((&array[0] as! UnsafePointer<id>), count: length(array))
+	#elseif COCOA
+		var res = NSMutableArray(capacity: length(array));
+		for (var i = 0; i < length(array); i++) {
+			if (array[i] == nil) {
+				res.addObject(array[i] ?? NSNull.null);
+			}
+		}
+		return res 
 		#endif
 	}
 
