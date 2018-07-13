@@ -1,4 +1,4 @@
-﻿#if COCOA //|| DARWIN
+﻿#if COCOA || DARWIN
 
 public public enum DispatchPredicate {
 	case onQueue(DispatchQueue)
