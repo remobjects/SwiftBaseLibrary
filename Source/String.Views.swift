@@ -207,7 +207,7 @@ public extension SwiftString {
 			#elseif CLR
 			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order
 			#elseif ISLAND
-			stringData = textConvert.StringToUTF32(aValue, /*BOM:*/false) // todo check order
+			stringData = Encoding.UTF32LE.GetBytes(aValue, /*BOM:*/false) // todo check order
 			#elseif COCOA
 			if let utf32 = string.dataUsingEncoding(.NSUTF32LittleEndianStringEncoding) { // todo check order
 				stringData = Byte[](capacity: utf32.length);
@@ -276,11 +276,11 @@ public extension SwiftString {
 			#if JAVA
 			stringData = string.getBytes("UTF-8");
 			#elseif CLR
-			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string) // todo check order
+			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string)
 			#elseif ISLAND
-			stringData = TextConvert.StringToUTF8(aValue, /*BOM:*/false) // todo check order
+			stringData = Encoding.UTF8.GetBytes(aValue, /*BOM:*/false)
 			#elseif COCOA
-			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) { // todo check order
+			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) {
 				stringData = UTF8Char[](capacity: utf8.length);
 				utf8.getBytes(stringData, length: utf8.length);
 			} else {

@@ -38,7 +38,7 @@ public extension UnicodeScalar : Streamable {
 		#elseif CLR
 		return System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetString(bytes, 0, 1) // todo check order
 		#elseif ISLAND
-		return TextConvert.UTF32ToString(bytes)
+		return Encoding.UTF32LE.GetString(bytes)
 		#elseif COCOA
 		return NativeString(bytes: bytes as! UnsafePointer<AnsiChar>, length: 4, encoding:.UTF32LittleEndianStringEncoding)
 		#endif

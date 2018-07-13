@@ -190,8 +190,7 @@ public class DispatchQueue : DispatchObject {
 			let len = strlen(label)
 			let array = Byte[](len)
 			memcpy(array, label, len)
-			//return RemObjects.Elements.System.Encoding.UTF8.GetString(array)
-			return TextConvert.UTF8ToString(array)
+			return Encoding.UTF8.GetString(array)
 		}
 	}
 
@@ -210,7 +209,7 @@ public class DispatchQueue : DispatchObject {
 			if #defined(COCOA) {
 				raw = dispatch_queue_create(label.UTF8String, nil)
 			} else if #defined(DARWIN) {
-				let array = TextConvert.StringToUTF8(label+"\0")
+				let array = Encoding.UTF8.GetBytes(label+"\0")
 				raw = dispatch_queue_create((&array[0]) as! UnsafePointer<AnsiChar>, nil)
 			}
 		}
