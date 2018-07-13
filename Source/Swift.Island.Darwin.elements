@@ -12,6 +12,7 @@
     <AllowLegacyCreate>False</AllowLegacyCreate>
     <AllowUnsafeCode>False</AllowUnsafeCode>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

@@ -1,4 +1,4 @@
-﻿#if COCOA
+﻿#if COCOA //|| DARWIN
 
 public public enum DispatchPredicate {
 	case onQueue(DispatchQueue)
@@ -183,7 +183,16 @@ public class DispatchQueue : DispatchObject {
 	}
 
 	public var label: String {
-		return NSString.stringWithUTF8String(dispatch_queue_get_label(queue))
+		if #defined(COCOA) {
+			return NSString.stringWithUTF8String(dispatch_queue_get_label(queue))
+		} else if #defined(DARWIN) {
+			let label = dispatch_queue_get_label(queue)
+			let len = strlen(label)
+			let array = Byte[](len)
+			memcpy(array, label, len)
+			//return RemObjects.Elements.System.Encoding.UTF8.GetString(array)
+			return TextConvert.UTF8ToString(array)
+		}
 	}
 
 	public lazy class var main: DispatchQueue = DispatchQueue(queue: dispatch_get_main_queue())
@@ -198,7 +207,12 @@ public class DispatchQueue : DispatchObject {
 		if let target = target {
 			raw = target.queue
 		} else {
-			raw = dispatch_queue_create(label.UTF8String, nil)
+			if #defined(COCOA) {
+				raw = dispatch_queue_create(label.UTF8String, nil)
+			} else if #defined(DARWIN) {
+				let array = TextConvert.StringToUTF8(label+"\0")
+				raw = dispatch_queue_create((&array[0]) as! UnsafePointer<AnsiChar>, nil)
+			}
 		}
 		init(queue: raw)
 	}
@@ -238,6 +252,7 @@ public class DispatchQueue : DispatchObject {
 		}
 	}
 
+	#if !ISLAND
 	public func synchronously<T>(execute work: @noescape () throws -> T) rethrows -> T {
 		var result: T
 		var e: AnyObject?
@@ -253,6 +268,7 @@ public class DispatchQueue : DispatchObject {
 		}
 		return result
 	}
+	#endif
 
 	/*func synchronously<T>(flags: DispatchWorkItemFlags, execute work: @noescape () throws -> T) rethrows -> T {
 	}*/
