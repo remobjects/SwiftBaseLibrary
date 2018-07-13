@@ -60,14 +60,14 @@ __mapped public class Array<T> :
 		return ArrayList<T>(java.util.Arrays.asList(array))
 		#elseif CLR | ISLAND
 		return List<T>(array)
-	#elseif COCOA
+		#elseif COCOA
 		var res = NSMutableArray(capacity: length(array));
-		for (var i = 0; i < length(array); i++) {
+		for i in 0 ..< length(array) {
 			if (array[i] == nil) {
 				res.addObject(array[i] ?? NSNull.null);
 			}
 		}
-		return res 
+		return res
 		#endif
 	}
 
@@ -77,6 +77,24 @@ __mapped public class Array<T> :
 			return [T]()
 		}
 		return array.mutableCopy()
+	}
+
+	init(repeating value: T, count: Int) {
+		if count == 0 {
+			return [T]()
+		}
+
+		#if JAVA
+		var res = ArrayList<T>(count)
+		#elseif CLR | ISLAND
+		var res = List<T>(count)
+		#elseif COCOA
+		var res = NSMutableArray(capacity: count);
+		#endif
+		for i in 0 ..< count {
+			res.addObject(value);
+		}
+		return res
 	}
 
 	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false) {
