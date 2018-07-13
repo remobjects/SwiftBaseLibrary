@@ -126,6 +126,26 @@ public struct SwiftString /*: Streamable*/ {
 	#endif
 
 	//
+	// Operators
+	//
+
+	public static func __implicit(_ string: NativeString?) -> SwiftString {
+		if let string = string {
+			return SwiftString(string)
+		} else {
+			return SwiftString(count: 0, repeatedValue: "\0")
+		}
+	}
+
+	public static class func __implicit(_ string: SwiftString) -> NativeString {
+		return string.nativeStringValue
+	}
+
+	public class func + (_ stringA: SwiftString, _ stringB: SwiftString) -> NativeString {
+		return stringA.nativeStringValue+stringB.nativeStringValue
+	}
+
+	//
 	// Properties
 	//
 
