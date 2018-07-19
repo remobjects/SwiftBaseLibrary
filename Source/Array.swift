@@ -63,9 +63,7 @@ __mapped public class Array<T> :
 		#elseif COCOA
 		var res = NSMutableArray(capacity: length(array));
 		for i in 0 ..< length(array) {
-			if (array[i] == nil) {
-				res.addObject(array[i] ?? NSNull.null);
-			}
+			res.addObject(array[i] ?? NSNull.null);
 		}
 		return res
 		#endif
