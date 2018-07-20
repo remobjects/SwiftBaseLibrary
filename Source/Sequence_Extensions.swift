@@ -44,7 +44,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		fatalError("dropLast() is not implemented yet.")
 	}
 
-	public func enumerate() -> ISequence<(Int, T)> {
+	public func enumerated() -> ISequence<(Int, T)> {
 		var index = 0
 		for element in self {
 			__yield (index, element)
@@ -53,7 +53,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	}
 
 	public func indexOf(@noescape _ predicate: (T) -> Bool) -> Int? {
-		for (i, element) in self.enumerate() {
+		for (i, element) in self.enumerated() {
 			if (predicate(element) == true){
 				return i
 			}

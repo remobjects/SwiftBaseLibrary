@@ -348,7 +348,7 @@ __mapped public class Array<T> :
 	}
 
 	// availabvle via ISequence anyways
-	/*public func enumerate() -> ISequence<(Int, T)> {
+	/*public func enumerated() -> ISequence<(Int, T)> {
 		var index = 0
 		for element in self {
 			__yield (index, element)
