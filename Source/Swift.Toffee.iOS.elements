@@ -14,8 +14,6 @@
     <SDK>iOS</SDK>
     <CreateHeaderFile>True</CreateHeaderFile>
     <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-    <Architecture>arm64,armv7s,armv7</Architecture>
-    <SimulatorArchitectures>x86_64,i386</SimulatorArchitectures>
     <DeploymentTargetVersion>7.1</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
   </PropertyGroup>
