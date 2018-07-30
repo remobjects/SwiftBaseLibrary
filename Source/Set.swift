@@ -1,4 +1,4 @@
-﻿__mapped public class Set<T> : 
+﻿__mapped public class Set<T> :
   #if COCOA
   INSFastEnumeration<T>
   #elseif JAVA
@@ -7,20 +7,20 @@
   IEnumerable<T>
   #elseif ISLAND
   ISequence<T>
-  #else 
+  #else
   #error Unknown platfomr
   #endif
   ,IExpressibleByArrayLiteral
-=> 
+=>
 
   #if COCOA
-  Foundation.NSMutableSet 
+  Foundation.NSMutableSet
   #elseif JAVA
-  java.util.ArrayList<T> 
+  java.util.ArrayList<T>
   #elseif CLR
-  System.Collections.Generic.List<T> 
+  System.Collections.Generic.List<T>
   #elseif ISLAND
-  RemObjects.Elements.System.List<T> 
+  RemObjects.Elements.System.List<T>
   #else
   #error Unknown platfomr
   #endif
@@ -65,6 +65,10 @@
 		#elseif COCOA
 		return NSMutableSet.setWithObjects((&elements[0] as! UnsafePointer<id>), count: length(elements))
 		#endif
+	}
+
+	public init(_ elements: T...) {
+		init(arrayLiteral: elements)
 	}
 
 	/// Create a `Set` from a finite sequence of items.
