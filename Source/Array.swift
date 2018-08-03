@@ -35,12 +35,9 @@ typealias PlatformList<T> = RemObjects.Elements.System.List<T>
 
 public struct Array<T>
 {
-	private let list: PlatformList<T>
-	private var copied: Boolean = false
-
 	public init(copy original: inout [T]) {
 		self.list = original.list
-		self.copied = true
+		self.unique = false
 	}
 
 	public init() {
@@ -48,7 +45,8 @@ public struct Array<T>
 	}
 
 	public init(items: [T]) {
-		self = items
+		self.list = items.list
+		self.unique = false
 	}
 
 	//init(array: T[]) { } // same as below.
@@ -102,7 +100,7 @@ public struct Array<T>
 
 	public init(_ list: PlatformList<T>) {
 		self.list = list
-		copied = true
+		unique = false
 	}
 
 	public init(sequence: ISequence<T>) {
@@ -118,7 +116,7 @@ public struct Array<T>
 	// our aggregate operations like .map, .filter will errase our collection type and yield ISequence
 	// so in order to have consistency with apple swift compiling
 	// we will do something like [String](fields.map(fieldNameWithRemovedPrivatePrefix)).someArrayFunc
-	#if COCOA || ISLAND
+	#if !ECHOES
 	public convenience init(_ sequence: ISequence<T>) {
 		self.init(sequence: sequence)
 	}
@@ -153,6 +151,55 @@ public struct Array<T>
 		#endif
 	}
 
+	//
+	// Storage
+	//
+
+	private var list: PlatformList<T>
+	private var unique: Boolean = true
+
+	private mutating func makeUnique()
+	{
+		if !unique {
+			#if COOPER || ECHOES || ISLAND
+			list = PlatformList<T>(list)
+			#elseif TOFFEE
+			list = list.mutableCopy()
+			#endif
+			unique = true
+		}
+	}
+
+	//
+	// Operators
+	//
+
+	public static func __implicit(_ array: T[]) -> [T] {
+		return [T](arrayLiteral: array)
+	}
+
+	public static func __implicit(_ list: PlatformList<T>) -> [T] {
+		return [T](list)
+	}
+
+	public static func __implicit(_ array: [T]) -> T[] {
+		return array.nativeArray
+	}
+
+	// 80753: `inout` and implicit cast operators
+	//public static func __implicit(_ array: inout [T]) -> PlatformList<T> {
+		//return array.list
+		//array.unique = false
+	//}
+	public static func __implicit(_ array: [T]) -> PlatformList<T> {
+		array.makeUnique()
+		return array.list
+	}
+
+	//
+	// Native access & Conversions
+	//
+
 	public var nativeArray: T[] {
 		#if JAVA
 		return list.toArray(T[](list.Count()))
@@ -162,12 +209,24 @@ public struct Array<T>
 		let c = count
 		var result = T[](c)
 		for i in 0 ..< count {
-			result[i] = list[i];
+			result[i] = list[i] // todo: need to handle NSNull!
 		}
 		//list.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
 		return result
 		#endif
 	}
+
+	public var platformList: PlatformList<T> {
+		//80754: Swift: better error if a non-mutating method chnages a field
+		//unique = false
+		//return list
+		#if COOPER || ECHOES || ISLAND
+		return PlatformList<T>(list)
+		#elseif TOFFEE
+		return list.mutableCopy()
+		#endif
+	}
+
 
 	func `prefix`(through: Int) -> [T] {
 		return self[0...through]
@@ -440,7 +499,7 @@ public struct Array<T>
 	}
 
 	public func reversed() -> Array<T> {
-		let result = Array<T>(capacity: count)
+		var result = Array<T>(capacity: count)
 		for i in count>..0 {
 			result.append(self[i])
 		}
@@ -504,7 +563,7 @@ public struct Array<T>
 
 	public static func + <T>(lhs: Array<T>, rhs: ISequence<T>) -> Array<T> {
 
-		let targetArray = [T](items: lhs)
+		var targetArray = [T](items: lhs)
 		for element in rhs {
 			targetArray.append(element)
 		}
