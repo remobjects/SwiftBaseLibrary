@@ -374,11 +374,11 @@ public struct SwiftString /*: Streamable*/ {
 		}
 		return result
 		#elseif ECHOES
-		return nativeStringValue.Split([separator], StringSplitOptions.None).ToList()
+		return [String](nativeStringValue.Split([separator], StringSplitOptions.None).ToList())
 		#elseif ISLAND
-		return nativeStringValue.Split(separator).ToList()
+		return [String](nativeStringValue.Split(separator).ToList())
 		#elseif TOFFEE
-		return nativeStringValue.componentsSeparatedByString(separator).mutableCopy()
+		return [String](nativeStringValue.componentsSeparatedByString(separator))
 		#endif
 	}
 

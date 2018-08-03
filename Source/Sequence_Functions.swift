@@ -3,7 +3,11 @@
 }
 
 @inline(__always) public func count<T>(_ source: [T]?) -> Int {
-	return length(source)
+	if let source = source {
+		return source.count
+	} else {
+		return 0
+	}
 }
 
 @inline(__always) public func count<T>(_ source: T[]?) -> Int {
@@ -59,7 +63,7 @@ public func split(_ elements: String, separatorString separator: String) -> [Str
 	#elseif ISLAND
 	return [String](arrayLiteral: (elements as! NativeString).Split(separator))
 	#elseif COCOA
-	return (elements as! NativeString).componentsSeparatedByString(separator) as! [String]
+	return [String]((elements as! NativeString).componentsSeparatedByString(separator))
 	#endif
 }
 
@@ -71,7 +75,7 @@ public func split(_ elements: String, separatorChar separator: Char) -> [String]
 	#elseif ISLAND
 	return [String](arrayLiteral: (elements as! NativeString).Split(separator))
 	#elseif COCOA
-	return (elements as! NativeString).componentsSeparatedByString(NSString.stringWithFormat("%c", separator)) as! [String]
+	return [String]((elements as! NativeString).componentsSeparatedByString(NSString.stringWithFormat("%c", separator)))
 	#endif
 }
 

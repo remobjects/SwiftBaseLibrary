@@ -5,153 +5,166 @@
 //
 //
 
-__mapped public class Array<T> :
-  #if COCOA
-  INSFastEnumeration<T>
-  #elseif JAVA
-  Iterable<T>
-  #elseif CLR
-  IEnumerable<T>
-  #elseif ISLAND
-  ISequence<T>
-  #else
-  #error Unsupport platform
-  #endif
-  =>
-  #if COCOA
-  Foundation.NSMutableArray
-  #elseif JAVA
-  java.util.ArrayList<T>
-  #elseif CLR
-  System.Collections.Generic.List<T>
-  #elseif ISLAND
-  RemObjects.Elements.System.List<T>
-  #else
-  #error Unsupport platform
-  #endif
+#if COCOA
+typealias PlatformSequence<T> = INSFastEnumeration<T>
+#elseif JAVA
+typealias PlatformSequence<T> = Iterable<T>
+#elseif CLR
+typealias PlatformSequence<T> = IEnumerable<T>
+#elseif ISLAND
+typealias PlatformSequence<T> = ISequence<T>
+#endif
+
+#if COCOA
+typealias PlatformList<T> = RemObjects.Elements.System.NSMutableArray<T>
+#elseif JAVA
+typealias PlatformList<T> = java.util.ArrayList<T>
+#elseif CLR
+typealias PlatformList<T> = System.Collections.Generic.List<T>
+#elseif ISLAND
+typealias PlatformList<T> = RemObjects.Elements.System.List<T>
+#endif
+
+//public func length<T>(_ array: Array<T>?) -> Int {
+	//if let array = array {
+		//return array.count
+	//} else {
+		//return 0
+	//}
+//}
+
+public struct Array<T>
 {
+	private let list: PlatformList<T>
+	private var copied: Boolean = false
+
+	public init(copy original: inout [T]) {
+		self.list = original.list
+		self.copied = true
+	}
+
 	public init() {
-		#if JAVA
-		return ArrayList<T>()
-		#elseif CLR | ISLAND
-		return List<T>()
-		#elseif COCOA
-		return NSMutableArray.array()
-		#endif
+		list = PlatformList<T>()
 	}
 
 	public init(items: [T]) {
-		#if JAVA
-		return ArrayList<T>(items)
-		#elseif CLR | ISLAND
-		return List<T>(items)
-		#elseif COCOA
-		return items.mutableCopy
-		#endif
+		self = items
 	}
 
 	//init(array: T[]) { } // same as below.
 	public init(arrayLiteral array: T! ...) {
 		if array == nil || length(array) == 0 {
-			return [T]()
+			list = PlatformList<T>()
+		} else {
+			#if JAVA
+			list = ArrayList<T>(java.util.Arrays.asList(array))
+			#elseif CLR | ISLAND
+			list = List<T>(array)
+			#elseif COCOA
+			list = NSMutableArray(capacity: length(array));
+			for i in 0 ..< length(array) {
+				list.addObject(array[i] ?? NSNull.null as! T);
+				}
+			#endif
 		}
-
-		#if JAVA
-		return ArrayList<T>(java.util.Arrays.asList(array))
-		#elseif CLR | ISLAND
-		return List<T>(array)
-		#elseif COCOA
-		var res = NSMutableArray(capacity: length(array));
-		for i in 0 ..< length(array) {
-			res.addObject(array[i] ?? NSNull.null);
-		}
-		return res
-		#endif
 	}
 
 	#if COCOA
-	public init(NSArray array: NSArray<T>) {
-		if array == nil {
-			return [T]()
+	public init(NSArray array: NSArray<T>?) {
+		if let array = array {
+			list = array.mutableCopy()
+		} else {
+			list = PlatformList<T>()
 		}
-		return array.mutableCopy()
 	}
 
 	init(repeating value: T, count: Int) {
 		if count == 0 {
-			return [T]()
-		}
+			list = PlatformList<T>()
+		} else {
 
-		#if JAVA
-		var res = ArrayList<T>(count)
-		#elseif CLR | ISLAND
-		var res = List<T>(count)
-		#elseif COCOA
-		var res = NSMutableArray(capacity: count);
-		#endif
-		for i in 0 ..< count {
-			res.addObject(value);
+			#if JAVA
+			list = ArrayList<T>(count)
+			#elseif CLR | ISLAND
+			list = List<T>(count)
+			#elseif COCOA
+			list = NSMutableArray(capacity: count);
+			#endif
+			for i in 0 ..< count {
+				list.addObject(value);
+			}
 		}
-		return res
 	}
 
 	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false) {
 	}*/
 	#endif
 
+	public init(_ list: PlatformList<T>) {
+		self.list = list
+		copied = true
+	}
+
 	public init(sequence: ISequence<T>) {
 		#if JAVA
-		return sequence.ToList()
+		list = sequence.ToList()
 		#elseif CLR | ISLAND
-		return sequence.ToList()
+		list = sequence.ToList()
 		#elseif COCOA
-		return sequence.array().mutableCopy()
+		list = sequence.array().mutableCopy()
 		#endif
 	}
 
 	// our aggregate operations like .map, .filter will errase our collection type and yield ISequence
 	// so in order to have consistency with apple swift compiling
 	// we will do something like [String](fields.map(fieldNameWithRemovedPrivatePrefix)).someArrayFunc
+	#if COCOA || ISLAND
 	public convenience init(_ sequence: ISequence<T>) {
-		return self.init(sequence: sequence)
+		self.init(sequence: sequence)
 	}
+	#endif
 
 	public init(count: Int, repeatedValue: T) {
 		#if JAVA
-		let newSelf: [T] = ArrayList<T>(count)
-		#elseif CLR | ISLAND
-		let newSelf: [T] = List<T>(count)
-		#elseif COCOA
-		let newSelf: [T] = NSMutableArray(capacity: count)
-		#endif
+		list = ArrayList<T>(count)
 		for i in 0 ..< count {
-			newSelf.append(repeatedValue)
+			list.add(repeatedValue)
 		}
-		return newSelf
+		#elseif CLR | ISLAND
+		list = List<T>(count)
+		for i in 0 ..< count {
+			list.Add(repeatedValue)
+		}
+		#elseif COCOA
+		list = NSMutableArray(capacity: count)
+		for i in 0 ..< count {
+			list.addObject(repeatedValue)
+	}
+		#endif
 	}
 
 	public init(capacity: Int) { // not in Apple Swift
 		#if JAVA
-		return ArrayList<T>(capacity)
+		list = ArrayList<T>(capacity)
 		#elseif CLR | ISLAND
-		return List<T>(capacity)
+		list = List<T>(capacity)
 		#elseif COCOA
-		return NSMutableArray(capacity: capacity)
+		list = NSMutableArray(capacity: capacity)
 		#endif
 	}
 
 	public var nativeArray: T[] {
 		#if JAVA
-		return __mapped.toArray(T[](__mapped.Count()))
+		return list.toArray(T[](list.Count()))
 		#elseif CLR | ISLAND
-		return __mapped.ToArray()
+		return list.ToArray()
 		#elseif COCOA
 		let c = count
 		var result = T[](c)
 		for i in 0 ..< count {
-			result[i] = __mapped[i];
+			result[i] = list[i];
 		}
-		//__mapped.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
+		//list.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
 		return result
 		#endif
 	}
@@ -170,18 +183,18 @@ __mapped public class Array<T> :
 
 	public subscript (range: Range) -> [T] {
 		#if COCOA
-		return self.Skip(range.lowerBound).Take(range.length).array().mutableCopy() as! NSMutableArray<T>
+		return [T](list.Skip(range.lowerBound).Take(range.length).array())
 		#else
-		return self.Skip(range.lowerBound).Take(range.length).ToList()
+		return [T](list.Skip(range.lowerBound).Take(range.length).ToList())
 		#endif
 	}
 
 	public subscript (index: Int) -> T {
 		get {
 			#if CLR || JAVA | ISLAND
-			return __mapped[index]
+			return list[index]
 			#elseif COCOA
-			var value: AnyObject! = __mapped[index]
+			var value: AnyObject! = list[index]
 			if value == NSNull.null {
 				value = nil
 			}
@@ -190,12 +203,12 @@ __mapped public class Array<T> :
 		}
 		set {
 			#if JAVA | CLR | ISLAND
-			__mapped[index] = newValue
+			list[index] = newValue
 			#elseif COCOA
 			if newValue == nil {
-				__mapped[index] = NSNull.null
+				list[index] = NSNull.null as! T
 			} else {
-				__mapped[index] = newValue
+				list[index] = newValue
 			}
 			#endif
 		}
@@ -203,11 +216,11 @@ __mapped public class Array<T> :
 
 	public var count: Int {
 		#if JAVA
-		return __mapped.size()
+		return list.size()
 		#elseif CLR | ISLAND
-		return __mapped.Count
+		return list.Count
 		#elseif COCOA
-		return __mapped.count
+		return list.count
 		#endif
 	}
 
@@ -215,7 +228,7 @@ __mapped public class Array<T> :
 		#if JAVA
 		return -1
 		#elseif CLR | ISLAND
-		return __mapped.Capacity
+		return list.Capacity
 		#elseif COCOA
 		return -1
 		#endif
@@ -227,7 +240,7 @@ __mapped public class Array<T> :
 
 	public var first: T? {
 		if count > 0 {
-			return __mapped[0]
+			return list[0]
 		}
 		return nil
 	}
@@ -235,14 +248,14 @@ __mapped public class Array<T> :
 	public var last: T? {
 		let c = count
 		if c > 0 {
-			return __mapped[c-1]
+			return list[c-1]
 		}
 		return nil
 	}
 
 	public mutating func reserveCapacity(_ minimumCapacity: Int) {
 		#if JAVA
-		__mapped.ensureCapacity(minimumCapacity)
+		list.ensureCapacity(minimumCapacity)
 		#elseif CLR | ISLAND | COCOA
 		// N/A
 		#endif
@@ -250,73 +263,73 @@ __mapped public class Array<T> :
 
 	public mutating func extend(_ sequence: ISequence<T>) {
 		#if JAVA
-		__mapped.addAll(sequence.ToList())
+		list.addAll(sequence.ToList())
 		#elseif CLR | ISLAND
-		__mapped.AddRange(sequence.ToList())
+		list.AddRange(sequence.ToList())
 		#elseif COCOA
-		__mapped.addObjectsFromArray(sequence.array())
+		list.addObjectsFromArray(sequence.array())
 		#endif
 	}
 
 	public mutating func extend(_ array: [T]) {
 		#if JAVA
-		__mapped.addAll(array)
+		list.addAll(array.list)
 		#elseif CLR | ISLAND
-		__mapped.AddRange(array)
+		list.AddRange(array.list)
 		#elseif COCOA
-		__mapped.addObjectsFromArray(array)
+		list.addObjectsFromArray(array.list)
 		#endif
 	}
 
 	public mutating func append(_ newElement: T) {
 		#if JAVA
-		__mapped.add(newElement)
+		list.add(newElement)
 		#elseif CLR | ISLAND
-		__mapped.Add(newElement)
+		list.Add(newElement)
 		#elseif COCOA
 		if let val = newElement {
-			__mapped.addObject(newElement)
+			list.addObject(newElement)
 		} else {
-			__mapped.addObject(NSNull.null)
+			list.addObject(NSNull.null as! T)
 		}
 		#endif
 	}
 
 	public mutating func insert(_ newElement: T, at index: Int) {
 		#if JAVA
-		__mapped.add(index, newElement)
+		list.add(index, newElement)
 		#elseif CLR | ISLAND
-		__mapped.Insert(index, newElement)
+		list.Insert(index, newElement)
 		#elseif COCOA
 		if let val = newElement {
-			__mapped.insertObject(newElement, atIndex: index)
+			list.insertObject(newElement, atIndex: index)
 		} else {
-			__mapped.insertObject(NSNull.null, atIndex: index)
+			list.insertObject(NSNull.null as! T, atIndex: index)
 		}
 		#endif
 	}
 
 	@discardableResult public mutating func remove(at index: Int) -> T {
 		#if JAVA
-		return __mapped.remove(index)
+		return list.remove(index)
 		#elseif CLR | ISLAND
 		let result = self[index]
-		__mapped.RemoveAt(index)
+		list.RemoveAt(index)
 		return result
 		#elseif COCOA
 		let result = self[index]
-		__mapped.removeObjectAtIndex(index)
+		list.removeObjectAtIndex(index)
 		return result
 		#endif
 	}
 
 	public mutating func remove(_ object: T) {
 		#if JAVA
-		__mapped.remove(object)
+		list.remove(object)
 		#elseif CLR | ISLAND
-		__mapped.Remove(object)
+		list.Remove(object)
 		#elseif COCOA
-		__mapped.removeObject(object)
+		list.removeObject(object)
 		#endif
 	}
 
@@ -331,11 +344,11 @@ __mapped public class Array<T> :
 
 	public mutating func removeAll(keepCapacity: Bool = false) {
 		#if JAVA
-		__mapped.clear()
+		list.clear()
 		#elseif CLR | ISLAND
-		__mapped.Clear()
+		list.Clear()
 		#elseif COCOA
-		__mapped.removeAllObjects()
+		list.removeAllObjects()
 		#endif
 	}
 
@@ -357,12 +370,12 @@ __mapped public class Array<T> :
 	}*/
 
 	public func lazy() -> ISequence<T> {
-		return self
+		return list
 	}
 
 	public mutating func sort(by isOrderedBefore: (T, T) -> Bool) {
 		#if JAVA
-		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
+		java.util.Collections.sort(list, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {
@@ -370,7 +383,7 @@ __mapped public class Array<T> :
 			}
 		}})
 		#elseif CLR
-		__mapped.Sort({ (a: T, b: T) -> Integer in
+		list.Sort({ (a: T, b: T) -> Integer in
 			if isOrderedBefore(a,b) {
 				return -1
 			} else {
@@ -378,7 +391,7 @@ __mapped public class Array<T> :
 			}
 		})
 		#elseif COCOA
-		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
+		list.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
 			} else {
@@ -390,7 +403,7 @@ __mapped public class Array<T> :
 
 	public func sorted(by isOrderedBefore: (T, T) -> Bool) -> [T] {
 		#if JAVA
-		let result: ArrayList<T> = [T](items: self)
+		let result = list
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
@@ -398,9 +411,9 @@ __mapped public class Array<T> :
 				return -1
 			}
 		}})
-		return result
+		return [T](result)
 		#elseif CLR || ISLAND
-		let result: List<T> = [T](items: self)
+		let result = list
 		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
@@ -408,15 +421,15 @@ __mapped public class Array<T> :
 				return 1
 			}
 		}
-		return result
+		return [T](result)
 		#elseif COCOA
-		return __mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+		return [T](list.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
 			} else {
 				return .NSOrderedAscending
 			}
-		})! as! [T]
+		}))
 		#endif
 	}
 
@@ -439,21 +452,21 @@ __mapped public class Array<T> :
 
 	public func map<U>(_ transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
-		return __mapped.Select({ return transform($0) })
+		return list.Select({ return transform($0) })
 		#elseif CLR || ISLAND || COCOA
-		return __mapped.Select(transform)
+		return list.Select(transform)
 		#endif
 	}
 
 	//public func reversed() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		//return (__mapped as! ISequence<T>).Reverse()
+	//return (list as! ISequence<T>).Reverse()
 	//}
 
 	public func filter(_ includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
-		return __mapped.Where({ return includeElement($0) })
+		return list.Where({ return includeElement($0) })
 		#elseif CLR || ISLAND || COCOA
-		return __mapped.Where(includeElement)
+		return list.Where(includeElement)
 		#endif
 	}
 
@@ -481,11 +494,11 @@ __mapped public class Array<T> :
 
 	public func contains(_ item: T) -> Bool {
 		#if JAVA
-		return __mapped.contains(item)
+		return list.contains(item)
 		#elseif CLR || ISLAND
-		return __mapped.Contains(item)
+		return list.Contains(item)
 		#elseif COCOA
-		return __mapped.containsObject(item)
+		return list.containsObject(item)
 		#endif
 	}
 
