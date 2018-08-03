@@ -38,6 +38,7 @@ public struct Array<T>
 	public init(copy original: inout [T]) {
 		self.list = original.list
 		self.unique = false
+		original.unique = false
 	}
 
 	public init() {
@@ -321,6 +322,7 @@ public struct Array<T>
 	}
 
 	public mutating func extend(_ sequence: ISequence<T>) {
+		makeUnique()
 		#if JAVA
 		list.addAll(sequence.ToList())
 		#elseif CLR | ISLAND
@@ -331,6 +333,7 @@ public struct Array<T>
 	}
 
 	public mutating func extend(_ array: [T]) {
+		makeUnique()
 		#if JAVA
 		list.addAll(array.list)
 		#elseif CLR | ISLAND
@@ -341,6 +344,7 @@ public struct Array<T>
 	}
 
 	public mutating func append(_ newElement: T) {
+		makeUnique()
 		#if JAVA
 		list.add(newElement)
 		#elseif CLR | ISLAND
@@ -355,6 +359,7 @@ public struct Array<T>
 	}
 
 	public mutating func insert(_ newElement: T, at index: Int) {
+		makeUnique()
 		#if JAVA
 		list.add(index, newElement)
 		#elseif CLR | ISLAND
@@ -369,6 +374,7 @@ public struct Array<T>
 	}
 
 	@discardableResult public mutating func remove(at index: Int) -> T {
+		makeUnique()
 		#if JAVA
 		return list.remove(index)
 		#elseif CLR | ISLAND
@@ -383,6 +389,7 @@ public struct Array<T>
 	}
 
 	public mutating func remove(_ object: T) {
+		makeUnique()
 		#if JAVA
 		list.remove(object)
 		#elseif CLR | ISLAND
@@ -395,6 +402,7 @@ public struct Array<T>
 	@discardableResult public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
+			makeUnique()
 			return remove(at: c-1)
 		}  else {
 			__throw Exception("Cannot remove last item of an empty array.")
@@ -402,17 +410,21 @@ public struct Array<T>
 	}
 
 	public mutating func removeAll(keepCapacity: Bool = false) {
-		#if JAVA
-		list.clear()
-		#elseif CLR | ISLAND
-		list.Clear()
-		#elseif COCOA
-		list.removeAllObjects()
-		#endif
+		if count > 0 {
+			makeUnique()
+			#if JAVA
+			list.clear()
+			#elseif CLR | ISLAND
+			list.Clear()
+			#elseif COCOA
+			list.removeAllObjects()
+			#endif
+		}
 	}
 
 	public mutating func swapAt(_ i: Int, _ j: Int) {
 		if i != j {
+			makeUnique()
 			let temp = self[i]
 			self[i] = self[j]
 			self[j] = temp
@@ -433,6 +445,7 @@ public struct Array<T>
 	}
 
 	public mutating func sort(by isOrderedBefore: (T, T) -> Bool) {
+		makeUnique()
 		#if JAVA
 		java.util.Collections.sort(list, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
 			if isOrderedBefore(a,b) {
@@ -493,6 +506,7 @@ public struct Array<T>
 	}
 
 	public mutating func reverse() {
+		makeUnique()
 		for i in 0..<count/2 {
 			swapAt(i, count-i-1)
 		}
