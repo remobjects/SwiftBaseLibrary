@@ -14,7 +14,7 @@
 =>
 
   #if COCOA
-  Foundation.NSMutableSet
+  Foundation.NSMutableSet<T>
   #elseif JAVA
   java.util.ArrayList<T>
   #elseif CLR
@@ -63,7 +63,7 @@
 		#elseif CLR | ISLAND
 		return List<T>(elements)
 		#elseif COCOA
-		return NSMutableSet.setWithObjects((&elements[0] as! UnsafePointer<id>), count: length(elements))
+		return NSMutableSet<T>.setWithObjects((&elements[0] as! UnsafePointer<Object>), count: length(elements)) as! NSMutableSet<T>
 		#endif
 	}
 

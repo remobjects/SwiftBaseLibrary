@@ -19,7 +19,7 @@ __mapped public class Array<T> :
   #endif
   =>
   #if COCOA
-  Foundation.NSMutableArray
+  Foundation.NSMutableArray<T>
   #elseif JAVA
   java.util.ArrayList<T>
   #elseif CLR
@@ -61,9 +61,9 @@ __mapped public class Array<T> :
 		#elseif CLR | ISLAND
 		return List<T>(array)
 		#elseif COCOA
-		var res = NSMutableArray(capacity: length(array));
+		var res = NSMutableArray<T>(capacity: length(array));
 		for i in 0 ..< length(array) {
-			res.addObject(array[i] ?? NSNull.null);
+			res.addObject((array[i] ?? NSNull.null) as! T);
 		}
 		return res
 		#endif
@@ -87,7 +87,7 @@ __mapped public class Array<T> :
 		#elseif CLR | ISLAND
 		var res = List<T>(count)
 		#elseif COCOA
-		var res = NSMutableArray(capacity: count);
+		var res = NSMutableArray<T>(capacity: count);
 		#endif
 		for i in 0 ..< count {
 			res.addObject(value);
@@ -122,7 +122,7 @@ __mapped public class Array<T> :
 		#elseif CLR | ISLAND
 		let newSelf: [T] = List<T>(count)
 		#elseif COCOA
-		let newSelf: [T] = NSMutableArray(capacity: count)
+		let newSelf: [T] = NSMutableArray<T>(capacity: count)
 		#endif
 		for i in 0 ..< count {
 			newSelf.append(repeatedValue)
@@ -136,7 +136,7 @@ __mapped public class Array<T> :
 		#elseif CLR | ISLAND
 		return List<T>(capacity)
 		#elseif COCOA
-		return NSMutableArray(capacity: capacity)
+		return NSMutableArray<T>(capacity: capacity)
 		#endif
 	}
 
@@ -277,7 +277,7 @@ __mapped public class Array<T> :
 		if let val = newElement {
 			__mapped.addObject(newElement)
 		} else {
-			__mapped.addObject(NSNull.null)
+			__mapped.addObject(NSNull.null as! T)
 		}
 		#endif
 	}
@@ -291,7 +291,7 @@ __mapped public class Array<T> :
 		if let val = newElement {
 			__mapped.insertObject(newElement, atIndex: index)
 		} else {
-			__mapped.insertObject(NSNull.null, atIndex: index)
+			__mapped.insertObject(NSNull.null as! T, atIndex: index)
 		}
 		#endif
 	}
