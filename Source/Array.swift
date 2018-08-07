@@ -193,7 +193,7 @@ __mapped public class Array<T> :
 			__mapped[index] = newValue
 			#elseif COCOA
 			if newValue == nil {
-				__mapped[index] = NSNull.null
+				__mapped[index] = NSNull.null as! T
 			} else {
 				__mapped[index] = newValue
 			}
