@@ -36,7 +36,7 @@
 		#elseif CLR | ISLAND
 		return List<T>()
 		#elseif COCOA
-		return NSMutableSet.set()
+		return NSMutableSet<T>.set() as! Set<T>
 		#endif
 	}
 
@@ -63,7 +63,7 @@
 		#elseif CLR | ISLAND
 		return List<T>(elements)
 		#elseif COCOA
-		return NSMutableSet<T>.setWithObjects((&elements[0] as! UnsafePointer<Object>), count: length(elements)) as! NSMutableSet<T>
+		return NSMutableSet<T>.setWithObjects((&elements[0] as! UnsafePointer<T>), count: length(elements)) as! NSMutableSet<T>
 		#endif
 	}
 

@@ -36,7 +36,7 @@ __mapped public class Array<T> :
 		#elseif CLR | ISLAND
 		return List<T>()
 		#elseif COCOA
-		return NSMutableArray.array()
+		return NSMutableArray<T>.array() as! Array<T>
 		#endif
 	}
 
