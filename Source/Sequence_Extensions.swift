@@ -422,19 +422,11 @@ public extension System.Collections.Generic.KeyValuePair {
 #elseif COCOA
 public extension Foundation.NSDictionary {
 
-	public func GetSequence() -> ISequence<(AnyObject,AnyObject)> {
+	public func GetSequence() -> ISequence<(KeyType,ObjectType)> {
 		for entry in self {
 		  __yield (entry, self[entry]?)
 		}
 	}
 }
 
-public extension RemObjects.Elements.System.NSDictionary {
-
-	public func GetSequence() -> ISequence<(TKey,TValue)> {
-		for entry in self {
-		  __yield (entry, self[entry]?)
-		}
-	}
-}
 #endif
