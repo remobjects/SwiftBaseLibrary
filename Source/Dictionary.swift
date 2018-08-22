@@ -7,9 +7,9 @@
 
 __mapped public class Dictionary<Key, Value> /*: INSFastEnumeration<T>*/ => 
   #if COCOA
-  Foundation.NSMutableDictionary 
+  Foundation.NSMutableDictionary<Key,Value>
   #elseif JAVA
-  java.util.HashMap<Key,Value> 
+  java.util.HashMap<Key,Value>
   #elseif CLR
   System.Collections.Generic.Dictionary<Key,Value>
   #elseif ISLAND
@@ -26,7 +26,7 @@ __mapped public class Dictionary<Key, Value> /*: INSFastEnumeration<T>*/ =>
 		#elseif ISLAND
 		return RemObjects.Elements.System.Dictionary<Key,Value>()
 		#elseif COCOA
-		return Foundation.NSMutableDictionary()
+		return Foundation.NSMutableDictionary<Key,Value>()
 		#endif
 	}
 
@@ -42,7 +42,7 @@ __mapped public class Dictionary<Key, Value> /*: INSFastEnumeration<T>*/ =>
 		#elseif ISLAND
 		return RemObjects.Elements.System.Dictionary<Key,Value>(minimumCapacity)
 		#elseif COCOA
-		return Foundation.NSMutableDictionary(capacity: minimumCapacity)
+		return Foundation.NSMutableDictionary<Key,Value>(capacity: minimumCapacity)
 		#endif
 	}
 
@@ -230,7 +230,7 @@ public static class DictionaryHelper {
 		}
 	}
 	#elseif COCOA
-	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary) -> ISequence<(Key, Value)> {
+	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary<Key, Value>) -> ISequence<(Key, Value)> {
 		for entry in val {
 			var item: (Key, Value) =  (entry, val[entry]?)
 		  __yield item
