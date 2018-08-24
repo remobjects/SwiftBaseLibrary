@@ -300,7 +300,6 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 				return true // reached end of prefix
 			}
 		}
-		return false
 		#elseif COCOA
 		let LOOP_SIZE = 16
 		let sState: NSFastEnumerationState = `default`(NSFastEnumerationState)
