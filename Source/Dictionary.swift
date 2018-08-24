@@ -82,7 +82,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	private mutating func makeUnique()
 	{
 		if !unique {
-			dictionary = platformDictionary // returns a unique new copy
+			dictionary = platformDictionary // platformDictionary returns a unique new copy
 			unique = true
 		}
 	}

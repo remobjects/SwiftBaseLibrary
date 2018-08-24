@@ -170,7 +170,7 @@ public struct Array<T>
 	private mutating func makeUnique()
 	{
 		if !unique {
-			list = platformList
+			list = platformList // platformList returns a unique new copy
 			unique = true
 		}
 	}
