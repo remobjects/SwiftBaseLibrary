@@ -1,11 +1,4 @@
-﻿//
-//
-// CAUTION: Magic type name.
-// The compiler will map the [] array syntax to Swift.Array<T>
-//
-//
-
-#if COCOA
+﻿#if COCOA
 typealias PlatformSequence<T> = INSFastEnumeration<T>
 #elseif JAVA
 typealias PlatformSequence<T> = Iterable<T>
@@ -16,13 +9,17 @@ typealias PlatformSequence<T> = ISequence<T>
 #endif
 
 #if COCOA
-typealias PlatformList<T> = RemObjects.Elements.System.NSMutableArray<T>
+typealias PlatformList<T> = NSMutableArray<T>
+typealias PlatformImmutableList<T> = NSArray<T>
 #elseif JAVA
 typealias PlatformList<T> = java.util.ArrayList<T>
+typealias PlatformImmutableList<T> = PlatformList<T>
 #elseif CLR
 typealias PlatformList<T> = System.Collections.Generic.List<T>
+typealias PlatformImmutableList<T> = PlatformList<T>
 #elseif ISLAND
 typealias PlatformList<T> = RemObjects.Elements.System.List<T>
+typealias PlatformImmutableList<T> = PlatformList<T>
 #endif
 
 //public func length<T>(_ array: Array<T>?) -> Int {
@@ -32,6 +29,13 @@ typealias PlatformList<T> = RemObjects.Elements.System.List<T>
 		//return 0
 	//}
 //}
+
+//
+//
+// CAUTION: Magic type name.
+// The compiler will map the [] array syntax to Swift.Array<T>
+//
+//
 
 public struct Array<T>
 {
@@ -45,9 +49,13 @@ public struct Array<T>
 		list = PlatformList<T>()
 	}
 
+	//public init(items: inout [T]) { // E59 Duplicate constructor with same signature "init(items var items: T[])"
 	public init(items: [T]) {
 		self.list = items.list
 		self.unique = false
+		makeUnique() // workaorund for not having inout
+		//self.unique = false
+		//items.unique = false
 	}
 
 	//init(array: T[]) { } // same as below.
@@ -69,7 +77,7 @@ public struct Array<T>
 	}
 
 	#if COCOA
-	public init(NSArray array: NSArray<T>?) {
+	public init(_ array: NSArray<T>?) {
 		if let array = array {
 			list = array.mutableCopy()
 		} else {
@@ -99,7 +107,7 @@ public struct Array<T>
 	}*/
 	#endif
 
-	public init(_ list: PlatformList<T>) {
+	public init(_ list: PlatformImmutableList<T>) {
 		self.list = list
 		unique = false
 	}
@@ -162,13 +170,17 @@ public struct Array<T>
 	private mutating func makeUnique()
 	{
 		if !unique {
-			#if COOPER || ECHOES || ISLAND
-			list = PlatformList<T>(list)
-			#elseif TOFFEE
-			list = list.mutableCopy()
-			#endif
+			list = platformList
 			unique = true
 		}
+	}
+
+	//
+	//
+	//
+
+	public func GetSequence() -> ISequence<T> {
+		return list
 	}
 
 	//
@@ -187,19 +199,22 @@ public struct Array<T>
 		return array.nativeArray
 	}
 
-	// 80753: `inout` and implicit cast operators
-	//public static func __implicit(_ array: inout [T]) -> PlatformList<T> {
-		//return array.list
-		//array.unique = false
-	//}
 	public static func __implicit(_ array: [T]) -> PlatformList<T> {
-		array.makeUnique()
-		return array.list
+		return array.platformList
 	}
 
 	//
 	// Native access & Conversions
 	//
+
+	public var platformList: PlatformList<T>
+	{
+		#if COOPER || ECHOES || ISLAND
+		return PlatformList<T>(list)
+		#elseif TOFFEE
+		return list.mutableCopy()
+		#endif
+	}
 
 	public var nativeArray: T[] {
 		#if JAVA
@@ -217,17 +232,9 @@ public struct Array<T>
 		#endif
 	}
 
-	public var platformList: PlatformList<T> {
-		//80754: Swift: better error if a non-mutating method chnages a field
-		//unique = false
-		//return list
-		#if COOPER || ECHOES || ISLAND
-		return PlatformList<T>(list)
-		#elseif TOFFEE
-		return list.mutableCopy()
-		#endif
-	}
-
+	//
+	// Subscrits
+	//
 
 	func `prefix`(through: Int) -> [T] {
 		return self[0...through]
@@ -262,6 +269,7 @@ public struct Array<T>
 			#endif
 		}
 		set {
+			makeUnique()
 			#if JAVA | CLR | ISLAND
 			list[index] = newValue
 			#elseif COCOA
@@ -411,14 +419,8 @@ public struct Array<T>
 
 	public mutating func removeAll(keepCapacity: Bool = false) {
 		if count > 0 {
-			makeUnique()
-			#if JAVA
-			list.clear()
-			#elseif CLR | ISLAND
-			list.Clear()
-			#elseif COCOA
-			list.removeAllObjects()
-			#endif
+			list = PlatformList<T>()
+			unique = true
 		}
 	}
 
