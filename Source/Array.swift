@@ -9,17 +9,17 @@ typealias PlatformSequence<T> = ISequence<T>
 #endif
 
 #if COCOA
-typealias PlatformList<T> = NSMutableArray<T>
-typealias PlatformImmutableList<T> = NSArray<T>
+public typealias PlatformList<T> = NSMutableArray<T>
+public typealias PlatformImmutableList<T> = NSArray<T>
 #elseif JAVA
-typealias PlatformList<T> = java.util.ArrayList<T>
-typealias PlatformImmutableList<T> = PlatformList<T>
+public typealias PlatformList<T> = java.util.ArrayList<T>
+public typealias PlatformImmutableList<T> = PlatformList<T>
 #elseif CLR
-typealias PlatformList<T> = System.Collections.Generic.List<T>
-typealias PlatformImmutableList<T> = PlatformList<T>
+public typealias PlatformList<T> = System.Collections.Generic.List<T>
+public typealias PlatformImmutableList<T> = PlatformList<T>
 #elseif ISLAND
-typealias PlatformList<T> = RemObjects.Elements.System.List<T>
-typealias PlatformImmutableList<T> = PlatformList<T>
+public typealias PlatformList<T> = RemObjects.Elements.System.List<T>
+public typealias PlatformImmutableList<T> = PlatformList<T>
 #endif
 
 //public func length<T>(_ array: Array<T>?) -> Int {
@@ -77,13 +77,17 @@ public struct Array<T>
 	}
 
 	#if COCOA
-	public init(_ array: NSArray<T>?) {
-		if let array = array {
-			list = array.mutableCopy()
-		} else {
-			list = PlatformList<T>()
-		}
-	}
+	//public init(_ array: NSArray<T>?) {
+		//if let array = array {
+			//list = array.mutableCopy()
+		//} else {
+			//list = PlatformList<T>()
+		//}
+	//}
+
+	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false) {
+	}*/
+	#endif
 
 	init(repeating value: T, count: Int) {
 		if count == 0 {
@@ -96,19 +100,20 @@ public struct Array<T>
 			list = List<T>(count)
 			#elseif COCOA
 			list = NSMutableArray(capacity: count);
-			#endif
 			for i in 0 ..< count {
 				list.addObject(value);
 			}
+			#endif
 		}
 	}
 
-	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false) {
-	}*/
-	#endif
 
 	public init(_ list: PlatformImmutableList<T>) {
-		self.list = list
+		#if JAVA | CLR | ISLAND
+		self.list = PlatformList<T>(list)
+		#elseif COCOA
+		self.list = list.mutableCopy
+		#endif
 		unique = false
 	}
 

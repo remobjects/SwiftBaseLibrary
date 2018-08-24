@@ -1,15 +1,15 @@
 ﻿#if COCOA
-typealias PlatformDictionary<T,U> = NSMutableDictionary<T,U>
-typealias PlatformImmutableDictionary<T,U> = NSDictionary<T,U>
+public typealias PlatformDictionary<T,U> = NSMutableDictionary<T,U>
+public typealias PlatformImmutableDictionary<T,U> = NSDictionary<T,U>
 #elseif JAVA
-typealias PlatformDictionary<T,U> = java.util.HashMap<T,U>
-typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
+public typealias PlatformDictionary<T,U> = java.util.HashMap<T,U>
+public typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
 #elseif CLR
-typealias PlatformDictionary<T,U> = System.Collections.Generic.Dictionary<T,U>
-typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
+public typealias PlatformDictionary<T,U> = System.Collections.Generic.Dictionary<T,U>
+public typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
 #elseif ISLAND
-typealias PlatformDictionary<T,U> = RemObjects.Elements.System.Dictionary<T,U>
-typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
+public typealias PlatformDictionary<T,U> = RemObjects.Elements.System.Dictionary<T,U>
+public typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
 #endif
 
 //
@@ -47,22 +47,24 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		#elseif ISLAND
 		dictionary = PlatformDictionary<Key,Value>(minimumCapacity)
 		#elseif COCOA
-		dictionary = Foundation.PlatformDictionary(capacity: minimumCapacity)
+		dictionary = PlatformDictionary(capacity: minimumCapacity)
 		#endif
 	}
 
 	public init(_ dictionary: PlatformImmutableDictionary<Key,Value>) {
-		self.dictionary = dictionary
+		#if JAVA | CLR | ISLAND
+		self.dictionary = PlatformDictionary<Key,Value>(dictionary)
+		#elseif COCOA
+		self.dictionary = dictionary.mutableCopy
+		#endif
 		self.unique = false
 		makeUnique()
 	}
 
 	#if COCOA
-	public init(_ dictionary: NSDictionary) {
-		self.dictionary = dictionary
-		self.unique = false
-		makeUnique()
-	}
+	//public init(_ dictionary: NSDictionary) {
+		//self.dictionary = dictionary.mutableCopy
+	//}
 	#endif
 
 	public convenience init(dictionaryLiteral elements: (Key, Value)...) {
@@ -118,10 +120,13 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 
 	public var platformDictionary: PlatformDictionary<Key,Value>
 	{
-		#if COOPER || ECHOES || ISLAND
+		#if COOPER || ECHOES
 		return PlatformDictionary<Key,Value>(dictionary)
+		#elseif ISLAND
+		#warning Implement for Island
+		//return PlatformDictionary<Key,Value>(dictionary)
 		#elseif TOFFEE
-		return list.mutableCopy()
+		return dictionary.mutableCopy()
 		#endif
 	}
 
@@ -279,14 +284,7 @@ public static class DictionaryHelper {
 		  __yield item
 		}
 	}
-	#elseif CLR
-	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
-		for entry in val {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
-		  __yield item
-		}
-	}
-	#elseif ISLAND
+	#elseif CLR | ISLAND
 	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
@@ -294,7 +292,7 @@ public static class DictionaryHelper {
 		}
 	}
 	#elseif COCOA
-	public static func Enumerate<Key, Value>(_ val: PlatformDictionary) -> ISequence<(Key, Value)> {
+	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val {
 			var item: (Key, Value) =  (entry, val[entry]?)
 		  __yield item

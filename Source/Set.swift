@@ -8,7 +8,7 @@ typealias PlatformSet<T> = System.Collections.Generic.List<T>
 typealias PlatformSet<T> = RemObjects.Elements.System.List<T>
 #endif
 
-public struct Set<T> :
+public struct Set<T> //:
   //#if COCOA
   //INSFastEnumeration<T>
   //#elseif JAVA
@@ -21,7 +21,7 @@ public struct Set<T> :
   //#error Unknown platfomr
   //#endif
   //,
-  IExpressibleByArrayLiteral
+  //IExpressibleByArrayLiteral
 {
 	typealias Element = T
 	//typealias Index = SetIndex<T>
@@ -57,6 +57,12 @@ public struct Set<T> :
 		_set = PlatformSet<T>.setWithObjects((&elements[0] as! UnsafePointer<T>), count: length(elements)) as! PlatformSet<T>
 		#endif
 	}
+
+	#if COCOA
+	public init(_ theSet: PlatformSet<T>) {
+		_set = theSet.mutableCopy
+	}
+	#endif
 
 	//public init(_ elements: T...) { // E59 Duplicate constructor with same signature "init(params elements: T[])"
 		//init(arrayLiteral: elements)
@@ -103,12 +109,12 @@ public struct Set<T> :
 	//
 
 	#if COCOA // only Cocoa has a Set class where this makes sense
-	public static func __implicit(_ list: PlatformSet<T>) -> [T] {
-		return [T](list)
+	public static func __implicit(_ theSet: PlatformSet<T>) -> Set<T> {
+		return Set<T>(theSet)
 	}
 
-	public static func __implicit(_ array: [T]) -> PlatformSet<T> {
-		return array.platformSet
+	public static func __implicit(_ theSet: Set<T>) -> PlatformSet<T> {
+		return theSet.platformSet
 	}
 	#endif
 
@@ -176,9 +182,10 @@ public struct Set<T> :
 			return _set.IndexOf(member)
 		}
 		#elseif COCOA
-		if _set.containsObject(member) {
-			return _set.indexOf(member)
-		}
+		throw Exception("Not implemented for Cocosa")
+		//if _set.containsObject(member) {
+			//return _set.indexOf(member)
+		//}
 		#endif
 		return nil
 	}
