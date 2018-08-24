@@ -273,8 +273,6 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 				return true // reached end of prefix
 			}
 		}
-
-		return false;
 		#elseif CLR || ISLAND
 		let sEnum = self.GetEnumerator()
 		let pEnum = p.GetEnumerator()
@@ -325,7 +323,6 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 				}
 			}
 		}
-		return false // keep wanting at bay
 		#endif
 	}
 
