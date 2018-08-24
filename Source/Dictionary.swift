@@ -120,11 +120,8 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 
 	public var platformDictionary: PlatformDictionary<Key,Value>
 	{
-		#if COOPER || ECHOES
+		#if COOPER || ECHOES || ISLAND
 		return PlatformDictionary<Key,Value>(dictionary)
-		#elseif ISLAND
-		#warning Implement for Island
-		//return PlatformDictionary<Key,Value>(dictionary)
 		#elseif TOFFEE
 		return dictionary.mutableCopy()
 		#endif
