@@ -86,7 +86,7 @@ public func split(_ elements: String, separatorChar separator: Char) -> [String]
 public func sequence<T>(first: T, next: (T) -> T?) -> ISequence<T> {
 	var nextResult: T? = first
 	while nextResult != nil {
-		__yield nextResult
+		__yield nextResult?
 		nextResult = next(nextResult!)
 	}
 }
