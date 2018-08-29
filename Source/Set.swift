@@ -85,7 +85,7 @@ public struct Set<T> //:
 	// Storage
 	//
 
-	private var _set: PlatformSet<T>
+	fileprivate var _set: PlatformSet<T>
 	private var unique: Boolean = true
 
 	private mutating func makeUnique()
@@ -476,3 +476,31 @@ public struct Set<T> //:
 		#endif
 	}
 }
+
+#if !COCOA
+public extension Swift.Set : ISequence<T> {
+
+	#if JAVA
+	public func iterator() -> Iterator<T>! {
+		return _set.iterator()
+	}
+	#endif
+
+	#if ECHOES
+	func GetEnumerator() -> IEnumerator! {
+		return _set.GetEnumerator()
+	}
+
+	@Implements(typeOf(IEnumerable<T>), "GetEnumerator")
+	func GetEnumeratorT() -> IEnumerator<T>! {
+		return _set.GetEnumerator()
+	}
+	#endif
+
+	#if ISLAND
+	func GetEnumerator() -> IEnumerator<T>! {
+		return _set.GetEnumerator()
+	}
+	#endif
+}
+#endif

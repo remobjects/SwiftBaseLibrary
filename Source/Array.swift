@@ -169,7 +169,7 @@ public struct Array<T>
 	// Storage
 	//
 
-	private var list: PlatformList<T>
+	fileprivate var list: PlatformList<T>
 	private var unique: Boolean = true
 
 	private mutating func makeUnique()
@@ -699,6 +699,34 @@ public struct Array<T>
 	}
 
 }
+
+#if !COCOA
+public extension Swift.Array : ISequence<T> {
+
+	#if JAVA
+	public func iterator() -> Iterator<T>! {
+		return list.iterator()
+	}
+	#endif
+
+	#if ECHOES
+	func GetEnumerator() -> IEnumerator! {
+		return list.GetEnumerator()
+	}
+
+	@Implements(typeOf(IEnumerable<T>), "GetEnumerator")
+	func GetEnumeratorT() -> IEnumerator<T>! {
+		return list.GetEnumerator()
+	}
+	#endif
+
+	#if ISLAND
+	func GetEnumerator() -> IEnumerator<T>! {
+		return list.GetEnumerator()
+	}
+	#endif
+}
+#endif
 
 //public extension Swift.Array where T : ICollection {
 	////func joined() -> ISequence<T> { // FlattenCollection<Array<Element>> {

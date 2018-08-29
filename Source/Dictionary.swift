@@ -78,7 +78,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	// Storage
 	//
 
-	private var dictionary: PlatformDictionary<Key,Value>
+	fileprivate var dictionary: PlatformDictionary<Key,Value>
 	private var unique: Boolean = true
 
 	private mutating func makeUnique()
@@ -340,6 +340,47 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		#endif
 	}
 }
+
+//#if !COCOA
+#if JAVA || ISLAND
+public extension Swift.Dictionary : ISequence<(Key,Value)> {
+
+	#if JAVA
+	public func iterator() -> Iterator<(Key,Value)>! {
+		for entry in dictionary.entrySet() {
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+			__yield item
+		}
+	}
+	#endif
+
+	//#if ECHOES
+	//func GetEnumerator() -> IEnumerator! {
+		//for entry in dictionary {
+			//var item: (Key, Value) =  (entry.Key, entry.Value)
+			//__yield item
+		//}
+	//}
+
+	//@Implements(typeOf(IEnumerable<(Key,Value)>), "GetEnumerator")
+	//func GetEnumeratorT() -> IEnumerator<(Key,Value)>! {
+		//for entry in dictionary {
+			//var item: (Key, Value) =  (entry.Key, entry.Value)
+			//__yield item
+		//}
+	//}
+	//#endif
+
+	#if ISLAND
+	func GetEnumerator() -> IEnumerator<(Key,Value)>! {
+		for entry in dictionary {
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+			__yield item
+		}
+	}
+	#endif
+}
+#endif
 
 public static class DictionaryHelper {
 	#if JAVA
