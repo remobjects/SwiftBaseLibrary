@@ -51,7 +51,7 @@ __mapped public class Array<T> :
 	}
 
 	//init(array: T[]) { } // same as below.
-	public init(arrayLiteral array: T ...) {
+	public init(arrayLiteral array: T¡ ...) {
 		if array == nil || length(array) == 0 {
 			return [T]()
 		}
