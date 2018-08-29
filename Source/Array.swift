@@ -208,6 +208,44 @@ public struct Array<T>
 		return array.platformList
 	}
 
+	//public static func + <T>(lhs: [T], rhs: [T]) -> [T] {
+		//var result = lhs
+		//for i in rhs {
+			//result.append(i)
+		//}
+		//return result
+	//}
+
+	public static func == <T>(lhs: [T], rhs: [T]) -> Bool {
+		guard lhs.count == rhs.count else {
+			return false
+		}
+		for i in 0..<lhs.count {
+			#if COOPER
+			if !lhs[i].equals(rhs[i]) {
+				return false
+			}
+			#elseif ECHOES
+			if !System.Collections.Generic.EqualityComparer<T>.Default.Equals(lhs, rhs) {
+				return false
+			}
+			#elseif ISLAND
+			if !RemObjects.Elements.System.EqualityComparer.Equals(lhs, rhs) {
+				return false
+			}
+			#elseif COCOA
+			if !lhs[i].isEqual(rhs[i]) {
+				return false
+			}
+			#endif
+		}
+		return true
+	}
+
+	public static func != <T>(lhs: [T], rhs: [T]) -> Bool {
+		return !(rhs == lhs)
+	}
+
 	//
 	// Native access & Conversions
 	//
@@ -591,6 +629,4 @@ public struct Array<T>
 
 		return targetArray
 	}
-
-
 }
