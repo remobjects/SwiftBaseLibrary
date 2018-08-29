@@ -217,12 +217,23 @@ public struct Array<T>
 	//}
 
 	public static func == <T>(lhs: [T], rhs: [T]) -> Bool {
+		if lhs.list == rhs.list {
+			return true
+		}
 		guard lhs.count == rhs.count else {
 			return false
 		}
-		for i in 0..<lhs.count {
+		for i in 0..<lhs.list.count {
+			let l = lhs.list[i]
+			let r = rhs.list[i]
+			if l == nil {
+				return r == nil
+			}
+			if r == nil {
+				return false
+			}
 			#if COOPER
-			if !lhs[i].equals(rhs[i]) {
+			if !lhs.list[i].equals(rhs.list[i]) {
 				return false
 			}
 			#elseif ECHOES
@@ -245,6 +256,22 @@ public struct Array<T>
 	public static func != <T>(lhs: [T], rhs: [T]) -> Bool {
 		return !(rhs == lhs)
 	}
+
+	#if CLR
+	public override func Equals(_ other: Object!) -> Bool {
+		guard let other = other as? [T] else {
+			return false
+		}
+		return self == other
+	}
+	#elseif COCOA
+	public override func isEqual(_ other: Object!) -> Bool {
+		guard let other = other as? [T] else {
+			return false
+		}
+		return self == other
+	}
+	#endif
 
 	//
 	// Native access & Conversions
