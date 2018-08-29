@@ -118,7 +118,7 @@ public struct Set<T> //:
 	}
 	#endif
 
-	public static func + <T>(lhs: Set<T>, rhs: ISequence<T>) -> Set<T> {
+	public static func + (lhs: Set<T>, rhs: ISequence<T>) -> Set<T> {
 		var targetSet = Set<T>().union(lhs)
 		for element in rhs {
 			targetSet.insert(element)
@@ -127,8 +127,33 @@ public struct Set<T> //:
 	}
 
 	// workarund, while sets aren't sequences (yet)
-	public static func + <T>(lhs: Set<T>, rhs: Set<T>) -> Set<T> {
+	public static func + (lhs: Set<T>, rhs: Set<T>) -> Set<T> {
 		return lhs + rhs._set
+	}
+
+   public static func == (lhs: Set<T>, rhs: Set<T>) -> Bool {
+		if lhs._set == rhs._set {
+			return true
+		}
+		guard lhs.count == rhs.count else {
+			return false
+		}
+
+		for i in lhs {
+			if !rhs.contains(i) {
+				return false
+			}
+		}
+		for i in rhs {
+			if !lhs.contains(i) {
+				return false
+			}
+		}
+		return true
+	}
+
+	public static func != (lhs: Set<T>, rhs: Set<T>) -> Bool {
+		return !(rhs == lhs)
 	}
 
 	//

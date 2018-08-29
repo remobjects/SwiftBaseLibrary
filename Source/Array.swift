@@ -216,7 +216,7 @@ public struct Array<T>
 		//return result
 	//}
 
-	public static func == <T>(lhs: [T], rhs: [T]) -> Bool {
+	public static func == (lhs: [T], rhs: [T]) -> Bool {
 		if lhs.list == rhs.list {
 			return true
 		}
@@ -233,19 +233,19 @@ public struct Array<T>
 				return false
 			}
 			#if COOPER
-			if !lhs.list[i].equals(rhs.list[i]) {
+			if !l.equals(r) {
 				return false
 			}
 			#elseif ECHOES
-			if !System.Collections.Generic.EqualityComparer<T>.Default.Equals(lhs, rhs) {
+			if !System.Collections.Generic.EqualityComparer<T>.Default.Equals(l, r) {
 				return false
 			}
 			#elseif ISLAND
-			if !RemObjects.Elements.System.EqualityComparer.Equals(lhs, rhs) {
+			if !RemObjects.Elements.System.EqualityComparer.Equals(l, r) {
 				return false
 			}
 			#elseif COCOA
-			if !lhs[i].isEqual(rhs[i]) {
+			if !l.isEqual(r) {
 				return false
 			}
 			#endif
@@ -253,7 +253,7 @@ public struct Array<T>
 		return true
 	}
 
-	public static func != <T>(lhs: [T], rhs: [T]) -> Bool {
+	public static func != (lhs: [T], rhs: [T]) -> Bool {
 		return !(rhs == lhs)
 	}
 

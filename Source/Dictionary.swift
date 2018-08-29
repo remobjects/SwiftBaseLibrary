@@ -106,13 +106,81 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	}
 
 	// 80753: `inout` and implicit cast operators
-	//public static func __implicit(_ array: inout [T]) -> PlatformList<T> {
+	//public static func __implicit(_ array: inout [Key:Value]) -> PlatformList<T> {
 		//return array.list
 		//array.unique = false
 	//}
 	public static func __implicit(_ dictionary: [Key:Value]) -> PlatformDictionary<Key,Value> {
 		return dictionary.platformDictionary
 	}
+
+	public static func + <T>(lhs: [Key:Value], rhs: [Key:Value]) -> [Key:Value] {
+		var result = lhs
+		for k in rhs.keys {
+			result[k] = rhs[k]
+		}
+		return result
+	}
+
+	public static func == (lhs: [Key:Value], rhs: [Key:Value]) -> Bool {
+		if lhs.dictionary == rhs.dictionary {
+			return true
+		}
+		guard lhs.keys.count == rhs.keys.count else {
+			return false
+		}
+
+		func compare(_ r: Value, _ l: Value) -> Bool {
+			#if COOPER
+			return l.equals(r)
+			#elseif ECHOES
+			return System.Collections.Generic.EqualityComparer<Value>.Default.Equals(l, r)
+			#elseif ISLAND
+			return RemObjects.Elements.System.EqualityComparer.Equals(l, r)
+			#elseif COCOA
+			return l.isEqual(r)
+			#endif
+			return true
+		}
+
+		for k in lhs.keys {
+			let l = lhs[k]!
+			let r = rhs[k]
+			guard let r = r else {
+				return false
+			}
+			if !compare(l,r) {
+				return false
+			}
+		}
+		for k in rhs.keys {
+			let l = lhs[k]!
+			if l == nil {
+				return false
+			}
+		}
+		return true
+	}
+
+	public static func != (lhs: [Key:Value], rhs: [Key:Value]) -> Bool {
+		return !(rhs == lhs)
+	}
+
+	#if CLR
+	public override func Equals(_ other: Object!) -> Bool {
+		guard let other = other as? [Key:Value] else {
+			return false
+		}
+		return self == other
+	}
+	#elseif COCOA
+	public override func isEqual(_ other: Object!) -> Bool {
+		guard let other = other as? [Key:Value] else {
+			return false
+		}
+		return self == other
+	}
+	#endif
 
 	//
 	// Native Access
