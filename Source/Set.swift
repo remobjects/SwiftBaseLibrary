@@ -466,7 +466,7 @@ public struct Set<T> //:
 	//var hashValue: Int { get }
 
 	/// A textual representation of `self`.
-	public var description: String {
+	@ToString public func description() -> String {
 		#if JAVA
 		return _set.toString()
 		#elseif CLR || ISLAND
@@ -474,10 +474,5 @@ public struct Set<T> //:
 		#elseif COCOA
 		return _set.description
 		#endif
-	}
-
-	/// A textual representation of `self`, suitable for debugging.
-	public var debugDescription: NativeString {
-		return description
 	}
 }

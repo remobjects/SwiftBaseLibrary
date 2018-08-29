@@ -17,6 +17,7 @@
     <DeploymentTargetVersion>10.9</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
     <KnownConditionalDefines>DEBUG;OLD_DEPLOYMENT_TARGET;TRACE</KnownConditionalDefines>
+    <SuppressWarnings>NW6</SuppressWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

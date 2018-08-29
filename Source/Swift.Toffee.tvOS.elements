@@ -16,6 +16,7 @@
     <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
     <DeploymentTargetVersion>9.2</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
+    <SuppressWarnings>NW6</SuppressWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

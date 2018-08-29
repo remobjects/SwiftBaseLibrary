@@ -1,9 +1,12 @@
 ﻿#if JAVA
 public typealias NativeString = java.lang.String
+public typealias NativeStringBuilder = java.lang.StringBuilder
 #elseif CLR
 public typealias NativeString = System.String
+public typealias NativeStringBuilder = System.Text.StringBuilder
 #elseif ISLAND
 public typealias NativeString = RemObjects.Elements.System.String
+public typealias NativeStringBuilder = RemObjects.Elements.System.StringBuilder
 #elseif COCOA
 public typealias NativeString = Foundation.NSString
 #endif

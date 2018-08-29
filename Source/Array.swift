@@ -208,13 +208,21 @@ public struct Array<T>
 		return array.platformList
 	}
 
-	//public static func + <T>(lhs: [T], rhs: [T]) -> [T] {
-		//var result = lhs
-		//for i in rhs {
-			//result.append(i)
-		//}
-		//return result
-	//}
+	public static func + <T>(lhs: [T], rhs: [T]) -> [T] {
+		var result = lhs
+		for i in rhs.GetSequence() {
+			result.append(i)
+		}
+		return result
+	}
+
+	public static func + <T>(lhs: Array<T>, rhs: ISequence<T>) -> Array<T> {
+		var result = lhs
+		for i in rhs {
+			result.append(i)
+		}
+		return result
+	}
 
 	public static func == (lhs: [T], rhs: [T]) -> Bool {
 		if lhs.list == rhs.list {
@@ -226,29 +234,9 @@ public struct Array<T>
 		for i in 0..<lhs.list.count {
 			let l = lhs.list[i]
 			let r = rhs.list[i]
-			if l == nil {
-				return r == nil
-			}
-			if r == nil {
+			if !compareElements(l,r) {
 				return false
 			}
-			#if COOPER
-			if !l.equals(r) {
-				return false
-			}
-			#elseif ECHOES
-			if !System.Collections.Generic.EqualityComparer<T>.Default.Equals(l, r) {
-				return false
-			}
-			#elseif ISLAND
-			if !RemObjects.Elements.System.EqualityComparer.Equals(l, r) {
-				return false
-			}
-			#elseif COCOA
-			if !l.isEqual(r) {
-				return false
-			}
-			#endif
 		}
 		return true
 	}
@@ -391,6 +379,20 @@ public struct Array<T>
 		return nil
 	}
 
+	func starts(with possiblePrefix: ISequence<T>) -> Bool {
+		var i = 0
+		for e in possiblePrefix {
+			if !compareElements(e, self[i]) {
+				return false
+			}
+		}
+		return true
+	}
+
+	func starts(with possiblePrefix: [T]) -> Bool {
+		return starts(with: possiblePrefix.GetSequence())
+	}
+
 	public mutating func reserveCapacity(_ minimumCapacity: Int) {
 		#if JAVA
 		list.ensureCapacity(minimumCapacity)
@@ -503,6 +505,21 @@ public struct Array<T>
 		}
 	}
 
+	//public mutating func shuffle() {
+		//makeUnique()
+		////TODO
+	//}
+	////public mutating func shuffle<T>(using: inout T) {
+		////makeUnique()
+		////TODO
+	////}
+	//public func shuffled() -> [T] {
+		//var result = self
+		//result.shuffle()
+		//return result
+	//}
+
+
 	// availabvle via ISequence anyways
 	/*public func enumerated() -> ISequence<(Int, T)> {
 		var index = 0
@@ -592,6 +609,21 @@ public struct Array<T>
 		return result
 	}
 
+	func joined(separator: String) -> String {
+		#if JAVA | CLR | ISLAND
+		let result = NativeStringBuilder();
+		for i in 0..<count {
+			if i != 0, let separator = separator {
+				result.Append(separator)
+			}
+			result.Append(self[i]?.ToString())
+		}
+		return result.ToString()!
+		#elseif COCOA
+		return list.componentsJoinedByString(separator);
+		#endif
+	}
+
 	//public mutating func partition(by belongsInSecondPartition: (Element) throws -> Bool) rethrows -> Int {
 	//}
 
@@ -647,13 +679,34 @@ public struct Array<T>
 		#endif
 	}
 
-	public static func + <T>(lhs: Array<T>, rhs: ISequence<T>) -> Array<T> {
-
-		var targetArray = [T](items: lhs)
-		for element in rhs {
-			targetArray.append(element)
+	private static func compareElements(_ r: T, _ l: T) -> Bool {
+		if l == nil {
+			return r == nil
 		}
-
-		return targetArray
+		if r == nil {
+			return false
+		}
+		#if COOPER
+		return l.equals(r)
+		#elseif ECHOES
+		return System.Collections.Generic.EqualityComparer<T>.Default.Equals(l, r)
+		#elseif ISLAND
+		return RemObjects.Elements.System.EqualityComparer.Equals(l, r)
+		#elseif COCOA
+		return l.isEqual(r)
+		#endif
+		return true
 	}
+
 }
+
+//public extension Swift.Array where T : ICollection {
+	////func joined() -> ISequence<T> { // FlattenCollection<Array<Element>> {
+	////return self.platformList.Join()
+	////}
+	////func joined() -> ISequence<T> { // FlattenSequence<Array<Element>>
+	////}
+
+	////func joined(separator: Separator) -> ISequence<T> { // JoinedSequence<Array<Element>>
+	////}
+//}
