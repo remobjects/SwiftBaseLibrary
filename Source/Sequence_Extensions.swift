@@ -185,7 +185,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	public func sorted(by isOrderedBefore: (T, T) -> Bool) -> ISequence<T> {
 		//todo: make more lazy?
 		#if JAVA
-		let result: ArrayList<T> = [T](sequence: self)
+		let result = self.ToList()
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
@@ -195,7 +195,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}})
 		return result
 		#elseif CLR || ISLAND
-		let result: List<T> = [T](sequence: self)
+		let result = self.ToList()
 		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
@@ -211,7 +211,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 			} else {
 				return .NSOrderedAscending
 			}
-		})! as! [T]
+		})!
 		#endif
 	}
 
@@ -273,8 +273,6 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 				return true // reached end of prefix
 			}
 		}
-
-		return false;
 		#elseif CLR || ISLAND
 		let sEnum = self.GetEnumerator()
 		let pEnum = p.GetEnumerator()
@@ -300,7 +298,6 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 				return true // reached end of prefix
 			}
 		}
-		return false
 		#elseif COCOA
 		let LOOP_SIZE = 16
 		let sState: NSFastEnumerationState = `default`(NSFastEnumerationState)
@@ -326,7 +323,6 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 				}
 			}
 		}
-		return false // keep wanting at bay
 		#endif
 	}
 
@@ -358,11 +354,11 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		for e in self {
 			result.add(e);
 		}
-		return result
+		return [T](result)
 		#elseif CLR || ISLAND
-		return self.ToList()
+		return [T](self.ToList())
 		#elseif COCOA
-		return self.array().mutableCopy
+		return [T](self.array())
 		#endif
 	}
 

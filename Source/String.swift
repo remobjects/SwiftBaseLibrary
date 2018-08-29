@@ -358,7 +358,7 @@ public struct SwiftString /*: Streamable*/ {
 		#if COOPER
 		//exit nativeString.split(java.util.regex.Pattern.quote(Separator)) as not nullable
 		//Custom implementation because `mapped.split` strips empty oparts at the end, making it incomopatible with the other three platfroms.
-		let result = [String]()
+		var result = [String]()
 		var i = 0
 		while true {
 			let p = nativeStringValue.indexOf(separator, i)
@@ -374,11 +374,11 @@ public struct SwiftString /*: Streamable*/ {
 		}
 		return result
 		#elseif ECHOES
-		return nativeStringValue.Split([separator], StringSplitOptions.None).ToList()
+		return [String](nativeStringValue.Split([separator], StringSplitOptions.None).ToList())
 		#elseif ISLAND
-		return nativeStringValue.Split(separator).ToList()
+		return [String](nativeStringValue.Split(separator).ToList())
 		#elseif TOFFEE
-		return nativeStringValue.componentsSeparatedByString(separator).mutableCopy()
+		return [String](nativeStringValue.componentsSeparatedByString(separator))
 		#endif
 	}
 

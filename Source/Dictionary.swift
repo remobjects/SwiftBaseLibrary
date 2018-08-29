@@ -1,236 +1,295 @@
-﻿//
+﻿#if COCOA
+public typealias PlatformDictionary<T,U> = NSMutableDictionary<T,U>
+public typealias PlatformImmutableDictionary<T,U> = NSDictionary<T,U>
+#elseif JAVA
+public typealias PlatformDictionary<T,U> = java.util.HashMap<T,U>
+public typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
+#elseif CLR
+public typealias PlatformDictionary<T,U> = System.Collections.Generic.Dictionary<T,U>
+public typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
+#elseif ISLAND
+public typealias PlatformDictionary<T,U> = RemObjects.Elements.System.Dictionary<T,U>
+public typealias PlatformImmutableDictionary<T,U> = PlatformDictionary<T,U>
+#endif
+
 //
-// CAUTION: Magic type name. 
-// The compiler will map the [:] dictionary syntax to Swift.Dictionaty<T,U> 
+//
+// CAUTION: Magic type name.
+// The compiler will map the [:] dictionary syntax to Swift.Dictionaty<T,U>
 //
 //
 
-__mapped public class Dictionary<Key, Value> /*: INSFastEnumeration<T>*/ => 
-  #if COCOA
-  Foundation.NSMutableDictionary<Key,Value>
-  #elseif JAVA
-  java.util.HashMap<Key,Value>
-  #elseif CLR
-  System.Collections.Generic.Dictionary<Key,Value>
-  #elseif ISLAND
-  RemObjects.Elements.System.Dictionary<Key,Value>
-  #else
-  #error Unsupported platform
-  #endif
+public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 {
-	public init() {
-		#if JAVA
-		return java.util.HashMap<Key,Value>()
-		#elseif CLR
-		return System.Collections.Generic.Dictionary<Key,Value>()
-		#elseif ISLAND
-		return RemObjects.Elements.System.Dictionary<Key,Value>()
-		#elseif COCOA
-		return Foundation.NSMutableDictionary<Key,Value>()
-		#endif
+	public init(copy original: inout [Key:Value]) {
+		self.dictionary = original.dictionary
+		self.unique = false
+		original.unique = false
 	}
 
-	public func GetSequence() -> ISequence<(Key, Value)> {
-		return DictionaryHelper.Enumerate<Key, Value>(self)
+	public init() {
+		dictionary = PlatformDictionary<Key,Value>()
+	}
+
+	//public init(items: inout [Key:Value]) { // E59 Duplicate constructor with same signature "init(items var items: [Key:Value])"
+	public init(items: [Key:Value]) {
+		self.dictionary = items.dictionary
+		self.unique = false
+		makeUnique() // workaorund for not having inout
+		//items.unique = false
 	}
 
 	public init(minimumCapacity: Int) {
 		#if JAVA
-		return java.util.HashMap<Key,Value>(minimumCapacity)
+		dictionary = PlatformDictionary<Key,Value>(minimumCapacity)
 		#elseif CLR
-		return System.Collections.Generic.Dictionary<Key,Value>(minimumCapacity)
+		dictionary = PlatformDictionary<Key,Value>(minimumCapacity)
 		#elseif ISLAND
-		return RemObjects.Elements.System.Dictionary<Key,Value>(minimumCapacity)
+		dictionary = PlatformDictionary<Key,Value>(minimumCapacity)
 		#elseif COCOA
-		return Foundation.NSMutableDictionary<Key,Value>(capacity: minimumCapacity)
+		dictionary = PlatformDictionary(capacity: minimumCapacity)
 		#endif
 	}
 
-	#if COCOA
-	public init(NSDictionary dictionary: NSDictionary) {
-		if dictionary == nil {
-			return Dictionary<Key,Value>()
-		}
-		return dictionary.mutableCopy()
+	public init(_ dictionary: PlatformImmutableDictionary<Key,Value>) {
+		#if JAVA | CLR | ISLAND
+		self.dictionary = PlatformDictionary<Key,Value>(dictionary)
+		#elseif COCOA
+		self.dictionary = dictionary.mutableCopy
+		#endif
+		self.unique = false
+		makeUnique()
 	}
+
+	#if COCOA
+	//public init(_ dictionary: NSDictionary) {
+		//self.dictionary = dictionary.mutableCopy
+	//}
 	#endif
 
-	public init(dictionaryLiteral elements: (Key, Value)...) {
-		var result = init(minimumCapacity: length(elements))
+	public convenience init(dictionaryLiteral elements: (Key, Value)...) {
+		init(minimumCapacity: length(elements))
 		for e in elements {
-			result[e[0]] = e[1]
+			self[e[0]] = e[1]
 		}
-		return result
 	}
+
+	//
+	// Storage
+	//
+
+	private var dictionary: PlatformDictionary<Key,Value>
+	private var unique: Boolean = true
+
+	private mutating func makeUnique()
+	{
+		if !unique {
+			dictionary = platformDictionary // platformDictionary returns a unique new copy
+			unique = true
+		}
+	}
+
+	//
+	//
+	//
+
+	public func GetSequence() -> ISequence<(Key, Value)> {
+		return DictionaryHelper.Enumerate<Key, Value>(dictionary)
+	}
+
+	//
+	// Operators
+	//
+
+	public static func __implicit(_ dictionary: PlatformDictionary<Key,Value>) -> [Key:Value] {
+		return [Key:Value](dictionary)
+	}
+
+	// 80753: `inout` and implicit cast operators
+	//public static func __implicit(_ array: inout [T]) -> PlatformList<T> {
+		//return array.list
+		//array.unique = false
+	//}
+	public static func __implicit(_ dictionary: [Key:Value]) -> PlatformDictionary<Key,Value> {
+		return dictionary.platformDictionary
+	}
+
+	//
+	// Native Access
+	//
+
+	public var platformDictionary: PlatformDictionary<Key,Value>
+	{
+		#if COOPER || ECHOES || ISLAND
+		return PlatformDictionary<Key,Value>(dictionary)
+		#elseif TOFFEE
+		return dictionary.mutableCopy()
+		#endif
+	}
+
+	//
+	// Subscripts
+	//
 
 	public subscript (key: Key) -> Value? {
 		get {
 			#if JAVA
-			if __mapped.containsKey(key) {
-				return __mapped[key]
+			if dictionary.containsKey(key) {
+				return dictionary[key]
 			}
 			return nil
-		#elseif CLR || ISLAND
-			if __mapped.ContainsKey(key) {
-				return __mapped[key]
+			#elseif CLR || ISLAND
+			if dictionary.ContainsKey(key) {
+				return dictionary[key]
 			}
 			return nil
 			#elseif COCOA
-			return __mapped[key]
+			return dictionary[key]
 			#endif
 		}
 		set {
+			makeUnique()
 			#if JAVA
 			if let v = newValue {
-				__mapped[key] = v
+				dictionary[key] = v
 			} else {
-					if __mapped.containsKey(key) {
-					__mapped.remove(key)
+					if dictionary.containsKey(key) {
+					dictionary.remove(key)
 				}
 			}
 			#elseif CLR || ISLAND
 			if let v = newValue {
-				__mapped[key] = v
+				dictionary[key] = v
 			} else {
-					if __mapped.ContainsKey(key) {
-					__mapped.Remove(key)
+					if dictionary.ContainsKey(key) {
+					dictionary.Remove(key)
 				}
 			}
 			#elseif COCOA
 			if let val = newValue {
-				__mapped[key] = val
+				dictionary[key] = val
 			} else {
-				__mapped.removeObjectForKey(key)
+				dictionary.removeObjectForKey(key)
 			}
 			#endif
 		}
 	}
 
 	public mutating func updateValue(_ value: Value, forKey key: Key) -> Value? {
+		makeUnique()
 		#if JAVA
-		if __mapped.containsKey(key) {
-			let old = __mapped[key]
-			__mapped[key] = value
+		if dictionary.containsKey(key) {
+			let old = dictionary[key]
+			dictionary[key] = value
 			return old
 		}
 		return nil
 		#elseif CLR || ISLAND
-		if __mapped.ContainsKey(key) {
-			let old = __mapped[key]
-			__mapped[key] = value
+		if dictionary.ContainsKey(key) {
+			let old = dictionary[key]
+			dictionary[key] = value
 			return old
 		}
 		return nil
 		#elseif COCOA
-		let old = __mapped[key]
+		let old = dictionary[key]
 		if let val = value {
-			__mapped[key] = val
+			dictionary[key] = val
 		} else {
-			__mapped.removeObjectForKey(key)
+			dictionary.removeObjectForKey(key)
 		}
 		return old
 		#endif
 	}
 
 	public mutating func removeValueForKey(_ key: Key) -> Value? {
+		makeUnique()
 		#if JAVA
-		if __mapped.containsKey(key) {
-			return __mapped.remove(key)
+		if dictionary.containsKey(key) {
+			return dictionary.remove(key)
 		}
 		return nil
 		#elseif CLR || ISLAND
-		if __mapped.ContainsKey(key) {
-			let old = __mapped[key]
-			__mapped.Remove(key)
+		if dictionary.ContainsKey(key) {
+			let old = dictionary[key]
+			dictionary.Remove(key)
 			return old
 		}
 		return nil
 		#elseif COCOA
-		let old = __mapped[key]
-		__mapped.removeObjectForKey(key)
+		let old = dictionary[key]
+		dictionary.removeObjectForKey(key)
 		return old
 		#endif
 	}
 
 	public mutating func removeAll(keepCapacity: Bool = false) {
-		#if JAVA
-		__mapped.clear()
-		#elseif CLR
-		__mapped.Clear()
-		#elseif COCOA
-		__mapped.removeAllObjects()
-		#endif
+		dictionary = PlatformDictionary<Key,Value>()
+		unique = true
 	}
 
 	public var count: Int {
 		#if JAVA
-		return __mapped.keySet().Count()
+		return dictionary.keySet().Count()
 		#elseif CLR
-		return __mapped.Count()
+		return dictionary.Count()
 		#elseif ISLAND
-		return __mapped.Count
+		return dictionary.Count
 		#elseif COCOA
-		return __mapped.count
+		return dictionary.count
 		#endif
 	}
 
 	public var isEmpty: Bool {
 		#if JAVA
-		return __mapped.isEmpty()
+		return dictionary.isEmpty()
 		#elseif CLR
-		return __mapped.Count() == 0
+		return dictionary.Count() == 0
 		#elseif ISLAND
-		return __mapped.Count == 0
+		return dictionary.Count == 0
 		#elseif COCOA
-		return __mapped.count == 0
+		return dictionary.count == 0
 		#endif
 	}
 
 	public var keys: ISequence<Key> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
-		return __mapped.keySet()
+		return dictionary.keySet()
 		#elseif CLR || ISLAND
-		return __mapped.Keys
+		return dictionary.Keys
 		#elseif COCOA
-		return __mapped.allKeys as! ISequence<Key>
+		return dictionary.allKeys as! ISequence<Key>
 		#endif
 	}
 
 	public var values: ISequence<Value> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
-		return __mapped.values()
+		return dictionary.values()
 		#elseif CLR || ISLAND
-		return __mapped.Values
+		return dictionary.Values
 		#elseif COCOA
-		return __mapped.allValues as! ISequence<Value>
+		return dictionary.allValues as! ISequence<Value>
 		#endif
 	}
 }
 
 public static class DictionaryHelper {
 	#if JAVA
-	public static func Enumerate<Key, Value>(_ val: java.util.HashMap<Key,Value>) -> ISequence<(Key, Value)> {
+	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val.entrySet() {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
-	#elseif CLR
-	public static func Enumerate<Key, Value>(_ val: System.Collections.Generic.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
-		for entry in val {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
-		  __yield item
-		}
-	}
-	#elseif ISLAND
-	public static func Enumerate<Key, Value>(_ val: RemObjects.Elements.System.Dictionary<Key,Value>) -> ISequence<(Key, Value)> {
+	#elseif CLR | ISLAND
+	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif COCOA
-	public static func Enumerate<Key, Value>(_ val: NSMutableDictionary<Key, Value>) -> ISequence<(Key, Value)> {
+	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
 		for entry in val {
 			var item: (Key, Value) =  (entry, val[entry]?)
 		  __yield item
