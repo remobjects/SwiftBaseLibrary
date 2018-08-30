@@ -341,8 +341,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	}
 }
 
-//#if !COCOA
-#if JAVA || ISLAND
+#if !COCOA
 public extension Swift.Dictionary : ISequence<(Key,Value)> {
 
 	#if JAVA
@@ -354,22 +353,22 @@ public extension Swift.Dictionary : ISequence<(Key,Value)> {
 	}
 	#endif
 
-	//#if ECHOES
-	//func GetEnumerator() -> IEnumerator! {
-		//for entry in dictionary {
-			//var item: (Key, Value) =  (entry.Key, entry.Value)
-			//__yield item
-		//}
-	//}
+	#if ECHOES
+	func GetEnumerator() -> IEnumerator! {
+		for entry in dictionary {
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+			__yield item
+		}
+	}
 
-	//@Implements(typeOf(IEnumerable<(Key,Value)>), "GetEnumerator")
-	//func GetEnumeratorT() -> IEnumerator<(Key,Value)>! {
-		//for entry in dictionary {
-			//var item: (Key, Value) =  (entry.Key, entry.Value)
-			//__yield item
-		//}
-	//}
-	//#endif
+	@Implements(typeOf(IEnumerable<(Key,Value)>), "GetEnumerator")
+	func GetEnumeratorT() -> IEnumerator<(Key,Value)>! {
+		for entry in dictionary {
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+			__yield item
+		}
+	}
+	#endif
 
 	#if ISLAND
 	func GetEnumerator() -> IEnumerator<(Key,Value)>! {
