@@ -196,7 +196,15 @@ public struct Array<T>
 		return [T](arrayLiteral: array)
 	}
 
+	public static func __explicit(_ array: T[]) -> [T] {
+		return [T](arrayLiteral: array)
+	}
+
 	public static func __implicit(_ list: PlatformList<T>) -> [T] {
+		return [T](list)
+	}
+
+	public static func __explicit(_ list: PlatformList<T>) -> [T] {
 		return [T](list)
 	}
 
@@ -204,7 +212,15 @@ public struct Array<T>
 		return array.nativeArray
 	}
 
+	public static func __explicit(_ array: [T]) -> T[] {
+		return array.nativeArray
+	}
+
 	public static func __implicit(_ array: [T]) -> PlatformList<T> {
+		return array.platformList
+	}
+
+	public static func __explicit(_ array: [T]) -> PlatformList<T> {
 		return array.platformList
 	}
 

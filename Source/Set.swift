@@ -113,7 +113,15 @@ public struct Set<T> //:
 		return Set<T>(theSet)
 	}
 
+	public static func __explicit(_ theSet: PlatformSet<T>) -> Set<T> {
+		return Set<T>(theSet)
+	}
+
 	public static func __implicit(_ theSet: Set<T>) -> PlatformSet<T> {
+		return theSet.platformSet
+	}
+
+	public static func __explicit(_ theSet: Set<T>) -> PlatformSet<T> {
 		return theSet.platformSet
 	}
 	#endif

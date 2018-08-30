@@ -20,6 +20,10 @@ public struct SwiftString /*: Streamable*/ {
 
 	/*fileprivate*/internal var nativeStringValue: NativeString // only so the .pas partial can access it
 
+	public init() {
+		nativeStringValue = ""
+	}
+
 	public init(count: Int, repeatedValue c: Char) {
 
 		#if JAVA || ISLAND
@@ -136,11 +140,23 @@ public struct SwiftString /*: Streamable*/ {
 		if let string = string {
 			return SwiftString(string)
 		} else {
-			return SwiftString(count: 0, repeatedValue: "\0")
+			return SwiftString()
+		}
+	}
+
+	public static func __explicit(_ string: NativeString?) -> SwiftString {
+		if let string = string {
+			return SwiftString(string)
+		} else {
+			return SwiftString()
 		}
 	}
 
 	public static class func __implicit(_ string: SwiftString) -> NativeString {
+		return string.nativeStringValue
+	}
+
+	public static class func __explicit(_ string: SwiftString) -> NativeString {
 		return string.nativeStringValue
 	}
 

@@ -105,12 +105,15 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		return [Key:Value](dictionary)
 	}
 
-	// 80753: `inout` and implicit cast operators
-	//public static func __implicit(_ array: inout [Key:Value]) -> PlatformList<T> {
-		//return array.list
-		//array.unique = false
-	//}
+	public static func __explicit(_ dictionary: PlatformDictionary<Key,Value>) -> [Key:Value] {
+		return [Key:Value](dictionary)
+	}
+
 	public static func __implicit(_ dictionary: [Key:Value]) -> PlatformDictionary<Key,Value> {
+		return dictionary.platformDictionary
+	}
+
+	public static func __explicit(_ dictionary: [Key:Value]) -> PlatformDictionary<Key,Value> {
 		return dictionary.platformDictionary
 	}
 
