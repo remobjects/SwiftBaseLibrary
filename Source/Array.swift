@@ -519,15 +519,12 @@ public struct Array<T>
 		//return result
 	//}
 
-
-	// availabvle via ISequence anyways
-	/*public func enumerated() -> ISequence<(Int, T)> {
+	public func enumerated() -> ISequence<(Int, T)> {
 		var index = 0
 		for element in self {
-			__yield (index, element)
-			index += 1
+			__yield (index++, element)
 		}
-	}*/
+	}
 
 	public func lazy() -> ISequence<T> {
 		return list

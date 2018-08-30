@@ -47,8 +47,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 	public func enumerated() -> ISequence<(Int, T)> {
 		var index = 0
 		for element in self {
-			__yield (index, element)
-			index += 1
+			__yield (index++, element)
 		}
 	}
 
