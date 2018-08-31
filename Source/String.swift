@@ -1,9 +1,12 @@
 ﻿#if JAVA
 public typealias NativeString = java.lang.String
+public typealias NativeStringBuilder = java.lang.StringBuilder
 #elseif CLR
 public typealias NativeString = System.String
+public typealias NativeStringBuilder = System.Text.StringBuilder
 #elseif ISLAND
 public typealias NativeString = RemObjects.Elements.System.String
+public typealias NativeStringBuilder = RemObjects.Elements.System.StringBuilder
 #elseif COCOA
 public typealias NativeString = Foundation.NSString
 #endif
@@ -16,6 +19,10 @@ public struct SwiftString /*: Streamable*/ {
 	typealias Index = Int
 
 	/*fileprivate*/internal var nativeStringValue: NativeString // only so the .pas partial can access it
+
+	public init() {
+		nativeStringValue = ""
+	}
 
 	public init(count: Int, repeatedValue c: Char) {
 
@@ -133,11 +140,23 @@ public struct SwiftString /*: Streamable*/ {
 		if let string = string {
 			return SwiftString(string)
 		} else {
-			return SwiftString(count: 0, repeatedValue: "\0")
+			return SwiftString()
+		}
+	}
+
+	public static func __explicit(_ string: NativeString?) -> SwiftString {
+		if let string = string {
+			return SwiftString(string)
+		} else {
+			return SwiftString()
 		}
 	}
 
 	public static class func __implicit(_ string: SwiftString) -> NativeString {
+		return string.nativeStringValue
+	}
+
+	public static class func __explicit(_ string: SwiftString) -> NativeString {
 		return string.nativeStringValue
 	}
 
@@ -358,7 +377,7 @@ public struct SwiftString /*: Streamable*/ {
 		#if COOPER
 		//exit nativeString.split(java.util.regex.Pattern.quote(Separator)) as not nullable
 		//Custom implementation because `mapped.split` strips empty oparts at the end, making it incomopatible with the other three platfroms.
-		let result = [String]()
+		var result = [String]()
 		var i = 0
 		while true {
 			let p = nativeStringValue.indexOf(separator, i)
@@ -374,11 +393,11 @@ public struct SwiftString /*: Streamable*/ {
 		}
 		return result
 		#elseif ECHOES
-		return nativeStringValue.Split([separator], StringSplitOptions.None).ToList()
+		return [String](nativeStringValue.Split([separator], StringSplitOptions.None).ToList())
 		#elseif ISLAND
-		return nativeStringValue.Split(separator).ToList()
+		return [String](nativeStringValue.Split(separator).ToList())
 		#elseif TOFFEE
-		return nativeStringValue.componentsSeparatedByString(separator).mutableCopy()
+		return [String](nativeStringValue.componentsSeparatedByString(separator))
 		#endif
 	}
 

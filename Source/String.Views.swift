@@ -103,9 +103,9 @@ public extension SwiftString {
 			//addCharacter()
 		}
 
-		public override var count: Int { return length(stringData) }
+		public override var count: Int { return stringData.count }
 
-		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
+		public override var endIndex: SwiftString.Index { return stringData.count }
 
 		#if !COOPER
 		var first: Character? { return count > 0 ? self[0] : nil }

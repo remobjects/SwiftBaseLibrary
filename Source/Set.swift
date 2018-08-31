@@ -1,29 +1,27 @@
-﻿__mapped public class Set<T> :
-  #if COCOA
-  INSFastEnumeration<T>
-  #elseif JAVA
-  Iterable<T>
-  #elseif CLR
-  IEnumerable<T>
-  #elseif ISLAND
-  ISequence<T>
-  #else
-  #error Unknown platfomr
-  #endif
-  ,IExpressibleByArrayLiteral
-=>
+﻿#if COCOA
+typealias PlatformSet<T> = NSMutableSet<T>
+#elseif JAVA
+typealias PlatformSet<T> = java.util.ArrayList<T>
+#elseif CLR
+typealias PlatformSet<T> = System.Collections.Generic.List<T>
+#elseif ISLAND
+typealias PlatformSet<T> = RemObjects.Elements.System.List<T>
+#endif
 
-  #if COCOA
-  Foundation.NSMutableSet<T>
-  #elseif JAVA
-  java.util.ArrayList<T>
-  #elseif CLR
-  System.Collections.Generic.List<T>
-  #elseif ISLAND
-  RemObjects.Elements.System.List<T>
-  #else
-  #error Unknown platfomr
-  #endif
+public struct Set<T> //:
+  //#if COCOA
+  //INSFastEnumeration<T>
+  //#elseif JAVA
+  //Iterable<T>
+  //#elseif CLR
+  //IEnumerable<T>
+  //#elseif ISLAND
+  //ISequence<T>
+  //#else
+  //#error Unknown platfomr
+  //#endif
+  //,
+  //IExpressibleByArrayLiteral
 {
 	typealias Element = T
 	//typealias Index = SetIndex<T>
@@ -31,45 +29,44 @@
 
 	/// Create an empty `Set`.
 	public init() {
-		#if JAVA
-		return ArrayList<T>()
-		#elseif CLR | ISLAND
-		return List<T>()
-		#elseif COCOA
-		return NSMutableSet<T>.set() as! Set<T>
-		#endif
+		_set = PlatformSet<T>()
 	}
 
 	/// Create an empty set with at least the given number of
 	/// elements worth of storage.  The actual capacity will be the
 	/// smallest power of 2 that's >= `minimumCapacity`.
 	public init(minimumCapacity: Int) {
-		#if JAVA
-		return ArrayList<T>()
-		#elseif CLR | ISLAND
-		return List<T>()
+		#if JAVA | CLR | ISLAND
+		_set = PlatformSet<T>()
 		#elseif COCOA
-		return NSMutableSet.setWithCapacity(minimumCapacity)
+		_set = PlatformSet<T>.setWithCapacity(minimumCapacity)
 		#endif
 	}
 
 	public init(arrayLiteral elements: T...) {
 		if elements == nil || length(elements) == 0 {
-			return Set<T>()
+			_set = PlatformSet<T>()
+			return
 		}
 
 		#if JAVA
-		return ArrayList<T>(java.util.Arrays.asList(elements))
+		_set = PlatformSet<T>(java.util.Arrays.asList(elements))
 		#elseif CLR | ISLAND
-		return List<T>(elements)
+		_set = PlatformSet<T>(elements)
 		#elseif COCOA
-		return NSMutableSet<T>.setWithObjects((&elements[0] as! UnsafePointer<T>), count: length(elements)) as! NSMutableSet<T>
+		_set = PlatformSet<T>.setWithObjects((&elements[0] as! UnsafePointer<T>), count: length(elements)) as! PlatformSet<T>
 		#endif
 	}
 
-	public init(_ elements: T...) {
-		init(arrayLiteral: elements)
+	#if COCOA
+	public init(_ theSet: PlatformSet<T>) {
+		_set = theSet.mutableCopy
 	}
+	#endif
+
+	//public init(_ elements: T...) { // E59 Duplicate constructor with same signature "init(params elements: T[])"
+		//init(arrayLiteral: elements)
+	//}
 
 	/// Create a `Set` from a finite sequence of items.
 	//init<S : SequenceType where T == T>(_ sequence: S) { // Generics not allowed here
@@ -82,6 +79,107 @@
 	/// Complexity: amortized O(1) if `self` does not wrap a bridged
 	/// `NSSet`, O(N) otherwise.
 	//var startIndex: SetIndex<T> { get }
+
+
+	//
+	// Storage
+	//
+
+	fileprivate var _set: PlatformSet<T>
+	private var unique: Boolean = true
+
+	private mutating func makeUnique()
+	{
+		if !unique {
+			_set = platformSet // platformSet returns a unique new copy
+			unique = true
+		}
+	}
+
+	//
+	//
+	//
+
+	public func GetSequence() -> ISequence<T> {
+		return _set
+	}
+
+	//
+	// Operators
+	//
+
+	#if COCOA // only Cocoa has a Set class where this makes sense
+	public static func __implicit(_ theSet: PlatformSet<T>) -> Set<T> {
+		return Set<T>(theSet)
+	}
+
+	public static func __explicit(_ theSet: PlatformSet<T>) -> Set<T> {
+		return Set<T>(theSet)
+	}
+
+	public static func __implicit(_ theSet: Set<T>) -> PlatformSet<T> {
+		return theSet.platformSet
+	}
+
+	public static func __explicit(_ theSet: Set<T>) -> PlatformSet<T> {
+		return theSet.platformSet
+	}
+	#endif
+
+	public static func + (lhs: Set<T>, rhs: ISequence<T>) -> Set<T> {
+		var targetSet = Set<T>().union(lhs)
+		for element in rhs {
+			targetSet.insert(element)
+		}
+		return targetSet
+	}
+
+	// workarund, while sets aren't sequences (yet)
+	public static func + (lhs: Set<T>, rhs: Set<T>) -> Set<T> {
+		return lhs + rhs._set
+	}
+
+   public static func == (lhs: Set<T>, rhs: Set<T>) -> Bool {
+		if lhs._set == rhs._set {
+			return true
+		}
+		guard lhs.count == rhs.count else {
+			return false
+		}
+
+		for i in lhs {
+			if !rhs.contains(i) {
+				return false
+			}
+		}
+		for i in rhs {
+			if !lhs.contains(i) {
+				return false
+			}
+		}
+		return true
+	}
+
+	public static func != (lhs: Set<T>, rhs: Set<T>) -> Bool {
+		return !(rhs == lhs)
+	}
+
+	//
+	// Native access & Conversions
+	//
+
+	#if !COCOA
+	private
+	#endif
+	var platformSet: PlatformSet<T>
+	{
+		#if COOPER || ECHOES || ISLAND
+		return PlatformSet<T>(_set)
+		#elseif TOFFEE
+		return _set.mutableCopy()
+		#endif
+	}
+
 
 
 	/// The collection's "past the end" position.
@@ -97,51 +195,68 @@
 	/// Returns `true` if the set contains a member.
 	public func contains(_ member: T) -> Bool {
 		#if JAVA
-		return __mapped.contains(member)
+		return _set.contains(member)
 		#elseif CLR | ISLAND
-		return __mapped.Contains(member)
+		return _set.Contains(member)
 		#elseif COCOA
-		return __mapped.containsObject(member)
+		return _set.containsObject(member)
 		#endif
 	}
 
 	/// Returns the `Index` of a given member, or `nil` if the member is not
 	/// present in the set.
-	//func indexOf(member: T) -> SetIndex<T>? {
-	// }
+	func indexOf(member: T) -> /*SetIndex<T>*/Int? {
+		#if JAVA
+		if _set.contains(member) {
+			return _set.indexOf(member)
+		}
+		#elseif CLR | ISLAND
+		if _set.Contains(member) {
+			return _set.IndexOf(member)
+		}
+		#elseif COCOA
+		throw Exception("Not implemented for Cocosa")
+		//if _set.containsObject(member) {
+			//return _set.indexOf(member)
+		//}
+		#endif
+		return nil
+	}
 
 	/// Insert a member into the set.
 	public mutating func insert(_ member: T) {
+		makeUnique()
 		#if JAVA
-		if !__mapped.contains(member) {
-			__mapped.add(member)
+		if !_set.contains(member) {
+			_set.add(member)
 		}
 		#elseif CLR | ISLAND
-		if !__mapped.Contains(member) {
-			__mapped.Add(member)
+		if !_set.Contains(member) {
+			_set.Add(member)
 		}
 		#elseif COCOA
-		if !__mapped.containsObject(member) {
-			__mapped.addObject(member)
+		if !_set.containsObject(member) {
+			_set.addObject(member)
 		}
 		#endif
 	}
 
 	/// Remove the member from the set and return it if it was present.
 	public mutating func remove(_ member: T) -> T? {
+		makeUnique()
 		#if JAVA
-		if __mapped.contains(member) {
-			__mapped.remove(member)
+		if _set.contains(member) {
+			_set.remove(member)
 			return member
 		}
 		#elseif CLR | ISLAND
-		if __mapped.Contains(member) {
-			__mapped.Remove(member)
+		if _set.Contains(member) {
+			_set.Remove(member)
 			return member
 		}
 		#elseif COCOA
-		if __mapped.containsObject(member) {
-			__mapped.removeObject(member)
+		if _set.containsObject(member) {
+			_set.removeObject(member)
 			return member
 		}
 		#endif
@@ -150,15 +265,16 @@
 
 	/// Remove the member referenced by the given index.
 	mutating func remove(at index: /*SetIndex<T>*/Int) -> T {
+		makeUnique()
 		#if JAVA
-		let result = __mapped.get(index)
-		__mapped.remove(index)
+		let result = _set.get(index)
+		_set.remove(index)
 		#elseif CLR | ISLAND
-		let result = __mapped[index]
-		__mapped.RemoveAt(index)
+		let result = _set[index]
+		_set.RemoveAt(index)
 		#elseif COCOA
-		let result = __mapped.allObjects[index]
-		__mapped.removeObject(result)
+		let result = _set.allObjects[index]
+		_set.removeObject(result)
 		#endif
 		return result
 	}
@@ -166,26 +282,35 @@
 	/// Erase all the elements.  If `keepCapacity` is `true`, `capacity`
 	/// will not decrease.
 	public mutating func removeAll(keepCapacity: Bool = false) {
-		#if JAVA
-		__mapped.clear()
-		#elseif CLR | ISLAND
-		__mapped.Clear()
-		#elseif COCOA
-		__mapped.removeAllObjects()
-		#endif
+		if count > 0 {
+			if !keepCapacity {
+				_set = PlatformSet<T>()
+				unique = true
+				return
+			}
+			makeUnique()
+			#if JAVA
+			_set.clear()
+			#elseif CLR | ISLAND
+			_set.Clear()
+			#elseif COCOA
+			_set.removeAllObjects()
+			#endif
+		}
 	}
 
 	/// Remove a member from the set and return it. Requires: `count > 0`.
 	mutating func removeFirst() -> T {
+		makeUnique()
 		#if JAVA
-		let result = __mapped.get(0)
-		__mapped.remove(0)
+		let result = _set.get(0)
+		_set.remove(0)
 		#elseif CLR | ISLAND
-		let result = __mapped[0]
-		__mapped.RemoveAt(0)
+		let result = _set[0]
+		_set.RemoveAt(0)
 		#elseif COCOA
-		let result = __mapped.allObjects[0]
-		__mapped.removeObject(result)
+		let result = _set.allObjects[0]
+		_set.removeObject(result)
 		#endif
 		return result
 	}
@@ -195,11 +320,11 @@
 	/// Complexity: O(1)
 	public var count: Int {
 		#if JAVA
-		return __mapped.size()
+		return _set.size()
 		#elseif CLR | ISLAND
-		return __mapped.Count
+		return _set.Count
 		#elseif COCOA
-		return __mapped.count
+		return _set.count
 		#endif
 	}
 
@@ -209,11 +334,11 @@
 
 	subscript (position: Int/*SetIndex<T>*/) -> T {
 		#if JAVA
-		return __mapped.get(position)
+		return _set.get(position)
 		#elseif CLR | ISLAND
-		return __mapped[position]
+		return _set[position]
 		#elseif COCOA
-		return __mapped.allObjects[position]
+		return _set.allObjects[position]
 		#endif
 	}
 
@@ -226,9 +351,9 @@
 	public var first: T? {
 		if count > 0 {
 			#if JAVA || CLR || ISLAND
-			return __mapped[0]
+			return _set[0]
 			#elseif COCOA
-			return __mapped.allObjects[0]
+			return _set.allObjects[0]
 			#endif
 		}
 		return nil
@@ -346,30 +471,44 @@
 		return result
 	}
 
-	public static func + <T>(lhs: Set<T>, rhs: ISequence<T>) -> Set<T> {
-
-		let targetSet = Set<T>().union(lhs)
-		for element in rhs {
-			targetSet.insert(element)
-		}
-
-		return targetSet
-	}
 	//var hashValue: Int { get }
 
 	/// A textual representation of `self`.
-	public var description: String {
+	@ToString public func description() -> String {
 		#if JAVA
-		return __mapped.toString()
+		return _set.toString()
 		#elseif CLR || ISLAND
-		return __mapped.ToString()
+		return _set.ToString()
 		#elseif COCOA
-		return __mapped.description
+		return _set.description
 		#endif
 	}
-
-	/// A textual representation of `self`, suitable for debugging.
-	public var debugDescription: NativeString {
-		return description
-	}
 }
+
+#if !COCOA
+public extension Swift.Set : ISequence<T> {
+
+	#if JAVA
+	public func iterator() -> Iterator<T>! {
+		return _set.iterator()
+	}
+	#endif
+
+	#if ECHOES
+	func GetEnumerator() -> IEnumerator! {
+		return _set.GetEnumerator()
+	}
+
+	@Implements(typeOf(IEnumerable<T>), "GetEnumerator")
+	func GetEnumeratorT() -> IEnumerator<T>! {
+		return _set.GetEnumerator()
+	}
+	#endif
+
+	#if ISLAND
+	func GetEnumerator() -> IEnumerator<T>! {
+		return _set.GetEnumerator()
+	}
+	#endif
+}
+#endif

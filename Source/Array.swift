@@ -1,160 +1,314 @@
-﻿//
+﻿#if COCOA
+typealias PlatformSequence<T> = INSFastEnumeration<T>
+#elseif JAVA
+typealias PlatformSequence<T> = Iterable<T>
+#elseif CLR
+typealias PlatformSequence<T> = IEnumerable<T>
+#elseif ISLAND
+typealias PlatformSequence<T> = ISequence<T>
+#endif
+
+#if COCOA
+public typealias PlatformList<T> = NSMutableArray<T>
+public typealias PlatformImmutableList<T> = NSArray<T>
+#elseif JAVA
+public typealias PlatformList<T> = java.util.ArrayList<T>
+public typealias PlatformImmutableList<T> = PlatformList<T>
+#elseif CLR
+public typealias PlatformList<T> = System.Collections.Generic.List<T>
+public typealias PlatformImmutableList<T> = PlatformList<T>
+#elseif ISLAND
+public typealias PlatformList<T> = RemObjects.Elements.System.List<T>
+public typealias PlatformImmutableList<T> = PlatformList<T>
+#endif
+
+//public func length<T>(_ array: Array<T>?) -> Int {
+	//if let array = array {
+		//return array.count
+	//} else {
+		//return 0
+	//}
+//}
+
+//
 //
 // CAUTION: Magic type name.
 // The compiler will map the [] array syntax to Swift.Array<T>
 //
 //
 
-__mapped public class Array<T> :
-  #if COCOA
-  INSFastEnumeration<T>
-  #elseif JAVA
-  Iterable<T>
-  #elseif CLR
-  IEnumerable<T>
-  #elseif ISLAND
-  ISequence<T>
-  #else
-  #error Unsupport platform
-  #endif
-  =>
-  #if COCOA
-  Foundation.NSMutableArray<T>
-  #elseif JAVA
-  java.util.ArrayList<T>
-  #elseif CLR
-  System.Collections.Generic.List<T>
-  #elseif ISLAND
-  RemObjects.Elements.System.List<T>
-  #else
-  #error Unsupport platform
-  #endif
+public struct Array<T>
 {
-	public init() {
-		#if JAVA
-		return ArrayList<T>()
-		#elseif CLR | ISLAND
-		return List<T>()
-		#elseif COCOA
-		return NSMutableArray<T>.array() as! Array<T>
-		#endif
+	public init(copy original: inout [T]) {
+		self.list = original.list
+		self.unique = false
+		original.unique = false
 	}
 
+	public init() {
+		list = PlatformList<T>()
+	}
+
+	//public init(items: inout [T]) { // E59 Duplicate constructor with same signature "init(items var items: T[])"
 	public init(items: [T]) {
-		#if JAVA
-		return ArrayList<T>(items)
-		#elseif CLR | ISLAND
-		return List<T>(items)
-		#elseif COCOA
-		return items.mutableCopy
-		#endif
+		self.list = items.list
+		self.unique = false
+		makeUnique() // workaorund for not having inout
+		//self.unique = false
+		//items.unique = false
 	}
 
 	//init(array: T[]) { } // same as below.
 	public init(arrayLiteral array: T¡ ...) {
 		if array == nil || length(array) == 0 {
-			return [T]()
+			list = PlatformList<T>()
+		} else {
+			#if JAVA
+			list = ArrayList<T>(java.util.Arrays.asList(array))
+			#elseif CLR | ISLAND
+			list = List<T>(array)
+			#elseif COCOA
+			list = NSMutableArray(capacity: length(array));
+			for i in 0 ..< length(array) {
+				list.addObject(array[i] ?? NSNull.null as! T);
+				}
+			#endif
 		}
-
-		#if JAVA
-		return ArrayList<T>(java.util.Arrays.asList(array))
-		#elseif CLR | ISLAND
-		return List<T>(array)
-		#elseif COCOA
-		var res = NSMutableArray<T>(capacity: length(array));
-		for i in 0 ..< length(array) {
-			res.addObject((array[i] ?? NSNull.null) as! T);
-		}
-		return res
-		#endif
 	}
 
 	#if COCOA
-	public init(NSArray array: NSArray<T>) {
-		if array == nil {
-			return [T]()
-		}
-		return array.mutableCopy()
-	}
-
-	init(repeating value: T, count: Int) {
-		if count == 0 {
-			return [T]()
-		}
-
-		#if JAVA
-		var res = ArrayList<T>(count)
-		#elseif CLR | ISLAND
-		var res = List<T>(count)
-		#elseif COCOA
-		var res = NSMutableArray<T>(capacity: count);
-		#endif
-		for i in 0 ..< count {
-			res.addObject(value);
-		}
-		return res
-	}
+	//public init(_ array: NSArray<T>?) {
+		//if let array = array {
+			//list = array.mutableCopy()
+		//} else {
+			//list = PlatformList<T>()
+		//}
+	//}
 
 	/*public init(_fromCocoaArray source: _CocoaArrayType, noCopy: Bool = false) {
 	}*/
 	#endif
 
+	init(repeating value: T, count: Int) {
+		if count == 0 {
+			list = PlatformList<T>()
+		} else {
+
+			#if JAVA
+			list = ArrayList<T>(count)
+			#elseif CLR | ISLAND
+			list = List<T>(count)
+			#elseif COCOA
+			list = NSMutableArray(capacity: count);
+			for i in 0 ..< count {
+				list.addObject(value);
+			}
+			#endif
+		}
+	}
+
+
+	public init(_ list: PlatformImmutableList<T>) {
+		#if JAVA | CLR | ISLAND
+		self.list = PlatformList<T>(list)
+		#elseif COCOA
+		self.list = list.mutableCopy
+		#endif
+		unique = false
+	}
+
 	public init(sequence: ISequence<T>) {
 		#if JAVA
-		return sequence.ToList()
+		list = sequence.ToList()
 		#elseif CLR | ISLAND
-		return sequence.ToList()
+		list = sequence.ToList()
 		#elseif COCOA
-		return sequence.array().mutableCopy()
+		list = sequence.array().mutableCopy()
 		#endif
 	}
 
 	// our aggregate operations like .map, .filter will errase our collection type and yield ISequence
 	// so in order to have consistency with apple swift compiling
 	// we will do something like [String](fields.map(fieldNameWithRemovedPrivatePrefix)).someArrayFunc
+	#if !ECHOES
 	public convenience init(_ sequence: ISequence<T>) {
-		return self.init(sequence: sequence)
+		self.init(sequence: sequence)
 	}
+	#endif
 
 	public init(count: Int, repeatedValue: T) {
 		#if JAVA
-		let newSelf: [T] = ArrayList<T>(count)
-		#elseif CLR | ISLAND
-		let newSelf: [T] = List<T>(count)
-		#elseif COCOA
-		let newSelf: [T] = NSMutableArray<T>(capacity: count)
-		#endif
+		list = ArrayList<T>(count)
 		for i in 0 ..< count {
-			newSelf.append(repeatedValue)
+			list.add(repeatedValue)
 		}
-		return newSelf
+		#elseif CLR | ISLAND
+		list = List<T>(count)
+		for i in 0 ..< count {
+			list.Add(repeatedValue)
+		}
+		#elseif COCOA
+		list = NSMutableArray(capacity: count)
+		for i in 0 ..< count {
+			list.addObject(repeatedValue)
+	}
+		#endif
 	}
 
 	public init(capacity: Int) { // not in Apple Swift
 		#if JAVA
-		return ArrayList<T>(capacity)
+		list = ArrayList<T>(capacity)
 		#elseif CLR | ISLAND
-		return List<T>(capacity)
+		list = List<T>(capacity)
 		#elseif COCOA
-		return NSMutableArray<T>(capacity: capacity)
+		list = NSMutableArray(capacity: capacity)
+		#endif
+	}
+
+	//
+	// Storage
+	//
+
+	fileprivate var list: PlatformList<T>
+	private var unique: Boolean = true
+
+	private mutating func makeUnique()
+	{
+		if !unique {
+			list = platformList // platformList returns a unique new copy
+			unique = true
+		}
+	}
+
+	//
+	//
+	//
+
+	public func GetSequence() -> ISequence<T> {
+		return list
+	}
+
+	//
+	// Operators
+	//
+
+	public static func __implicit(_ array: T[]) -> [T] {
+		return [T](arrayLiteral: array)
+	}
+
+	public static func __explicit(_ array: T[]) -> [T] {
+		return [T](arrayLiteral: array)
+	}
+
+	public static func __implicit(_ list: PlatformList<T>) -> [T] {
+		return [T](list)
+	}
+
+	public static func __explicit(_ list: PlatformList<T>) -> [T] {
+		return [T](list)
+	}
+
+	public static func __implicit(_ array: [T]) -> T[] {
+		return array.nativeArray
+	}
+
+	public static func __explicit(_ array: [T]) -> T[] {
+		return array.nativeArray
+	}
+
+	public static func __implicit(_ array: [T]) -> PlatformList<T> {
+		return array.platformList
+	}
+
+	public static func __explicit(_ array: [T]) -> PlatformList<T> {
+		return array.platformList
+	}
+
+	public static func + <T>(lhs: [T], rhs: [T]) -> [T] {
+		var result = lhs
+		for i in rhs.GetSequence() {
+			result.append(i)
+		}
+		return result
+	}
+
+	public static func + <T>(lhs: Array<T>, rhs: ISequence<T>) -> Array<T> {
+		var result = lhs
+		for i in rhs {
+			result.append(i)
+		}
+		return result
+	}
+
+	public static func == (lhs: [T], rhs: [T]) -> Bool {
+		if lhs.list == rhs.list {
+			return true
+		}
+		guard lhs.count == rhs.count else {
+			return false
+		}
+		for i in 0..<lhs.list.count {
+			let l = lhs.list[i]
+			let r = rhs.list[i]
+			if !compareElements(l,r) {
+				return false
+			}
+		}
+		return true
+	}
+
+	public static func != (lhs: [T], rhs: [T]) -> Bool {
+		return !(rhs == lhs)
+	}
+
+	#if CLR
+	public override func Equals(_ other: Object!) -> Bool {
+		guard let other = other as? [T] else {
+			return false
+		}
+		return self == other
+	}
+	#elseif COCOA
+	public override func isEqual(_ other: Object!) -> Bool {
+		guard let other = other as? [T] else {
+			return false
+		}
+		return self == other
+	}
+	#endif
+
+	//
+	// Native access & Conversions
+	//
+
+	public var platformList: PlatformList<T>
+	{
+		#if COOPER || ECHOES || ISLAND
+		return PlatformList<T>(list)
+		#elseif TOFFEE
+		return list.mutableCopy()
 		#endif
 	}
 
 	public var nativeArray: T[] {
 		#if JAVA
-		return __mapped.toArray(T[](__mapped.Count()))
+		return list.toArray(T[](list.Count()))
 		#elseif CLR | ISLAND
-		return __mapped.ToArray()
+		return list.ToArray()
 		#elseif COCOA
 		let c = count
 		var result = T[](c)
 		for i in 0 ..< count {
-			result[i] = __mapped[i];
+			result[i] = list[i] // todo: need to handle NSNull!
 		}
-		//__mapped.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
+		//list.getObjects((&result[0] as! UnsafePointer<id>), range: NSMakeRange(0, c))
 		return result
 		#endif
 	}
+
+	//
+	// Subscrits
+	//
 
 	func `prefix`(through: Int) -> [T] {
 		return self[0...through]
@@ -170,18 +324,18 @@ __mapped public class Array<T> :
 
 	public subscript (range: Range) -> [T] {
 		#if COCOA
-		return self.Skip(range.lowerBound).Take(range.length).array().mutableCopy() as! NSMutableArray<T>
+		return [T](list.Skip(range.lowerBound).Take(range.length).array())
 		#else
-		return self.Skip(range.lowerBound).Take(range.length).ToList()
+		return [T](list.Skip(range.lowerBound).Take(range.length).ToList())
 		#endif
 	}
 
 	public subscript (index: Int) -> T {
 		get {
 			#if CLR || JAVA | ISLAND
-			return __mapped[index]
+			return list[index]
 			#elseif COCOA
-			var value: AnyObject! = __mapped[index]
+			var value: AnyObject! = list[index]
 			if value == NSNull.null {
 				value = nil
 			}
@@ -189,13 +343,14 @@ __mapped public class Array<T> :
 			#endif
 		}
 		set {
+			makeUnique()
 			#if JAVA | CLR | ISLAND
-			__mapped[index] = newValue
+			list[index] = newValue
 			#elseif COCOA
 			if newValue == nil {
-				__mapped[index] = NSNull.null as! T
+				list[index] = NSNull.null as! T
 			} else {
-				__mapped[index] = newValue
+				list[index] = newValue
 			}
 			#endif
 		}
@@ -203,11 +358,11 @@ __mapped public class Array<T> :
 
 	public var count: Int {
 		#if JAVA
-		return __mapped.size()
+		return list.size()
 		#elseif CLR | ISLAND
-		return __mapped.Count
+		return list.Count
 		#elseif COCOA
-		return __mapped.count
+		return list.count
 		#endif
 	}
 
@@ -215,7 +370,7 @@ __mapped public class Array<T> :
 		#if JAVA
 		return -1
 		#elseif CLR | ISLAND
-		return __mapped.Capacity
+		return list.Capacity
 		#elseif COCOA
 		return -1
 		#endif
@@ -227,7 +382,7 @@ __mapped public class Array<T> :
 
 	public var first: T? {
 		if count > 0 {
-			return __mapped[0]
+			return list[0]
 		}
 		return nil
 	}
@@ -235,94 +390,115 @@ __mapped public class Array<T> :
 	public var last: T? {
 		let c = count
 		if c > 0 {
-			return __mapped[c-1]
+			return list[c-1]
 		}
 		return nil
 	}
 
+	func starts(with possiblePrefix: ISequence<T>) -> Bool {
+		var i = 0
+		for e in possiblePrefix {
+			if !compareElements(e, self[i]) {
+				return false
+			}
+		}
+		return true
+	}
+
+	func starts(with possiblePrefix: [T]) -> Bool {
+		return starts(with: possiblePrefix.GetSequence())
+	}
+
 	public mutating func reserveCapacity(_ minimumCapacity: Int) {
 		#if JAVA
-		__mapped.ensureCapacity(minimumCapacity)
+		list.ensureCapacity(minimumCapacity)
 		#elseif CLR | ISLAND | COCOA
 		// N/A
 		#endif
 	}
 
 	public mutating func extend(_ sequence: ISequence<T>) {
+		makeUnique()
 		#if JAVA
-		__mapped.addAll(sequence.ToList())
+		list.addAll(sequence.ToList())
 		#elseif CLR | ISLAND
-		__mapped.AddRange(sequence.ToList())
+		list.AddRange(sequence.ToList())
 		#elseif COCOA
-		__mapped.addObjectsFromArray(sequence.array())
+		list.addObjectsFromArray(sequence.array())
 		#endif
 	}
 
 	public mutating func extend(_ array: [T]) {
+		makeUnique()
 		#if JAVA
-		__mapped.addAll(array)
+		list.addAll(array.list)
 		#elseif CLR | ISLAND
-		__mapped.AddRange(array)
+		list.AddRange(array.list)
 		#elseif COCOA
-		__mapped.addObjectsFromArray(array)
+		list.addObjectsFromArray(array.list)
 		#endif
 	}
 
 	public mutating func append(_ newElement: T) {
+		makeUnique()
 		#if JAVA
-		__mapped.add(newElement)
+		list.add(newElement)
 		#elseif CLR | ISLAND
-		__mapped.Add(newElement)
+		list.Add(newElement)
 		#elseif COCOA
 		if let val = newElement {
-			__mapped.addObject(newElement)
+			list.addObject(newElement)
 		} else {
-			__mapped.addObject(NSNull.null as! T)
+			list.addObject(NSNull.null as! T)
 		}
 		#endif
 	}
 
 	public mutating func insert(_ newElement: T, at index: Int) {
+		makeUnique()
 		#if JAVA
-		__mapped.add(index, newElement)
+		list.add(index, newElement)
 		#elseif CLR | ISLAND
-		__mapped.Insert(index, newElement)
+		list.Insert(index, newElement)
 		#elseif COCOA
 		if let val = newElement {
-			__mapped.insertObject(newElement, atIndex: index)
+			list.insertObject(newElement, atIndex: index)
 		} else {
-			__mapped.insertObject(NSNull.null as! T, atIndex: index)
+			list.insertObject(NSNull.null as! T, atIndex: index)
 		}
 		#endif
 	}
 
 	@discardableResult public mutating func remove(at index: Int) -> T {
+		makeUnique()
 		#if JAVA
-		return __mapped.remove(index)
+		return list.remove(index)
 		#elseif CLR | ISLAND
 		let result = self[index]
-		__mapped.RemoveAt(index)
+		list.RemoveAt(index)
 		return result
 		#elseif COCOA
 		let result = self[index]
-		__mapped.removeObjectAtIndex(index)
+		list.removeObjectAtIndex(index)
 		return result
 		#endif
 	}
 
 	public mutating func remove(_ object: T) {
+		makeUnique()
 		#if JAVA
-		__mapped.remove(object)
+		list.remove(object)
 		#elseif CLR | ISLAND
-		__mapped.Remove(object)
+		list.Remove(object)
 		#elseif COCOA
-		__mapped.removeObject(object)
+		list.removeObject(object)
 		#endif
 	}
 
 	@discardableResult public mutating func removeLast() -> T {
 		let c = count
 		if c > 0 {
+			makeUnique()
 			return remove(at: c-1)
 		}  else {
 			__throw Exception("Cannot remove last item of an empty array.")
@@ -330,39 +506,50 @@ __mapped public class Array<T> :
 	}
 
 	public mutating func removeAll(keepCapacity: Bool = false) {
-		#if JAVA
-		__mapped.clear()
-		#elseif CLR | ISLAND
-		__mapped.Clear()
-		#elseif COCOA
-		__mapped.removeAllObjects()
-		#endif
+		if count > 0 {
+			list = PlatformList<T>()
+			unique = true
+		}
 	}
 
 	public mutating func swapAt(_ i: Int, _ j: Int) {
 		if i != j {
+			makeUnique()
 			let temp = self[i]
 			self[i] = self[j]
 			self[j] = temp
 		}
 	}
 
-	// availabvle via ISequence anyways
-	/*public func enumerated() -> ISequence<(Int, T)> {
+	//public mutating func shuffle() {
+		//makeUnique()
+		////TODO
+	//}
+	////public mutating func shuffle<T>(using: inout T) {
+		////makeUnique()
+		////TODO
+	////}
+	//public func shuffled() -> [T] {
+		//var result = self
+		//result.shuffle()
+		//return result
+	//}
+
+	public func enumerated() -> ISequence<(Int, T)> {
 		var index = 0
 		for element in self {
-			__yield (index, element)
-			index += 1
+			__yield (index++, element)
 		}
-	}*/
+	}
 
 	public func lazy() -> ISequence<T> {
-		return self
+		return list
 	}
 
 	public mutating func sort(by isOrderedBefore: (T, T) -> Bool) {
+		makeUnique()
 		#if JAVA
-		java.util.Collections.sort(__mapped, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
+		java.util.Collections.sort(list, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
 			if isOrderedBefore(a,b) {
 				return 1
 			} else {
@@ -370,7 +557,7 @@ __mapped public class Array<T> :
 			}
 		}})
 		#elseif CLR
-		__mapped.Sort({ (a: T, b: T) -> Integer in
+		list.Sort({ (a: T, b: T) -> Integer in
 			if isOrderedBefore(a,b) {
 				return -1
 			} else {
@@ -378,7 +565,7 @@ __mapped public class Array<T> :
 			}
 		})
 		#elseif COCOA
-		__mapped.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
+		list.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
 			} else {
@@ -390,7 +577,7 @@ __mapped public class Array<T> :
 
 	public func sorted(by isOrderedBefore: (T, T) -> Bool) -> [T] {
 		#if JAVA
-		let result: ArrayList<T> = [T](items: self)
+		let result = list
 		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return 1
@@ -398,9 +585,9 @@ __mapped public class Array<T> :
 				return -1
 			}
 		}})
-		return result
+		return [T](result)
 		#elseif CLR || ISLAND
-		let result: List<T> = [T](items: self)
+		let result = list
 		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
 			if isOrderedBefore(a,b) {
 				return -1
@@ -408,30 +595,46 @@ __mapped public class Array<T> :
 				return 1
 			}
 		}
-		return result
+		return [T](result)
 		#elseif COCOA
-		return __mapped.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+		return [T](list.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
 			} else {
 				return .NSOrderedAscending
 			}
-		})! as! [T]
+		}))
 		#endif
 	}
 
 	public mutating func reverse() {
+		makeUnique()
 		for i in 0..<count/2 {
 			swapAt(i, count-i-1)
 		}
 	}
 
 	public func reversed() -> Array<T> {
-		let result = Array<T>(capacity: count)
+		var result = Array<T>(capacity: count)
 		for i in count>..0 {
 			result.append(self[i])
 		}
 		return result
+	}
+
+	func joined(separator: String) -> String {
+		#if JAVA | CLR | ISLAND
+		let result = NativeStringBuilder();
+		for i in 0..<count {
+			if i != 0, let separator = separator {
+				result.Append(separator)
+			}
+			result.Append(self[i]?.ToString())
+		}
+		return result.ToString()!
+		#elseif COCOA
+		return list.componentsJoinedByString(separator);
+		#endif
 	}
 
 	//public mutating func partition(by belongsInSecondPartition: (Element) throws -> Bool) rethrows -> Int {
@@ -439,21 +642,21 @@ __mapped public class Array<T> :
 
 	public func map<U>(_ transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
-		return __mapped.Select({ return transform($0) })
+		return list.Select({ return transform($0) })
 		#elseif CLR || ISLAND || COCOA
-		return __mapped.Select(transform)
+		return list.Select(transform)
 		#endif
 	}
 
 	//public func reversed() -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		//return (__mapped as! ISequence<T>).Reverse()
+	//return (list as! ISequence<T>).Reverse()
 	//}
 
 	public func filter(_ includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
 		#if JAVA
-		return __mapped.Where({ return includeElement($0) })
+		return list.Where({ return includeElement($0) })
 		#elseif CLR || ISLAND || COCOA
-		return __mapped.Where(includeElement)
+		return list.Where(includeElement)
 		#endif
 	}
 
@@ -481,23 +684,70 @@ __mapped public class Array<T> :
 
 	public func contains(_ item: T) -> Bool {
 		#if JAVA
-		return __mapped.contains(item)
+		return list.contains(item)
 		#elseif CLR || ISLAND
-		return __mapped.Contains(item)
+		return list.Contains(item)
 		#elseif COCOA
-		return __mapped.containsObject(item)
+		return list.containsObject(item)
 		#endif
 	}
 
-	public static func + <T>(lhs: Array<T>, rhs: ISequence<T>) -> Array<T> {
-
-		let targetArray = [T](items: lhs)
-		for element in rhs {
-			targetArray.append(element)
+	private static func compareElements(_ r: T, _ l: T) -> Bool {
+		if l == nil {
+			return r == nil
 		}
-
-		return targetArray
+		if r == nil {
+			return false
+		}
+		#if COOPER
+		return l.equals(r)
+		#elseif ECHOES
+		return System.Collections.Generic.EqualityComparer<T>.Default.Equals(l, r)
+		#elseif ISLAND
+		return RemObjects.Elements.System.EqualityComparer.Equals(l, r)
+		#elseif COCOA
+		return l.isEqual(r)
+		#endif
+		return true
 	}
 
-
 }
+
+#if !COCOA
+public extension Swift.Array : ISequence<T> {
+
+	#if JAVA
+	public func iterator() -> Iterator<T>! {
+		return list.iterator()
+	}
+	#endif
+
+	#if ECHOES
+	func GetEnumerator() -> IEnumerator! {
+		return list.GetEnumerator()
+	}
+
+	@Implements(typeOf(IEnumerable<T>), "GetEnumerator")
+	func GetEnumeratorT() -> IEnumerator<T>! {
+		return list.GetEnumerator()
+	}
+	#endif
+
+	#if ISLAND
+	func GetEnumerator() -> IEnumerator<T>! {
+		return list.GetEnumerator()
+	}
+	#endif
+}
+#endif
+
+//public extension Swift.Array where T : ICollection {
+	////func joined() -> ISequence<T> { // FlattenCollection<Array<Element>> {
+	////return self.platformList.Join()
+	////}
+	////func joined() -> ISequence<T> { // FlattenSequence<Array<Element>>
+	////}
+
+	////func joined(separator: Separator) -> ISequence<T> { // JoinedSequence<Array<Element>>
+	////}
+//}
