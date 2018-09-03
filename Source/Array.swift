@@ -439,7 +439,7 @@ public struct Array<T>
 		#endif
 	}
 
-	public mutating func append(_ newElement: T) {
+	public mutating func append(_ newElement: T¡) {
 		makeUnique()
 		#if JAVA
 		list.add(newElement)
@@ -454,7 +454,7 @@ public struct Array<T>
 		#endif
 	}
 
-	public mutating func insert(_ newElement: T, at index: Int) {
+	public mutating func insert(_ newElement: T¡, at index: Int) {
 		makeUnique()
 		#if JAVA
 		list.add(index, newElement)
@@ -484,7 +484,7 @@ public struct Array<T>
 		#endif
 	}
 
-	public mutating func remove(_ object: T) {
+	public mutating func remove(_ object: T¡) {
 		makeUnique()
 		#if JAVA
 		list.remove(object)
@@ -495,7 +495,7 @@ public struct Array<T>
 		#endif
 	}
 
-	@discardableResult public mutating func removeLast() -> T {
+	@discardableResult public mutating func removeLast() -> T¡ {
 		let c = count
 		if c > 0 {
 			makeUnique()
