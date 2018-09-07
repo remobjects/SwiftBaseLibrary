@@ -68,9 +68,9 @@ public struct Array<T>
 			#elseif CLR | ISLAND
 			list = List<T>(array)
 			#elseif COCOA
-			list = NSMutableArray(capacity: length(array));
+			list = NSMutableArray(capacity: length(array))
 			for i in 0 ..< length(array) {
-				list.addObject(array[i] ?? NSNull.null as! T);
+				list.addObject(array[i] ?? NSNull.null as! T)
 				}
 			#endif
 		}
@@ -99,9 +99,9 @@ public struct Array<T>
 			#elseif CLR | ISLAND
 			list = List<T>(count)
 			#elseif COCOA
-			list = NSMutableArray(capacity: count);
+			list = NSMutableArray(capacity: count)
 			for i in 0 ..< count {
-				list.addObject(value);
+				list.addObject(value)
 			}
 			#endif
 		}
@@ -546,65 +546,45 @@ public struct Array<T>
 		return list
 	}
 
+	private mutating func QuickSort(_ aLeft: Integer, _ aRight: Integer, by isOrderedBefore: (T, T) -> Bool) {
+		var aLeft = aLeft
+		while aLeft < aRight {
+			var L = aLeft - 1
+			var R = aRight + 1
+			var Pivot = self[(aLeft + aRight) / 2]
+
+			while true {
+				repeat {
+					R -= 1
+				} while isOrderedBefore(Pivot, self[R])
+
+				repeat {
+					L += 1
+				} while isOrderedBefore(self[L], Pivot)
+
+				if L < R {
+					swapAt(L, R)
+				} else {
+					break
+				}
+			}
+
+			if aLeft < R {
+				QuickSort(aLeft, R, by: isOrderedBefore)
+			}
+			aLeft = R + 1
+		}
+	}
+
 	public mutating func sort(by isOrderedBefore: (T, T) -> Bool) {
 		makeUnique()
-		#if JAVA
-		java.util.Collections.sort(list, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 {
-			if isOrderedBefore(a,b) {
-				return 1
-			} else {
-				return -1
-			}
-		}})
-		#elseif CLR
-		list.Sort({ (a: T, b: T) -> Integer in
-			if isOrderedBefore(a,b) {
-				return -1
-			} else {
-				return 1
-			}
-		})
-		#elseif COCOA
-		list.sortWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in
-			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
-				return .NSOrderedDescending
-			} else {
-				return .NSOrderedAscending
-			}
-		})
-		#endif
+		QuickSort(0, count-1, by: isOrderedBefore)
 	}
 
 	public func sorted(by isOrderedBefore: (T, T) -> Bool) -> [T] {
-		#if JAVA
-		let result = list
-		java.util.Collections.sort(result, class java.util.Comparator<T> { func compare(a: T, b: T) -> Int32 { // ToDo: check if this is the right order
-			if isOrderedBefore(a,b) {
-				return 1
-			} else {
-				return -1
-			}
-		}})
-		return [T](result)
-		#elseif CLR || ISLAND
-		let result = list
-		result.Sort() { (a: T, b: T) -> Integer in // ToDo: check if this is the right order
-			if isOrderedBefore(a,b) {
-				return -1
-			} else {
-				return 1
-			}
-		}
-		return [T](result)
-		#elseif COCOA
-		return [T](list.sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
-			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
-				return .NSOrderedDescending
-			} else {
-				return .NSOrderedAscending
-			}
-		}))
-		#endif
+		var result = self
+		result.sort(by: isOrderedBefore)
+		return result
 	}
 
 	public mutating func reverse() {
@@ -624,7 +604,7 @@ public struct Array<T>
 
 	func joined(separator: String) -> String {
 		#if JAVA | CLR | ISLAND
-		let result = NativeStringBuilder();
+		let result = NativeStringBuilder()
 		for i in 0..<count {
 			if i != 0, let separator = separator {
 				result.Append(separator)
@@ -633,7 +613,7 @@ public struct Array<T>
 		}
 		return result.ToString()!
 		#elseif COCOA
-		return list.componentsJoinedByString(separator);
+		return list.componentsJoinedByString(separator)
 		#endif
 	}
 
