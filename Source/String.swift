@@ -368,37 +368,7 @@ public struct SwiftString /*: Streamable*/ {
 	//
 
 	func split(_ separator: String) -> [String] {
-
-		let separatorLength = separator.length()
-		if separatorLength == 0 {
-			return [self]
-		}
-
-		#if COOPER
-		//exit nativeString.split(java.util.regex.Pattern.quote(Separator)) as not nullable
-		//Custom implementation because `mapped.split` strips empty oparts at the end, making it incomopatible with the other three platfroms.
-		var result = [String]()
-		var i = 0
-		while true {
-			let p = nativeStringValue.indexOf(separator, i)
-			if p > -1 {
-				let part = nativeStringValue.substring(i, p-i)
-				result.append(part)
-				i = p+separatorLength
-			} else {
-				let part = nativeStringValue.substring(i)
-				result.append(part)
-				break
-			}
-		}
-		return result
-		#elseif ECHOES
-		return [String](nativeStringValue.Split([separator], StringSplitOptions.None).ToList())
-		#elseif ISLAND
-		return [String](nativeStringValue.Split(separator).ToList())
-		#elseif TOFFEE
-		return [String](nativeStringValue.componentsSeparatedByString(separator))
-		#endif
+		return nativeStringValue.components(separatedBy: separator)
 	}
 
 	//

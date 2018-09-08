@@ -35,9 +35,25 @@
 		}
 	}
 
+	public convenience init(describing subject: Object) {
+		/*if let instance = subject as? ITextOutputStreamable {
+			instance.write(to: )
+		} else*/ if let instance = subject as? ICustomStringConvertible {
+			return instance.description
+		} else if let instance = subject as? CustomDebugStringConvertible {
+			return instance.debugDescription
+		} else {
+			return init(subject)
+		}
+	}
+
 	public convenience init(reflecting subject: Object) {
 		if let o = subject as? ICustomDebugStringConvertible {
 			return o.debugDescription
+		} else if let instance = subject as? ICustomStringConvertible {
+			return instance.description
+		//} else if let instance = subject as? ITextOutputStreamable {
+			//instance.write(to: )
 		} else {
 			#if JAVA
 			// ToDo: fall back to reflection to call debugDescription?
@@ -110,6 +126,46 @@
 
 	public var startIndex: NativeString.Index {
 		return 0
+	}
+
+	//public var capitalized: NativeString {
+		////return uppercaseString
+	//}
+
+	//func components(separatedBy separator: CharacterSet) -> [String] {
+	//}
+
+	func components(separatedBy separator: String) -> [String] {
+		let separatorLength = separator.length()
+		if separatorLength == 0 {
+			return [self]
+		}
+
+		#if COOPER
+		//exit nativeString.split(java.util.regex.Pattern.quote(Separator)) as not nullable
+		//Custom implementation because `mapped.split` strips empty parts at the end, making it incompatible with the other three platfroms.
+		var result = [String]()
+		var i = 0
+		while true {
+			let p = indexOf(separator, i)
+			if p > -1 {
+				let part = substring(i, p-i)
+				result.append(part)
+				i = p+separatorLength
+			} else {
+				let part = substring(i)
+				result.append(part)
+				break
+			}
+		}
+		return result
+		#elseif ECHOES
+		return [String](Split([separator], StringSplitOptions.None).ToList())
+		#elseif ISLAND
+		return [String](Split(separator).ToList())
+		#elseif TOFFEE
+		return [String](componentsSeparatedByString(separator))
+		#endif
 	}
 
 	#if !COCOA

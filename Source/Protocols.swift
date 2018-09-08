@@ -46,6 +46,21 @@ public protocol IStreamable {
 	func writeTo(_ target: OutputStreamType) // deliberately different that Apple's SBL due to limitations on Island
 }
 
+public typealias TextOutputStream = ITextOutputStream
+public protocol ITextOutputStream {
+	mutating func write(_ string: String)
+}
+
+public typealias TextOutputStreamable = ITextOutputStreamable
+public protocol ITextOutputStreamable {
+	//func write<Target>(to target: inout Target) where Target : TextOutputStream
+	func write(to target: inout TextOutputStream)
+}
+
+public typealias StringProtocol = IStringProtocol
+public protocol IStringProtocol : ITextOutputStream {
+}
+
 //
 // Collections, Sequences and the like
 //
