@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>{792e19d0-3f6b-4ef5-a113-87c76eb0ce5e}</ProjectGuid>
+    <ProjectGuid>{6f87c50f-069a-4e56-9b2e-044cbb68cc83}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
     <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
@@ -13,7 +13,7 @@
     <AllowUnsafeCode>False</AllowUnsafeCode>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
-    <SDK>macOS</SDK>
+    <SDK>iOS</SDK>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
@@ -48,7 +48,6 @@
     <EnableUnmanagedDebugging>False</EnableUnmanagedDebugging>
     <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
     <DefineConstants>SIGN</DefineConstants>
-    <Architecture>x86_64</Architecture>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gc" />
