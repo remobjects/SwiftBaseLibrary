@@ -407,7 +407,7 @@ public struct Set<T> //:
 	public func subtracting(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
-			for elem in self {
+			for elem in self._set {
 				if (!anotherSet.contains(elem)) {
 					result.insert(elem)
 				}
@@ -434,7 +434,7 @@ public struct Set<T> //:
 	public func intersection(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
 		if (!anotherSet.isEmpty && !self.isEmpty) {
-			for elem in self {
+			for elem in self._set {
 				if (anotherSet.contains(elem)) {
 					result.insert(elem)
 				}
@@ -445,7 +445,7 @@ public struct Set<T> //:
 
 	public func union(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
-		for elem in self {
+		for elem in self._set {
 			result.insert(elem)
 		}
 		for elem in anotherSet {
@@ -458,7 +458,7 @@ public struct Set<T> //:
 
 	public func exclusiveOr(_ anotherSet: Set<T>) -> Set<T> {
 		var result = Set<T>()
-		for elem in self {
+		for elem in self._set {
 			if (!anotherSet.contains(elem)) {
 				result.insert(elem)
 			}
@@ -495,12 +495,12 @@ public extension Swift.Set : ISequence<T> {
 	#endif
 
 	#if ECHOES
-	func GetEnumerator() -> IEnumerator! {
+	@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")	
+	func GetEnumeratorNG() -> System.Collections.IEnumerator! {
 		return _set.GetEnumerator()
 	}
 
-	@Implements(typeOf(IEnumerable<T>), "GetEnumerator")
-	func GetEnumeratorT() -> IEnumerator<T>! {
+	public func GetEnumerator() -> IEnumerator<T>! {
 		return _set.GetEnumerator()
 	}
 	#endif

@@ -703,12 +703,12 @@ public extension Swift.Array : ISequence<T> {
 	#endif
 
 	#if ECHOES
-	public func GetEnumerator() -> IEnumerator! {
+	@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")
+	func GetEnumeratorNG() -> System.Collections.IEnumerator! {
 		return list.GetEnumerator()
 	}
 
-	@Implements(typeOf(IEnumerable<T>), "GetEnumerator")
-	public func GetEnumeratorT() -> IEnumerator<T>! {
+	public func GetEnumerator() -> IEnumerator<T>! {
 		return list.GetEnumerator()
 	}
 	#endif

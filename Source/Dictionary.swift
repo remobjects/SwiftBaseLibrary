@@ -357,7 +357,7 @@ public extension Swift.Dictionary : ISequence<(Key,Value)> {
 	#endif
 
 	#if ECHOES
-	func GetEnumerator() -> IEnumerator! {
+	func GetEnumerator() -> System.Collections.IEnumerator! {
 		for entry in dictionary {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 			__yield item
