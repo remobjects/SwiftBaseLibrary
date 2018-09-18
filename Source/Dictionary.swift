@@ -374,7 +374,16 @@ public extension Swift.Dictionary : ISequence<(Key,Value)> {
 	#endif
 
 	#if ISLAND
-	func GetEnumerator() -> IEnumerator<(Key,Value)>! {
+	
+	func GetEnumerator() -> IEnumerator! {
+		for entry in dictionary {
+			var item: (Key, Value) =  (entry.Key, entry.Value)
+			__yield item
+		}
+	}
+
+	@Implements(typeOf(IEnumerable<(Key,Value)>), "GetEnumerator")
+	func GetEnumeratorT() -> IEnumerator<(Key,Value)>! {
 		for entry in dictionary {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 			__yield item

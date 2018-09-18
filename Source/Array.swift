@@ -714,6 +714,11 @@ public extension Swift.Array : ISequence<T> {
 	#endif
 
 	#if ISLAND
+  @Implements(typeOf(IEnumerable), "GetEnumerator")
+	func GetEnumeratorNG() -> IEnumerator! {
+		return list.GetEnumerator()
+	}
+
 	public func GetEnumerator() -> IEnumerator<T>! {
 		return list.GetEnumerator()
 	}

@@ -506,7 +506,12 @@ public extension Swift.Set : ISequence<T> {
 	#endif
 
 	#if ISLAND
-	func GetEnumerator() -> IEnumerator<T>! {
+	@Implements(typeOf(IEnumerable), "GetEnumerator")	
+	func GetEnumeratorNG() -> IEnumerator! {
+		return _set.GetEnumerator()
+	}
+
+	public func GetEnumerator() -> IEnumerator<T>! {
 		return _set.GetEnumerator()
 	}
 	#endif
