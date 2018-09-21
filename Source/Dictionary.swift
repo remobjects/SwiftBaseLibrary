@@ -32,8 +32,9 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	}
 
 	//public init(items: inout [Key:Value]) { // E59 Duplicate constructor with same signature "init(items var items: [Key:Value])"
-	public init(items: [Key:Value]) {
-		self.dictionary = items.dictionary
+	public convenience init(items: [Key:Value]) {
+	  var litems = items;
+	  self = init(copy: &litems)
 		self.unique = false
 		makeUnique() // workaorund for not having inout
 		//items.unique = false
