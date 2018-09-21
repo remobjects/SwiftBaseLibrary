@@ -52,7 +52,7 @@ public struct Array<T>
 	//public init(items: inout [T]) { // E59 Duplicate constructor with same signature "init(items var items: T[])"
 	public convenience init(items: [T]) {
 	  var litems = items;
-		self = init(copy: &litems);
+		self = Array<T>(copy: &litems);
 		makeUnique() // workaorund for not having inout
 		//self.unique = false
 		//items.unique = false
