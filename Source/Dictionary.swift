@@ -358,15 +358,15 @@ public extension Swift.Dictionary : ISequence<(Key,Value)> {
 	#endif
 
 	#if ECHOES
-	func GetEnumerator() -> System.Collections.IEnumerator! {
+	@Implements(typeOf(IEnumerable), "GetEnumerator")
+	func GetEnumeratorNG() -> System.Collections.IEnumerator! {
 		for entry in dictionary {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 			__yield item
 		}
 	}
 
-	@Implements(typeOf(IEnumerable<(Key,Value)>), "GetEnumerator")
-	func GetEnumeratorT() -> IEnumerator<(Key,Value)>! {
+	func GetEnumerator() -> IEnumerator<(Key,Value)>! {
 		for entry in dictionary {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 			__yield item
@@ -376,15 +376,15 @@ public extension Swift.Dictionary : ISequence<(Key,Value)> {
 
 	#if ISLAND
 	
-	func GetEnumerator() -> IEnumerator! {
+	@Implements(typeOf(IEnumerable), "GetEnumerator")
+	func GetEnumeratorNG() -> IEnumerator! {
 		for entry in dictionary {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 			__yield item
 		}
 	}
 
-	@Implements(typeOf(IEnumerable<(Key,Value)>), "GetEnumerator")
-	func GetEnumeratorT() -> IEnumerator<(Key,Value)>! {
+	func GetEnumerator() -> IEnumerator<(Key,Value)>! {
 		for entry in dictionary {
 			var item: (Key, Value) =  (entry.Key, entry.Value)
 			__yield item
