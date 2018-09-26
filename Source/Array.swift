@@ -208,6 +208,16 @@ public struct Array<T>
 		return [T](list)
 	}
 
+	#if COCOA
+	public static func __implicit(_ list: PlatformImmutableList<T>) -> [T] {
+		return [T](list)
+	}
+
+	public static func __explicit(_ list: PlatformImmutableList<T>) -> [T] {
+		return [T](list)
+	}
+	#endif
+
 	public static func __implicit(_ array: [T]) -> T[] {
 		return array.nativeArray
 	}
@@ -223,6 +233,16 @@ public struct Array<T>
 	public static func __explicit(_ array: [T]) -> PlatformList<T> {
 		return array.platformList
 	}
+
+	#if COCOA
+	public static func __implicit(_ array: [T]) -> PlatformImmutableList<T> {
+		return array.platformList
+	}
+
+	public static func __explicit(_ array: [T]) -> PlatformImmutableList<T> {
+		return array.platformList
+	}
+	#endif
 
 	public static func + <T>(lhs: [T], rhs: [T]) -> [T] {
 		var result = lhs
