@@ -169,7 +169,7 @@ public struct Array<T>
 	// Storage
 	//
 
-	fileprivate var list: PlatformList<T>
+	private var list: PlatformList<T>
 	private var unique: Boolean = true
 
 	private mutating func makeUnique()

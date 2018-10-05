@@ -79,7 +79,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	// Storage
 	//
 
-	fileprivate var dictionary: PlatformDictionary<Key,Value>
+	private var dictionary: PlatformDictionary<Key,Value>
 	private var unique: Boolean = true
 
 	private mutating func makeUnique()
@@ -375,7 +375,7 @@ public extension Swift.Dictionary : ISequence<(Key,Value)> {
 	#endif
 
 	#if ISLAND
-	
+
 	@Implements(typeOf(IEnumerable), "GetEnumerator")
 	func GetEnumeratorNG() -> IEnumerator! {
 		for entry in dictionary {

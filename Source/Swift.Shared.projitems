@@ -88,6 +88,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Number_Constructors.swift">
       <VirtualFolder>Numbers and such</VirtualFolder>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Array.Java.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Dictionary.Java.swift" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sequences">
