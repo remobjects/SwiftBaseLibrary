@@ -1,5 +1,5 @@
 ﻿#if JAVA
-public extension Swift.Array /*: java.util.List<T>*/ {
+public extension Swift.Array : java.util.List<T> {
 	public func size() -> Int32 {
 		return count
 	}
@@ -34,19 +34,19 @@ public extension Swift.Array /*: java.util.List<T>*/ {
 	public func containsAll(_ arg1: Collection<T>!) -> Bool {
 		return list.containsAll(arg1)
 	}
-	//public mutating func addAll(_ arg1: Int32, _ arg2: Collection</*? extends T*/Object>!) -> Bool {
-		//makeUnique()
-		//return list.addAll(arg1, arg2)
-	//}
-	//public mutating func addAll(_ arg1: Collection</*? extends T*/Object>!) -> Bool {
-		//makeUnique()
-		//return list.addAll(arg1)
-	//}
-	public mutating func removeAll(_ arg1: Collection</*?*/Object>!) -> Bool {
+	public mutating func addAll(_ arg1: Int32, _ arg2: Collection</*? extends T*/T>!) -> Bool {
+		makeUnique()
+		return list.addAll(arg1, arg2)
+	}
+	public mutating func addAll(_ arg1: Collection</*? extends T*/T>!) -> Bool {
+		makeUnique()
+		return list.addAll(arg1)
+	}
+	public mutating func removeAll(_ arg1: Collection<Object>!) -> Bool {
 		makeUnique()
 		return list.removeAll(arg1)
 	}
-	public mutating func retainAll(_ arg1: Collection</*?*/Object>!) -> Bool {
+	public mutating func retainAll(_ arg1: Collection<Object>!) -> Bool {
 		makeUnique()
 		return list.retainAll(arg1)
 	}
