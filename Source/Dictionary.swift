@@ -343,6 +343,11 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		return dictionary.allValues as! ISequence<Value>
 		#endif
 	}
+
+	@ToString
+	public override func description() -> String {
+		return dictionary.description
+	}
 }
 
 #if !COCOA

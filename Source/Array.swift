@@ -711,6 +711,10 @@ public struct Array<T>
 		return true
 	}
 
+	@ToString
+	public override func description() -> String {
+		return list.description
+	}
 }
 
 #if !COCOA
