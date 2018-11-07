@@ -9,5 +9,4 @@
 	#elseif COCOA
 	__throw NSException(name: "Cannot force-unwrap reference", reason: "Cannot force-unwrap reference", userInfo: nil)
 	#endif
-
 }
