@@ -181,3 +181,23 @@ public func stride(from start: Double, to end: Double, by stride: Double) -> ISe
 		i += stride
 	}
 }*/
+
+#if TOFFEE
+
+public func autoreleasepool<T>(_ act: () throws -> (T)) -> T throws {
+  var res: T;
+  autoreleasepool {
+    res = try act();
+  }
+  return res;
+}
+
+public func autoreleasepool<T>(_ act: () -> (T)) -> T {
+  var res: T;
+  autoreleasepool {
+    res = try act();
+  }
+  return res;
+}
+
+#endif
