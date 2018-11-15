@@ -73,7 +73,7 @@ public extension Swift.Dictionary : java.util.Map<Key,Value> {
 		makeUnique()
 		return dictionary.replace(arg1, arg2, arg3)
 	}
-	public func computeIfAbsent(_ arg1: Key!, _ arg2: java.util.function.function</*? super Key,? extends Value*/Key,Value>!) -> Value! {
+	public func computeIfAbsent(_ arg1: Key!, _ arg2: java.util.function.Function</*? super Key,? extends Value*/Key,Value>!) -> Value! {
 		return dictionary.computeIfAbsent(arg1, arg2)
 	}
 	public func computeIfPresent(_ arg1: Key!, _ arg2: java.util.function.BiFunction</*? super Key,? super Value,? extends Value*/Key,Value>!) -> Value! {
