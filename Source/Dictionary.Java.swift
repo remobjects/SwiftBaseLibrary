@@ -57,7 +57,7 @@ public extension Swift.Dictionary : java.util.Map<Key,Value> {
 	public func forEach(_ arg1: java.util.function.BiConsumer</*? super Key,? super Value*/Key,Value>!) {
 		dictionary.forEach(arg1)
 	}
-	public mutating func replaceAll(_ arg1: java.util.function.Bifunction</*? super Key,? super Value,? extends Value*/Key,Value>!) {
+	public mutating func replaceAll(_ arg1: java.util.function.BiFunction</*? super Key,? super Value,? extends Value*/Key,Value>!) {
 		makeUnique()
 		dictionary.replaceAll(arg1)
 	}
@@ -76,13 +76,13 @@ public extension Swift.Dictionary : java.util.Map<Key,Value> {
 	public func computeIfAbsent(_ arg1: Key!, _ arg2: java.util.function.function</*? super Key,? extends Value*/Key,Value>!) -> Value! {
 		return dictionary.computeIfAbsent(arg1, arg2)
 	}
-	public func computeIfPresent(_ arg1: Key!, _ arg2: java.util.function.Bifunction</*? super Key,? super Value,? extends Value*/Key,Value>!) -> Value! {
+	public func computeIfPresent(_ arg1: Key!, _ arg2: java.util.function.BiFunction</*? super Key,? super Value,? extends Value*/Key,Value>!) -> Value! {
 		return dictionary.computeIfPresent(arg1, arg2)
 	}
-	public func compute(_ arg1: Key!, _ arg2: java.util.function.Bifunction</*? super Key,? super Value,? extends Value*/Key,Value>!) -> Value! {
+	public func compute(_ arg1: Key!, _ arg2: java.util.function.BiFunction</*? super Key,? super Value,? extends Value*/Key,Value>!) -> Value! {
 		return dictionary.compute(arg1, arg2)
 	}
-	public mutating func merge(_ arg1: Key!, _ arg2: Value!, _ arg3: java.util.function.Bifunction</*? super Value,? super Value,? extends Value*/Key,Value>!) -> Value! {
+	public mutating func merge(_ arg1: Key!, _ arg2: Value!, _ arg3: java.util.function.BiFunction</*? super Value,? super Value,? extends Value*/Key,Value>!) -> Value! {
 		makeUnique()
 		return dictionary.merge(arg1, arg2, arg3)
 	}
