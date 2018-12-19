@@ -93,6 +93,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Array.Java.swift" />
     <Compile Include="$(MSBuildThisFileDirectory)Dictionary.Java.swift" />
     <Compile Include="$(MSBuildThisFileDirectory)Operators.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Errors.swift" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sequences">
