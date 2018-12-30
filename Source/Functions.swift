@@ -10,8 +10,23 @@
 	fatalError(message, file: file, line: line)
 }
 
+// we have overloads, instead of default parameters, because otherwise CC will always insert the full signature,
+// although the most common use case is to use print() without the extra parameters:
+
+@inline(__always) public func debugPrint(_ object: Object?) {
+	print(object, separator: " ", terminator: nil)
+}
+
+@inline(__always) public func debugPrint(_ object: Object?, separator: String) {
+	print(object, separator: separator, terminator: nil)
+}
+
+@inline(__always) public func debugPrint(_ object: Object?, terminator: String?) {
+	print(object, separator: " ", terminator: terminator)
+}
+
 // different than Apple Swift, we use nil terminator as default instead of "\n", to mean cross-platform new-line
-@inline(__always) public func debugPrint(_ object: Object?, separator: String = " ", terminator: String? = nil) {
+@inline(__always) public func debugPrint(_ object: Object?, separator: String, terminator: String?) {
 	if let object = object {
 		write(String(reflecting:object))
 	} else {
@@ -187,7 +202,7 @@ public func stride(from start: Double, to end: Double, by stride: Double) -> ISe
 public func autoreleasepool<T>(_ act: () throws -> (T)) -> T throws {
   var res: T;
   autoreleasepool {
-    res = try act();
+	res = try act();
   }
   return res;
 }
@@ -195,7 +210,7 @@ public func autoreleasepool<T>(_ act: () throws -> (T)) -> T throws {
 public func autoreleasepool<T>(_ act: () -> (T)) -> T {
   var res: T;
   autoreleasepool {
-    res = try act();
+	res = try act();
   }
   return res;
 }
