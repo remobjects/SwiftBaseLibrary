@@ -89,7 +89,7 @@ public struct Array<T>
 	}*/
 	#endif
 
-	init(repeating value: T, count: Int) {
+	public init(repeating value: T, count: Int) {
 		if count == 0 {
 			list = PlatformList<T>()
 		} else {
@@ -106,7 +106,6 @@ public struct Array<T>
 			#endif
 		}
 	}
-
 
 	public init(_ list: PlatformImmutableList<T>) {
 		#if JAVA | CLR | ISLAND
@@ -130,11 +129,9 @@ public struct Array<T>
 	// our aggregate operations like .map, .filter will errase our collection type and yield ISequence
 	// so in order to have consistency with apple swift compiling
 	// we will do something like [String](fields.map(fieldNameWithRemovedPrivatePrefix)).someArrayFunc
-	#if !ECHOES
 	public convenience init(_ sequence: ISequence<T>) {
 		self.init(sequence: sequence)
 	}
-	#endif
 
 	public init(count: Int, repeatedValue: T) {
 		#if JAVA
@@ -738,7 +735,7 @@ public extension Swift.Array : ISequence<T> {
 	#endif
 
 	#if ISLAND
-  @Implements(typeOf(IEnumerable), "GetEnumerator")
+	@Implements(typeOf(IEnumerable), "GetEnumerator")
 	func GetEnumeratorNG() -> IEnumerator! {
 		return list.GetEnumerator()
 	}
