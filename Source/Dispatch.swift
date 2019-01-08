@@ -6,87 +6,9 @@ public public enum DispatchPredicate {
 	case notOnQueue(DispatchQueue)
 }
 
-/*__external func dispatch_assert_queue(_ queue: dispatch_queue_t)
-__external func dispatch_assert_queue_barrier(_ queue: dispatch_queue_t)
-__external func dispatch_assert_queue_not(_ queue: dispatch_queue_t)
+public class DispatchObject {
 
-internal func _dispatchPreconditionTest(_ condition: DispatchPredicate) -> Bool {
-	switch condition {
-		case .onQueue(let q):
-			dispatch_assert_queue(q.queue)
-		case .onQueueAsBarrier(let q):
-			dispatch_assert_queue_barrier(q.queue)
-		case .notOnQueue(let q):
-			dispatch_assert_queue_not(q.queue)
-	}
-	return true
-}
-
-//@available(OSX 10.12, iOS 10.0, tvOS 10.0, watchOS 3.0, *)
-public func dispatchPrecondition(condition: @autoclosure () -> DispatchPredicate) {
-	// precondition is able to determine release-vs-debug asserts where the overlay
-	// cannot, so formulating this into a call that we can call with precondition()
-	precondition(_dispatchPreconditionTest(condition()), String("dispatchPrecondition failure"))
-}*/
-
-/*class DispatchIO : DispatchObject {
-	public enum StreamType : UInt {
-		case stream
-		case random
-		typealias RawValue = UInt
-		//var hashValue: Int { return U }
-		/*public init?(rawValue: UInt) {
-			self.rawValue = rawValue
-		}
-		let rawValue: UInt*/
-	}
-	public struct CloseFlags /*: OptionSet, RawRepresentable*/ {
-		let rawValue: UInt
-		public init(rawValue: UInt) {
-			self.rawValue = rawValue
-		}
-		static let stop: DispatchIO.CloseFlags
-		typealias Element = DispatchIO.CloseFlags
-		typealias RawValue = UInt
-	}
-	public struct IntervalFlags /*: OptionSet, RawRepresentable*/ {
-		let rawValue: UInt
-		public init(rawValue: UInt) {
-		}
-		static let strictInterval: DispatchIO.IntervalFlags
-		typealias Element = DispatchIO.IntervalFlags
-		typealias RawValue = UInt
-	}
-	class func read(fileDescriptor: Int32, length: Int, queue: DispatchQueue, handler: (DispatchData, Int32) -> Void) {
-	}
-	class func write(fileDescriptor: Int32, data: DispatchData, queue: DispatchQueue, handler: (DispatchData?, Int32) -> Void) {
-	}
-	convenience public init(type: DispatchIO.StreamType, fileDescriptor: Int32, queue: DispatchQueue, cleanupHandler: (error: Int32) -> Void) {
-	}
-	convenience public init(type: DispatchIO.StreamType, path: UnsafePointer<Int8>, oflag: Int32, mode: mode_t, queue: DispatchQueue, cleanupHandler: (error: Int32) -> Void) {
-	}
-	convenience public init(type: DispatchIO.StreamType, io: DispatchIO, queue: DispatchQueue, cleanupHandler: (error: Int32) -> Void) {
-	}
-	func close(flags: DispatchIO.CloseFlags) {
-	}
-	var fileDescriptor: Int32 { get }
-	func read(offset: off_t, length: Int, queue: DispatchQueue, ioHandler io_handler: (Bool, DispatchData?, Int32) -> Void) {
-	}
-	func setHighWater(highWater high_water: Int) {
-	}
-	func setInterval(interval: UInt64, flags: DispatchIO.IntervalFlags) {
-	}
-	func setLowWater(lowWater low_water: Int) {
-	}
-	func withBarrier(barrier: () -> Void) {
-	}
-	func write(offset: off_t, data: DispatchData, queue: DispatchQueue, ioHandler io_handler: (Bool, DispatchData?, Int32) -> Void) {
-	}
-}*/
-
-public class DispatchObject /*: OS_object*/ {
-
-	private public init(rawValue: dispatch_object_t) {
+	internal init(rawValue: dispatch_object_t) {
 		self.object = rawValue
 	}
 
@@ -127,17 +49,19 @@ public class DispatchGroup : DispatchObject {
 	}
 
 
-	/*func wait(timeout: DispatchTime /*= default*/) -> Int {
-		//return dispatch_wait(group, timeout.rawValue)
+	/*
+	func wait(timeout: DispatchTime /*= default*/) -> Int {
+		return dispatch_wait(group, timeout.rawValue)
 	}
 
 	func wait(walltime timeout: DispatchWallTime) -> Int {
-		//return dispatch_wait(group, timeout.rawValue)
+		return dispatch_wait(group, timeout.rawValue)
 	}
 
-	func notify(queue: DispatchQueue, exeute block: () -> ()) {
-		//dispatch_notify(group, queue.object, block)
-	}*/
+	func notify(queue: DispatchQueue, execute block: () -> ()) {
+		dispatch_notify(group, queue.object, block)
+	}
+	*/
 
 	func enter() {
 		dispatch_group_enter(group)
@@ -149,8 +73,22 @@ public class DispatchGroup : DispatchObject {
 }
 
 public class DispatchQueue : DispatchObject {
+	public struct Attributes {
+		public let rawValue: dispatch_queue_attr_t
+		public init(rawValue: dispatch_queue_attr_t) {
+			self.rawValue = rawValue
+		}
+		public static let serial: Attributes = Attributes(rawValue: DISPATCH_QUEUE_SERIAL)
+		public static let concurrent: Attributes = Attributes(rawValue: DISPATCH_QUEUE_CONCURRENT)
+	}
 
-	private public init(queue: dispatch_queue_t) {
+	public enum AutoreleaseFrequency {
+		case inherit
+		// case never
+		// case workItem
+	}
+
+	internal init(queue: dispatch_queue_t) {
 		#if OLD_DEPLOYMENT_TARGET
 		var temp: dispatch_object_t
 		temp._dq = queue
@@ -160,26 +98,27 @@ public class DispatchQueue : DispatchObject {
 		#endif
 	}
 
+	internal convenience init(__label: String, attr: dispatch_queue_attr_t?, queue: DispatchQueue?) {
+		var raw: dispatch_queue_t
+		if #defined(COCOA) {
+			raw = dispatch_queue_create_with_target(__label.UTF8String, attr, queue?.queue)
+		} else if #defined(DARWIN) {
+			let array = Encoding.UTF8.GetBytes(__label+"\0")
+			raw = dispatch_queue_create_with_target((&array[0]) as! UnsafePointer<AnsiChar>, attr, queue?.queue)
+		}
+		self.init(queue: raw)
+	}
+
+	public convenience init(label: String, target: DispatchQueue? = nil) {
+		self.init(__label: label, attr: nil, queue: target)
+	}
+
 	public var queue: dispatch_queue_t {
 		#if OLD_DEPLOYMENT_TARGET
 		return object._dq
 		#else
 		return object as! dispatch_queue_t
 		#endif
-	}
-
-	public enum GlobalAttributes /*: OptionSet*/ {
-		case qosUserInteractive =  qos_class_t.QOS_CLASS_USER_INTERACTIVE
-		case qosUserInitiated = qos_class_t.QOS_CLASS_USER_INITIATED
-		case qosDefault = qos_class_t.QOS_CLASS_DEFAULT
-		case qosUtility = qos_class_t.QOS_CLASS_UTILITY
-		case qosBackground = qos_class_t.QOS_CLASS_BACKGROUND
-		case qosUnspecified = qos_class_t.QOS_CLASS_UNSPECIFIED
-
-		case Background = DISPATCH_QUEUE_PRIORITY_BACKGROUND
-		case Default = DISPATCH_QUEUE_PRIORITY_DEFAULT
-		case High = DISPATCH_QUEUE_PRIORITY_HIGH
-		case Low = DISPATCH_QUEUE_PRIORITY_LOW
 	}
 
 	public var label: String {
@@ -196,63 +135,41 @@ public class DispatchQueue : DispatchObject {
 
 	public lazy class var main: DispatchQueue = DispatchQueue(queue: dispatch_get_main_queue())
 
-	public class func global(attributes: DispatchQueue.GlobalAttributes) -> DispatchQueue {
-		let raw = dispatch_get_global_queue(attributes.rawValue, 0)
+	public class func global(qos: DispatchQoS.QoSClass = .default) -> DispatchQueue {
+		let raw = dispatch_get_global_queue(Int(qos.rawValue), 0)
 		return DispatchQueue(queue: raw)
 	}
 
-	public convenience init(label: String, attributes: DispatchQueueAttributes /*= default*/, target: DispatchQueue? = nil) {
-		var raw: dispatch_queue_t
-		if let target = target {
-			raw = target.queue
+	public func asyncAfter(deadline: DispatchTime, execute work: () -> ()) {
+		dispatch_after(deadline.rawValue, self.queue, work)
+	}
+
+	public func asyncAfter(wallDeadline: DispatchWallTime, execute work: () -> ()) {
+		dispatch_after(wallDeadline.rawValue, self.queue, work)
+	}
+
+	public func concurrentPerform(iterations: Int, execute work: (UInt) -> ()) {
+		dispatch_apply(iterations, self.queue, work)
+	}
+
+	public func async(execute work: () -> ()) {
+		dispatch_async(self.queue, work)
+	}
+
+	public func async(group: DispatchGroup?, execute work: () -> ()) {
+		if group != nil {
+			dispatch_group_async(group!.group, self.queue, work)
 		} else {
-			if #defined(COCOA) {
-				raw = dispatch_queue_create(label.UTF8String, nil)
-			} else if #defined(DARWIN) {
-				let array = Encoding.UTF8.GetBytes(label+"\0")
-				raw = dispatch_queue_create((&array[0]) as! UnsafePointer<AnsiChar>, nil)
-			}
-		}
-		init(queue: raw)
-	}
-
-	public func after(when: DispatchTime, execute work: /*@convention(block)*/ () -> Void) {
-		dispatch_after(when.rawValue, queue, work)
-	}
-	public func after(walltime when: DispatchWallTime, execute work: /*@convention(block)*/ () -> Void) {
-		dispatch_after(when.rawValue, queue, work)
-	}
-
-	public func apply(applier iterations: UInt64, execute block: @noescape (NSUInteger) -> Void) {
-		dispatch_apply(iterations, queue, block)
-	}
-
-	public func asynchronously(execute workItem: DispatchWorkItem) {
-		dispatch_async(queue) {
-			workItem.perform()
+			dispatch_async(self.queue, work)
 		}
 	}
 
-	public func asynchronously(execute block: @noescape () -> Void) {
-		dispatch_async(queue, block)
-	}
-
-	public func asynchronously(group: DispatchGroup? /*= default*/, qos: DispatchQoS /*= default*/, flags: DispatchWorkItemFlags /*= default*/, execute work: /*@convention(block)*/ () -> Void) {
-		dispatch_async(queue, work)
-	}
-
-	public func synchronously(execute block: @noescape () -> Void) {
-		dispatch_sync(queue, block)
-	}
-
-	public func synchronously(execute workItem: DispatchWorkItem) {
-		dispatch_sync(queue) {
-			workItem.perform()
-		}
+	public func sync(execute work: () -> ()) {
+		dispatch_sync(self.queue, work)
 	}
 
 	#if !ISLAND
-	public func synchronously<T>(execute work: @noescape () throws -> T) rethrows -> T {
+	public func sync<T>(execute work: () throws -> T) rethrows -> T {
 		var result: T
 		var e: AnyObject?
 		dispatch_sync(queue) {
@@ -268,9 +185,6 @@ public class DispatchQueue : DispatchObject {
 		return result
 	}
 	#endif
-
-	/*func synchronously<T>(flags: DispatchWorkItemFlags, execute work: @noescape () throws -> T) rethrows -> T {
-	}*/
 
 	/*var qos: DispatchQoS {
 		var priority: Int
@@ -599,7 +513,7 @@ public struct DispatchQoS /*: Equatable*/ {
 	public let relativePriority: Int
 	public static let background: DispatchQoS      = DispatchQoS(qosClass: QoSClass.background)
 	public static let utility: DispatchQoS         = DispatchQoS(qosClass: QoSClass.utility)
-	public static let defaultQoS: DispatchQoS      = DispatchQoS(qosClass: QoSClass.defaultQoS)
+	public static let `default`: DispatchQoS       = DispatchQoS(qosClass: QoSClass.default)
 	public static let userInitiated: DispatchQoS   = DispatchQoS(qosClass: QoSClass.userInitiated)
 	public static let userInteractive: DispatchQoS = DispatchQoS(qosClass: QoSClass.userInteractive)
 	public static let unspecified: DispatchQoS     = DispatchQoS(qosClass: QoSClass.unspecified)
@@ -607,7 +521,7 @@ public struct DispatchQoS /*: Equatable*/ {
 	public enum QoSClass {
 		case background = qos_class_t.QOS_CLASS_BACKGROUND
 		case utility = qos_class_t.QOS_CLASS_UTILITY
-		case defaultQoS = qos_class_t.QOS_CLASS_DEFAULT
+		case `default` = qos_class_t.QOS_CLASS_DEFAULT
 		case userInitiated = qos_class_t.QOS_CLASS_USER_INITIATED
 		case userInteractive = qos_class_t.QOS_CLASS_USER_INTERACTIVE
 		case unspecified = qos_class_t.QOS_CLASS_UNSPECIFIED
