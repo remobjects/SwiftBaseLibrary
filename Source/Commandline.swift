@@ -22,3 +22,9 @@ public func __stringArrayToCStringArray(_ arcv: [NativeString]) -> (UnsafePointe
 	return result
 }
 #endif
+
+public enum CommandLine {
+  public static var argc: Int32 { return __C_ARGC }
+  // public static var unsafeArgv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>
+  public static var arguments: [String] { return __C_ARGV }
+}
