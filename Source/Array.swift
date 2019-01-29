@@ -50,8 +50,8 @@ public struct Array<T>
 	}
 
 	//public init(items: inout [T]) { // E59 Duplicate constructor with same signature "init(items var items: T[])"
-	public convenience init(items: [T]) {
-	  var litems = items;
+	public convenience init(_ items: [T]) {
+		var litems = items;
 		self = Array<T>(copy: &litems);
 		makeUnique() // workaorund for not having inout
 		//self.unique = false
@@ -93,13 +93,18 @@ public struct Array<T>
 		if count == 0 {
 			list = PlatformList<T>()
 		} else {
-
 			#if JAVA
-			list = ArrayList<T>(count)
+			list = PlatformList<T>(count)
+			for i in 0 ..< count {
+				list.add(value)
+			}
 			#elseif CLR | ISLAND
-			list = List<T>(count)
+			list = PlatformList<T>(count)
+			for i in 0 ..< count {
+				list.Add(value)
+			}
 			#elseif COCOA
-			list = NSMutableArray(capacity: count)
+			list = PlatformList(capacity: count)
 			for i in 0 ..< count {
 				list.addObject(value)
 			}
@@ -131,25 +136,6 @@ public struct Array<T>
 	// we will do something like [String](fields.map(fieldNameWithRemovedPrivatePrefix)).someArrayFunc
 	public convenience init(_ sequence: ISequence<T>) {
 		self.init(sequence: sequence)
-	}
-
-	public init(count: Int, repeatedValue: T) {
-		#if JAVA
-		list = ArrayList<T>(count)
-		for i in 0 ..< count {
-			list.add(repeatedValue)
-		}
-		#elseif CLR | ISLAND
-		list = List<T>(count)
-		for i in 0 ..< count {
-			list.Add(repeatedValue)
-		}
-		#elseif COCOA
-		list = NSMutableArray(capacity: count)
-		for i in 0 ..< count {
-			list.addObject(repeatedValue)
-	}
-		#endif
 	}
 
 	public init(capacity: Int) { // not in Apple Swift
