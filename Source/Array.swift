@@ -545,7 +545,7 @@ public struct Array<T>
 		}
 	}
 
-	public func lazy() -> ISequence<T> {
+	public var lazy: ISequence<T> {
 		return list
 	}
 
