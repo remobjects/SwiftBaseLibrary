@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <RootNamespace>Swift</RootNamespace>
+    <ProjectGuid>{F22ABF38-8775-4118-8590-30756523030D}</ProjectGuid>
+    <OutputType>Executable</OutputType>
+    <AssemblyName>Swift.Tests</AssemblyName>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <MangleTypeNames>True</MangleTypeNames>
+    <EntitlementsFile>Entitlements.entitlements</EntitlementsFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>False</Optimize>
+    <OutputPath>.\Bin\Debug</OutputPath>
+    <GenerateDebugInfo>True</GenerateDebugInfo>
+    <DefineConstants>DEBUG;TRACE;</DefineConstants>
+    <EnableAsserts>True</EnableAsserts>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>.\Bin\Release</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Cooper' ">
+    <Mode>Cooper</Mode>
+    <SubMode>Plain</SubMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Echoes' ">
+    <Mode>Echoes</Mode>
+    <DefaultUses>System.Collections.Generic;System.Linq</DefaultUses>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Android' ">
+    <Mode>Island</Mode>
+    <SubMode>Android</SubMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.macOS' ">
+    <Mode>Island</Mode>
+    <SubMode>Darwin</SubMode>
+    <SDK>macOS</SDK>
+    <DefaultUses>Foundation</DefaultUses>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.iOS' ">
+    <Mode>Island</Mode>
+    <SubMode>Darwin</SubMode>
+    <SDK>iOS</SDK>
+    <DefaultUses>Foundation</DefaultUses>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.tvOS' ">
+    <Mode>Island</Mode>
+    <SubMode>Darwin</SubMode>
+    <SDK>tvOS</SDK>
+    <DefaultUses>Foundation</DefaultUses>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.watchOS' ">
+    <Mode>Island</Mode>
+    <SubMode>Darwin</SubMode>
+    <SDK>watchOS</SDK>
+    <DefaultUses>Foundation</DefaultUses>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Linux' ">
+    <Mode>Island</Mode>
+    <SubMode>Linux</SubMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.WebAssembly' ">
+    <Mode>Island</Mode>
+    <SubMode>WebAssembly</SubMode>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Windows' ">
+    <Mode>Island</Mode>
+    <SubMode>Windows</SubMode>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="RemObjects.Elements.EUnit">
+      <Target>Cooper</Target>
+    </Reference>
+    <Reference Include="Elements">
+      <Target>Cooper</Target>
+    </Reference>
+    <Reference Include="System">
+      <Target>Echoes</Target>
+    </Reference>
+    <Reference Include="System.Core">
+      <Target>Echoes</Target>
+    </Reference>
+    <Reference Include="mscorlib">
+      <Target>Echoes</Target>
+    </Reference>
+    <Reference Include="RemObjects.Elements.EUnit">
+      <Target>Echoes</Target>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Elements">
+      <Target>Echoes</Target>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Foundation">
+      <Target>Island.Darwin.macOS</Target>
+    </Reference>
+    <Reference Include="libEUnit">
+      <Target>Island.Darwin.macOS</Target>
+    </Reference>
+    <Reference Include="libElements">
+      <Target>Island.Darwin.macOS</Target>
+    </Reference>
+    <Reference Include="rtl">
+      <Target>Island.Darwin.macOS</Target>
+    </Reference>
+    <Reference Include="Foundation">
+      <Target>Island.Darwin.iOS</Target>
+    </Reference>
+    <Reference Include="libEUnit">
+      <Target>Island.Darwin.iOS</Target>
+    </Reference>
+    <Reference Include="libElements">
+      <Target>Island.Darwin.iOS</Target>
+    </Reference>
+    <Reference Include="rtl">
+      <Target>Island.Darwin.iOS</Target>
+    </Reference>
+    <Reference Include="Foundation">
+      <Target>Island.Darwin.tvOS</Target>
+    </Reference>
+    <Reference Include="libEUnit">
+      <Target>Island.Darwin.tvOS</Target>
+    </Reference>
+    <Reference Include="libElements">
+      <Target>Island.Darwin.tvOS</Target>
+    </Reference>
+    <Reference Include="rtl">
+      <Target>Island.Darwin.tvOS</Target>
+    </Reference>
+    <Reference Include="Foundation">
+      <Target>Island.Darwin.watchOS</Target>
+    </Reference>
+    <Reference Include="libEUnit">
+      <Target>Island.Darwin.watchOS</Target>
+    </Reference>
+    <Reference Include="libElements">
+      <Target>Island.Darwin.watchOS</Target>
+    </Reference>
+    <Reference Include="rtl">
+      <Target>Island.Darwin.watchOS</Target>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.swift" />
+    <Compile Include="Range.swift" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets" />
+  <Import Project="..\Source\Swift.Shared.projitems" Label="Shared" />
+</Project>

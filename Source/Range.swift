@@ -3,7 +3,7 @@
 
 public infix operator >.. {}
 
-public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConvertible, CustomDebugStringConvertible/* ISequence<IntMax>*/ {
+public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConvertible, CustomDebugStringConvertible {
 
 	//typealias Index = Int64//Element
 	typealias Bound = Int64
@@ -15,21 +15,24 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	public init(_ x: Range/*<Element>*/) {
 		self.lowerBound = x.lowerBound
 		self.upperBound = x.upperBound
-		self.closed = x.closed
+		self.lowerBoundClosed = x.lowerBoundClosed
+		self.upperBoundClosed = x.upperBoundClosed
 		self.reversed = false
 	}
 
-	internal init(_ lowerBound: Bound?, _ upperBound: Bound?, closed: Bool = false) {
+	internal init(_ lowerBound: Bound?, _ upperBound: Bound?, upperBoundClosed: Bool = false, lowerBoundClosed: Bool = false) {
 		self.lowerBound = lowerBound
 		self.upperBound = upperBound
-		self.closed = closed
+		self.lowerBoundClosed = lowerBoundClosed
+		self.upperBoundClosed = upperBoundClosed
 		self.reversed = false
 	}
 
-	internal init(_ lowerBound: Bound?, _ upperBound: Bound?, closed: Bool = false, reversed: Bool) {
+	internal init(_ lowerBound: Bound?, _ upperBound: Bound?, upperBoundClosed: Bool = false, lowerBoundClosed: Bool = false, reversed: Bool) {
 		self.lowerBound = lowerBound
 		self.upperBound = upperBound
-		self.closed = closed
+		self.lowerBoundClosed = lowerBoundClosed
+		self.upperBoundClosed = upperBoundClosed
 		self.reversed = reversed
 	}
 
@@ -39,12 +42,13 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 	public var lowerBound: Bound?
 	public var upperBound: Bound?
-	public var closed: Bool
+	public var upperBoundClosed: Bool
+	public var lowerBoundClosed: Bool
 	public var reversed: Bool
 
 	var isEmpty: Bool {
 		if let lowerBound = lowerBound, let upperBound = upperBound {
-			if closed {
+			if upperBoundClosed {
 				return upperBound == lowerBound
 			} else {
 				return upperBound < lowerBound
@@ -61,7 +65,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	public func contains(_ element: Bound) -> Bool {
 		if let lowerBound = lowerBound {
 			if let upperBound = upperBound {
-				if closed {
+				if upperBoundClosed {
 					return element >= lowerBound && element <= upperBound
 				} else {
 					return element >= lowerBound && element < upperBound
@@ -70,7 +74,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 				return element >= lowerBound
 			}
 		} else if let upperBound = upperBound {
-			if closed {
+			if upperBoundClosed {
 				return element <= upperBound
 			} else {
 				return element < upperBound
@@ -86,10 +90,14 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			if let upperBound = upperBound {
 				result = "\(upperBound)"
 			}
-			if closed {
-				result += "≤..."
+			if upperBoundClosed {
+				if lowerBoundClosed {
+					result += "..."
+				} else {
+					result += "..<"
+				}
 			} else {
-				result += "<.."
+				result += ">.."
 			}
 			if let lowerBound = lowerBound {
 				result += "\(lowerBound)"
@@ -98,13 +106,17 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			if let lowerBound = lowerBound {
 				result += "\(lowerBound)"
 			}
-			if closed {
-				result += "..."
+			if upperBoundClosed {
+				if lowerBoundClosed {
+					result += "..."
+				} else {
+					result += ">.."
+				}
 			} else {
 				result += "..<"
 			}
 			if let upperBound = upperBound {
-				result = "\(upperBound)"
+				result += "\(upperBound)"
 			}
 		}
 		return result
@@ -117,10 +129,10 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			if let upperBound = upperBound {
 				result = String(reflecting: upperBound)
 			}
-			if closed {
-				result += "≤..."
+			if upperBoundClosed {
+				result += "..."
 			} else {
-				result += "<.."
+				result += ">.."
 			}
 			if let lowerBound = lowerBound {
 				result += String(reflecting: lowerBound)
@@ -129,7 +141,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			if let lowerBound = lowerBound {
 				result += String(reflecting: lowerBound)
 			}
-			if closed {
+			if upperBoundClosed {
 				result += "..."
 			} else {
 				result += "..<"
@@ -147,7 +159,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			if let upperBound = upperBound {
 				result = String(reflecting: upperBound)
 			}
-			if closed {
+			if upperBoundClosed {
 				result += "≤..."
 			} else {
 				result += "<.."
@@ -159,7 +171,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 			if let lowerBound = lowerBound {
 				result += String(reflecting: lowerBound)
 			}
-			if closed {
+			if upperBoundClosed {
 				result += "..."
 			} else {
 				result += "..<"
@@ -175,12 +187,12 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	/* Equatable */
 
 	public func ==(lhs: Self, rhs: Self) -> Bool {
-		return lhs.lowerBound == rhs.lowerBound && lhs.upperBound == rhs.upperBound && lhs.closed == rhs.closed
+		return lhs.lowerBound == rhs.lowerBound && lhs.upperBound == rhs.upperBound && lhs.upperBoundClosed == rhs.upperBoundClosed
 	}
 
 	/* IEquatable<T> */
 	public func Equals(rhs: /*Self*/Range) -> Bool { // 69955: Silver: two issues wit "Self" vs concrete generic type
-		return lowerBound == rhs.lowerBound && upperBound == rhs.upperBound && closed == rhs.closed
+		return lowerBound == rhs.lowerBound && upperBound == rhs.upperBound && upperBoundClosed == rhs.upperBoundClosed
 	}
 
 	/* IComparable<T> */
@@ -199,14 +211,17 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		}
 	}
 
-	public func GetSequence() -> ISequence<Bound> {
+	public func GetSequence() -> ISequence<Int64> {
 		if reversed {
 			if let upperBound = upperBound {
 				var i = upperBound
-				if !closed {
+				if !upperBoundClosed {
 					i--
 				}
-				if let lowerBound = lowerBound {
+				if var lowerBound = lowerBound {
+					if !lowerBoundClosed {
+						lowerBound++
+					}
 					while i >= lowerBound {
 						__yield i--
 					}
@@ -221,8 +236,11 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		} else {
 			if let lowerBound = lowerBound {
 				var i = lowerBound
+				if !lowerBoundClosed {
+					i++
+				}
 				if let upperBound = upperBound {
-					if closed {
+					if upperBoundClosed {
 						while i <= upperBound {
 							__yield i++
 						}
@@ -248,7 +266,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 	public var length: Bound? {
 		if let lowerBound = lowerBound, let upperBound = upperBound {
-			if closed {
+			if upperBoundClosed {
 				return upperBound-lowerBound+1
 			} else {
 				return upperBound-lowerBound
@@ -270,6 +288,37 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 
 }
 
+//public extension Swift.Range : ISequence<Int64> {
+
+	//#if JAVA
+	//public func iterator() -> Iterator<Int64>! {
+		//return GetSequence()
+	//}
+	//#elseif ECHOES
+	//@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")
+	//func GetEnumeratorNG() -> System.Collections.IEnumerator! {
+		//return GetSequence()
+	//}
+
+	//public func GetEnumerator() -> IEnumerator<Int64>! {
+		//return GetSequence()
+	//}
+	//#elseif ISLAND
+	//@Implements(typeOf(IEnumerable), "GetEnumerator")
+	//func GetEnumeratorNG() -> IEnumerator! {
+		//return GetSequence()
+	//}
+
+	//public func GetEnumerator() -> IEnumerator<Int64>! {
+		//return GetSequence()
+	//}
+	//#elseif TOFFEE
+	//public func countByEnumeratingWithState(_ aState: UnsafePointer<NSFastEnumerationState>, objects stackbuf: UnsafePointer<T!>, count len: NSUInteger) -> NSUInteger
+	//{
+		//return GetSequence()
+	//}
+	//#endif
+//}
 //74138: Silver: constrained type extensions
 /*extension Range where Element == Int32 {
 	#if COCOA

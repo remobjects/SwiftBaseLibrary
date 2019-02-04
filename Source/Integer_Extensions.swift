@@ -54,59 +54,95 @@ public extension Int32  {
 	// Range Operators
 
 	public func ... (a: Int32, b: Int32) -> Range/*<Int32>*/ {
-		return Range/*<Int32>*/(a, b, closed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: true, reversed: false)
+		}
 	}
 
 	public func ... (a: Int64, b: Int32) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, b, closed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: true, reversed: false)
+		}
 	}
 
 	public func ... (a: Int32, b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, b, closed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: true, reversed: false)
+		}
 	}
 
 	public func ..< (a: Int32, b: Int32) -> Range/*<Int32>*/ {
-		return Range/*<Int64>*//*<Int32>*/(a, b, closed: false)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: false, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: false, lowerBoundClosed: true)
+		}
 	}
 
 	public func ..< (a: Int64, b: Int32) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, b, closed: false)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: false, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: false, lowerBoundClosed: true)
+		}
 	}
 
 	public func ..< (a: Int32, b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, b, closed: false)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: false, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: false, lowerBoundClosed: true)
+		}
 	}
 
 	public func >.. (a: Int32, b: Int32) -> Range/*<Int32>*/ {
-		return Range/*<Int64>*//*<Int32>*/(b, a, closed: false, reversed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: false, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: false, reversed: false)
+		}
 	}
 
 	public func >.. (a: Int64, b: Int32) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(b, a, closed: false, reversed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: false, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: false, reversed: false)
+		}
 	}
 
 	public func >.. (a: Int32, b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(b, a, closed: false, reversed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: false, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: false, reversed: false)
+		}
 	}
 
 	public prefix func ... (b: Int32) -> Range/*<Int32>*/ {
-		return Range/*<Int32>*/(nil, b, closed: true)
+		return Range/*<Int32>*/(nil, b, upperBoundClosed: true, lowerBoundClosed: true)
 	}
 
 	public prefix func ..< (b: Int32) -> Range/*<Int32>*/ {
-		return Range/*<Int64>*//*<Int32>*/(nil, b, closed: false)
+		return Range/*<Int64>*//*<Int32>*/(nil, b, upperBoundClosed: false, lowerBoundClosed: true)
 	}
 
 	public postfix func >.. (b: Int32) -> Range/*<Int32>*/ {
-		return Range/*<Int64>*//*<Int32>*/(b, nil, closed: false, reversed: true)
+		return Range/*<Int64>*//*<Int32>*/(b, nil, upperBoundClosed: false, lowerBoundClosed: true, reversed: true)
 	}
 
 	public postfix func ... (a: Int32) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, nil, closed: true)
+		return Range/*<Int64>*/(a, nil, upperBoundClosed: true, lowerBoundClosed: true)
 	}
 
 	//public postfix func ..< (a: Int32) -> Range/*<Int32>*/ {
-		//return Range/*<Int64>*//*<Int32>*/(a, nil, closed: false)
+		//return Range/*<Int64>*//*<Int32>*/(a, nil, upperBoundClosed: false)
 	//}
 }
 
@@ -160,35 +196,47 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	// Range Operators
 
 	public func ... (a: Int64, b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, b, closed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: true, reversed: false)
+		}
 	}
 
 	public func ..< (a: Int64, b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, b, closed: false)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: true, lowerBoundClosed: false, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: false, lowerBoundClosed: true)
+		}
 	}
 
 	public func >.. (a: Int64, b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(b, a, closed: false, reversed: true)
+		if b < a {
+			return Range/*<Int64>*/(b, a, upperBoundClosed: false, lowerBoundClosed: true, reversed: true)
+		} else {
+			return Range/*<Int64>*/(a, b, upperBoundClosed: true, lowerBoundClosed: false, reversed: false)
+		}
 	}
 
 	public prefix func ... (b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(nil, b, closed: true)
+		return Range/*<Int64>*/(nil, b, upperBoundClosed: true, lowerBoundClosed: true)
 	}
 
 	public prefix func ..< (b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(nil, b, closed: false)
+		return Range/*<Int64>*/(nil, b, upperBoundClosed: false, lowerBoundClosed: true)
 	}
 
 	public postfix func >.. (b: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(b, nil, closed: false, reversed: true)
+		return Range/*<Int64>*/(nil, b, upperBoundClosed: false, lowerBoundClosed: true, reversed: true)
 	}
 
 	public postfix func ... (a: Int64) -> Range/*<Int64>*/ {
-		return Range/*<Int64>*/(a, nil, closed: true)
+		return Range/*<Int64>*/(a, nil, upperBoundClosed: true, lowerBoundClosed: true)
 	}
 
 	//public postfix func ..< (a: Int64) -> Range/*<Int64>*/ {
-		//return Range/*<Int64>*/(a, nil, closed: false)
+		//return Range/*<Int64>*/(a, nil, upperBoundClosed: false)
 	//}
 
 	// Strideable
