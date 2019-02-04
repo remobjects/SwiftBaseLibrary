@@ -361,11 +361,9 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#endif
 	}
 
-	#if CLR //|| ISLAND
 	public func contains(_ item: T) -> Bool {
 		return self.Contains(item)
 	}
-	#endif
 
 	#if COCOA
 	override var debugDescription: String! {
