@@ -69,6 +69,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="RemObjects.Elements.EUnit">
+      <Target>rt</Target>
+    </Reference>
+    <Reference Include="RemObjects.Elements.EUnit">
       <Target>Cooper</Target>
     </Reference>
     <Reference Include="Elements">
@@ -144,6 +147,6 @@
     <Compile Include="Program.swift" />
     <Compile Include="Range.swift" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Toffee.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.targets" />
   <Import Project="..\Source\Swift.Shared.projitems" Label="Shared" />
 </Project>
