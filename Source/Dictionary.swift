@@ -99,14 +99,12 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	}
 
 	//
-	// Operators
+	// Casts
 	//
 
-	public static func __implicit(_ dictionary: PlatformDictionary<Key,Value>) -> [Key:Value] {
-		return [Key:Value](dictionary)
-	}
+	// Cast from/to platform type
 
-	public static func __explicit(_ dictionary: PlatformDictionary<Key,Value>) -> [Key:Value] {
+	public static func __implicit(_ dictionary: PlatformDictionary<Key,Value>) -> [Key:Value] {
 		return [Key:Value](dictionary)
 	}
 
@@ -114,9 +112,47 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		return dictionary.platformDictionary
 	}
 
-	public static func __explicit(_ dictionary: [Key:Value]) -> PlatformDictionary<Key,Value> {
-		return dictionary.platformDictionary
+	// Darwin only: cast from/to Cocoa type
+
+	#if DARWIN
+	#if ISLAND
+	public static func __implicit(_ dictionary: NSDictionary<Key,Value>) -> [Key:Value] {
+		return Dictionary<Key,Value>(dictionary)
 	}
+
+	public static func __implicit(_ dictionary: [Key:Value]) -> NSDictionary<Key,Value> {
+		return dictionary.dictionary.ToNSDictionary()
+	}
+
+	public static func __implicit(_ list: [Key:Value]) -> NSMutableDictionary<Key,Value> {
+		return Dictionary.dictionary.ToNSDictionary()
+	}
+	#else
+	public static func __implicit(_ list: [Key:Value]) -> PlatformImmutableDictionary<Key,Value> {
+		return Dictionary.platformFictionary
+	}
+	#endif
+	#endif
+
+	// Cocoa only: cast from/to different generic Cocoa type
+
+	#if TOFFEE || DARWIN
+	public static func __explicit<Key2,Value2>(_ dictionary: NSDictionary<Key2,Value2>) -> [Key:Value] {
+		return (dictionary as! NSDictionary<Key,Value>) as! [Key:Value]
+	}
+
+	public static func __explicit<Key2,Value2>(_ dictionary: [Key:Value]) -> NSDictionary<Key2,Value2> {
+		return (dictionary as! NSDictionary<Key,Value>) as! NSDictionary<Key2,Value2>
+	}
+
+	public static func __explicit<Key2,Value2>(_ dictionary: [Key:Value]) -> NSMutableDictionary<Key2,Value2> {
+		return (dictionary as! NSMutableDictionary<Key,Value>) as! NSMutableDictionary<Key2,Value2>
+	}
+	#endif
+
+	//
+	// Operators
+	//
 
 	public static func + <T>(lhs: [Key:Value], rhs: [Key:Value]) -> [Key:Value] {
 		var result = lhs
@@ -324,7 +360,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		#endif
 	}
 
-	public var keys: ISequence<Key> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+	public var keys: ISequence<Key> { // we deliberatey return a sequence, not an dictionary, for efficiency and flexibility.
 		#if JAVA
 		return dictionary.keySet()
 		#elseif CLR || ISLAND
@@ -334,7 +370,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		#endif
 	}
 
-	public var values: ISequence<Value> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
+	public var values: ISequence<Value> { // we deliberatey return a sequence, not an dictionary, for efficiency and flexibility.
 		#if JAVA
 		return dictionary.values()
 		#elseif CLR || ISLAND

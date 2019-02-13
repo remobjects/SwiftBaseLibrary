@@ -172,26 +172,33 @@ public struct Array<T>
 	}
 
 	//
-	// Operators
+	// Casts
 	//
+
+	// Cast from/to native array
 
 	public static func __implicit(_ array: T[]) -> [T] {
 		return [T](arrayLiteral: array)
 	}
 
-	public static func __explicit(_ array: T[]) -> [T] {
-		return [T](arrayLiteral: array)
+	public static func __implicit(_ array: [T]) -> T[] {
+		return array.nativeArray
 	}
+
+	// Cast from/to platform type
 
 	public static func __implicit(_ list: PlatformList<T>) -> [T] {
 		return [T](list)
 	}
 
-	public static func __explicit(_ list: PlatformList<T>) -> [T] {
-		return [T](list)
+	public static func __implicit(_ array: [T]) -> PlatformList<T> {
+		return array.platformList
 	}
 
-	#if ISLAND && DARWIN
+	// Darwin only: cast from/to Cocoa type
+
+	#if DARWIN
+	#if ISLAND
 	public static func __implicit(_ array: NSArray<T>) -> [T] {
 		return List<T>(array)
 	}
@@ -203,43 +210,32 @@ public struct Array<T>
 	public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
 		return list.list.ToNSMutableArray()
 	}
-	#endif
-
-	#if COCOA
-	public static func __implicit(_ list: PlatformImmutableList<T>) -> [T] {
-		return [T](list)
-	}
-
-	public static func __explicit(_ list: PlatformImmutableList<T>) -> [T] {
-		return [T](list)
-	}
-	#endif
-
-	public static func __implicit(_ array: [T]) -> T[] {
-		return array.nativeArray
-	}
-
-	public static func __explicit(_ array: [T]) -> T[] {
-		return array.nativeArray
-	}
-
-	public static func __implicit(_ array: [T]) -> PlatformList<T> {
-		return array.platformList
-	}
-
-	public static func __explicit(_ array: [T]) -> PlatformList<T> {
-		return array.platformList
-	}
-
-	#if COCOA
+	#else
 	public static func __implicit(_ array: [T]) -> PlatformImmutableList<T> {
 		return array.platformList
 	}
+	#endif
+	#endif
 
-	public static func __explicit(_ array: [T]) -> PlatformImmutableList<T> {
-		return array.platformList
+	// Cocoa only: cast from/to different generic Cocoa type
+
+	#if TOFFEE || DARWIN
+	public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
+		return (array as! NSArray<T>) as! [T]
+	}
+
+	public static func __explicit<U>(_ array: [T]) -> NSArray<U> {
+		return (array as! NSArray<U>) as! NSArray<U>
+	}
+
+	public static func __explicit<U>(_ array: [T]) -> NSMutableArray<U> {
+		return (array as! NSMutableArray<T>) as! NSMutableArray<U>
 	}
 	#endif
+
+	//
+	// Operators
+	//
 
 	public static func + <T>(lhs: [T], rhs: [T]) -> [T] {
 		var result = lhs
