@@ -24,6 +24,17 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return array as! ISequence<T> // 74041: Silver: warning for "as" cast that should be known safe
 	}
 
+	public func ToSwiftArray() -> [T] {
+		if let array = self as? [T] {
+			return array.platformList
+		}
+		var result = [T]()
+		for i in self {
+			result.append(i)
+		}
+		return result
+	}
+
 	public var count: Int {
 		return self.Count()
 	}

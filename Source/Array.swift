@@ -191,6 +191,20 @@ public struct Array<T>
 		return [T](list)
 	}
 
+	#if ISLAND && DARWIN
+	public static func __implicit(_ array: NSArray<T>) -> [T] {
+		return List<T>(array)
+	}
+
+	public static func __implicit(_ array: [T]) -> NSArray<T> {
+		return array.list.ToNSArray()
+	}
+
+	public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
+		return list.list.ToNSMutableArray()
+	}
+	#endif
+
 	#if COCOA
 	public static func __implicit(_ list: PlatformImmutableList<T>) -> [T] {
 		return [T](list)
