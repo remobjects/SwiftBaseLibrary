@@ -215,11 +215,9 @@ public struct Array<T>
 		return array.platformList
 	}
 	#endif
-	#endif
 
 	// Cocoa only: cast from/to different generic Cocoa type
 
-	#if TOFFEE || DARWIN
 	public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
 		return (array as! NSArray<T>) as! [T]
 	}

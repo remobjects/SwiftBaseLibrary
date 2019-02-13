@@ -117,26 +117,24 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	#if DARWIN
 	#if ISLAND
 	public static func __implicit(_ dictionary: NSDictionary<Key,Value>) -> [Key:Value] {
-		return Dictionary<Key,Value>(dictionary)
+		return PlatformDictionary<Key,Value>(dictionary)
 	}
 
 	public static func __implicit(_ dictionary: [Key:Value]) -> NSDictionary<Key,Value> {
 		return dictionary.dictionary.ToNSDictionary()
 	}
 
-	public static func __implicit(_ list: [Key:Value]) -> NSMutableDictionary<Key,Value> {
-		return Dictionary.dictionary.ToNSDictionary()
+	public static func __implicit(_ dictionary: [Key:Value]) -> NSMutableDictionary<Key,Value> {
+		return dictionary.dictionary.ToNSMutableDictionary()
 	}
 	#else
-	public static func __implicit(_ list: [Key:Value]) -> PlatformImmutableDictionary<Key,Value> {
-		return Dictionary.platformFictionary
+	public static func __implicit(_ dictionary: [Key:Value]) -> PlatformImmutableDictionary<Key,Value> {
+		return dictionary.platformDictionary
 	}
-	#endif
 	#endif
 
 	// Cocoa only: cast from/to different generic Cocoa type
 
-	#if TOFFEE || DARWIN
 	public static func __explicit<Key2,Value2>(_ dictionary: NSDictionary<Key2,Value2>) -> [Key:Value] {
 		return (dictionary as! NSDictionary<Key,Value>) as! [Key:Value]
 	}
