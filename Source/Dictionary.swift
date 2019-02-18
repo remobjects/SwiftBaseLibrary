@@ -94,6 +94,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	//
 	//
 
+	@Sequence
 	public func GetSequence() -> ISequence<(Key, Value)> {
 		return DictionaryHelper.Enumerate<Key, Value>(dictionary)
 	}
@@ -383,55 +384,6 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		return dictionary.description
 	}
 }
-
-#if !COCOA
-public extension Swift.Dictionary : ISequence<(Key,Value)> {
-
-	#if JAVA
-	public func iterator() -> Iterator<(Key,Value)>! {
-		for entry in dictionary.entrySet() {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
-			__yield item
-		}
-	}
-	#endif
-
-	#if ECHOES
-	@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")
-	func GetEnumeratorNG() -> System.Collections.IEnumerator! {
-		for entry in dictionary {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
-			__yield item
-		}
-	}
-
-	func GetEnumerator() -> IEnumerator<(Key,Value)>! {
-		for entry in dictionary {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
-			__yield item
-		}
-	}
-	#endif
-
-	#if ISLAND
-
-	@Implements(typeOf(IEnumerable), "GetEnumerator")
-	func GetEnumeratorNG() -> IEnumerator! {
-		for entry in dictionary {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
-			__yield item
-		}
-	}
-
-	func GetEnumerator() -> IEnumerator<(Key,Value)>! {
-		for entry in dictionary {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
-			__yield item
-		}
-	}
-	#endif
-}
-#endif
 
 public static class DictionaryHelper {
 	#if JAVA

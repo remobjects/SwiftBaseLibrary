@@ -211,6 +211,7 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 		}
 	}
 
+	@Sequence
 	public func GetSequence() -> ISequence<Int64> {
 		if reversed {
 			if let upperBound = upperBound {
@@ -287,44 +288,3 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	#endif
 
 }
-
-//public extension Swift.Range : ISequence<Int64> {
-
-	//#if JAVA
-	//public func iterator() -> Iterator<Int64>! {
-		//return GetSequence()
-	//}
-	//#elseif ECHOES
-	//@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")
-	//func GetEnumeratorNG() -> System.Collections.IEnumerator! {
-		//return GetSequence()
-	//}
-
-	//public func GetEnumerator() -> IEnumerator<Int64>! {
-		//return GetSequence()
-	//}
-	//#elseif ISLAND
-	//@Implements(typeOf(IEnumerable), "GetEnumerator")
-	//func GetEnumeratorNG() -> IEnumerator! {
-		//return GetSequence()
-	//}
-
-	//public func GetEnumerator() -> IEnumerator<Int64>! {
-		//return GetSequence()
-	//}
-	//#elseif TOFFEE
-	//public func countByEnumeratingWithState(_ aState: UnsafePointer<NSFastEnumerationState>, objects stackbuf: UnsafePointer<T!>, count len: NSUInteger) -> NSUInteger
-	//{
-		//return GetSequence()
-	//}
-	//#endif
-//}
-//74138: Silver: constrained type extensions
-/*extension Range where Element == Int32 {
-	#if COCOA
-	public init(_ nativeRange: NSRange) {
-		startIndex = nativeRange.location
-		endIndex = nativeRange.location+nativeRange.length
-	}
-	#endif
-}*/

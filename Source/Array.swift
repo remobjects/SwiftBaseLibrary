@@ -167,6 +167,7 @@ public struct Array<T>
 	//
 	//
 
+	@Sequence
 	public func GetSequence() -> ISequence<T> {
 		return list
 	}
@@ -708,38 +709,38 @@ public struct Array<T>
 	}
 }
 
-#if !COCOA
-public extension Swift.Array : ISequence<T> {
+//#if !COCOA
+//public extension Swift.Array : ISequence<T> {
 
-	#if JAVA
-	public func iterator() -> Iterator<T>! {
-		return list.iterator()
-	}
-	#endif
+	//#if JAVA
+	//public func iterator() -> Iterator<T>! {
+		//return list.iterator()
+	//}
+	//#endif
 
-	#if ECHOES
-	@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")
-	func GetEnumeratorNG() -> System.Collections.IEnumerator! {
-		return list.GetEnumerator()
-	}
+	//#if ECHOES
+	//@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")
+	//func GetEnumeratorNG() -> System.Collections.IEnumerator! {
+		//return list.GetEnumerator()
+	//}
 
-	public func GetEnumerator() -> IEnumerator<T>! {
-		return list.GetEnumerator()
-	}
-	#endif
+	//public func GetEnumerator() -> IEnumerator<T>! {
+		//return list.GetEnumerator()
+	//}
+	//#endif
 
-	#if ISLAND
-	@Implements(typeOf(IEnumerable), "GetEnumerator")
-	func GetEnumeratorNG() -> IEnumerator! {
-		return list.GetEnumerator()
-	}
+	//#if ISLAND
+	//@Implements(typeOf(IEnumerable), "GetEnumerator")
+	//func GetEnumeratorNG() -> IEnumerator! {
+		//return list.GetEnumerator()
+	//}
 
-	public func GetEnumerator() -> IEnumerator<T>! {
-		return list.GetEnumerator()
-	}
-	#endif
-}
-#endif
+	//public func GetEnumerator() -> IEnumerator<T>! {
+		//return list.GetEnumerator()
+	//}
+	//#endif
+//}
+//#endif
 
 //public extension Swift.Array where T : ICollection {
 	////func joined() -> ISequence<T> { // FlattenCollection<Array<Element>> {

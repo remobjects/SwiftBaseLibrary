@@ -1,6 +1,6 @@
 ﻿
 //74077: Allow GetSequence() to actually be used to implement ISequence
-public struct CollectionOfOne<Element> : ICollectionType<Bit, Int, Element> {
+public struct CollectionOfOne<Element> /*ICollectionType<Bit, Int, Element>,*/  {
 ///*, ISequence<Int>*/ { // 74093: Silver: should not require explicit generic on interfaces in ancestor list
 
 	public typealias Index = Bit
@@ -31,11 +31,26 @@ public struct CollectionOfOne<Element> : ICollectionType<Bit, Int, Element> {
 	//
 
 	public subscript(position: Index) -> Element {
-		_precondition(position == .Zero, "Index out of range")
+		precondition(position == .Zero, "Index out of range")
 		return element
 	}
 
+	@Sequence
 	public func GetSequence() -> ISequence<Element> {
 		__yield element
 	}
+
+	#if TOFFEE && !TOFFEEV2
+	//public func countByEnumeratingWithState(_ state: UnsafePointer<NSFastEnumerationState>, objects stackbuf: UnsafePointer<Element>, count len: NSUInteger) -> NSUInteger {
+
+		//if state.state > 0 {
+			//return 0;
+		//}
+
+		//state.itemsPtr = unsafeBitCast(element, Int);
+		//state.state = 1;
+		//state.mutationsPtr = unsafeBitCast(self, Int);
+		//return 1;
+	//}
+	#endif
 }

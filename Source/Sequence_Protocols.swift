@@ -18,7 +18,7 @@ public protocol Indexable {
 
 public typealias ICollectionType = CollectionType
 public protocol CollectionType : Indexable {
-	associatedtype SubSequence: Indexable, SequenceType<Index> = ISequence<Index>
+	associatedtype SubSequence: Indexable, SequenceType<Element> = ISequence<Element>
 	subscript(bounds: Range/*<Index>*/) -> SubSequence { get }
 
 	func `prefix`(upTo: Index) -> SubSequence

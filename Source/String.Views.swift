@@ -244,6 +244,7 @@ public extension SwiftString {
 			return stringData[index*4] + stringData[index*4+1]<<8 + stringData[index*4+2]<<16 + stringData[index*4+3]<<24 // todo: check if order is correct
 		}
 
+		@Sequence
 		public func GetSequence() -> ISequence<UTF32Char> {
 			for i in startIndex ..< endIndex {
 				__yield self[i]

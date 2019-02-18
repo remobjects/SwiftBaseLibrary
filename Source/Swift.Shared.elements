@@ -2,8 +2,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0" DefaultTargets="Build">
   <PropertyGroup Label="Globals">
     <ProjectGuid>7952073B-795C-4074-954D-212FE780D7D3</ProjectGuid>
-  </PropertyGroup>
-  <PropertyGroup>
     <RootNamespace>Swift.Shared</RootNamespace>
   </PropertyGroup>
   <Import Project="Swift.Shared.projitems" Label="Shared" />

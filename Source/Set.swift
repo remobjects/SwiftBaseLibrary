@@ -100,6 +100,7 @@ public struct Set<T> //:
 	//
 	//
 
+	@Sequence
 	public func GetSequence() -> ISequence<T> {
 		return _set
 	}
@@ -484,36 +485,3 @@ public struct Set<T> //:
 		#endif
 	}
 }
-
-#if !COCOA
-public extension Swift.Set : ISequence<T> {
-
-	#if JAVA
-	public func iterator() -> Iterator<T>! {
-		return _set.iterator()
-	}
-	#endif
-
-	#if ECHOES
-	@Implements(typeOf(System.Collections.IEnumerable), "GetEnumerator")	
-	func GetEnumeratorNG() -> System.Collections.IEnumerator! {
-		return _set.GetEnumerator()
-	}
-
-	public func GetEnumerator() -> IEnumerator<T>! {
-		return _set.GetEnumerator()
-	}
-	#endif
-
-	#if ISLAND
-	@Implements(typeOf(IEnumerable), "GetEnumerator")	
-	func GetEnumeratorNG() -> IEnumerator! {
-		return _set.GetEnumerator()
-	}
-
-	public func GetEnumerator() -> IEnumerator<T>! {
-		return _set.GetEnumerator()
-	}
-	#endif
-}
-#endif

@@ -48,9 +48,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integer_Extensions.swift">
       <VirtualFolder>Numbers and such</VirtualFolder>
     </Compile>
-    <None Include="$(MSBuildThisFileDirectory)Collections.swift">
+    <Compile Include="$(MSBuildThisFileDirectory)Collections.swift">
       <VirtualFolder>Collection Types</VirtualFolder>
-    </None>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Bit.swift">
       <VirtualFolder>Numbers and such</VirtualFolder>
     </Compile>
