@@ -21,7 +21,7 @@
 		return NativeString(count: 1, repeatedValue: c)
 	}
 
-	public init(_ object: AnyObject) {
+	public init(_ object:  Object) {
 		if let o = object as? ICustomStringConvertible {
 			return o.description
 		} else {

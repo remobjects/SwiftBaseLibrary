@@ -57,7 +57,7 @@ public struct SwiftString /*: Streamable*/ {
 	}*/
 	#endif
 
-	public init(_ object: AnyObject) {
+	public init(_ object: Object) {
 		if let o = object as? ICustomStringConvertible {
 			nativeStringValue = o.description
 		} else {

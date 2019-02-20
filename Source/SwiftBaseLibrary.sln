@@ -5,6 +5,8 @@ Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Cooper", "Swift.Coope
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Echoes", "Swift.Echoes.elements", "{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}"
 EndProject
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Echoes.Standard", "Swift.Echoes.Standard.elements", "{CDDEBE6E-6B6B-4EF7-B2E1-57239C443426}"
+EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Android", "Swift.Island.Android.elements", "{FA456B74-3E30-45ED-91B2-6BB7A104F836}"
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Darwin.iOS", "Swift.Island.Darwin.iOS.elements", "{6F87C50F-069A-4E56-9B2E-044CBB68CC83}"
@@ -47,6 +49,10 @@ Global
 		{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
 		{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
 		{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}.Release|AnyCPU.Build.0 = Release|AnyCPU
+		{CDDEBE6E-6B6B-4EF7-B2E1-57239C443426}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{CDDEBE6E-6B6B-4EF7-B2E1-57239C443426}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{CDDEBE6E-6B6B-4EF7-B2E1-57239C443426}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{CDDEBE6E-6B6B-4EF7-B2E1-57239C443426}.Release|AnyCPU.Build.0 = Release|AnyCPU
 		{FA456B74-3E30-45ED-91B2-6BB7A104F836}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
 		{FA456B74-3E30-45ED-91B2-6BB7A104F836}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
 		{FA456B74-3E30-45ED-91B2-6BB7A104F836}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
