@@ -68,8 +68,8 @@
     <SubMode>Windows</SubMode>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="RemObjects.Elements.EUnit">
-      <Target>rt</Target>
+    <Reference Include="rt">
+      <Target>Cooper</Target>
     </Reference>
     <Reference Include="RemObjects.Elements.EUnit">
       <Target>Cooper</Target>
