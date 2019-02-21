@@ -88,6 +88,10 @@ public func fatalError(_ message: @autoclosure () -> String, file: String = #fil
 	print(objects)
 }
 
+public func print(string: String) {
+	write(string)
+}
+
 public func print(object: Object?, separator: String, terminator: String?) {
 	if let object = object {
 		write(object)
