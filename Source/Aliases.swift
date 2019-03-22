@@ -70,7 +70,7 @@ public typealias CFloat = Float
 public typealias CInt = Int32
 public typealias CLong = Int
 public typealias CLongLong = Int64
-#if COCOA
+#if COCOA || ISLAND
 public typealias OpaquePointer = UnsafePointer<Void>
 #endif
 public typealias CShort = Int16
