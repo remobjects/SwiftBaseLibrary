@@ -193,7 +193,13 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	public var isEmpty : Bool {
-		return RemObjects.Elements.System.length(nativeStringValue) == 0
+		#if JAVA
+		return nativeStringValue.isEmpty()
+		#elseif CLR || ISLAND
+		return NativeString.IsNullOrEmpty(nativeStringValue)
+		#elseif COCOA
+		return nativeStringValue.length == 0
+		#endif
 	}
 
 	public func lowercased() -> SwiftString {
