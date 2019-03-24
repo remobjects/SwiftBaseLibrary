@@ -44,7 +44,7 @@ public extension SwiftString {
 			#elseif CLR
 			return System.Text.Encoding.GetEncoding(name)
 			#elseif ISLAND
-			switch name.uppercaseString {
+			switch name.uppercased() {
 				case "UTF8","UTF-8": return RemObjects.Elements.System.Encoding.UTF8
 				case "UTF16","UTF-16": return RemObjects.Elements.System.Encoding.UTF16
 				case "UTF32","UTF-32": return RemObjects.Elements.System.Encoding.UTF32
@@ -56,7 +56,7 @@ public extension SwiftString {
 				default: throw Exception("Invalid Encoding '\(name)'")
 			}
 			#elseif COCOA
-			switch name.uppercaseString {
+			switch name.uppercased() {
 				case "UTF8","UTF-8": return NSStringEncoding.UTF8StringEncoding
 				case "UTF16","UTF-16": return NSStringEncoding.UTF16StringEncoding
 				case "UTF32","UTF-32": return NSStringEncoding.UTF32StringEncoding

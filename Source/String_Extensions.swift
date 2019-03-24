@@ -117,7 +117,6 @@
 		return self.ToLower()
 		#endif
 	}
-	#endif
 
 	#if COCOA
 	/*public var nulTerminatedUTF8: Character[] {
