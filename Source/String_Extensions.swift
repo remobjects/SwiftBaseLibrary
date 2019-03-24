@@ -108,10 +108,11 @@
 		return length() == 0
 	}
 
-	#if !COCOA
-	public var lowercaseString: NativeString {
+	public func lowercased() -> NativeString {
 		#if JAVA
 		return self.toLowerCase()
+		#elseif TOFFEE
+		return self.lowercaseString
 		#elseif CLR || ISLAND
 		return self.ToLower()
 		#endif
@@ -168,15 +169,15 @@
 		#endif
 	}
 
-	#if !COCOA
-	public var uppercaseString: NativeString {
+	public func uppercased() -> NativeString {
 		#if JAVA
 		return self.toUpperCase()
+		#elseif TOFFEE
+		return uppercaseString
 		#elseif CLR || ISLAND
 		return self.ToUpper()
 		#endif
 	}
-	#endif
 
 	#if !ISLAND
 	public var utf8: SwiftString.UTF8View {

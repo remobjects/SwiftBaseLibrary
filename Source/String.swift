@@ -196,7 +196,7 @@ public struct SwiftString /*: Streamable*/ {
 		return RemObjects.Elements.System.length(nativeStringValue) == 0
 	}
 
-	public var lowercaseString: SwiftString {
+	public func lowercased() -> SwiftString {
 		#if JAVA
 		return SwiftString(nativeStringValue.toLowerCase())
 		#elseif CLR || ISLAND
@@ -210,7 +210,7 @@ public struct SwiftString /*: Streamable*/ {
 		return 0
 	}
 
-	public var uppercaseString: SwiftString {
+	public func uppercased() -> SwiftString {
 		#if JAVA
 		return SwiftString(nativeStringValue.toUpperCase())
 		#elseif CLR || ISLAND
