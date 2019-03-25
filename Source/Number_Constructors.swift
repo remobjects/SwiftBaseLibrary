@@ -6,8 +6,8 @@ fileprivate static func parseNumber(_ value: String) -> NSNumber? {
 	let formatter = NSNumberFormatter()
 	formatter.numberStyle = .decimalStyle
 	formatter.locale = nil
-	if value.hasPrefix("+") && value.range(of: "-").location == NSNotFound { // NSNumberFormatter doesn't like +, strip it;
-		value = value.substring(fromIndex: 1)
+	if value.hasPrefix("+") && !value.contains("-") { // NSNumberFormatter doesn't like +, strip it;
+		value = value.suffix(from: 1)
 	}
 	return formatter.numberFromString(value)
 }

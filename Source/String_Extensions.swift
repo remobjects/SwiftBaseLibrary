@@ -13,7 +13,7 @@
 		#elseif CLR
 		return NativeString(c, count)
 		#elseif COCOA
-		return "".stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
+		return SwiftString.empty.nativeStringValue.stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
 		#endif
 	}
 

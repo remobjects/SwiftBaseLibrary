@@ -625,7 +625,8 @@ public struct Array<T>
 		}
 		return result.ToString()!
 		#elseif COCOA
-		return list.componentsJoinedByString(separator)
+		//return (list.componentsJoinedByString(separator) as NativeString) as! String // E129 Cannot cast from "NSString" to "String"
+		return String(list.componentsJoinedByString(separator))
 		#endif
 	}
 
@@ -704,7 +705,7 @@ public struct Array<T>
 	}
 
 	@ToString
-	public override func description() -> String {
+	public override func description() -> NativeString {
 		return list.description
 	}
 }

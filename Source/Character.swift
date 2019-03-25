@@ -11,7 +11,7 @@
 			return UInt32(nativeStringValue[0]).toHexString(length: 4)
 		} else if length(nativeStringValue) > 1 {
 			var result = ""
-			var currentSurrogate: Char = "\0"
+			var currentSurrogate: Char = chr(0)
 			for i in 0 ..< length(nativeStringValue) {
 
 				let c = nativeStringValue[i]
@@ -33,14 +33,14 @@
 						code += (surrogate & 0x03FF) << 10;
 						code += (c & 0x03FF);
 						newChar = UInt32(code).toHexString(length: 6)
-						currentSurrogate = "\0"
+						currentSurrogate = chr(0)
 					} else {
 						throw Exception("Invalid surrogate pair at index \(i)")
 					}
 				}
 
 				if let newChar = newChar {
-					if length(result) > 0 {
+					if !result.isEmpty {
 						result += "-"
 					}
 					result += newChar

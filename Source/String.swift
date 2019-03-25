@@ -11,8 +11,8 @@ public typealias NativeStringBuilder = RemObjects.Elements.System.StringBuilder
 public typealias NativeString = Foundation.NSString
 #endif
 
-//public typealias String = SwiftString
-//@assembly:DefaultStringType("Swift", typeOf(Swift.SwiftString))
+public typealias String = SwiftString
+@assembly:DefaultStringType("Swift", typeOf(Swift.SwiftString))
 
 public struct SwiftString /*: Streamable*/ {
 
@@ -35,7 +35,7 @@ public struct SwiftString /*: Streamable*/ {
 		#elseif CLR
 		nativeStringValue = NativeString(c, count)
 		#elseif COCOA
-		nativeStringValue = "".stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
+		nativeStringValue = String.empty.nativeStringValue.stringByPaddingToLength(count, withString: NSString.stringWithFormat("%c", c), startingAtIndex: 0)
 		#endif
 	}
 
@@ -132,6 +132,8 @@ public struct SwiftString /*: Streamable*/ {
 	}
 	#endif
 
+	public static lazy let empty: String = ""
+
 	//
 	// Operators
 	//
@@ -144,24 +146,24 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 
-	public static func __explicit(_ string: NativeString?) -> SwiftString {
-		if let string = string {
-			return SwiftString(string)
-		} else {
-			return SwiftString()
-		}
-	}
-
 	public static class func __implicit(_ string: SwiftString) -> NativeString {
 		return string.nativeStringValue
 	}
 
-	public static class func __explicit(_ string: SwiftString) -> NativeString {
-		return string.nativeStringValue
-	}
+	//public class func = (_ stringA: SwiftString, _ stringB: SwiftString) -> Bool { // E375 One of prefix operator, postfix operator, infix operator, identifier, "__implicit", "__explicit" expected, got assign
+		//return stringA.nativeStringValue = stringB.nativeStringValue
+	//}
 
 	public class func + (_ stringA: SwiftString, _ stringB: SwiftString) -> NativeString {
 		return stringA.nativeStringValue+stringB.nativeStringValue
+	}
+
+	public class func + (_ stringA: SwiftString, _ stringB: NativeString) -> NativeString {
+		return stringA.nativeStringValue+stringB
+	}
+
+	public class func + (_ stringA: NativeString, _ stringB: SwiftString) -> NativeString {
+		return stringA+stringB.nativeStringValue
 	}
 
 	//
@@ -284,7 +286,6 @@ public struct SwiftString /*: Streamable*/ {
 		return index(of: s) != nil
 	}
 
-	#if !COCOA
 	public func hasPrefix(_ `prefix`: SwiftString) -> Bool {
 		#if JAVA
 		return nativeStringValue.startsWith(`prefix`.nativeStringValue)
@@ -301,10 +302,9 @@ public struct SwiftString /*: Streamable*/ {
 		#elseif CLR || ISLAND
 		return nativeStringValue.EndsWith(suffix.nativeStringValue)
 		#elseif COCOA
-		return nativeStringValue.hasSuffix(`prefix`.nativeStringValue)
+		return nativeStringValue.hasSuffix(suffix.nativeStringValue)
 		#endif
 	}
-	#endif
 
 	public func index(of s: SwiftString) -> Int? {
 		#if JAVA
@@ -362,6 +362,16 @@ public struct SwiftString /*: Streamable*/ {
 		} else {
 			return self
 		}
+	}
+
+	public func suffix(from index: Int) -> String {
+		#if JAVA
+		return SwiftString(nativeStringValue.substring(index))
+		#elseif CLR || ISLAND
+		return SwiftString(nativeStringValue.Substring(index))
+		#elseif COCOA
+		return SwiftString(nativeStringValue.substringFromIndex(index))
+		#endif
 	}
 
 	// Streamable

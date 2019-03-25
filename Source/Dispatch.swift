@@ -101,7 +101,7 @@ public class DispatchQueue : DispatchObject {
 	internal convenience init(__label: String, attr: dispatch_queue_attr_t?, queue: DispatchQueue?) {
 		var raw: dispatch_queue_t
 		if #defined(COCOA) {
-			raw = dispatch_queue_create_with_target(__label.UTF8String, attr, queue?.queue)
+			raw = dispatch_queue_create_with_target(__label.utf8CString, attr, queue?.queue)
 		} else if #defined(DARWIN) {
 			let array = Encoding.UTF8.GetBytes(__label+"\0")
 			raw = dispatch_queue_create_with_target((&array[0]) as! UnsafePointer<AnsiChar>, attr, queue?.queue)
@@ -123,7 +123,7 @@ public class DispatchQueue : DispatchObject {
 
 	public var label: String {
 		if #defined(COCOA) {
-			return NSString.stringWithUTF8String(dispatch_queue_get_label(queue))
+			return String(utf8String: dispatch_queue_get_label(queue))
 		} else if #defined(DARWIN) {
 			let label = dispatch_queue_get_label(queue)
 			let len = strlen(label)

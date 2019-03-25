@@ -23,8 +23,8 @@ public func __stringArrayToCStringArray(_ arcv: [NativeString]) -> (UnsafePointe
 }
 #endif
 
-public enum CommandLine {
-  public static var argc: Int32 { return __C_ARGC }
-  // public static var unsafeArgv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>
-  public static var arguments: [String] { return __C_ARGV }
+public struct CommandLine {
+	public static var argc: Int32 { return __C_ARGC }
+	// public static var unsafeArgv: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>
+	public static lazy let arguments: [String] = __C_ARGV.map({ $0 as! String }).ToList()
 }
