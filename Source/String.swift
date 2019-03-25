@@ -150,9 +150,9 @@ public struct SwiftString /*: Streamable*/ {
 		return string.nativeStringValue
 	}
 
-	//public class func = (_ stringA: SwiftString, _ stringB: SwiftString) -> Bool { // E375 One of prefix operator, postfix operator, infix operator, identifier, "__implicit", "__explicit" expected, got assign
-		//return stringA.nativeStringValue = stringB.nativeStringValue
-	//}
+	public class func == (_ stringA: SwiftString, _ stringB: SwiftString) -> Bool {
+		return stringA.nativeStringValue == stringB.nativeStringValue
+	}
 
 	public class func + (_ stringA: SwiftString, _ stringB: SwiftString) -> NativeString {
 		return stringA.nativeStringValue+stringB.nativeStringValue
@@ -338,6 +338,10 @@ public struct SwiftString /*: Streamable*/ {
 
 	//public subscript(range: SwiftString.Index) -> Character // implicitly provided by the compiler, already
 
+	public subscript(index: Int) -> Char {
+		return nativeStringValue[index]
+	}
+
 	public subscript(range: Range/*<Int>*/) -> SwiftString {
 		if range.upperBound != nil {
 			#if JAVA
@@ -364,18 +368,20 @@ public struct SwiftString /*: Streamable*/ {
 		}
 	}
 
-	public func suffix(from index: Int) -> String {
-		#if JAVA
-		return SwiftString(nativeStringValue.substring(index))
-		#elseif CLR || ISLAND
-		return SwiftString(nativeStringValue.Substring(index))
-		#elseif COCOA
-		return SwiftString(nativeStringValue.substringFromIndex(index))
-		#endif
+	public func `prefix`(through: Index) -> NativeString {
+		return self[...through] // E119 Cannot use the unary operator "..." on type "extension String.Index"
+	}
+
+	public func `prefix`(upTo: Index) -> NativeString {
+		return self[..<upTo] // E119 Cannot use the unary operator "..<" on type "extension String.Index"
+	}
+
+	public func suffix(from: Index) -> NativeString {
+		return self[from...]
 	}
 
 	// Streamable
-	func writeTo(_ target: OutputStreamType) {
+	public func writeTo(_ target: OutputStreamType) {
 		//target.write(nativeStringValue)
 	}
 
@@ -383,7 +389,7 @@ public struct SwiftString /*: Streamable*/ {
 	//
 	//
 
-	func split(_ separator: String) -> [String] {
+	public func split(_ separator: String) -> [String] {
 		return nativeStringValue.components(separatedBy: separator)
 	}
 
@@ -398,7 +404,7 @@ public struct SwiftString /*: Streamable*/ {
 
 	//76157: Silver: Internal Error in SBL
 	/*
-	func + (_ value1: AnyObject?, _ value2: AnyObject?) -> SwiftString {
+	public func + (_ value1: AnyObject?, _ value2: AnyObject?) -> SwiftString {
 		return SwiftString(__toNativeString(value1) + value2?.nativeStringValue)
 	}*/
 

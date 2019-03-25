@@ -66,7 +66,7 @@ public extension SwiftString {
 				case "UTF32BE","UTF-32BE": return NSStringEncoding.UTF32BigEndianStringEncoding
 				case "US-ASCII", "ASCII","UTF-ASCII": return NSStringEncoding.ASCIIStringEncoding
 				default:
-					let encoding = CFStringConvertIANACharSetNameToEncoding(bridge<CFStringRef>(name))
+					let encoding = CFStringConvertIANACharSetNameToEncoding(bridge<CFStringRef>(name.nativeStringValue))
 					if encoding != kCFStringEncodingInvalidId {
 						return CFStringConvertEncodingToNSStringEncoding(encoding) as! NSStringEncoding
 					}

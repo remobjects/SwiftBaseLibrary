@@ -141,7 +141,7 @@
 	//func components(separatedBy separator: CharacterSet) -> [String] {
 	//}
 
-	func components(separatedBy separator: String) -> [String] {
+	public func components(separatedBy separator: String) -> [String] {
 		let separatorLength = separator.length()
 		if separatorLength == 0 {
 			return [self]
@@ -249,15 +249,15 @@
 	// Subscripts
 	//
 
-	func `prefix`(through: Index) -> NativeString {
+	public func `prefix`(through: Index) -> NativeString {
 		return self[...through] // E119 Cannot use the unary operator "..." on type "extension String.Index"
 	}
 
-	func `prefix`(upTo: Index) -> NativeString {
+	public func `prefix`(upTo: Index) -> NativeString {
 		return self[..<upTo] // E119 Cannot use the unary operator "..<" on type "extension String.Index"
 	}
 
-	func suffix(from: Index) -> NativeString {
+	public func suffix(from: Index) -> NativeString {
 		return self[from...]
 	}
 
@@ -295,7 +295,7 @@
 	}
 
 	// Streamable
-	func writeTo(_ target: OutputStreamType) {
+	public func writeTo(_ target: OutputStreamType) {
 		//target.write(self)
 	}
 
