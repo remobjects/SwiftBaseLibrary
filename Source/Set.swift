@@ -206,7 +206,7 @@ public struct Set<T> //:
 
 	/// Returns the `Index` of a given member, or `nil` if the member is not
 	/// present in the set.
-	func indexOf(member: T) -> /*SetIndex<T>*/Int? {
+	public func indexOf(member: T) -> /*SetIndex<T>*/Int? {
 		#if JAVA
 		if _set.contains(member) {
 			return _set.indexOf(member)
@@ -365,40 +365,40 @@ public struct Set<T> //:
 
 	/// Returns true if the set is a subset of a finite sequence as a `Set`
 	/// but not equal.
-	func isStrictSubsetOf<S : SequenceType where T == T>(sequence: S) -> Bool
+	public func isStrictSubsetOf<S : SequenceType where T == T>(sequence: S) -> Bool
 
 	/// Returns true if the set is a superset of a finite sequence as a `Set`.
-	func isSupersetOf<S : SequenceType where T == T>(sequence: S) -> Bool
+	public func isSupersetOf<S : SequenceType where T == T>(sequence: S) -> Bool
 
 	/// Returns true if the set is a superset of a finite sequence as a `Set`
 	/// but not equal.
-	func isStrictSupersetOf<S : SequenceType where T == T>(sequence: S) -> Bool
+	public func isStrictSupersetOf<S : SequenceType where T == T>(sequence: S) -> Bool
 
 	/// Returns true if no members in the set are in a finite sequence as a `Set`.
-	func isDisjointWith<S : SequenceType where T == T>(sequence: S) -> Bool
+	public func isDisjointWith<S : SequenceType where T == T>(sequence: S) -> Bool
 
 	/// Return a new `Set` with items in both this set and a finite sequence.
-	func union<S : SequenceType where T == T>(sequence: S) -> Set<T>
+	public func union<S : SequenceType where T == T>(sequence: S) -> Set<T>
 
 	/// Insert elements of a finite sequence into this `Set`.
 	mutating func unionInPlace<S : SequenceType where T == T>(sequence: S)
 
 	/// Return a new set with elements in this set that do not occur
 	/// in a finite sequence.
-	func subtract<S : SequenceType where T == T>(sequence: S) -> Set<T>
+	public func subtract<S : SequenceType where T == T>(sequence: S) -> Set<T>
 
 	/// Remove all members in the set that occur in a finite sequence.
 	mutating func subtractInPlace<S : SequenceType where T == T>(sequence: S)
 
 	/// Return a new set with elements common to this set and a finite sequence.
-	func intersect<S : SequenceType where T == T>(sequence: S) -> Set<T>
+	public func intersect<S : SequenceType where T == T>(sequence: S) -> Set<T>
 
 	/// Remove any members of this set that aren't also in a finite sequence.
 	mutating func intersectInPlace<S : SequenceType where T == T>(sequence: S)
 
 	/// Return a new set with elements that are either in the set or a finite
 	/// sequence but do not occur in both.
-	func exclusiveOr<S : SequenceType where T == T>(sequence: S) -> Set<T>
+	public func exclusiveOr<S : SequenceType where T == T>(sequence: S) -> Set<T>
 
 	/// For each element of a finite sequence, remove it from the set if it is a
 	/// common element, otherwise add it to the set. Repeated elements of the

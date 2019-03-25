@@ -322,15 +322,15 @@ public struct Array<T>
 	// Subscrits
 	//
 
-	func `prefix`(through: Int) -> [T] {
+	public func `prefix`(through: Int) -> [T] {
 		return self[0...through]
 	}
 
-	func `prefix`(upTo: Int) -> [T] {
+	public func `prefix`(upTo: Int) -> [T] {
 		return self[0..<upTo]
 	}
 
-	func suffix(from: Int) -> [T] {
+	public func suffix(from: Int) -> [T] {
 		return self[from..<count]
 	}
 
@@ -407,7 +407,7 @@ public struct Array<T>
 		return nil
 	}
 
-	func starts(with possiblePrefix: ISequence<T>) -> Bool {
+	public func starts(with possiblePrefix: ISequence<T>) -> Bool {
 		var i = 0
 		for e in possiblePrefix {
 			if !compareElements(e, self[i]) {
@@ -417,7 +417,7 @@ public struct Array<T>
 		return true
 	}
 
-	func starts(with possiblePrefix: [T]) -> Bool {
+	public func starts(with possiblePrefix: [T]) -> Bool {
 		return starts(with: possiblePrefix.GetSequence())
 	}
 
@@ -614,7 +614,7 @@ public struct Array<T>
 		return result
 	}
 
-	func joined(separator: String) -> String {
+	public func joined(separator: String) -> String {
 		#if JAVA | CLR | ISLAND
 		let result = NativeStringBuilder()
 		for i in 0..<count {

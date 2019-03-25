@@ -197,7 +197,7 @@ public class DispatchQueue : DispatchObject {
 	/*func getSpecific<T>(key: DispatchSpecificKey<T>) -> T? {
 		//return dispatch_queue_get_specific(rawValue, key)
 	}
-	func setSpecific<T>(key: DispatchSpecificKey<T>, value: T) {
+	public func setSpecific<T>(key: DispatchSpecificKey<T>, value: T) {
 		//return dispatch_queue_set_specific(rawValue, key, value)
 	}*/
 }
@@ -227,11 +227,11 @@ public class DispatchWorkItem {
 		//return dispatch_wait(group.group, timeout.rawValue)
 	}
 
-	func wait(timeout: DispatchWallTime) -> Int {
+	public func wait(timeout: DispatchWallTime) -> Int {
 		//return dispatch_wait(group.group, timeout.rawValue)
 	}
 
-	func notify(queue: DispatchQueue, execute notifyBlock: /*@convention(block)*/ () -> Void) {
+	public func notify(queue: DispatchQueue, execute notifyBlock: /*@convention(block)*/ () -> Void) {
 		//dispatch_notify(group.group, queue.object, notifyBlock)
 	}*/
 
@@ -259,11 +259,11 @@ public struct DispatchWorkItemFlags /*: OptionSet, RawRepresentable*/ {
 /*class DispatchSemaphore : DispatchObject {
 	public init(value: Int) {
 	}
-	func wait(timeout: DispatchTime /*= default*/) -> Int {
+	public func wait(timeout: DispatchTime /*= default*/) -> Int {
 	}
-	func wait(walltime timeout: DispatchWallTime) -> Int {
+	public func wait(walltime timeout: DispatchWallTime) -> Int {
 	}
-	func signal() -> Int {
+	public func signal() -> Int {
 	}
 }*/
 

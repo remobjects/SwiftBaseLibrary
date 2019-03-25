@@ -79,7 +79,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.FirstOrDefault()
 	}
 
-	func flatMap(@noescape _ transform: (T) throws -> T?) rethrows -> ISequence<T> {
+	public func flatMap(@noescape _ transform: (T) throws -> T?) rethrows -> ISequence<T> {
 		for e in self {
 			if let e = try! transform(e) {
 				__yield e
