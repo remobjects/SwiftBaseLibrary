@@ -365,7 +365,7 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	// Streamable
-	func writeTo(_ target: OutputStreamType) {
+	public func writeTo(_ target: OutputStreamType) {
 		//target.write(nativeStringValue)
 	}
 
@@ -373,7 +373,7 @@ public struct SwiftString /*: Streamable*/ {
 	//
 	//
 
-	func split(_ separator: String) -> [String] {
+	public func split(_ separator: String) -> [String] {
 		return nativeStringValue.components(separatedBy: separator)
 	}
 
@@ -388,7 +388,7 @@ public struct SwiftString /*: Streamable*/ {
 
 	//76157: Silver: Internal Error in SBL
 	/*
-	func + (_ value1: AnyObject?, _ value2: AnyObject?) -> SwiftString {
+	public func + (_ value1: AnyObject?, _ value2: AnyObject?) -> SwiftString {
 		return SwiftString(__toNativeString(value1) + value2?.nativeStringValue)
 	}*/
 

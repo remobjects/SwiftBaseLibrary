@@ -111,15 +111,15 @@ public extension SwiftString {
 		var first: Character? { return count > 0 ? self[0] : nil }
 		#endif
 
-		func `prefix`(through: Index) -> CharacterView {
+		public func `prefix`(through: Index) -> CharacterView {
 			return CharacterView(stringData: stringData[0...through])
 		}
 
-		func `prefix`(upTo: Index) -> CharacterView {
+		public func `prefix`(upTo: Index) -> CharacterView {
 			return CharacterView(stringData: stringData[0..<upTo])
 		}
 
-		func suffix(from: Index) -> CharacterView {
+		public func suffix(from: Index) -> CharacterView {
 			return CharacterView(stringData: stringData[from..<stringData.count])
 		}
 
@@ -158,15 +158,15 @@ public extension SwiftString {
 		// 76085: Silver: `Char` becomes String when using with `?:` operator
 		var first: UTF16Char? { return count > 0 ? self[0] : nil as? UTF16Char }
 
-		func `prefix`(through: Index) -> UTF16View {
+		public func `prefix`(through: Index) -> UTF16View {
 			return UTF16View(string: stringData.__substring(range: 0...through))
 		}
 
-		func `prefix`(upTo: Index) -> UTF16View {
+		public func `prefix`(upTo: Index) -> UTF16View {
 			return UTF16View(string: stringData.__substring(range: 0..<upTo))
 		}
 
-		func suffix(from: Index) -> UTF16View {
+		public func suffix(from: Index) -> UTF16View {
 			return UTF16View(string: stringData.__substring(range: from..<stringData.length()))
 		}
 
@@ -228,11 +228,11 @@ public extension SwiftString {
 			return UTF32View(stringData: stringData[0...through])
 		}
 
-		func `prefix`(upTo: Index) -> UTF32View {
+		public func `prefix`(upTo: Index) -> UTF32View {
 			return UTF32View(stringData: stringData[0..<upTo])
 		}
 
-		func suffix(from: Index) -> UTF32View {
+		public func suffix(from: Index) -> UTF32View {
 			return UTF32View(stringData: stringData[from..<stringData.count])
 		}
 
@@ -300,11 +300,11 @@ public extension SwiftString {
 			return UTF8View(stringData: stringData[0...through])
 		}
 
-		func `prefix`(upTo: Index) -> UTF8View {
+		public func `prefix`(upTo: Index) -> UTF8View {
 			return UTF8View(stringData: stringData[0..<upTo])
 		}
 
-		func suffix(from: Index) -> UTF8View {
+		public func suffix(from: Index) -> UTF8View {
 			return UTF8View(stringData: stringData[from..<stringData.count])
 		}
 
