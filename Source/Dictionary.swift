@@ -95,7 +95,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	//
 
 	@Sequence
-	public func GetSequence() -> ISequence<(Key, Value)> {
+	public func GetSequence() -> ISequence<(key: Key, value: Value)> {
 		return DictionaryHelper.Enumerate<Key, Value>(dictionary)
 	}
 
