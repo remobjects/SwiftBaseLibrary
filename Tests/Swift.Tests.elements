@@ -146,6 +146,7 @@
   <ItemGroup>
     <Compile Include="Program.swift" />
     <Compile Include="Range.swift" />
+    <Compile Include="Dictionary.swift" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.targets" />
   <Import Project="..\Source\Swift.Shared.projitems" Label="Shared" />
