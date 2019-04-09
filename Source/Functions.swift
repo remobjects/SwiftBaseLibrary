@@ -67,7 +67,7 @@ public func debugPrint(_ objects: Object?..., separator: String = " ", terminato
 	return value
 }
 
-public func fatalError(_ message: @autoclosure () -> String, file: String = #file, line: UInt32 = #line) -> Never {
+@noreturn public func fatalError(_ message: @autoclosure () -> String, file: String = #file, line: UInt32 = #line) -> Never {
 	if let message = message {
 		__throw Exception(message()+", file "+file+", line "+line)
 	} else {
