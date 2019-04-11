@@ -8,6 +8,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <MangleTypeNames>True</MangleTypeNames>
     <EntitlementsFile>Entitlements.entitlements</EntitlementsFile>
+    <CrossPlatform>True</CrossPlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>False</Optimize>
@@ -22,6 +23,7 @@
   <PropertyGroup Condition=" '$(Target)' == 'Cooper' ">
     <Mode>Cooper</Mode>
     <SubMode>Plain</SubMode>
+    <DefaultUses>java.util,com.remobjects.elements.linq</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Echoes' ">
     <Mode>Echoes</Mode>
@@ -72,10 +74,16 @@
       <Target>Cooper</Target>
     </Reference>
     <Reference Include="RemObjects.Elements.EUnit">
+      <Private>True</Private>
       <Target>Cooper</Target>
     </Reference>
-    <Reference Include="Elements">
+    <Reference Include="cooper">
       <Target>Cooper</Target>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="elements">
+      <Target>Cooper</Target>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Target>Echoes</Target>
@@ -94,6 +102,10 @@
       <Target>Echoes</Target>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Echoes">
+      <Target>Echoes</Target>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Foundation">
       <Target>Island.Darwin.macOS</Target>
     </Reference>
@@ -141,6 +153,51 @@
     </Reference>
     <Reference Include="rtl">
       <Target>Island.Darwin.watchOS</Target>
+    </Reference>
+    <Reference Include="EUnit">
+      <Target>Island.Windows</Target>
+    </Reference>
+    <Reference Include="Island">
+      <Target>Island.Windows</Target>
+    </Reference>
+    <Reference Include="gc">
+      <Target>Island.Windows</Target>
+    </Reference>
+    <Reference Include="elements">
+      <Target>Island.Windows</Target>
+    </Reference>
+    <Reference Include="EUnit">
+      <Target>Island.Linux</Target>
+    </Reference>
+    <Reference Include="Island">
+      <Target>Island.Linux</Target>
+    </Reference>
+    <Reference Include="gc">
+      <Target>Island.Linux</Target>
+    </Reference>
+    <Reference Include="elements">
+      <Target>Island.Linux</Target>
+    </Reference>
+    <Reference Include="EUnit">
+      <Target>Island.WebAssembly</Target>
+    </Reference>
+    <Reference Include="Island">
+      <Target>Island.WebAssembly</Target>
+    </Reference>
+    <Reference Include="elements">
+      <Target>Island.WebAssembly</Target>
+    </Reference>
+    <Reference Include="EUnit">
+      <Target>Island.Android</Target>
+    </Reference>
+    <Reference Include="Island">
+      <Target>Island.Android</Target>
+    </Reference>
+    <Reference Include="gc">
+      <Target>Island.Android</Target>
+    </Reference>
+    <Reference Include="elements">
+      <Target>Island.Android</Target>
     </Reference>
   </ItemGroup>
   <ItemGroup>
