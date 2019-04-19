@@ -336,7 +336,7 @@ public struct Array<T>
 
 	public subscript (range: Range) -> [T] {
 		#if COCOA
-		return [T](list.Skip(range.lowerBound).Take(range.length).array())
+		return [T](list.Skip(range.lowerBound).Take(range.length).ToNSArray())
 		#else
 		return [T](list.Skip(range.lowerBound).Take(range.length).ToList())
 		#endif

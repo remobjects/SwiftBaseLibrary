@@ -32,11 +32,9 @@ public typealias UTF16Char = Char // UInt16
 public typealias UTF32Char = UInt32
 #if !COCOA && !ISLAND
 public typealias AnsiChar = Byte
-public typealias UTF8Char = Byte
-#else
 // Cocoa and Island already have AnsiChar
-public typealias UTF8Char = AnsiChar
 #endif
+public typealias UTF8Char = Byte
 
 public typealias StaticString = NativeString
 
