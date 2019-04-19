@@ -51,11 +51,7 @@
     <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
     <DefineConstants>SIGN</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Echoes">
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
+  <ItemGroup></ItemGroup>
   <ItemGroup>
     <Compile Include="__AssemblyInfo.swift" />
   </ItemGroup>
