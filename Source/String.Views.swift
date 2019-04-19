@@ -40,20 +40,23 @@ public extension SwiftString {
 			while te.MoveNext() {
 				stringData.append(Character(nativeStringValue: te.Current as! NativeString))
 			}
-			#elseif COCOA
+			#elseif DARWIN
 			var i = 0
 			while i < length(string) {
 
-				let sequenceLength = string.rangeOfComposedCharacterSequenceAtIndex(i).length
+				let sequenceLength = (string as! NSString).rangeOfComposedCharacterSequenceAtIndex(i).length
 
 				//76192: Silver: can't use range as subscript? (SBL)
 				let ch: NativeString = string.__substring(range: i ..< i+sequenceLength)
 				stringData.append(Character(nativeStringValue: ch))
 				i += sequenceLength
 			}
+			#elseif ISLAND
+			    #hint Not implemented yet
 			#endif
 
-				/* old logic to detect surrogate pairs; not needed right now
+			/* old logic to detect surrogate pairs; not needed right now
+			{
 				let c = string[i]
 				let c2 = Int(c)
 				/*switch Int(c) {
@@ -99,8 +102,8 @@ public extension SwiftString {
 				addCharacter()
 
 				i += 1
-			}*/
-			//addCharacter()
+			}
+			//addCharacter()*/
 		}
 
 		public override var count: Int { return stringData.count }
@@ -178,6 +181,13 @@ public extension SwiftString {
 			return stringData[index]
 		}
 
+		@Sequence
+		public func GetSequence() -> ISequence<Char> {
+			for i in startIndex ..< endIndex {
+				__yield self[i]
+			}
+		}
+
 		@ToString public func description() -> NativeString {
 			var result = "UTF16CharacterView("
 			for i in startIndex..<endIndex {
@@ -191,10 +201,9 @@ public extension SwiftString {
 		}
 	}
 
-	#if !ISLAND
 	public typealias UnicodeScalarView = UTF32View
 
-	public class UTF32View: BaseCharacterView/*, ISequence<UTF32Char>*/ {
+	public class UTF32View: BaseCharacterView {
 		private let stringData: Byte[]
 
 		private init(stringData: Byte[]) {
@@ -207,7 +216,7 @@ public extension SwiftString {
 			#elseif CLR
 			stringData = System.Text.UTF32Encoding(/*bigendian:*/false, /*BOM:*/false).GetBytes(string) // todo check order
 			#elseif ISLAND
-			stringData = Encoding.UTF32LE.GetBytes(aValue, /*BOM:*/false) // todo check order
+			stringData = System.Encoding.UTF32LE.GetBytes(string, /*BOM:*/false) // todo check order
 			#elseif COCOA
 			if let utf32 = string.dataUsingEncoding(.NSUTF32LittleEndianStringEncoding) { // todo check order
 				stringData = Byte[](capacity: utf32.length);
@@ -263,9 +272,7 @@ public extension SwiftString {
 			return result
 		}
 	}
-	#endif
 
-	#if !ISLAND
 	public class UTF8View: BaseCharacterView {
 		internal let stringData: UTF8Char[]
 
@@ -279,7 +286,7 @@ public extension SwiftString {
 			#elseif CLR
 			stringData = System.Text.UTF8Encoding(/*BOM:*/false).GetBytes(string)
 			#elseif ISLAND
-			stringData = Encoding.UTF8.GetBytes(aValue, /*BOM:*/false)
+			stringData = System.Encoding.UTF8.GetBytes(string, /*BOM:*/false) as! UTF8Char[]
 			#elseif COCOA
 			if let utf8 = string.dataUsingEncoding(.NSUTF8StringEncoding) {
 				stringData = UTF8Char[](capacity: utf8.length);
@@ -316,6 +323,11 @@ public extension SwiftString {
 			return stringData[index]
 		}
 
+		@Sequence
+		public func GetSequence() -> ISequence<UTF8Char> {
+			return stringData
+		}
+
 		@ToString public func description() -> NativeString {
 			var result = "UTF8CharacterView("
 			for i in startIndex..<endIndex {
@@ -328,6 +340,4 @@ public extension SwiftString {
 			return result
 		}
 	}
-	#endif
-
 }

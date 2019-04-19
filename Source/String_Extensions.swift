@@ -76,9 +76,11 @@
 	// Properties
 	//
 
+	#if DARWIN || !ISLAND
 	public var characters: SwiftString.CharacterView {
 		return SwiftString.CharacterView(string: self)
 	}
+	#endif
 
 	#if !COCOA
 	public var debugDescription: NativeString {
@@ -184,21 +186,17 @@
 		#endif
 	}
 
-	#if !ISLAND
 	public var utf8: SwiftString.UTF8View {
 		return SwiftString.UTF8View(string: self)
 	}
-	#endif
 
 	public var utf16: SwiftString.UTF16View {
 		return SwiftString.UTF16View(string: self)
 	}
 
-	#if !ISLAND
 	public var unicodeScalars: SwiftString.UnicodeScalarView {
 		return SwiftString.UnicodeScalarView(string: self)
 	}
-	#endif
 
 	//
 	// Methods
@@ -335,54 +333,4 @@
 		return nil
 		#endif
 	}
-
-	public __abstract class CharacterView {
-		/*fileprivate*/internal init(string: NativeString) {
-		}
-
-		public var startIndex: NativeString.Index { return 0 }
-		public __abstract var endIndex: NativeString.Index { get }
-
-	}
-
-	public class UTF16CharacterView: CharacterView, ICustomDebugStringConvertible {
-		private let string: NativeString
-
-		/*fileprivate*/internal  init(string: NativeString) {
-			self.string = string
-		}
-
-		public override var endIndex: NativeString.Index { return length(string) }
-
-		public subscript(index: Int) -> UTF16Char {
-			return string[index]
-		}
-
-		#if COCOA
-		override var debugDescription: NativeString! {
-			var result = "UTF16CharacterView("
-			for i in startIndex..<endIndex {
-				if i > startIndex {
-					result += " "
-				}
-				result += UInt64(self[i]).toHexString(length: 4)
-			}
-			result += ")"
-			return result
-		}
-		#else
-		public var debugDescription: NativeString {
-			var result = "UTF16CharacterView("
-			for i in startIndex..<endIndex {
-				if i > startIndex {
-					result += " "
-				}
-				result += UInt64(self[i]).toHexString(length: 4)
-			}
-			result += ")"
-			return result
-		}
-		#endif
-	}
-
 }

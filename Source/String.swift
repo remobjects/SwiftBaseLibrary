@@ -168,9 +168,11 @@ public struct SwiftString /*: Streamable*/ {
 	// Properties
 	//
 
+	#if DARWIN || !ISLAND
 	public var characters: SwiftString.CharacterView {
 		return SwiftString.CharacterView(string: nativeStringValue)
 	}
+	#endif
 
 	@ToString public func description() -> NativeString {
 		return nativeStringValue
@@ -226,11 +228,9 @@ public struct SwiftString /*: Streamable*/ {
 		#endif
 	}
 
-	#if !ISLAND
 	public var utf8: SwiftString.UTF8View {
 		return SwiftString.UTF8View(string: nativeStringValue)
 	}
-	#endif
 
 	#if COCOA
 	public var utf8CString: UTF8Char[] {
@@ -246,11 +246,9 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString.UTF16View(string: nativeStringValue)
 	}
 
-	#if !ISLAND
 	public var unicodeScalars: SwiftString.UnicodeScalarView {
 		return SwiftString.UnicodeScalarView(string: nativeStringValue)
 	}
-	#endif
 
 	//
 	// Methods
@@ -432,5 +430,4 @@ public struct SwiftString /*: Streamable*/ {
 		return nil
 		#endif
 	}
-
 }
