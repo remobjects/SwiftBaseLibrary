@@ -54,6 +54,7 @@
     <Reference Include="gc" />
     <Reference Include="Island" />
     <Reference Include="rtl" />
+    <Reference Include="CoreFoundation" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Darwin.targets" />
   <Import Project="Swift.Shared.projitems" Label="Swift.Shared" />

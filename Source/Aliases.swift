@@ -69,6 +69,15 @@ public typealias CInt = Int32
 public typealias CLong = Int
 public typealias CLongLong = Int64
 #if COCOA || ISLAND
+//UnsafeMutablePointer
+//UnsafePointer
+public typealias UnsafeMutableBufferPointer<T> = UnsafeMutablePointer<T>
+public typealias UnsafeBufferPointer<T> = UnsafePointer<T>
+public typealias UnsafeMutableRawPointer<T> = UnsafeMutablePointer<T>
+public typealias UnsafeRawPointer<T> = UnsafePointer<T>
+public typealias UnsafeMutableRawBufferPointer<T> = UnsafeMutablePointer<T>
+public typealias UnsafeRawBufferPointer<T> = UnsafePointer<T>
+
 public typealias OpaquePointer = UnsafePointer<Void>
 #endif
 public typealias CShort = Int16

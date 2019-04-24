@@ -94,6 +94,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Dictionary.Java.swift" />
     <Compile Include="$(MSBuildThisFileDirectory)Operators.swift" />
     <Compile Include="$(MSBuildThisFileDirectory)Errors.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unmanaged.swift" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sequences">
