@@ -188,14 +188,13 @@ public struct Array<T>
 
 	// Cast from/to platform type
 
-	public static func __implicit(_ list: PlatformList<T>) -> [T] {
+	public static func __implicit(_ list: PlatformImmutableList<T>) -> [T] {
 		return [T](list)
 	}
 
 	public static func __implicit(_ array: [T]) -> PlatformList<T> {
 		return array.platformList
 	}
-
 	// Darwin only: cast from/to Cocoa type
 
 	#if DARWIN
