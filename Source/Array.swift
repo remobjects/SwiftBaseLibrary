@@ -92,7 +92,7 @@ public struct Array<T>
 	public init(repeating value: T, count: Int) {
 		if count == 0 {
 			list = PlatformList<T>()
-		} else {
+		} else{ 
 			#if JAVA
 			list = PlatformList<T>(count)
 			for i in 0 ..< count {
@@ -181,10 +181,12 @@ public struct Array<T>
 	public static func __implicit(_ array: T[]) -> [T] {
 		return [T](arrayLiteral: array)
 	}
-
+    // In Coope
+    #if !COOPER
 	public static func __implicit(_ array: [T]) -> T[] {
 		return array.nativeArray
 	}
+    #endif
 
 	// Cast from/to platform type
 

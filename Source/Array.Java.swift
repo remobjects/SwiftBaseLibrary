@@ -9,11 +9,13 @@ public extension Swift.Array : java.util.List<T> {
 	public func contains(_ arg1: Object!) -> Bool {
 		return list.contains(arg1)
 	}
+    @inline(__always)
 	public func toArray<T>(_ arg1: T![]) -> T![] {
-		return list.toArray<T>(arg1)
+		return platformList.toArray<T>(arg1)
 	}
+    @inline(__always)
 	public func toArray() -> Object![] {
-		return list.toArray()
+		return platformList.toArray()
 	}
 	mutating func add(_ arg1: Int32, _ arg2: T!) {
 		makeUnique()
