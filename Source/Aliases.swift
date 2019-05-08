@@ -52,8 +52,10 @@ public typealias AnyClass = rtl.Class
 public typealias AnyClass = java.lang.Class
 #endif
 
-#if COCOA
+#if DARWIN
 public typealias Selector = SEL
+public typealias NSObjectProtocol = INSObject
+public typealias INSObjectProtocol = INSObject
 #endif
 
 /* more obscure aliases */
