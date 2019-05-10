@@ -70,18 +70,18 @@ public typealias CFloat = Float
 public typealias CInt = Int32
 public typealias CLong = Int
 public typealias CLongLong = Int64
-#if COCOA || ISLAND
-//UnsafeMutablePointer
-//UnsafePointer
+
+#if !JAVA
+// UnsafeMutablePointer and UnsafePointer are defined by the compiler
 public typealias UnsafeMutableBufferPointer<T> = UnsafeMutablePointer<T>
 public typealias UnsafeBufferPointer<T> = UnsafePointer<T>
-public typealias UnsafeMutableRawPointer<T> = UnsafeMutablePointer<T>
-public typealias UnsafeRawPointer<T> = UnsafePointer<T>
-public typealias UnsafeMutableRawBufferPointer<T> = UnsafeMutablePointer<T>
-public typealias UnsafeRawBufferPointer<T> = UnsafePointer<T>
-
+public typealias UnsafeMutableRawPointer = UnsafeMutablePointer<Void>
+public typealias UnsafeRawPointer = UnsafePointer<Void>
+public typealias UnsafeMutableRawBufferPointer = UnsafeMutablePointer<Void>
+public typealias UnsafeRawBufferPointer = UnsafePointer<Void>
 public typealias OpaquePointer = UnsafePointer<Void>
 #endif
+
 public typealias CShort = Int16
 public typealias CSignedChar = Int8
 public typealias CUnsignedChar = UInt8

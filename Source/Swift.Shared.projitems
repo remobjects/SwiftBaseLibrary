@@ -94,7 +94,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Dictionary.Java.swift" />
     <Compile Include="$(MSBuildThisFileDirectory)Operators.swift" />
     <Compile Include="$(MSBuildThisFileDirectory)Errors.swift" />
-    <Compile Include="$(MSBuildThisFileDirectory)Unmanaged.swift" />
+    <Compile Include="$(MSBuildThisFileDirectory)Unmanaged.swift">
+      <VirtualFolder>Memory</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)MemoryLayout.swift">
+      <VirtualFolder>Memory</VirtualFolder>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pointers.swift">
+      <VirtualFolder>Memory</VirtualFolder>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sequences">
@@ -110,6 +118,9 @@
       <Virtual>True</Virtual>
     </Folder>
     <Folder Include="Cocoa">
+      <Virtual>True</Virtual>
+    </Folder>
+    <Folder Include="Memory">
       <Virtual>True</Virtual>
     </Folder>
   </ItemGroup>
