@@ -109,6 +109,9 @@
     <Reference Include="Foundation">
       <Target>Island.Darwin.macOS</Target>
     </Reference>
+    <Reference Include="CoreFoundation">
+      <Target>Island.Darwin.macOS</Target>
+    </Reference>
     <Reference Include="libEUnit">
       <Target>Island.Darwin.macOS</Target>
     </Reference>
@@ -121,6 +124,9 @@
     <Reference Include="Foundation">
       <Target>Island.Darwin.iOS</Target>
     </Reference>
+    <Reference Include="CoreFoundation">
+      <Target>Island.Darwin.iOS</Target>
+    </Reference>
     <Reference Include="libEUnit">
       <Target>Island.Darwin.iOS</Target>
     </Reference>
@@ -133,6 +139,9 @@
     <Reference Include="Foundation">
       <Target>Island.Darwin.tvOS</Target>
     </Reference>
+    <Reference Include="CoreFoundation">
+      <Target>Island.Darwin.tvOS</Target>
+    </Reference>
     <Reference Include="libEUnit">
       <Target>Island.Darwin.tvOS</Target>
     </Reference>
@@ -143,6 +152,9 @@
       <Target>Island.Darwin.tvOS</Target>
     </Reference>
     <Reference Include="Foundation">
+      <Target>Island.Darwin.watchOS</Target>
+    </Reference>
+    <Reference Include="CoreFoundation">
       <Target>Island.Darwin.watchOS</Target>
     </Reference>
     <Reference Include="libEUnit">
