@@ -18,11 +18,11 @@ public extension Swift.Dictionary : java.util.Map<Key,Value> {
 	}
 	public mutating func put(_ arg1: Key!, _ arg2: Value!) -> Value! {
 		makeUnique()
-		return dictionary.put(arg1, arg1)
+		return dictionary.put(arg1, arg2)
 	}
 	public mutating func remove(_ arg1: Object!, _ arg2: Object!) -> Bool {
 		makeUnique()
-		return dictionary.remove(arg1, arg1)
+		return dictionary.remove(arg1, arg2)
 	}
 	public mutating func remove(_ arg1: Object!) -> Value! {
 		makeUnique()
