@@ -13,7 +13,7 @@
     <AllowUnsafeCode>False</AllowUnsafeCode>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <DefaultUses>System.Collections.Generic;System.Linq</DefaultUses>
-    <TargetFramework>.NETStandard1.3</TargetFramework>
+    <TargetFramework>.NETStandard2.0</TargetFramework>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
@@ -51,10 +51,12 @@
     <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
     <DefineConstants>SIGN</DefineConstants>
   </PropertyGroup>
-  <ItemGroup></ItemGroup>
   <ItemGroup>
     <Compile Include="__AssemblyInfo.swift" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Echoes.targets" />
   <Import Project="Swift.Shared.projitems" Label="Swift.Shared" />
+  <ItemGroup>
+    <Reference Include="Echoes" />
+  </ItemGroup>
 </Project>
