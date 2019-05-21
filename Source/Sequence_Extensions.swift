@@ -35,6 +35,16 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return result
 	}
 
+	#if !COOPER
+	public func ToSwiftArray<U>() -> [U] {
+		var result = [U]()
+		for i in self {
+			result.append(i as! U)
+		}
+		return result
+	}
+	#endif
+
 	public var count: Int {
 		return self.Count()
 	}
