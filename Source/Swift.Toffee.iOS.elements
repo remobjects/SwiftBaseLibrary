@@ -17,6 +17,7 @@
     <DeploymentTargetVersion>7.1</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
     <SuppressWarnings>NW6</SuppressWarnings>
+    <SupportUIKitForMac>True</SupportUIKitForMac>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
