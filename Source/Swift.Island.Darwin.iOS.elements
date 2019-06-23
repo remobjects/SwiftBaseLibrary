@@ -14,6 +14,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
     <SDK>iOS</SDK>
+    <SupportUIKitForMac>True</SupportUIKitForMac>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
