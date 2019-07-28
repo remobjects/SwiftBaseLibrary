@@ -98,6 +98,22 @@ public class DispatchQueue : DispatchObject {
 		#endif
 	}
 
+	public static func __implicit(_ queue: DispatchQueue?) -> dispatch_queue_t? {
+		if let queue = queue {
+			return queue.queue
+		} else {
+			return nil
+		}
+	}
+
+	public static func __implicit(_ queue: dispatch_queue_t?) -> DispatchQueue? {
+		if let queue = queue {
+			return DispatchQueue(queue: queue)
+		} else {
+			return nil
+		}
+	}
+
 	internal convenience init(__label: String, attr: dispatch_queue_attr_t?, queue: DispatchQueue?) {
 		var raw: dispatch_queue_t
 		if #defined(COCOA) {
