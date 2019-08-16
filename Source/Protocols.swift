@@ -35,6 +35,12 @@ public protocol IHashable /*: Equatable*/ {
 	var hashValue: Int { get }
 }
 
+typealias Identifiable = IIdentifiable
+protocol IIdentifiable {
+	associatedtype ID: IHashable
+	var id: ID { get }
+}
+
 public typealias OutputStreamType = IOutputStreamType
 public protocol IOutputStreamType {
 	//mutating func write(_ string: String)
