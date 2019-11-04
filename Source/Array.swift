@@ -652,9 +652,9 @@ public struct Array<T>
 	//}
 
 	public func map<U>(_ transform: (T) -> U) -> ISequence<U> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		#if JAVA
+		#if JAVA || ISLAND
 		return list.Select({ return transform($0) })
-		#elseif CLR || ISLAND || COCOA
+		#elseif CLR || COCOA
 		return list.Select(transform)
 		#endif
 	}
@@ -664,9 +664,9 @@ public struct Array<T>
 	//}
 
 	public func filter(_ includeElement: (T) -> Bool) -> ISequence<T> { // we deliberatey return a sequence, not an array, for efficiency and flexibility.
-		#if JAVA
+		#if JAVA || ISLAND
 		return list.Where({ return includeElement($0) })
-		#elseif CLR || ISLAND || COCOA
+		#elseif CLR || COCOA
 		return list.Where(includeElement)
 		#endif
 	}

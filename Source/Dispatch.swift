@@ -157,31 +157,31 @@ public class DispatchQueue : DispatchObject {
 	}
 
 	public func asyncAfter(deadline: DispatchTime, execute work: () -> ()) {
-		dispatch_after(deadline.rawValue, self.queue, work)
+		dispatch_after(deadline.rawValue, self.queue, { work(); })
 	}
 
 	public func asyncAfter(wallDeadline: DispatchWallTime, execute work: () -> ()) {
-		dispatch_after(wallDeadline.rawValue, self.queue, work)
+		dispatch_after(wallDeadline.rawValue, self.queue, { work(); })
 	}
 
 	public func concurrentPerform(iterations: Int, execute work: (UInt) -> ()) {
-		dispatch_apply(iterations, self.queue, work)
+		dispatch_apply(iterations, self.queue,  { work($0) })
 	}
 
 	public func async(execute work: () -> ()) {
-		dispatch_async(self.queue, work)
+		dispatch_async(self.queue, { work(); })
 	}
 
 	public func async(group: DispatchGroup?, execute work: () -> ()) {
 		if group != nil {
-			dispatch_group_async(group!.group, self.queue, work)
+			dispatch_group_async(group!.group, self.queue, { work() })
 		} else {
-			dispatch_async(self.queue, work)
+			dispatch_async(self.queue, { work() })
 		}
 	}
 
 	public func sync(execute work: () -> ()) {
-		dispatch_sync(self.queue, work)
+		dispatch_sync(self.queue, { work() })
 	}
 
 	#if !ISLAND
