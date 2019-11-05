@@ -277,7 +277,14 @@ public class Range/*<Element: ForwardIndexType, Comparable>*/: CustomStringConve
 	}
 
 	#if COCOA
-	// todo: make a cast operator
+	public static func __implicit(_ range: Range) -> NSRange {
+		return range.nativeRange
+	}
+
+	public static func __implicit(_ range: NSRange) -> Range {
+		return Range(range.location, range.location+range.length, upperBoundClosed: false)
+	}
+
 	public var nativeRange: NSRange {
 		if let lowerBound = lowerBound, upperBound != nil {
 			return NSMakeRange(lowerBound, length)
