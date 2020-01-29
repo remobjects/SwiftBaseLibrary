@@ -27,7 +27,7 @@ public typealias UInt8 = Byte
 public typealias IntMax = Int64
 public typealias UIntMax = UInt64
 
-#if ISLAND && !macos && !iOS
+#if !ISLAND || (!macos && !iOS)
 public typealias Bool = Boolean
 #endif
 public typealias UnicodeScalar = UTF32Char
