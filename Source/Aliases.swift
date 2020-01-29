@@ -4,6 +4,7 @@
 	public typealias Int = Int64
 	public typealias UInt = UInt64
 #elseif ISLAND
+#if !macos && !iOS
 	#if CPU64
 	public typealias Int = Int64
 	public typealias UInt = UInt64
@@ -14,6 +15,7 @@
 	#hint Unexpected bitness
 	public typealias Int = Int64
 	public typealias UInt = UInt64
+#endif
 	#endif
 #elseif COCOA
 	public typealias Int = NSInteger
@@ -25,8 +27,9 @@ public typealias UInt8 = Byte
 public typealias IntMax = Int64
 public typealias UIntMax = UInt64
 
+#if ISLAND && !macos && !iOS
 public typealias Bool = Boolean
-
+#endif
 public typealias UnicodeScalar = UTF32Char
 public typealias UTF16Char = Char // UInt16
 public typealias UTF32Char = UInt32
