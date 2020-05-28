@@ -1,8 +1,8 @@
-﻿public extension NativeString : Streamable {
+public extension NativeString : Streamable {
 
 	typealias Index = Int
 
-	public init(count: Int, repeatedValue c: Char) {
+	public init(repeating c: Char, count: Int) {
 
 		#if JAVA || ISLAND
 		var chars = Char[](count)
@@ -18,7 +18,7 @@
 	}
 
 	public init(_ c: Char) {
-		return NativeString(count: 1, repeatedValue: c)
+        return NativeString(repeating: c, count: 1)
 	}
 
 	public init(_ object:  Object) {
