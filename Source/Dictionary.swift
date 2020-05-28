@@ -309,7 +309,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		#endif
 	}
 
-	public mutating func removeValueForKey(_ key: Key) -> Value? {
+	public mutating func removeValue(forKey key: Key) -> Value? {
 		makeUnique()
 		#if JAVA
 		if dictionary.containsKey(key) {
@@ -333,6 +333,12 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	public mutating func removeAll(keepCapacity: Bool = false) {
 		dictionary = PlatformDictionary<Key,Value>()
 		unique = true
+	}
+	
+	public func forEach(_ body: ((key: Key, value: Value)) throws -> Void) rethrows {
+		for item in self {
+			try body(item)
+		}
 	}
 
 	public var count: Int {
@@ -387,23 +393,23 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 
 public static class DictionaryHelper {
 	#if JAVA
-	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
+	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key, Value>) -> ISequence<(Key, Value)> {
 		for entry in val.entrySet() {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
+			var item: (key: Key, value: Value) = (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif CLR | ISLAND
-	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
+	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key, Value>) -> ISequence<(Key, Value)> {
 		for entry in val {
-			var item: (Key, Value) =  (entry.Key, entry.Value)
+			var item: (key: Key, value: Value) = (entry.Key, entry.Value)
 		  __yield item
 		}
 	}
 	#elseif COCOA
-	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key,Value>) -> ISequence<(Key, Value)> {
+	public static func Enumerate<Key, Value>(_ val: PlatformDictionary<Key, Value>) -> ISequence<(Key, Value)> {
 		for entry in val {
-			var item: (Key, Value) =  (entry, val[entry]?)
+			var item: (key: Key, value: Value) = (entry, val[entry]?)
 		  __yield item
 		}
 	}
