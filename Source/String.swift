@@ -232,7 +232,7 @@ public struct SwiftString /*: Streamable*/ {
 		return SwiftString.UTF8View(string: nativeStringValue)
 	}
 
-	public var utf8CString: [UTF8Char] {
+	public var utf8CString: UTF8Char[] {
         #if CLR
         let result = System.Text.Encoding.UTF8.GetBytes(nativeStringValue)
         #elseif ISLAND
@@ -240,7 +240,7 @@ public struct SwiftString /*: Streamable*/ {
         #elseif COCOA
 		let utf8 = nativeStringValue.cStringUsingEncoding(.UTF8StringEncoding)
 		let len = strlen(utf8) + 1
-		let result = [UTF8Char](len)
+		let result = UTF8Char[](len)
 		memcpy(result, utf8, len)
         #endif
         return result
