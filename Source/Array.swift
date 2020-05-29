@@ -671,6 +671,12 @@ public struct Array<T>
 		#endif
 	}
 
+    func forEach(_ body: (Element) throws -> Void) rethrows {
+        for item in self {
+            try body(item)
+        }
+    }
+
 	/// Call body(p), where p is a pointer to the Array's contiguous storage
 	/*func withUnsafeBufferPointer<R>(body: (UnsafeBufferPointer<T>) -> R) -> R {
 	}
