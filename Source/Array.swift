@@ -1,4 +1,4 @@
-﻿#if COCOA
+#if COCOA
 typealias PlatformSequence<T> = INSFastEnumeration<T>
 #elseif JAVA
 typealias PlatformSequence<T> = Iterable<T>
@@ -569,7 +569,7 @@ public struct Array<T>
 	public func enumerated() -> ISequence<(Int, T)> {
 		var index = 0
 		for element in self {
-			__yield (index++, element)
+            __yield (offset: index++, element: element)
 		}
 	}
 
