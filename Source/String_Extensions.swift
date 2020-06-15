@@ -1,4 +1,4 @@
-public extension NativeString : Streamable {
+﻿public extension NativeString : Streamable {
 
 	typealias Index = Int
 
@@ -18,7 +18,7 @@ public extension NativeString : Streamable {
 	}
 
 	public init(_ c: Char) {
-        return NativeString(repeating: c, count: 1)
+		return NativeString(repeating: c, count: 1)
 	}
 
 	public init(_ object:  Object) {
@@ -143,7 +143,7 @@ public extension NativeString : Streamable {
 	//func components(separatedBy separator: CharacterSet) -> [String] {
 	//}
 
-	func components(separatedBy separator: String) -> [String] {
+	public func components(separatedBy separator: String) -> [String] {
 		let separatorLength = separator.length()
 		if separatorLength == 0 {
 			return [self]
