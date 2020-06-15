@@ -334,12 +334,12 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 		dictionary = PlatformDictionary<Key,Value>()
 		unique = true
 	}
-	
-	public func forEach(_ body: ((key: Key, value: Value)) throws -> Void) rethrows {
-		for item in self {
-			try body(item)
-		}
-	}
+
+	//public func forEach(_ body: ((key: Key, value: Value)) throws -> Void) rethrows {
+		//for item in self {
+			//try body(item)
+		//}
+	//}
 
 	public var count: Int {
 		#if JAVA
