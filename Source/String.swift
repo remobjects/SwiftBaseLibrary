@@ -1,4 +1,4 @@
-#if JAVA
+﻿#if JAVA
 public typealias NativeString = java.lang.String
 public typealias NativeStringBuilder = java.lang.StringBuilder
 #elseif CLR
@@ -40,7 +40,7 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	public convenience init(_ c: Char) {
-        init(repeating: c, count: 1)
+		init(repeating: c, count: 1)
 	}
 
 	public init(_ s: NativeString) {
@@ -233,19 +233,24 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	public var utf8CString: UTF8Char[] {
-        #if CLR
-        let result = System.Text.Encoding.UTF8.GetBytes(nativeStringValue)
-        #elseif ISLAND
-        let result = RemObjects.Elements.System.Encoding.UTF8.GetBytes(nativeStringValue, false)
-        #elseif COCOA
+		#if JAVA
+		let buffer = java.nio.charset.Charset.forName("UTF8").encode(self)
+		let result = Byte[](buffer.remaining())
+		buffer.get(result)
+		return result
+		#elseif CLR
+		return System.Text.Encoding.UTF8.GetBytes(nativeStringValue)
+		#elseif ISLAND
+		return RemObjects.Elements.System.Encoding.UTF8.GetBytes(nativeStringValue, false)
+		#elseif COCOA
 		let utf8 = nativeStringValue.cStringUsingEncoding(.UTF8StringEncoding)
 		let len = strlen(utf8) + 1
 		let result = UTF8Char[](len)
 		memcpy(result, utf8, len)
-        #endif
-        return result
+		return result
+		#endif
 	}
-	
+
 	public var utf16: SwiftString.UTF16View {
 		return SwiftString.UTF16View(string: nativeStringValue)
 	}
