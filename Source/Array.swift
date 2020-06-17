@@ -1,4 +1,4 @@
-#if COCOA
+﻿#if COCOA
 typealias PlatformSequence<T> = INSFastEnumeration<T>
 #elseif JAVA
 typealias PlatformSequence<T> = Iterable<T>
@@ -566,10 +566,10 @@ public struct Array<T>
 		//return result
 	//}
 
-	public func enumerated() -> ISequence<(Int, T)> {
+	public func enumerated() -> ISequence<(offset: Int, element: T)> {
 		var index = 0
 		for element in self {
-            __yield (offset: index++, element: element)
+			__yield (offset: index++, element: element)
 		}
 	}
 
@@ -671,11 +671,11 @@ public struct Array<T>
 		#endif
 	}
 
-    func forEach(_ body: (Element) throws -> Void) rethrows {
-        for item in self {
-            try body(item)
-        }
-    }
+	func forEach(_ body: (T) throws -> Void) rethrows {
+		for item in self {
+			try body(item)
+		}
+	}
 
 	/// Call body(p), where p is a pointer to the Array's contiguous storage
 	/*func withUnsafeBufferPointer<R>(body: (UnsafeBufferPointer<T>) -> R) -> R {
