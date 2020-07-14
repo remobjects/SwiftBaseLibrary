@@ -2,14 +2,14 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
-    <ProjectGuid>399BE68A-44C3-4357-8D11-4B64C6EC0674</ProjectGuid>
+    <ProjectGuid>{399BE68A-44C3-4357-8D11-4B64C6EC0674}</ProjectGuid>
     <OutputType>Library</OutputType>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <AllowLegacyCreate>False</AllowLegacyCreate>
     <RootNamespace>Swift</RootNamespace>
     <AssemblyName>swift</AssemblyName>
     <SuppressWarnings>JW0</SuppressWarnings>
-    <DefaultUses>java.util,com.remobjects.elements.linq</DefaultUses>
+    <DefaultUses>java.util,remobjects.elements.linq</DefaultUses>
     <CrossPlatform>True</CrossPlatform>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
