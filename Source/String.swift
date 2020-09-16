@@ -182,7 +182,7 @@ public struct SwiftString /*: Streamable*/ {
 		#if COOPER
 		return remobjects.elements.system.length(nativeStringValue) // for now?
 		#else
-		return RemObjects.Elements.System.length(stringData)
+		return RemObjects.Elements.System.length(nativeStringValue)
 		#endif
 	}
 
