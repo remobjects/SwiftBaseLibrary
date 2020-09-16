@@ -179,7 +179,11 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	public var endIndex: SwiftString.Index {
-		return RemObjects.Elements.System.length(nativeStringValue) // for now?
+		#if COOPER
+		return remobjects.elements.system.length(nativeStringValue) // for now?
+		#else
+		return RemObjects.Elements.System.length(stringData)
+		#endif
 	}
 
 	var fastestEncoding: SwiftString.Encoding { return SwiftString.Encoding.utf16 }

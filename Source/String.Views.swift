@@ -52,7 +52,7 @@ public extension SwiftString {
 				i += sequenceLength
 			}
 			#elseif ISLAND
-			    #hint Not implemented yet
+				#hint Not implemented yet
 			#endif
 
 			/* old logic to detect surrogate pairs; not needed right now
@@ -229,7 +229,13 @@ public extension SwiftString {
 
 		public override var count: Int { return length(stringData) }
 
-		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData)/4 }
+		public override var endIndex: SwiftString.Index {
+			#if COOPER
+			return remobjects.elements.system.length(stringData)/4
+			#else
+			return RemObjects.Elements.System.length(stringData)/4
+			#endif
+		}
 
 		var first: UTF32Char? { return count > 0 ? self[0] : nil }
 
@@ -299,7 +305,13 @@ public extension SwiftString {
 
 		public override var count: Int { return length(stringData) }
 
-		public override var endIndex: SwiftString.Index { return RemObjects.Elements.System.length(stringData) }
+		public override var endIndex: SwiftString.Index {
+			#if COOPER
+			return remobjects.elements.system.length(stringData)
+			#else
+			return RemObjects.Elements.System.length(stringData)
+			#endif
+		}
 
 		var first: UTF8Char? { return count > 0 ? self[0] : nil }
 
