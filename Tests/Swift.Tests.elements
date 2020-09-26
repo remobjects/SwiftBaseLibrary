@@ -23,7 +23,7 @@
   <PropertyGroup Condition=" '$(Target)' == 'Cooper' ">
     <Mode>Cooper</Mode>
     <SubMode>Plain</SubMode>
-    <DefaultUses>java.util,com.remobjects.elements.linq</DefaultUses>
+    <DefaultUses>java.util,remobjects.elements.linq</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Echoes' ">
     <Mode>Echoes</Mode>
