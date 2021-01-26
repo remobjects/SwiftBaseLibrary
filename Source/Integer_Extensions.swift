@@ -162,18 +162,18 @@ public extension Int32 /*: AbsoluteValuable*/ {
 public extension Int32 /*: Strideable*/ {
 
 	func advancedBy(_ n: Int32) -> Int32 {
-		return self + n;
+		return self + n
 	}
 
 	func distanceTo(_ other: Int32) -> Int32 {
-		return other - self;
+		return other - self
 	}
 
 	public func stride(# through: Int32, by: Int32) -> ISequence<Int32> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
 		while i <= through {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
@@ -184,7 +184,7 @@ public extension Int32 /*: Strideable*/ {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
 		while i < to {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
@@ -242,18 +242,18 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 	// Strideable
 
 	func advancedBy(_ n: Int64) -> Int64 {
-		return self + n;
+		return self + n
 	}
 
 	func distanceTo(_ other: Int64) -> Int64 {
-		return other - self;
+		return other - self
 	}
 
 	public func stride(# through: Int64, by: Int64) -> ISequence<Int64> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
 		while i <= through {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
@@ -264,7 +264,7 @@ public extension Int64 {//: Equatable, Comparable, ForwardIndexType {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
 		while i < to {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
@@ -276,18 +276,18 @@ public extension Float {
 	// Strideable
 
 	func advancedBy(_ n: Float) -> Float {
-		return self + n;
+		return self + n
 	}
 
 	func distanceTo(_ other: Float) -> Float {
-		return other - self;
+		return other - self
 	}
 
 	public func stride(# through: Float, by: Float) -> ISequence<Float> {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
 		while i <= through {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
@@ -298,7 +298,7 @@ public extension Float {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
 		while i < to {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
@@ -310,18 +310,18 @@ public extension Double {
 	// Strideable
 
 	func advancedBy(_ n: Double) -> Double {
-		return self + n;
+		return self + n
 	}
 
 	func distanceTo(_ other: Double) -> Double {
-		return other - self;
+		return other - self
 	}
 
 	public func stride(# through: Double, by: Double) -> ISequence<Double> {
 		precondition(by > 0, "'by' must be larger than zero")
-		var i = self
+		let i = self
 		while i <= through {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
@@ -332,7 +332,7 @@ public extension Double {
 		precondition(by > 0, "'by' must be larger than zero")
 		var i = self
 		while i < to {
-			__yield i;
+			__yield i
 			i += by
 		}
 	}
