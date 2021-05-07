@@ -195,6 +195,7 @@ public func stride(from start: Double, to end: Double, by stride: Double) -> ISe
 	}
 }
 
+#if !TOFFEE
 //75284: Silver: can't overload global func on parameter names?
 public func stride(from start: Double, through end: Double, by stride: Double) -> ISequence<Double> {
 	precondition(stride > 0, "'by' must be larger than zero")
@@ -204,6 +205,7 @@ public func stride(from start: Double, through end: Double, by stride: Double) -
 		i += stride
 	}
 }
+#endif
 
 #if TOFFEE
 
