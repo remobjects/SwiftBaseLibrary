@@ -230,6 +230,17 @@ public func stride(from start: Double, through end: Double, by stride: Double) -
 }
 #endif
 
+#if COOPER || TOFFEE
+@inline(always) public func type(of value: Any) -> Class {
+	return typeOf(value)
+}
+#elseif ECHOES || ISLAND
+@inline(always) public func type(of value: Any) -> Type {
+	return typeOf(value)
+}
+#endif
+
+
 #if TOFFEE
 
 public func autoreleasepool<T>(_ act: () throws -> (T)) -> T throws {
