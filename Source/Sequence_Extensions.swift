@@ -85,6 +85,16 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		return self.Where() { return try! includeElement($0) }
 	}
 
+	public func count(`where` countElement: (T) throws -> Bool) rethrows -> Int {
+		var result = 0;
+		for i in self {
+			if try countElement(i) {
+				result++
+			}
+		}
+		return result
+	}
+
 	public var first: T? {
 		return self.FirstOrDefault()
 	}
