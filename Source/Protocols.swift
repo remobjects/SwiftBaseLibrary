@@ -75,3 +75,11 @@ public protocol IStringProtocol : ITextOutputStream {
 	typealias Element
 	mutating func next() -> Element?
 }*/
+
+public typealias Actor = IActor
+protocol IActor : AnyObject, Sendable {
+}
+
+public typealias Sendable = ISendable
+protocol ISendable {
+}
