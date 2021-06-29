@@ -52,7 +52,8 @@ public extension SwiftString {
 				i += sequenceLength
 			}
 			#elseif ISLAND
-				#hint Not implemented yet
+			throw NotImplementedException("CharacterView is not fully implemented for Island yet.")
+			#hint Not implemented yet
 			#endif
 
 			/* old logic to detect surrogate pairs; not needed right now
