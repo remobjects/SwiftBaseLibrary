@@ -3,9 +3,8 @@
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>{b9065575-47d6-4740-8d96-d8f5a1a30b0b}</ProjectGuid>
+    <ProjectGuid>{B9065575-47D6-4740-8D96-D8F5A1A30B0B}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
-    <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
     <AllowLegacyWith>False</AllowLegacyWith>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
@@ -14,6 +13,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
     <SDK>watchOS</SDK>
+    <BinaryName>Silver</BinaryName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

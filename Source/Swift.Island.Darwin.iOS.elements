@@ -3,9 +3,8 @@
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>{6f87c50f-069a-4e56-9b2e-044cbb68cc83}</ProjectGuid>
+    <ProjectGuid>{6F87C50F-069A-4E56-9B2E-044CBB68CC83}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
-    <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
     <AllowLegacyWith>False</AllowLegacyWith>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
@@ -15,6 +14,7 @@
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
     <SDK>iOS</SDK>
     <SupportUIKitForMac>True</SupportUIKitForMac>
+    <BinaryName>Silver</BinaryName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>
