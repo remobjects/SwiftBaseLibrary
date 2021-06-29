@@ -235,7 +235,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		}
 		return result
 		#elseif COCOA
-		return self.array().sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
+		return self.ToNSArray().sortedArrayWithOptions(0, usingComparator: { (a: id!, b: id!) -> NSComparisonResult in // ToDo: check if this is the right order
 			if isOrderedBefore(a == NSNull.null ? nil : a, b == NSNull.null ? nil : b) {
 				return .NSOrderedDescending
 			} else {
@@ -388,7 +388,7 @@ public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silve
 		#elseif CLR || ISLAND
 		return [T](self.ToList())
 		#elseif COCOA
-		return [T](self.array())
+		return [T](self.ToNSArray())
 		#endif
 	}
 

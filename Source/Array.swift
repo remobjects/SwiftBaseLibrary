@@ -127,7 +127,7 @@ public struct Array<T>
 		#elseif CLR | ISLAND
 		list = sequence.ToList()
 		#elseif COCOA
-		list = sequence.array().mutableCopy()
+		list = sequence.ToNSArray().mutableCopy()
 		#endif
 	}
 
@@ -455,7 +455,7 @@ public struct Array<T>
 		#elseif CLR | ISLAND
 		list.AddRange(sequence.ToList())
 		#elseif COCOA
-		list.addObjectsFromArray(sequence.array())
+		list.addObjectsFromArray(sequence.ToNSArray())
 		#endif
 	}
 
