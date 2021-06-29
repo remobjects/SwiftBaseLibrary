@@ -1,0 +1,22 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# RemObjects Fire
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Silver", "Silver.elements", "{9E7A4B59-8176-4CAE-B966-7E299171B148}"
+EndProject
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Shared", "Swift.Shared.elements", "{7952073B-795C-4074-954D-212FE780D7D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E7A4B59-8176-4CAE-B966-7E299171B148}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{9E7A4B59-8176-4CAE-B966-7E299171B148}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{9E7A4B59-8176-4CAE-B966-7E299171B148}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{9E7A4B59-8176-4CAE-B966-7E299171B148}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
