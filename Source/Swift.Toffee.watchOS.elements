@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
   <PropertyGroup>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>E0C9DDDB-B83F-4164-ADE4-577FB6611F3F</ProjectGuid>
+    <ProjectGuid>{E0C9DDDB-B83F-4164-ADE4-577FB6611F3F}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
     <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
@@ -14,7 +14,7 @@
     <SDK>watchOS</SDK>
     <CreateHeaderFile>True</CreateHeaderFile>
     <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-    <DeploymentTargetVersion>2.2</DeploymentTargetVersion>
+    <DeploymentTargetVersion>3.0</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
     <SuppressWarnings>NW6</SuppressWarnings>
   </PropertyGroup>

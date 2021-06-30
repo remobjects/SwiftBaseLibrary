@@ -14,6 +14,7 @@
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
     <SDK>tvOS</SDK>
     <BinaryName>Silver</BinaryName>
+    <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

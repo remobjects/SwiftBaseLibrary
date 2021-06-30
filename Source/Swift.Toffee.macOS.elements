@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
   <PropertyGroup>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>8F87CCEF-C142-49A8-8828-32211B2CBFBE</ProjectGuid>
+    <ProjectGuid>{8F87CCEF-C142-49A8-8828-32211B2CBFBE}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
     <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
@@ -14,7 +14,7 @@
     <SDK>macOS</SDK>
     <CreateHeaderFile>True</CreateHeaderFile>
     <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-    <DeploymentTargetVersion>10.9</DeploymentTargetVersion>
+    <DeploymentTargetVersion>10.12</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
     <KnownConditionalDefines>DEBUG;OLD_DEPLOYMENT_TARGET;TRACE</KnownConditionalDefines>
     <SuppressWarnings>NW6</SuppressWarnings>
@@ -37,7 +37,6 @@
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <CaptureConsoleOutput>False</CaptureConsoleOutput>
     <WarnOnCaseMismatch>True</WarnOnCaseMismatch>
-    <DefineConstants></DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CoreGraphics" />

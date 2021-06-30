@@ -52,12 +52,14 @@
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
     <SDK>macOS</SDK>
+    <DeploymentTargetVersion>10.12</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.iOS' ">
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
     <SDK>iOS</SDK>
+    <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
     <SupportMacCatalyst>True</SupportMacCatalyst>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
   </PropertyGroup>
@@ -65,12 +67,14 @@
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
     <SDK>tvOS</SDK>
+    <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.watchOS' ">
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
     <SDK>watchOS</SDK>
+    <DeploymentTargetVersion>3.0</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Island.Android' ">
@@ -90,6 +94,7 @@
   <PropertyGroup Condition=" '$(Target)' == 'Toffee.macOS' ">
     <Mode>Toffee</Mode>
     <SDK>macOS</SDK>
+    <DeploymentTargetVersion>10.9</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.Linq</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Toffee.tvOS' ">

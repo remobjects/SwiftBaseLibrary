@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">
   <PropertyGroup>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>95F9545C-39BE-4A02-8673-8382ECB3F7AD</ProjectGuid>
+    <ProjectGuid>{95F9545C-39BE-4A02-8673-8382ECB3F7AD}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
     <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
@@ -14,7 +14,7 @@
     <SDK>iOS</SDK>
     <CreateHeaderFile>True</CreateHeaderFile>
     <DefaultUses>Foundation,RemObjects.Elements.Linq</DefaultUses>
-    <DeploymentTargetVersion>7.1</DeploymentTargetVersion>
+    <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
     <MangleTypeNames>True</MangleTypeNames>
     <SuppressWarnings>NW6</SuppressWarnings>
     <SupportUIKitForMac>True</SupportUIKitForMac>
