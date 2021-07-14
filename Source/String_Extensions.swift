@@ -1,4 +1,4 @@
-﻿public extension NativeString : Streamable {
+﻿public extension NativeString /*: Streamable*/ {
 
 	typealias Index = Int
 
