@@ -7,10 +7,10 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <AllowLegacyCreate>False</AllowLegacyCreate>
     <RootNamespace>Swift</RootNamespace>
-    <AssemblyName>swift</AssemblyName>
     <SuppressWarnings>JW0</SuppressWarnings>
     <DefaultUses>java.util,remobjects.elements.linq</DefaultUses>
     <CrossPlatform>True</CrossPlatform>
+    <BinaryName>silver</BinaryName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <OutputPath>.\bin\Debug</OutputPath>

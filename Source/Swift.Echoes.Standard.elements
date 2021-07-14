@@ -5,7 +5,6 @@
     <RootNamespace>Swift</RootNamespace>
     <ProjectGuid>{CDDEBE6E-6B6B-4EF7-B2E1-57239C443426}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
     <AllowLegacyWith>False</AllowLegacyWith>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
@@ -14,6 +13,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <DefaultUses>System.Collections.Generic;System.Linq</DefaultUses>
     <TargetFramework>.NETStandard2.0</TargetFramework>
+    <BinaryName>Silver</BinaryName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

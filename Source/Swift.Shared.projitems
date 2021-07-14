@@ -4,9 +4,8 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <SharedGUID>7952073B-795C-4074-954D-212FE780D7D3</SharedGUID>
-  </PropertyGroup>
-  <PropertyGroup Label="Configuration">
     <Import_RootNamespace>Swift.Shared</Import_RootNamespace>
+    <ProjectGuid>{7952073B-795C-4074-954D-212FE780D7D3}</ProjectGuid>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Protocols.swift" />

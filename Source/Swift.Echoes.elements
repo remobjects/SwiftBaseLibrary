@@ -3,9 +3,8 @@
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F</ProjectGuid>
+    <ProjectGuid>{BAE82ECC-39A5-4A18-9CE1-EAC0653F6E0F}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
     <AllowLegacyWith>False</AllowLegacyWith>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
@@ -14,6 +13,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <DefaultUses>System.Collections.Generic;System.Linq</DefaultUses>
+    <BinaryName>Silver</BinaryName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

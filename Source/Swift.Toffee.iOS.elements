@@ -4,7 +4,6 @@
     <RootNamespace>Swift</RootNamespace>
     <ProjectGuid>{95F9545C-39BE-4A02-8673-8382ECB3F7AD}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
-    <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
     <AllowLegacyWith>False</AllowLegacyWith>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
@@ -18,6 +17,7 @@
     <MangleTypeNames>True</MangleTypeNames>
     <SuppressWarnings>NW6</SuppressWarnings>
     <SupportUIKitForMac>True</SupportUIKitForMac>
+    <BinaryName>Silver</BinaryName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

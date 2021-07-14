@@ -3,15 +3,15 @@
   <PropertyGroup>
     <ProductVersion>3.5</ProductVersion>
     <RootNamespace>Swift</RootNamespace>
-    <ProjectGuid>{a764b9ef-be23-43ae-aceb-43f24f45eae9}</ProjectGuid>
+    <ProjectGuid>{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}</ProjectGuid>
     <OutputType>StaticLibrary</OutputType>
-    <AssemblyName>Swift</AssemblyName>
     <AllowGlobals>False</AllowGlobals>
     <AllowLegacyWith>False</AllowLegacyWith>
     <AllowLegacyOutParams>False</AllowLegacyOutParams>
     <AllowLegacyCreate>False</AllowLegacyCreate>
     <AllowUnsafeCode>False</AllowUnsafeCode>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <BinaryName>Silver</BinaryName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <Optimize>false</Optimize>

@@ -1,0 +1,20 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# RemObjects Fire
+Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Tests", "Swift.Tests.elements", "{F22ABF38-8775-4118-8590-30756523030D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F22ABF38-8775-4118-8590-30756523030D}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
+		{F22ABF38-8775-4118-8590-30756523030D}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
+		{F22ABF38-8775-4118-8590-30756523030D}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
+		{F22ABF38-8775-4118-8590-30756523030D}.Release|AnyCPU.Build.0 = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
