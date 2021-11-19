@@ -1,5 +1,4 @@
-﻿
-public extension ISequence /*: ICustomDebugStringConvertible*/ { // 74092: Silver: interface on class extension fails on not finding the matching method
+﻿public extension ISequence : ICustomDebugStringConvertible { // 74092: Silver: interface on class extension fails on not finding the matching method
 
 	init(nativeArray: T[]) {
 		// 74043: Silver: wrong/confusing error when implementing iterator in nested function

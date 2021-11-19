@@ -102,6 +102,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pointers.swift">
       <VirtualFolder>Memory</VirtualFolder>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)NSArray_Extensions.swift">
+      <VirtualFolder>Sequences</VirtualFolder>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Sequences">
