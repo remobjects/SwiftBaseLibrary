@@ -76,11 +76,9 @@
 	// Properties
 	//
 
-	#if DARWIN || !ISLAND
 	public var characters: SwiftString.CharacterView {
 		return SwiftString.CharacterView(string: self)
 	}
-	#endif
 
 	#if !COCOA
 	public var debugDescription: NativeString {

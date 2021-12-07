@@ -6,6 +6,17 @@
 		return nativeStringValue
 	}
 
+	public static func __implicit(_ char: Char) -> Character {
+		return Character(nativeStringValue: char)
+	}
+
+	public static func __implicit(_ string: String) -> Character {
+		if string.characters.count != 1 { // not super efficient
+			throw Exception("Cannot cast string '\(string)' to Character")
+		}
+		return Character(nativeStringValue: string)
+	}
+
 	internal func toHexString() -> NativeString {
 		if length(nativeStringValue) == 1 {
 			return UInt32(nativeStringValue[0]).toHexString(length: 4)
