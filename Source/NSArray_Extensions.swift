@@ -110,8 +110,6 @@ public extension NSArray {
 		return !self.Any()
 	}
 
-	// E25528
-	#if !ISLAND
 	public func joined(separator: String) -> String {
 		var first = true
 		var result = ""
@@ -125,7 +123,6 @@ public extension NSArray {
 		}
 		return result
 	}
-	#endif
 
 	public func joined(separator: ISequence<ObjectType>) -> ISequence<ObjectType> {
 		var first = true
