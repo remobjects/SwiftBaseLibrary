@@ -205,37 +205,9 @@ public struct Array<T>
 	}
 	// Darwin only: cast from/to Cocoa type
 
-	#if DARWIN
-	#if ISLAND
-	public static func __implicit(_ array: NSArray<T>) -> [T] {
-		return List<T>(array)
-	}
-
-	public static func __implicit(_ array: [T]) -> NSArray<T> {
-		return array.list.ToNSArray()
-	}
-
-	public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
-		return list.list.ToNSMutableArray()
-	}
-	#else
+	#if DARWIN && !ISLAND
 	public static func __implicit(_ array: [T]) -> PlatformImmutableList<T> {
 		return array.platformList
-	}
-	#endif
-
-	// Cocoa only: cast from/to different generic Cocoa type
-
-	public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
-		return (array as! NSArray<T>) as! [T]
-	}
-
-	public static func __explicit<U>(_ array: [T]) -> NSArray<U> {
-		return (array as! NSArray<U>) as! NSArray<U>
-	}
-
-	public static func __explicit<U>(_ array: [T]) -> NSMutableArray<U> {
-		return (array as! NSMutableArray<T>) as! NSMutableArray<U>
 	}
 	#endif
 
@@ -727,6 +699,36 @@ public struct Array<T>
 		return list.description
 	}
 }
+
+#if DARWIN && ISLAND
+//public extension Array where T: NSObject {
+	//public static func __implicit(_ array: NSArray<T>) -> [T] {
+		//return List<T>(array)
+	//}
+
+	//public static func __implicit(_ array: [T]) -> NSArray<T> {
+		//return array.list.ToNSArray()
+	//}
+
+	//public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
+		//return list.list.ToNSMutableArray()
+	//}
+
+	//// Cocoa only: cast from/to different generic Cocoa type
+
+	//public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
+		//return (array as! NSArray<T>) as! [T]
+	//}
+
+	//public static func __explicit<U>(_ array: [T]) -> NSArray<U> {
+		//return (array as! NSArray<U>) as! NSArray<U>
+	//}
+
+	//public static func __explicit<U>(_ array: [T]) -> NSMutableArray<U> {
+		//return (array as! NSMutableArray<T>) as! NSMutableArray<U>
+	//}
+//}
+#endif
 
 //#if !COCOA
 //public extension Swift.Array : ISequence<T> {
