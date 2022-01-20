@@ -14,9 +14,10 @@ public extension NSArray {
 	}
 
 	public func ToSwiftArray() -> [ObjectType] {
-		if let array = self as? [ObjectType] {
-			return array.platformList
-		}
+		//workaround for E25642: Island/Darwin: can't use generic params with Cocoa collection even if consrained to NSObject
+		//if let array = self as? [ObjectType] {
+			//return array.platformList
+		//}
 		var result = [ObjectType]()
 		for i in self {
 			result.append(i)
