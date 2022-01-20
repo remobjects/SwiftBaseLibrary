@@ -701,33 +701,33 @@ public struct Array<T>
 }
 
 #if DARWIN && ISLAND
-//public extension Array where T: NSObject {
-	//public static func __implicit(_ array: NSArray<T>) -> [T] {
-		//return List<T>(array)
-	//}
+public extension Array where T: NSObject {
+	public static func __implicit(_ array: NSArray<T>) -> [T] {
+		return List<T>(array)
+	}
 
-	//public static func __implicit(_ array: [T]) -> NSArray<T> {
-		//return array.list.ToNSArray()
-	//}
+	public static func __implicit(_ array: [T]) -> NSArray<T> {
+		return array.list.ToNSArray()
+	}
 
-	//public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
-		//return list.list.ToNSMutableArray()
-	//}
+	public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
+		return list.list.ToNSMutableArray()
+	}
 
-	//// Cocoa only: cast from/to different generic Cocoa type
+	// Cocoa only: cast from/to different generic Cocoa type
 
-	//public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
-		//return (array as! NSArray<T>) as! [T]
-	//}
+	public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
+		return (array as! NSArray<T>) as! [T]
+	}
 
-	//public static func __explicit<U>(_ array: [T]) -> NSArray<U> {
-		//return (array as! NSArray<U>) as! NSArray<U>
-	//}
+	public static func __explicit<U>(_ array: [T]) -> NSArray<U> {
+		return (array as! NSArray<U>) as! NSArray<U>
+	}
 
-	//public static func __explicit<U>(_ array: [T]) -> NSMutableArray<U> {
-		//return (array as! NSMutableArray<T>) as! NSMutableArray<U>
-	//}
-//}
+	public static func __explicit<U>(_ array: [T]) -> NSMutableArray<U> {
+		return (array as! NSMutableArray<T>) as! NSMutableArray<U>
+	}
+}
 #endif
 
 //#if !COCOA

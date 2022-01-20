@@ -120,8 +120,7 @@ public extension NSArray {
 			} else {
 				first = false
 			}
-			//workaround for E25643: Island: ambiguous call to "description"
-			result += (e as! NSObject).description
+			result += e.description
 		}
 		return result
 	}

@@ -364,33 +364,33 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 }
 
 #if DARWIN && ISLAND
-//public extension Dictionary where Key: NSObject, Value: NSObject {
-	//public static func __implicit(_ dictionary: NSDictionary<Key,Value>) -> [Key:Value] {
-		//return PlatformDictionary<Key,Value>(dictionary)
-	//}
+public extension Dictionary where Key: NSObject, Value: NSObject {
+	public static func __implicit(_ dictionary: NSDictionary<Key,Value>) -> [Key:Value] {
+		return PlatformDictionary<Key,Value>(dictionary)
+	}
 
-	//public static func __implicit(_ dictionary: [Key:Value]) -> NSDictionary<Key,Value> {
-		//return dictionary.dictionary.ToNSDictionary()
-	//}
+	public static func __implicit(_ dictionary: [Key:Value]) -> NSDictionary<Key,Value> {
+		return dictionary.dictionary.ToNSDictionary()
+	}
 
-	//public static func __implicit(_ dictionary: [Key:Value]) -> NSMutableDictionary<Key,Value> {
-		//return dictionary.dictionary.ToNSMutableDictionary()
-	//}
+	public static func __implicit(_ dictionary: [Key:Value]) -> NSMutableDictionary<Key,Value> {
+		return dictionary.dictionary.ToNSMutableDictionary()
+	}
 
-	//// Cocoa only: cast from/to different generic Cocoa type
+	// Cocoa only: cast from/to different generic Cocoa type
 
-	//public static func __explicit<Key2,Value2>(_ dictionary: NSDictionary<Key2,Value2>) -> [Key:Value] {
-		//return (dictionary as! NSDictionary<Key,Value>) as! [Key:Value]
-	//}
+	public static func __explicit<Key2,Value2>(_ dictionary: NSDictionary<Key2,Value2>) -> [Key:Value] {
+		return (dictionary as! NSDictionary<Key,Value>) as! [Key:Value]
+	}
 
-	//public static func __explicit<Key2,Value2>(_ dictionary: [Key:Value]) -> NSDictionary<Key2,Value2> {
-		//return (dictionary as! NSDictionary<Key,Value>) as! NSDictionary<Key2,Value2>
-	//}
+	public static func __explicit<Key2,Value2>(_ dictionary: [Key:Value]) -> NSDictionary<Key2,Value2> {
+		return (dictionary as! NSDictionary<Key,Value>) as! NSDictionary<Key2,Value2>
+	}
 
-	//public static func __explicit<Key2,Value2>(_ dictionary: [Key:Value]) -> NSMutableDictionary<Key2,Value2> {
-		//return (dictionary as! NSMutableDictionary<Key,Value>) as! NSMutableDictionary<Key2,Value2>
-	//}
-//}
+	public static func __explicit<Key2,Value2>(_ dictionary: [Key:Value]) -> NSMutableDictionary<Key2,Value2> {
+		return (dictionary as! NSMutableDictionary<Key,Value>) as! NSMutableDictionary<Key2,Value2>
+	}
+}
 #endif
 
 public static class DictionaryHelper {
