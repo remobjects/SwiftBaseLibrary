@@ -1,4 +1,4 @@
-﻿#if DARWIN
+﻿#if TOFFEE
 public extension NSArray {
 
 	init(nativeArray: ObjectType[]) {
