@@ -701,7 +701,7 @@ public struct Array<T>
 }
 
 #if DARWIN && ISLAND
-public extension Array where T: NSObject {
+public extension Array where T: CocoaObject {
 	public static func __implicit(_ array: NSArray<T>) -> [T] {
 		return List<T>(array)
 	}
