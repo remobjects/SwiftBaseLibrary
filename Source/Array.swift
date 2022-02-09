@@ -675,7 +675,7 @@ public struct Array<T>
 		#endif
 	}
 
-	private static func compareElements(_ r: T, _ l: T) -> Bool {
+	private static func compareElements(_ r: T?, _ l: T?) -> Bool {
 		if l == nil {
 			return r == nil
 		}
