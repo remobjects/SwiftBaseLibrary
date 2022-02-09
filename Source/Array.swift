@@ -683,13 +683,13 @@ public struct Array<T>
 			return false
 		}
 		#if COOPER
-		return l.equals(r)
+		return l!.equals(r)
 		#elseif ECHOES
 		return System.Collections.Generic.EqualityComparer<T>.Default.Equals(l, r)
 		#elseif ISLAND
 		return RemObjects.Elements.System.EqualityComparer.Equals(l, r)
 		#elseif COCOA
-		return l.isEqual(r)
+		return l!.isEqual(r)
 		#endif
 		return true
 	}
