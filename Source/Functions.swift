@@ -63,7 +63,15 @@ public func debugPrint(_ objects: Object?..., separator: String = " ", terminato
 
 @discardableResult func dump<T>(_ value: T, name: String? = nil, indent: Int = 2, maxDepth: Int = -1, maxItems: Int = -1) -> T
 {
-	debugPrint(value)
+	switch modelOf(T) {
+		case "Island": debugPrint((value as? IslandObject)?.ToString())
+		case "Cocoa": debugPrint((value as? CocoaObject)?.description)
+		case "Swift": debugPrint((value as? SwiftObject)?.description)
+		case "Delphi": throw Exception("This feature is not supported for Delphi Objects (yet)");
+		case "COM": throw Exception("This feature is not supported for COM Objects");
+		case "JNI": throw Exception("This feature is not supported for JNI Objects");
+		default: throw Exception("Unexpected object model \(modelOf(T))")
+	}
 	return value
 }
 
