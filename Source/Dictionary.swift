@@ -79,8 +79,8 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	// Storage
 	//
 
-	private var dictionary: PlatformDictionary<Key,Value>
-	private var unique: Boolean = true
+	internal var dictionary: PlatformDictionary<Key,Value>
+	internal var unique: Boolean = true
 
 	private mutating func makeUnique()
 	{
@@ -364,7 +364,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 }
 
 #if DARWIN && ISLAND
-public extension Dictionary where Key: NSObject, Value: NSObject {
+public extension Swift.Dictionary where Key: NSObject, Value: NSObject {
 	public static func __implicit(_ dictionary: NSDictionary<Key,Value>) -> [Key:Value] {
 		return PlatformDictionary<Key,Value>(dictionary)
 	}

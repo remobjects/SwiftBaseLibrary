@@ -63,7 +63,7 @@ public func debugPrint(_ objects: Object?..., separator: String = " ", terminato
 
 @discardableResult func dump<T>(_ value: T, name: String? = nil, indent: Int = 2, maxDepth: Int = -1, maxItems: Int = -1) -> T
 {
-	debugPrint(value)
+	debugPrint(value as! Object)
 	return value
 }
 
