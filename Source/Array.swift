@@ -675,7 +675,7 @@ public struct Array<T>
 		#endif
 	}
 
-	private static func compareElements(_ r: T, _ l: T) -> Bool {
+	private static func compareElements(_ r: T?, _ l: T?) -> Bool {
 		if l == nil {
 			return r == nil
 		}
@@ -683,13 +683,13 @@ public struct Array<T>
 			return false
 		}
 		#if COOPER
-		return l.equals(r)
+		return l!.equals(r)
 		#elseif ECHOES
 		return System.Collections.Generic.EqualityComparer<T>.Default.Equals(l, r)
 		#elseif ISLAND
 		return RemObjects.Elements.System.EqualityComparer.Equals(l, r)
 		#elseif COCOA
-		return l.isEqual(r)
+		return l!.isEqual(r)
 		#endif
 		return true
 	}
@@ -700,39 +700,39 @@ public struct Array<T>
 	}
 }
 
-#if DARWIN && ISLAND
-public extension Swift.Array where T: NSObject {
-	public static func __implicit(_ array: NSArray<T>) -> [T] {
-		var result = [T](capacity: array.count)
-		for i in 0 ... array.count {
-			result.append(array[i])
-		}
-		return result
-	}
+	//#if DARWIN && ISLAND
+	//public extension Swift.Array where T: NSObject {
+	//	public static func __implicit(_ array: NSArray<T>) -> [T] {
+	//		var result = [T](capacity: array.count)
+	//		for i in 0 ... array.count {
+	//			result.append(array[i])
+	//		}
+	//		return result
+	//	}
 
-	public static func __implicit(_ array: [T]) -> NSArray<T> {
-		return array.list.ToNSArray()
-	}
+	//public static func __implicit(_ array: [T]) -> NSArray<T> {
+		//return array.list.ToNSArray()
+	//}
 
-	public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
-		return list.list.ToNSMutableArray()
-	}
+	//public static func __implicit(_ list: [T]) -> NSMutableArray<T> {
+		//return list.list.ToNSMutableArray()
+	//}
 
-	// Cocoa only: cast from/to different generic Cocoa type
+	//// Cocoa only: cast from/to different generic Cocoa type
 
-	public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
-		return (array as! NSArray<T>) as! [T]
-	}
+	//public static func __explicit<U>(_ array: NSArray<U>) -> [T] {
+		//return (array as! NSArray<T>) as! [T]
+	//}
 
-	public static func __explicit<U>(_ array: [T]) -> NSArray<U> {
-		return (array as! NSArray<U>) as! NSArray<U>
-	}
+	//public static func __explicit<U>(_ array: [T]) -> NSArray<U> {
+		//return (array as! NSArray<U>) as! NSArray<U>
+	//}
 
-	public static func __explicit<U>(_ array: [T]) -> NSMutableArray<U> {
-		return (array as! NSMutableArray<T>) as! NSMutableArray<U>
-	}
-}
-#endif
+	//public static func __explicit<U>(_ array: [T]) -> NSMutableArray<U> {
+		//return (array as! NSMutableArray<T>) as! NSMutableArray<U>
+	//}
+//}
+//#endif
 
 //#if !COCOA
 //public extension Swift.Array : ISequence<T> {

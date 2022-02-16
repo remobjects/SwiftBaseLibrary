@@ -1,4 +1,8 @@
-﻿public typealias NSObject = Object
+﻿#if DARWIN
+	public typealias NSObject = Foundation.Object
+#else
+	public typealias NSObject = Object
+#endif
 
 #if CLR || JAVA
 	public typealias Int = Int64

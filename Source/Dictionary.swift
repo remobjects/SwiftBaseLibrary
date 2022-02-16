@@ -165,7 +165,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 			}
 		}
 		for k in rhs.keys {
-			let l = lhs[k]!
+			let l = lhs[k]
 			if l == nil {
 				return false
 			}
