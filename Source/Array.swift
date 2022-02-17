@@ -152,8 +152,8 @@ public struct Array<T>
 	// Storage
 	//
 
-	private var list: PlatformList<T>
-	private var unique: Boolean = true
+	internal var list: PlatformList<T>
+	internal var unique: Boolean = true
 
 	private mutating func makeUnique()
 	{
@@ -712,11 +712,15 @@ public struct Array<T>
 	}
 }
 
-//#if DARWIN && ISLAND
-//public extension Array where T: NSObject {
-	//public static func __implicit(_ array: NSArray<T>) -> [T] {
-		//return List<T>(array)
-	//}
+	//#if DARWIN && ISLAND
+	//public extension Swift.Array where T: NSObject {
+	//	public static func __implicit(_ array: NSArray<T>) -> [T] {
+	//		var result = [T](capacity: array.count)
+	//		for i in 0 ... array.count {
+	//			result.append(array[i])
+	//		}
+	//		return result
+	//	}
 
 	//public static func __implicit(_ array: [T]) -> NSArray<T> {
 		//return array.list.ToNSArray()
