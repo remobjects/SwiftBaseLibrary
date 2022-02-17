@@ -612,7 +612,19 @@ public struct Array<T>
 			if i != 0, let separator = separator {
 				result.Append(separator)
 			}
+			#if ISLAND
+			switch modelOf(T) {
+				case "Island": result.Append((self[i] as? IslandObject)?.ToString())
+				case "Cocoa": result.Append(self[i]?.description)
+				case "Swift": result.Append(self[i]?.description)
+				case "Delphi": throw Exception("This feature is not supported for Delphi Objects (yet)");
+				case "COM": throw Exception("This feature is not supported for COM Objects");
+				case "JNI": throw Exception("This feature is not supported for JNI Objects");
+				default: throw Exception("Unexpected object model \(modelOf(T))")
+			}
+			#else
 			result.Append(self[i]?.ToString())
+			#endif
 		}
 		return result.ToString()!
 		#elseif COCOA
