@@ -50,7 +50,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="gc" />
-    <Reference Include="Island" />
     <Reference Include="rtl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\RemObjects Software\Elements\RemObjects.Elements.Island.Android.targets" />
