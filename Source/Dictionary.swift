@@ -358,7 +358,7 @@ public struct Dictionary<Key, Value> /*: INSFastEnumeration<T>*/
 	}
 
 	@ToString
-	public override func description() -> String {
+	public override func description() -> NativeString {
 		return dictionary.description
 	}
 }

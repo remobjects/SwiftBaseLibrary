@@ -71,29 +71,9 @@ public struct SwiftString : Hashable /*,  Equatable: Streamable*/ {
 		}
 	}
 
-	//76037: Silver: compiler gets confused with overloaded ctors
-	#if !ECHOES
-	/*public convenience init(reflecting subject: Object) {
-		var subject = subject
-		if let o = subject as? ICustomDebugStringConvertible {
-			subject = o.debugDescription
-		} else {
-			#if JAVA
-			// ToDo: fall back to reflection to call debugDescription?
-			// ToDo: fall back to checking for extension methods
-			#elseif CLR
-			// ToDo: fall back to reflection to call debugDescription?
-			// ToDo: fall back to checking for extension methods
-			#elseif COCOA
-			if subject.respondsToSelector(#selector(debugDescription)) {
-				subject = subject.debugDescription
-			}
-			// ToDo: fall back to checking for extension methods
-			#endif
-		}
-		init(subject)
-	}*/
-	#endif
+	public convenience init(reflecting subject: Object) {
+		nativeStringValue = NativeString(reflecting: subject)
+	}
 
 	#if COCOA
 	init/*?*/ (cString: UnsafePointer<AnsiChar>, encoding: SwiftString.Encoding) {
@@ -158,6 +138,18 @@ public struct SwiftString : Hashable /*,  Equatable: Streamable*/ {
 
 	public static class func __explicit(_ string: SwiftString) -> NativeString {
 		return string.nativeStringValue
+	}
+
+	public static func __implicit(_ char: Char) -> SwiftString {
+		return SwiftString(char.ToString())
+	}
+
+	public static class func __implicit(_ string: SwiftString) -> Char {
+		if length(string.nativeStringValue) == 1 {
+			return string.nativeStringValue[0]
+		} else {
+			throw InvalidCastException("Cannto cast non-single-character string '\(string.nativeStringValue)' to Char")
+		}
 	}
 
 	public class func + (_ stringA: SwiftString, _ stringB: SwiftString) -> NativeString {
@@ -356,6 +348,10 @@ public struct SwiftString : Hashable /*,  Equatable: Streamable*/ {
 	//
 
 	//public subscript(range: SwiftString.Index) -> Character // implicitly provided by the compiler, already
+
+	public subscript(index: Int) -> Char {
+		return nativeStringValue[index]
+	}
 
 	public subscript(range: Range/*<Int>*/) -> SwiftString {
 		if range.upperBound != nil {

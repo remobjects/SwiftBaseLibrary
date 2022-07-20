@@ -707,10 +707,17 @@ public struct Array<T>
 	}
 
 	@ToString
-	public override func description() -> String {
+	public override func description() -> NativeString {
 		return list.description
 	}
 }
+
+//public extension Swift.Array where T: String {
+	//public convenience init(_ items: [NativeString]) {
+		//self.list = items.map({ $0 as! String }).ToList()
+		//self.unique = true
+	//}
+//}
 
 #if DARWIN && ISLAND
 public extension Swift.Array where T: NSObject {

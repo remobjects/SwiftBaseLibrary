@@ -108,7 +108,7 @@
 		#if JAVA
 		return self.isEmpty()
 		#elseif CLR || ISLAND
-		return String.IsNullOrEmpty(self)
+		return NativeString.IsNullOrEmpty(self)
 		#elseif COCOA
 		return length == 0
 		#endif
