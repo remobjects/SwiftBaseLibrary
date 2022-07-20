@@ -141,14 +141,24 @@ public struct SwiftString : Hashable /*,  Equatable: Streamable*/ {
 	}
 
 	public static func __implicit(_ char: Char) -> SwiftString {
+		#if TOFFEE
+		return NSString.string(format: "%c", char)
+		#else
 		return SwiftString(char.ToString())
+		#endif
 	}
 
 	public static class func __implicit(_ string: SwiftString) -> Char {
 		if length(string.nativeStringValue) == 1 {
 			return string.nativeStringValue[0]
 		} else {
-			throw InvalidCastException("Cannto cast non-single-character string '\(string.nativeStringValue)' to Char")
+			#if ECHOES || ISLAND
+			throw InvalidCastException("Cannot cast non-single-character string '\(string.nativeStringValue)' to Char")
+			#elseif COOPER
+			throw ClassCastException("Cannto cast non-single-character string '\(string.nativeStringValue)' to Char")
+			#else
+			throw Exception("Cannto cast non-single-character string '\(string.nativeStringValue)' to Char")
+			#endif
 		}
 	}
 
