@@ -14,7 +14,7 @@ public typealias NativeString = Foundation.NSString
 //public typealias String = SwiftString
 //@assembly:DefaultStringType("Swift", typeOf(Swift.SwiftString))
 
-public struct SwiftString /*: Streamable*/ {
+public struct SwiftString : Hashable /*,  Equatable: Streamable*/ {
 
 	typealias Index = Int
 
@@ -165,6 +165,24 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	//
+	// Protoools
+	//
+
+	var hashValue: Int {
+		#if JAVA
+		return nativeStringValue.hashCode()
+		#elseif CLR || ISLAND
+		return nativeStringValue.GetHashCode()
+		#elseif COCOA
+		return nativeStringValue.hashValue()
+		#endif
+	}
+
+	func ==(lhs: Self, rhs: Self) -> Bool {
+		return lhs.nativeStringValue == lhs.nativeStringValue
+	}
+
+	//
 	// Properties
 	//
 
@@ -187,16 +205,6 @@ public struct SwiftString /*: Streamable*/ {
 	}
 
 	var fastestEncoding: SwiftString.Encoding { return SwiftString.Encoding.utf16 }
-
-	public var hashValue: Int {
-		#if JAVA
-		return nativeStringValue.hashCode()
-		#elseif CLR || ISLAND
-		return nativeStringValue.GetHashCode()
-		#elseif COCOA
-		return nativeStringValue.hashValue()
-		#endif
-	}
 
 	public var isEmpty : Bool {
 		#if JAVA
