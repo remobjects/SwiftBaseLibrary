@@ -107,11 +107,13 @@
   <PropertyGroup Condition=" '$(Target)' == 'Toffee.tvOS' ">
     <Mode>Toffee</Mode>
     <SDK>tvOS</SDK>
+    <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.Linq</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Toffee.visionOS' ">
     <Mode>Toffee</Mode>
     <SDK>visionOS</SDK>
+    <DeploymentTargetVersion>1.0</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.Linq</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Toffee.watchOS' ">
