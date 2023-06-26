@@ -70,6 +70,13 @@
     <DeploymentTargetVersion>9.0</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.visionOS' ">
+    <Mode>Island</Mode>
+    <SubMode>Darwin</SubMode>
+    <SDK>visionOS</SDK>
+    <DeploymentTargetVersion>1.0</DeploymentTargetVersion>
+    <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.watchOS' ">
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
@@ -100,6 +107,11 @@
   <PropertyGroup Condition=" '$(Target)' == 'Toffee.tvOS' ">
     <Mode>Toffee</Mode>
     <SDK>tvOS</SDK>
+    <DefaultUses>Foundation;RemObjects.Elements.Linq</DefaultUses>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Toffee.visionOS' ">
+    <Mode>Toffee</Mode>
+    <SDK>visionOS</SDK>
     <DefaultUses>Foundation;RemObjects.Elements.Linq</DefaultUses>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Toffee.watchOS' ">
