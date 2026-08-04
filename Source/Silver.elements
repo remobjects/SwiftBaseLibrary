@@ -77,13 +77,6 @@
     <DeploymentTargetVersion>1.0</DeploymentTargetVersion>
     <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.watchOS' ">
-    <Mode>Island</Mode>
-    <SubMode>Darwin</SubMode>
-    <SDK>watchOS</SDK>
-    <DeploymentTargetVersion>3.0</DeploymentTargetVersion>
-    <DefaultUses>Foundation;RemObjects.Elements.System;rtl</DefaultUses>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Island.Android' ">
     <Mode>Island</Mode>
     <SubMode>Android</SubMode>

@@ -15,8 +15,6 @@ Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Darwin.macOS",
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Darwin.tvOS", "Swift.Island.Darwin.tvOS.elements", "{A037C663-4495-4630-A9EF-39079BA1EC07}"
 EndProject
-Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Darwin.watchOS", "Swift.Island.Darwin.watchOS.elements", "{B9065575-47D6-4740-8D96-D8F5A1A30B0B}"
-EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.Linux", "Swift.Island.Linux.elements", "{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}"
 EndProject
 Project("{656346D9-4656-40DA-A068-22D5425D4639}") = "Swift.Island.WebAssembly", "Swift.Island.WebAssembly.elements", "{D38B4354-35C8-4BC9-9415-4D72A1F77CA1}"
@@ -69,10 +67,6 @@ Global
 		{A037C663-4495-4630-A9EF-39079BA1EC07}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
 		{A037C663-4495-4630-A9EF-39079BA1EC07}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
 		{A037C663-4495-4630-A9EF-39079BA1EC07}.Release|AnyCPU.Build.0 = Release|AnyCPU
-		{B9065575-47D6-4740-8D96-D8F5A1A30B0B}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
-		{B9065575-47D6-4740-8D96-D8F5A1A30B0B}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
-		{B9065575-47D6-4740-8D96-D8F5A1A30B0B}.Release|AnyCPU.ActiveCfg = Release|AnyCPU
-		{B9065575-47D6-4740-8D96-D8F5A1A30B0B}.Release|AnyCPU.Build.0 = Release|AnyCPU
 		{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}.Debug|AnyCPU.ActiveCfg = Debug|AnyCPU
 		{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}.Debug|AnyCPU.Build.0 = Debug|AnyCPU
 		{A764B9EF-BE23-43AE-ACEB-43F24F45EAE9}.Release|AnyCPU.ActiveCfg = Release|AnyCPU

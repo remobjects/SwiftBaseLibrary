@@ -51,12 +51,6 @@
     <SDK>tvOS</SDK>
     <DefaultUses>Foundation</DefaultUses>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.watchOS' ">
-    <Mode>Island</Mode>
-    <SubMode>Darwin</SubMode>
-    <SDK>watchOS</SDK>
-    <DefaultUses>Foundation</DefaultUses>
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Island.Linux' ">
     <Mode>Island</Mode>
     <SubMode>Linux</SubMode>
@@ -150,21 +144,6 @@
     </Reference>
     <Reference Include="rtl">
       <Target>Island.Darwin.tvOS</Target>
-    </Reference>
-    <Reference Include="Foundation">
-      <Target>Island.Darwin.watchOS</Target>
-    </Reference>
-    <Reference Include="CoreFoundation">
-      <Target>Island.Darwin.watchOS</Target>
-    </Reference>
-    <Reference Include="libEUnit">
-      <Target>Island.Darwin.watchOS</Target>
-    </Reference>
-    <Reference Include="libElements">
-      <Target>Island.Darwin.watchOS</Target>
-    </Reference>
-    <Reference Include="rtl">
-      <Target>Island.Darwin.watchOS</Target>
     </Reference>
     <Reference Include="EUnit">
       <Target>Island.Windows</Target>
