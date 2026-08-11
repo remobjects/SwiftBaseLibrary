@@ -48,6 +48,10 @@
     <Mode>Island</Mode>
     <SubMode>Linux</SubMode>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Target)' == 'Island.Fuchsia' ">
+    <Mode>Island</Mode>
+    <SubMode>Fuchsia</SubMode>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Target)' == 'Island.Darwin.macOS' ">
     <Mode>Island</Mode>
     <SubMode>Darwin</SubMode>
